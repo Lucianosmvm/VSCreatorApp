@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shorts Creator — Gerador de Vídeos com IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --border: #272727;
+    --border2: #333;
+    --text: #f0f0f0;
+    --muted: #888;
+    --dim: #555;
+    --accent: #ff4444;
+    --accent-dark: #c0332a;
+    --green: #3dba6f;
+    --blue: #4a9eff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    color: var(--text);
+  }
+  .logo span { color: var(--accent); }
+
+  .header-badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(255,68,68,.12);
+    color: var(--accent);
+    border: 1px solid rgba(255,68,68,.25);
+    letter-spacing: .05em;
+  }
+
+  /* ── LAYOUT ── */
+  .app {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px;
+    align-items: start;
+  }
+
+  @media (max-width: 780px) {
+    .app { grid-template-columns: 1fr; }
+    .preview-col { order: -1; }
+  }
+
+  /* ── PANELS ── */
+  .controls-col { display: flex; flex-direction: column; gap: 14px; padding-right: 24px; }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    animation: fadeUp .35s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel:nth-child(1) { animation-delay: .05s; }
+  .panel:nth-child(2) { animation-delay: .10s; }
+  .panel:nth-child(3) { animation-delay: .15s; }
+  .panel:nth-child(4) { animation-delay: .20s; }
+  .panel:nth-child(5) { animation-delay: .25s; }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .step-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .panel-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .free-pill {
+    margin-left: auto;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(61,186,111,.12);
+    color: var(--green);
+    border: 1px solid rgba(61,186,111,.2);
+  }
+
+  /* ── FORM ELEMENTS ── */
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 5px;
+    margin-top: 12px;
+  }
+  label:first-of-type { margin-top: 0; }
+
+  input[type=text], input[type=password], textarea, select {
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  input[type=text]:focus,
+  input[type=password]:focus,
+  textarea:focus { border-color: var(--accent); }
+  textarea { min-height: 80px; resize: vertical; line-height: 1.55; }
+  select { cursor: pointer; }
+
+  .key-wrap { position: relative; }
+  .key-wrap input { padding-right: 38px; }
+  .eye-btn {
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: var(--dim); cursor: pointer; font-size: 15px; padding: 2px;
+  }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 5px; margin-bottom: 14px; }
+  .tab {
+    flex: 1; padding: 8px 4px;
+    background: #0d0d0d; border: 1px solid var(--border2);
+    border-radius: 8px; color: var(--dim);
+    font-size: 11px; font-weight: 500; cursor: pointer;
+    text-align: center; transition: all .15s;
+  }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 2px dashed var(--border2); border-radius: 10px;
+    padding: 22px; text-align: center; cursor: pointer;
+    transition: border-color .2s; position: relative;
+  }
+  .upload-zone:hover { border-color: var(--accent); }
+  .upload-zone input {
+    position: absolute; inset: 0; opacity: 0;
+    cursor: pointer; width: 100%; height: 100%;
+  }
+  .uz-icon { font-size: 26px; margin-bottom: 5px; }
+  .uz-text { font-size: 11px; color: var(--dim); line-height: 1.5; }
+
+  /* ── COLOR SWATCHES ── */
+  .color-row { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
+  .cswatch {
+    width: 28px; height: 28px; border-radius: 5px; cursor: pointer;
+    border: 2px solid transparent; transition: border-color .15s; flex-shrink: 0;
+  }
+  .cswatch.active { border-color: #fff; }
+
+  /* ── STYLE GRID ── */
+  .style-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .style-opt {
+    padding: 10px 4px; background: #0d0d0d; border: 1px solid var(--border2);
+    border-radius: 8px; text-align: center; cursor: pointer;
+    font-size: 10px; color: var(--dim); transition: all .15s;
+  }
+  .style-opt:hover { border-color: var(--border2); color: var(--muted); }
+  .style-opt.active { border-color: var(--accent); color: #fff; background: rgba(255,68,68,.08); }
+  .style-opt .oi { font-size: 17px; display: block; margin-bottom: 3px; }
+
+  /* ── INLINE ROW ── */
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    width: 100%; padding: 12px;
+    border-radius: 10px; border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 10px;
+  }
+  .btn-red { background: var(--accent); color: #fff; }
+  .btn-red:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-red:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+  .btn-ghost { background: var(--surface); border: 1px solid var(--border2); color: var(--muted); }
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); border-color: #555; }
+  .btn-ghost:disabled { opacity: .35; cursor: not-allowed; }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    width: 100%; height: 3px; background: var(--surface2);
+    border-radius: 2px; overflow: hidden; margin-top: 10px; display: none;
+  }
+  .progress-fill {
+    height: 100%; background: var(--accent); border-radius: 2px;
+    width: 0%; transition: width .08s;
+  }
+  .status-msg {
+    font-size: 11px; color: var(--muted);
+    text-align: center; margin-top: 6px; min-height: 16px;
+  }
+
+  /* ── PROMPT PREVIEW ── */
+  .prompt-box {
+    background: #0d0d0d; border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; margin-top: 10px;
+    font-size: 11px; color: var(--muted); line-height: 1.6;
+    display: none; font-style: italic;
+  }
+
+  /* ── TIP BOX ── */
+  .tip {
+    background: #0d0d0d; border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; margin-top: 10px;
+    font-size: 11px; color: var(--dim); line-height: 1.65;
+  }
+  .tip a { color: var(--accent); text-decoration: none; }
+  .tip a:hover { text-decoration: underline; }
+
+  /* ── PREVIEW COLUMN ── */
+  .preview-col {
+    position: sticky; top: 90px;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 260px; height: 462px;
+    border-radius: 18px; overflow: hidden;
+    background: #000;
+    box-shadow: 0 0 60px rgba(255,68,68,.12), 0 20px 60px rgba(0,0,0,.6);
+  }
+
+  #previewCanvas { width: 100%; height: 100%; display: block; }
+
+  .gen-overlay {
+    display: none; position: absolute; inset: 0;
+    background: rgba(0,0,0,.88); border-radius: 18px;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; z-index: 10;
+  }
+  .gen-overlay.show { display: flex; }
+  .gen-spinner {
+    width: 32px; height: 32px;
+    border: 3px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .gen-msg { font-size: 12px; color: var(--muted); text-align: center; padding: 0 20px; line-height: 1.6; }
+
+  .canvas-label { font-size: 10px; color: var(--dim); text-align: center; }
+
+  /* ── FLOW INDICATOR ── */
+  .flow-bar {
+    width: 260px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .fs { font-size: 10px; color: var(--dim); white-space: nowrap; }
+  .fs.done { color: var(--green); }
+  .fs.active { color: var(--accent); font-weight: 500; }
+  .fa { color: var(--border2); font-size: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SHORTS <span>CREATOR</span></div>
+  <div class="header-badge">IA GRÁTIS</div>
+</header>
+
+<div class="app">
+
+  <!-- CONTROLS -->
+  <div class="controls-col">
+
+    <!-- Step 1: API Key -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="step-num">1</div>
+        <div class="panel-title">Google AI Studio Key</div>
+        <div class="free-pill">GRÁTIS</div>
+      </div>
+      <div class="key-wrap">
+        <input type="password" id="apiKey" placeholder="AIzaSy..." autocomplete="off">
+        <button class="eye-btn" onclick="toggleKey()">👁</button>
+      </div>
+      <div class="tip">
+        Acesse <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create → Copiar.<br>
+        Grátis até 1.500 requisições/dia. Sem cartão de crédito.
+      </div>
+    </div>
+
+    <!-- Step 2: Imagem -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="step-num">2</div>
+        <div class="panel-title">Imagem de fundo</div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('ai',this)">✨ Gerar IA</div>
+        <div class="tab" onclick="switchTab('upload',this)">📁 Upload</div>
+        <div class="tab" onclick="switchTab('color',this)">🎨 Cor</div>
+      </div>
+
+      <div id="tab-ai">
+        <label>Descreva a imagem em português</label>
+        <textarea id="aiPrompt" placeholder="Ex: pôr do sol dramático sobre cidade futurista, cores vibrantes, cinematográfico&#10;Ex: floresta escura com raios de luz, atmosfera mística&#10;Ex: oceano com ondas gigantes, tons laranja e roxo"></textarea>
+        <div class="prompt-box" id="promptBox"></div>
+        <button class="btn btn-red" id="genImgBtn" onclick="runGeneration()">
+          <span id="genImgSpinner" style="display:none">⏳</span>
+          <span id="genImgLabel">✨ Gerar imagem</span>
+        </button>
+      </div>
+
+      <div id="tab-upload" style="display:none">
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" accept="image/*" onchange="handleUpload(event)">
+          <div class="uz-icon">🖼️</div>
+          <div class="uz-text">Clique ou arraste sua imagem aqui<br><span style="color:#333">JPG · PNG · WEBP</span></div>
+        </div>
+      </div>
+
+      <div id="tab-color" style="display:none">
+        <label>Escolha a cor de fundo</label>
+        <div class="color-row">
+          <div class="cswatch active" style="background:#000"    onclick="setBg('#000000',this)"></div>
+          <div class="cswatch"        style="background:#1a1a2e" onclick="setBg('#1a1a2e',this)"></div>
+          <div class="cswatch"        style="background:#2d1b69" onclick="setBg('#2d1b69',this)"></div>
+          <div class="cswatch"        style="background:#1a0000" onclick="setBg('#1a0000',this)"></div>
+          <div class="cswatch"        style="background:#003322" onclick="setBg('#003322',this)"></div>
+          <div class="cswatch"        style="background:#0d1b2a" onclick="setBg('#0d1b2a',this)"></div>
+          <div class="cswatch"        style="background:#1c1c00" onclick="setBg('#1c1c00',this)"></div>
+          <input type="color" value="#000000" style="width:28px;height:28px;padding:0;border:none;border-radius:5px;cursor:pointer" onchange="setBg(this.value,null)" title="Cor personalizada">
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Texto -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="step-num">3</div>
+        <div class="panel-title">Texto do vídeo</div>
+      </div>
+      <label>Texto que aparece palavra por palavra</label>
+      <textarea id="videoText" placeholder="Ex: Você sabia que 90% das pessoas cometem esse erro todo dia?&#10;Ex: 3 hábitos que vão mudar sua vida em 30 dias" oninput="livePreview()"></textarea>
+      <div class="row" style="margin-top:10px">
+        <div>
+          <label>Velocidade</label>
+          <select id="speed">
+            <option value="600">Lenta</option>
+            <option value="300" selected>Normal</option>
+            <option value="150">Rápida</option>
+            <option value="80">Viral</option>
+          </select>
+        </div>
+        <div>
+          <label>Duração alvo</label>
+          <select id="duration">
+            <option value="8" selected>8 seg</option>
+            <option value="15">15 seg</option>
+            <option value="30">30 seg</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Estilo -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="step-num">4</div>
+        <div class="panel-title">Estilo do texto</div>
+      </div>
+      <div class="style-grid">
+        <div class="style-opt active" onclick="setStyle('viral',this)"><span class="oi">🔥</span>Viral bold</div>
+        <div class="style-opt" onclick="setStyle('neon',this)"><span class="oi">💡</span>Neon</div>
+        <div class="style-opt" onclick="setStyle('shadow',this)"><span class="oi">🌑</span>Shadow</div>
+        <div class="style-opt" onclick="setStyle('outline',this)"><span class="oi">⬜</span>Outline</div>
+        <div class="style-opt" onclick="setStyle('highlight',this)"><span class="oi">🟨</span>Highlight</div>
+        <div class="style-opt" onclick="setStyle('minimal',this)"><span class="oi">✏️</span>Minimal</div>
+      </div>
+    </div>
+
+    <!-- Step 5: Exportar -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="step-num">5</div>
+        <div class="panel-title">Exportar</div>
+      </div>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="status-msg" id="statusMsg">Configure os passos acima e clique em Preview</div>
+      <button class="btn btn-red" onclick="startPreview()" id="previewBtn">▶ Preview animação</button>
+      <button class="btn btn-ghost" onclick="exportFrames()" id="exportBtn">⬇ Baixar frames ZIP → MP4</button>
+      <div class="tip" style="margin-top:12px">
+        <strong style="color:#888">Como montar o MP4:</strong><br>
+        1. Importe os frames no <strong style="color:#aaa">CapCut</strong> como sequência de imagens<br>
+        2. Ou use o comando do arquivo <code style="color:#aaa">COMO_MONTAR.txt</code> no FFmpeg<br>
+        3. Exporte em 1080×1920 (9:16) para Shorts/Reels/TikTok
+      </div>
+    </div>
+
+  </div><!-- /controls -->
+
+  <!-- PREVIEW -->
+  <div class="preview-col">
+    <div class="canvas-wrap">
+      <canvas id="previewCanvas" width="1080" height="1920"></canvas>
+      <div class="gen-overlay" id="genOverlay">
+        <div class="gen-spinner"></div>
+        <div class="gen-msg" id="genMsg">Gemini aprimorando prompt…</div>
+      </div>
+    </div>
+    <div class="canvas-label">Preview 9:16 · 1080×1920 · Shorts / Reels / TikTok</div>
+    <div class="flow-bar">
+      <span class="fs" id="fs1">📝 Descreva</span>
+      <span class="fa">›</span>
+      <span class="fs" id="fs2">🤖 Gemini</span>
+      <span class="fa">›</span>
+      <span class="fs" id="fs3">🎨 Imagem</span>
+      <span class="fa">›</span>
+      <span class="fs" id="fs4">✨ Texto</span>
+      <span class="fa">›</span>
+      <span class="fs" id="fs5">⬇ Export</span>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ── STATE ────────────────────────────────────────────────
+const canvas = document.getElementById('previewCanvas');
+const ctx    = canvas.getContext('2d');
+const W = 1080, H = 1920;
+let bgImage = null, bgColor = '#000', curStyle = 'viral', animInt = null;
+
+// ── INIT ─────────────────────────────────────────────────
+drawFrame('');
+
+// ── UI HELPERS ───────────────────────────────────────────
+function toggleKey() {
+  const i = document.getElementById('apiKey');
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+
+function setStatus(msg) {
+  document.getElementById('statusMsg').textContent = msg;
+}
+
+function setFlow(n) {
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById('fs'+i);
+    el.classList.remove('done','active');
+    if (i < n) el.classList.add('done');
+    else if (i === n) el.classList.add('active');
+  }
+}
+
+function showOverlay(msg) {
+  document.getElementById('genMsg').innerHTML = msg;
+  document.getElementById('genOverlay').classList.add('show');
+}
+function hideOverlay() {
+  document.getElementById('genOverlay').classList.remove('show');
+}
+
+function switchTab(id, el) {
+  ['ai','upload','color'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── DRAG & DROP ──────────────────────────────────────────
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='var(--accent)'; });
+zone.addEventListener('dragleave', () => { zone.style.borderColor='var(--border2)'; });
+zone.addEventListener('drop', e => {
+  e.preventDefault();
+  zone.style.borderColor = 'var(--border2)';
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadImageFile(f);
+});
+
+function handleUpload(e) {
+  const f = e.target.files[0];
+  if (f) loadImageFile(f);
+}
+
+function loadImageFile(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      bgImage = img;
+      livePreview();
+      setStatus('✅ Imagem carregada!');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function setBg(c, el) {
+  bgColor = c;
+  bgImage = null;
+  document.querySelectorAll('.cswatch').forEach(s => s.classList.remove('active'));
+  if (el) el.classList.add('active');
+  livePreview();
+}
+
+// ── CANVAS DRAWING ───────────────────────────────────────
+function drawBg() {
+  if (bgImage) {
+    const sc = Math.max(W / bgImage.width, H / bgImage.height);
+    const sw = bgImage.width * sc, sh = bgImage.height * sc;
+    ctx.drawImage(bgImage, (W-sw)/2, (H-sh)/2, sw, sh);
+    ctx.fillStyle = 'rgba(0,0,0,0.38)';
+    ctx.fillRect(0,0,W,H);
+  } else {
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0,0,W,H);
+    const vg = ctx.createRadialGradient(W/2,H/2,H*.12,W/2,H/2,H*.78);
+    vg.addColorStop(0,'rgba(255,68,68,.04)');
+    vg.addColorStop(1,'rgba(0,0,0,.65)');
+    ctx.fillStyle = vg;
+    ctx.fillRect(0,0,W,H);
+  }
+}
+
+const STYLES = {
+  viral:     { font:'bold 118px "Bebas Neue",Impact,sans-serif', fill:'#FFF',     shadow:'rgba(0,0,0,.95)', blur:22, off:6,  stroke:null },
+  neon:      { font:'bold 108px "Bebas Neue",Impact,sans-serif', fill:'#00ffcc',  shadow:'#00ffcc',          blur:45, off:0,  stroke:null },
+  shadow:    { font:'bold 118px "Bebas Neue",Impact,sans-serif', fill:'#FFF',     shadow:'rgba(0,0,0,1)',    blur:8,  off:12, stroke:null },
+  outline:   { font:'bold 118px "Bebas Neue",Impact,sans-serif', fill:'#FFF',     shadow:'transparent',      blur:0,  off:0,  stroke:'#000', strokeW:14 },
+  highlight: { font:'bold 108px "Bebas Neue",Impact,sans-serif', fill:'#FFE600',  shadow:'rgba(0,0,0,.85)', blur:16, off:5,  stroke:null },
+  minimal:   { font:'300 78px "DM Sans",sans-serif',             fill:'#FFF',     shadow:'rgba(0,0,0,.55)', blur:12, off:4,  stroke:null },
+};
+
+function drawFrame(visibleText) {
+  ctx.clearRect(0,0,W,H);
+  drawBg();
+  if (!visibleText) return;
+
+  const s = STYLES[curStyle];
+  ctx.font         = s.font;
+  ctx.textAlign    = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor  = s.shadow;
+  ctx.shadowBlur   = s.blur;
+  ctx.shadowOffsetX = s.off;
+  ctx.shadowOffsetY = s.off;
+
+  const maxW = W * 0.84;
+  const words = visibleText.split(' ');
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    const test = line ? line+' '+w : w;
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+
+  const fs = parseInt(s.font);
+  const lineH = fs * 1.18;
+  const startY = H/2 - (lines.length * lineH)/2 + lineH/2;
+
+  lines.forEach((l, i) => {
+    if (s.stroke) {
+      ctx.strokeStyle = s.stroke;
+      ctx.lineWidth = s.strokeW;
+      ctx.strokeText(l, W/2, startY + i*lineH);
+    }
+    ctx.fillStyle = s.fill;
+    ctx.fillText(l, W/2, startY + i*lineH);
+  });
+
+  ctx.shadowColor  = 'transparent';
+  ctx.shadowBlur   = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+}
+
+function livePreview() {
+  const words = document.getElementById('videoText').value.trim().split(' ').filter(Boolean);
+  drawFrame(words.slice(0, Math.ceil(words.length/2)).join(' '));
+}
+
+function setStyle(s, el) {
+  curStyle = s;
+  document.querySelectorAll('.style-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  livePreview();
+}
+
+// ── GEMINI API ───────────────────────────────────────────
+async function enhancePrompt(desc, key) {
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `You are an expert image generation prompt writer.
+Convert this Portuguese description into a powerful English prompt for a YouTube Shorts background image (vertical 9:16, dramatic, cinematic, ultra-detailed).
+Make it vivid, photorealistic, and optimized for Stable Diffusion.
+Return ONLY the English prompt, no explanations, no quotes, no preamble.
+
+Description: ${desc}`
+          }]
+        }]
+      })
+    }
+  );
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || 'Erro no Gemini. Verifique sua API key.');
+  }
+  const data = await res.json();
+  return data.candidates[0].content.parts[0].text.trim();
+}
+
+// ── POLLINATIONS API ─────────────────────────────────────
+function loadPollinationsImage(prompt) {
+  return new Promise((resolve, reject) => {
+    const p = encodeURIComponent(prompt + ', vertical portrait 9:16, cinematic, high quality, sharp focus, detailed');
+    const seed = Math.floor(Math.random() * 99999);
+    const url  = `https://image.pollinations.ai/prompt/${p}?width=1080&height=1920&seed=${seed}&nologo=true`;
+    const img  = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload  = () => resolve(img);
+    img.onerror = () => reject(new Error('Pollinations não retornou imagem. Tente novamente.'));
+    img.src = url;
+  });
+}
+
+// ── FULL GENERATION FLOW ─────────────────────────────────
+async function runGeneration() {
+  const key  = document.getElementById('apiKey').value.trim();
+  const desc = document.getElementById('aiPrompt').value.trim();
+
+  if (!key)  { setStatus('⚠️ Cole sua Google AI Studio key no passo 1.'); return; }
+  if (!desc) { setStatus('⚠️ Descreva a imagem primeiro.'); return; }
+
+  document.getElementById('genImgBtn').disabled = true;
+  document.getElementById('genImgLabel').textContent = 'Gerando...';
+
+  try {
+    // Passo 1 — Gemini melhora o prompt
+    setFlow(2);
+    showOverlay('🤖 Gemini traduzindo e melhorando seu prompt…<br><small style="color:#555">2–4 segundos</small>');
+    setStatus('Gemini processando seu prompt…');
+
+    const enhanced = await enhancePrompt(desc, key);
+
+    const box = document.getElementById('promptBox');
+    box.style.display = 'block';
+    box.textContent   = '🤖 ' + enhanced;
+
+    // Passo 2 — Pollinations gera a imagem
+    setFlow(3);
+    showOverlay('🎨 Pollinations gerando a imagem…<br><small style="color:#555">pode levar 10–25 segundos</small>');
+    setStatus('Gerando imagem (aguarde ~15 seg)…');
+
+    const img = await loadPollinationsImage(enhanced);
+    bgImage   = img;
+    hideOverlay();
+    livePreview();
+
+    setFlow(4);
+    setStatus('✅ Imagem gerada! Escreva o texto e clique em Preview.');
+
+  } catch(e) {
+    hideOverlay();
+    setStatus('❌ ' + e.message);
+    setFlow(1);
+  }
+
+  document.getElementById('genImgBtn').disabled = false;
+  document.getElementById('genImgLabel').textContent = '✨ Gerar imagem';
+}
+
+// ── PREVIEW ANIMATION ────────────────────────────────────
+function startPreview() {
+  const text = document.getElementById('videoText').value.trim();
+  if (!text) { setStatus('⚠️ Escreva o texto do vídeo primeiro.'); return; }
+  if (animInt) clearInterval(animInt);
+
+  const words = text.split(/\s+/).filter(Boolean);
+  const delay = parseInt(document.getElementById('speed').value);
+  let i = 0;
+
+  setFlow(4);
+  setStatus('▶ Reproduzindo…');
+
+  animInt = setInterval(() => {
+    if (i > words.length) {
+      clearInterval(animInt);
+      setFlow(5);
+      setStatus('✅ Preview ok! Clique em Exportar para baixar os frames.');
+      return;
+    }
+    drawFrame(words.slice(0, i).join(' '));
+    i++;
+  }, delay);
+}
+
+// ── EXPORT FRAMES ────────────────────────────────────────
+async function exportFrames() {
+  const text = document.getElementById('videoText').value.trim();
+  if (!text) { setStatus('⚠️ Escreva o texto e rode o preview primeiro.'); return; }
+
+  const words  = text.split(/\s+/).filter(Boolean);
+  const delay  = parseInt(document.getElementById('speed').value);
+  const fps    = Math.round(1000 / delay);
+
+  document.getElementById('exportBtn').disabled = true;
+  document.getElementById('progressBar').style.display = 'block';
+  setStatus('⏳ Gerando frames…');
+
+  const zip    = new JSZip();
+  const folder = zip.folder('shorts_frames');
+
+  for (let i = 0; i <= words.length; i++) {
+    drawFrame(words.slice(0, i).join(' '));
+    folder.file(
+      `frame_${String(i).padStart(4,'0')}.png`,
+      canvas.toDataURL('image/png').split(',')[1],
+      { base64: true }
+    );
+    document.getElementById('progressFill').style.width =
+      Math.round(i / words.length * 100) + '%';
+    setStatus(`Gerando frame ${i+1} de ${words.length+1}…`);
+    await new Promise(r => setTimeout(r, 8));
+  }
+
+  // README
+  const readme =
+`SHORTS CREATOR — Frames exportados
+====================================
+Total de frames : ${words.length + 1}
+FPS sugerido    : ${fps}
+
+OPÇÃO 1 — CapCut (mais fácil):
+  1. Novo projeto → Importar → selecionar esta pasta
+  2. Selecionar qualquer frame → "Sequência de imagens"
+  3. Ajustar FPS para ${fps}
+  4. Exportar 1080×1920
+
+OPÇÃO 2 — FFmpeg (instale em ffmpeg.org):
+  ffmpeg -framerate ${fps} -i frame_%04d.png -c:v libx264 -pix_fmt yuv420p -vf "scale=1080:1920" output.mp4
+
+OPÇÃO 3 — DaVinci Resolve:
+  File → Import → Image Sequence → selecione frame_0000.png
+`;
+  zip.file('COMO_MONTAR.txt', readme);
+
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = 'shorts_frames.zip';
+  a.click();
+
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('exportBtn').disabled = false;
+  setFlow(5);
+  setStatus('✅ ZIP baixado! Veja COMO_MONTAR.txt para gerar o vídeo.');
+}
+</script>
+</body>
+</html>
