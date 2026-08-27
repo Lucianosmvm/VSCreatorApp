@@ -171,7 +171,7 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
 
     <label>Modelo de texto (traduz o prompt)</label>
     <select id="gmModel" onchange="saveState()">
-      <option value="gemini-2.0-flash" selected>gemini-2.0-flash</option>
+      <option value="gemini-2.5-flash" selected>gemini-2.5-flash</option>
     </select>
 
     <label>Modelo de imagem (se a fonte for Gemini)</label>
@@ -313,6 +313,7 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
     <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
     <div class="status" id="statusMsg">Configure as cenas acima e clique em Gerar</div>
     <button class="btn btn-red" id="genAllBtn" onclick="generateAll()">✨ Gerar todas as imagens</button>
+    <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)">↻ Gerar só as cenas que faltaram</button>
     <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Gerar todas as narrações</button>
     <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Renderizar vídeo com áudio</button>
     <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
@@ -359,6 +360,9 @@ let rendering = false;
 let renderCancelled = false;
 let audioCtx = null;
 const LS_KEY = 'shortsCreator.v2';
+// declarado junto do estado: loadState() roda no init e já chama logLine(),
+// que morreria na TDZ se LOG fosse declarado lá embaixo com o resto do log
+const LOG=[];
 
 // ── STYLES ───────────────────────────────────────────────
 const STYLES = {
@@ -430,6 +434,7 @@ function saveState(){
       resolution: document.getElementById('resolution').value,
       elModel: document.getElementById('elModel').value,
       gmModel: document.getElementById('gmModel').value,
+      textModel25: true,
       gmImgModel: document.getElementById('gmImgModel').value,
       imgSource: document.getElementById('imgSource').value,
       pollToken: remember ? document.getElementById('pollToken').value : '',
@@ -446,6 +451,14 @@ function loadState(){
   let d=null;
   try{ d=JSON.parse(localStorage.getItem(LS_KEY)||'null'); }catch(e){}
   if(!d) return;
+  // Migração única. buildFrames() chama saveState() a cada carga, então toda
+  // sessão antiga tem um gmModel gravado que venceria o padrão novo do HTML.
+  // Move uma vez para o 2.5-flash (menos congestionado que o modelo de ponta);
+  // depois disso a flag existe e escolhas manuais do usuário são respeitadas.
+  if(!d.textModel25){
+    d.gmModel='gemini-2.5-flash';
+    logLine('info','Modelo de texto migrado para gemini-2.5-flash (menos sujeito a 503).');
+  }
   if(Array.isArray(d.frames)&&d.frames.length){
     frames = d.frames.slice(0,20).map(f=>({
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
@@ -873,11 +886,16 @@ async function loadGeminiModels(){
     const sel=document.getElementById('gmModel');
     const prev=sel.value;
     sel.innerHTML=opts;
-    // mantém a escolha anterior se ainda existir; senão pega o flash mais novo
+    // Este passo só traduz o prompt para inglês — não precisa do modelo de
+    // ponta, que é o mais disputado e o que mais devolve 503. Prefere 2.5-flash.
     if(usable.some(m=>m.id===prev)) sel.value=prev;
     else{
-      const flash=usable.find(m=>/flash/i.test(m.id) && !/thinking|live|tts|image/i.test(m.id));
-      sel.value=(flash||usable[0]).id;
+      const noise=/thinking|live|tts|image|audio|embedding/i;
+      const pick = usable.find(m=>m.id==='gemini-2.5-flash')
+                || usable.find(m=>/^gemini-2\.5-flash/i.test(m.id) && !noise.test(m.id))
+                || usable.find(m=>/flash/i.test(m.id) && !noise.test(m.id))
+                || usable[0];
+      sel.value=pick.id;
     }
     saveState();
     logLine('ok',`${usable.length} modelos disponíveis`,`texto: ${sel.value} | imagem: ${isel.value}`);
@@ -892,10 +910,10 @@ async function enhancePrompt(desc,key){
   const t0=performance.now();
   let res;
   try{
-    res=await fetch(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
+    res=await fetchRetry(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for a YouTube Shorts vertical background (9:16, cinematic, dramatic, ultra-detailed). Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
-    });
+    },{label:`Gemini texto (${model})`,tries:4,timeoutMs:60000});
   }catch(e){
     throw new Error('[Gemini] '+describeNetErr(e,'generativelanguage.googleapis.com'));
   }
@@ -910,6 +928,7 @@ async function enhancePrompt(desc,key){
     else if(res.status===400&&/api key/i.test(msg)) msg='API key do Google inválida. '+msg;
     else if(res.status===403) msg='Key sem permissão para este modelo. '+msg;
     else if(res.status===429) msg='Cota do Gemini estourada (429). Aguarde e tente de novo. '+msg;
+    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto no passo 1 ou espere alguns minutos. ${msg}`;
     throw new Error('[Gemini] '+msg);
   }
   const d=await res.json();
@@ -1021,7 +1040,8 @@ async function geminiImage(prompt,key){
   const send=async(withModalities)=>{
     const body={contents:[{parts:[{text}]}]};
     if(withModalities) body.generationConfig={responseModalities:['TEXT','IMAGE']};
-    return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    return fetchRetry(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},
+                      {label:`Gemini imagem (${model})`,tries:4,timeoutMs:120000});
   };
 
   const t0=performance.now();
@@ -1047,6 +1067,7 @@ async function geminiImage(prompt,key){
       logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model})`,msg);
       if(res.status===404) msg=`Modelo "${model}" não existe para esta key. Clique em "Carregar modelos".`;
       if(res.status===429) msg='Cota do Gemini estourada (429). '+msg;
+      if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de imagem no passo 1 ou espere alguns minutos. ${msg}`;
       throw new Error(msg);
     }
   }
@@ -1184,10 +1205,10 @@ async function ttsScene(f){
   const base=`${EL_API}/text-to-speech/${encodeURIComponent(vid)}`;
 
   let bytes=null, alignment=null;
-  let res=await fetch(base+'/with-timestamps'+qs,opts);
+  let res=await fetchRetry(base+'/with-timestamps'+qs,opts,{label:'ElevenLabs',tries:3,timeoutMs:120000});
   if(res.status===404||res.status===405){
     // conta/plano sem o endpoint de timestamps: cai no TTS simples
-    res=await fetch(base+qs,{...opts,headers:{...opts.headers,'Accept':'audio/mpeg'}});
+    res=await fetchRetry(base+qs,{...opts,headers:{...opts.headers,'Accept':'audio/mpeg'}},{label:'ElevenLabs',tries:3,timeoutMs:120000});
     if(!res.ok) throw await elError(res,'Erro no TTS');
     bytes=new Uint8Array(await res.arrayBuffer());
   }else{
@@ -1304,29 +1325,38 @@ async function generateSingle(i){
 }
 
 // ── GENERATE ALL ─────────────────────────────────────────
-async function generateAll(){
+async function generateAll(onlyMissing){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   const key=document.getElementById('apiKey').value.trim();
   if(!key){setStatus('⚠️ Cole sua API key no passo 1.');return;}
   frames.forEach((_,i)=>syncFrame(i));
-  const mi=frames.findIndex(f=>!f.prompt);
-  if(mi>=0){setStatus(`⚠️ Cena ${mi+1} sem descrição.`);return;}
-  const btn=document.getElementById('genAllBtn');
-  btn.disabled=true;btn.textContent='Gerando…';
+
+  // refazer só o que faltou evita queimar cota nas cenas que já deram certo
+  const targets=frames.map((_,i)=>i).filter(i=>!onlyMissing||!frames[i].image);
+  if(!targets.length){ setStatus('✅ Todas as cenas já têm imagem.'); return; }
+  const mi=targets.find(i=>!frames[i].prompt);
+  if(mi!==undefined){setStatus(`⚠️ Cena ${mi+1} sem descrição.`);return;}
+
+  const btn=document.getElementById(onlyMissing?'genMissingBtn':'genAllBtn');
+  const btnLabel=btn.textContent;
+  btn.textContent='Gerando…';
+  document.getElementById('genAllBtn').disabled=true;
+  document.getElementById('genMissingBtn').disabled=true;
   document.getElementById('progBar').style.display='block';
+  logLine('info',`Lote: ${targets.length} cena(s) — ${onlyMissing?'só as que faltaram':'todas'}`);
   const {cw,ch}=currentRes();
-  let fails=0;
-  for(let i=0;i<frames.length;i++){
+  let fails=0, done=0;
+  for(const i of targets){
     const f=frames[i];
     setBadge(i,'b-gen','⏳ gerando…');
-    showOv(`🤖 Cena ${i+1}/${frames.length}: Gemini…`);
-    setStatus(`Cena ${i+1}/${frames.length}: aprimorando prompt…`);
-    setProg(Math.round((i/frames.length)*100));
-    logLine('info',`Cena ${i+1}/${frames.length}: iniciando…`,f.prompt);
+    showOv(`🤖 Cena ${i+1}: Gemini…`);
+    setStatus(`Cena ${i+1}: aprimorando prompt…`);
+    setProg(Math.round((done/targets.length)*100));
+    logLine('info',`Cena ${i+1} (${done+1}/${targets.length}): iniciando…`,f.prompt);
     try{
       f.enhanced=await enhancePrompt(f.prompt,key);
-      showOv(`🎨 Cena ${i+1}/${frames.length}: gerando imagem…<br><small style="color:#444">~15 seg</small>`);
-      setStatus(`Cena ${i+1}/${frames.length}: gerando imagem…`);
+      showOv(`🎨 Cena ${i+1}: gerando imagem…<br><small style="color:#444">~15 seg</small>`);
+      setStatus(`Cena ${i+1}: gerando imagem…`);
       let made;
       try{ made=await makeImage(f.enhanced,key,cw,ch); }
       catch(e){ throw new Error('[Imagem] '+e.message); }
@@ -1341,13 +1371,20 @@ async function generateAll(){
       logLine('err',`Cena ${i+1} falhou`,e.message);
       setBadge(i,'b-err','✗ erro');setStatus('❌ Cena '+(i+1)+': '+e.message);
     }
-    if(i<frames.length-1) await new Promise(r=>setTimeout(r,800));
+    done++;
+    if(done<targets.length) await sleep(800);
   }
   setProg(100);hideOv();
   document.getElementById('progBar').style.display='none';
-  btn.disabled=false;btn.textContent='✨ Gerar todas as imagens';
+  btn.textContent=btnLabel;
+  document.getElementById('genAllBtn').disabled=false;
+  document.getElementById('genMissingBtn').disabled=false;
   renderCards();checkDone();updateTotals();saveState();
-  setStatus(fails?`⚠️ ${fails} cena(s) falharam. Use "Gerar imagem" para repetir.`:'✅ Imagens prontas! Agora gere as narrações.');
+  const missing=frames.filter(f=>!f.image).length;
+  logLine(fails?'warn':'ok',`Lote terminado: ${targets.length-fails} ok, ${fails} falha(s), ${missing} cena(s) ainda sem imagem.`);
+  setStatus(fails
+    ? `⚠️ ${fails} cena(s) falharam. Clique em "↻ Gerar só as cenas que faltaram".`
+    : (missing?`✅ Lote pronto. Faltam ${missing} cena(s).`:'✅ Imagens prontas! Agora gere as narrações.'));
 }
 
 // ── RENDER DE VÍDEO (MediaRecorder) ──────────────────────
@@ -1566,7 +1603,6 @@ FFmpeg (monta tudo de uma vez):
 // ── LOG / DIAGNÓSTICO ────────────────────────────────────
 // A barra de status guarda uma linha só e é sobrescrita pela cena seguinte;
 // sem histórico não dá para saber qual etapa quebrou nem o que o servidor disse.
-const LOG=[];
 function logLine(level,msg,detail){
   LOG.push({t:new Date().toLocaleTimeString('pt-BR'),level,msg,detail:detail?String(detail):''});
   if(LOG.length>300) LOG.shift();
@@ -1595,6 +1631,46 @@ function describeNetErr(e,host){
   if(e && e.name==='TypeError')
     return `Não consegui falar com ${host}. Causas comuns: sem internet, o site fora do ar, bloqueio de CORS, ou a página aberta como arquivo (file://) em vez de http://localhost.`;
   return e && e.message ? e.message : String(e);
+}
+
+// 503/429/500 são transitórios: o Google devolve isso quando o modelo está
+// congestionado e a mesma chamada costuma passar segundos depois. Sem retry,
+// uma cena morria por um soluço de infraestrutura alheia.
+const RETRY_STATUS=new Set([408,425,429,500,502,503,504]);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function backoffMs(attempt){
+  const base=Math.pow(2,attempt)*1000;              // 2s, 4s, 8s, 16s
+  return Math.round(base*(0.75+Math.random()*0.5)); // ±25% de jitter
+}
+
+async function fetchRetry(url,opts,cfg){
+  cfg=cfg||{};
+  const tries=cfg.tries||4, label=cfg.label||'servidor', timeoutMs=cfg.timeoutMs||90000;
+  for(let a=1;a<=tries;a++){
+    const ac=new AbortController();
+    const timer=setTimeout(()=>ac.abort(),timeoutMs);
+    try{
+      const res=await fetch(url,Object.assign({},opts,{signal:ac.signal}));
+      clearTimeout(timer);
+      if(res.ok || !RETRY_STATUS.has(res.status) || a===tries) return res;
+      const ra=parseFloat(res.headers.get('retry-after'));
+      const wait=(ra>0?ra*1000:0)||backoffMs(a);
+      logLine('warn',`${label}: HTTP ${res.status} — tentativa ${a}/${tries}, repetindo em ${(wait/1000).toFixed(1)}s`);
+      setStatus(`⏳ ${label} sobrecarregado. Tentativa ${a+1}/${tries} em ${(wait/1000).toFixed(0)}s…`);
+      await sleep(wait);
+    }catch(e){
+      clearTimeout(timer);
+      const isAbort = e.name==='AbortError';
+      if(a===tries){
+        if(isAbort) throw new Error(`Timeout: ${label} não respondeu em ${Math.round(timeoutMs/1000)}s.`);
+        throw e;
+      }
+      const wait=backoffMs(a);
+      logLine('warn',`${label}: ${isAbort?'timeout':'erro de rede'} — tentativa ${a}/${tries}, repetindo em ${(wait/1000).toFixed(1)}s`);
+      await sleep(wait);
+    }
+  }
+  throw new Error(label+': todas as tentativas falharam.');
 }
 
 async function testConnections(){
