@@ -121,6 +121,9 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
 .tip{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:10px;color:var(--dim);line-height:1.6;margin-top:8px}
 .tip a{color:var(--accent);text-decoration:none}
 .tip.warn{border-color:rgba(167,139,250,.2);color:#8b7fb0}
+.tip code{color:#8a8a8a}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.45;min-height:112px}
+.jmsg{font-size:11px;text-align:left;margin-top:8px;min-height:15px;line-height:1.5;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -156,7 +159,15 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
       <input type="password" id="apiKey" placeholder="AIzaSy..." autocomplete="off" oninput="saveStateSoon()">
       <button class="eye" onclick="toggleKey('apiKey')">👁</button>
     </div>
-    <div class="tip"><a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create → Copiar. Grátis até 1.500 req/dia, sem cartão.</div>
+
+    <label>Modelo</label>
+    <select id="gmModel" onchange="saveState()">
+      <option value="gemini-2.0-flash" selected>gemini-2.0-flash</option>
+    </select>
+    <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:8px">↻ Carregar modelos da minha key</button>
+
+    <div class="tip"><a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create → Copiar. Grátis até 1.500 req/dia, sem cartão.<br>
+    O Google aposenta modelos de tempos em tempos. Se der erro de modelo, clique em <b style="color:#888">Carregar modelos</b> e escolha um da lista — ela vem direto da API, então está sempre certa.</div>
   </div>
 
   <!-- STEP 2: ELEVENLABS -->
@@ -235,10 +246,30 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
     </div>
   </div>
 
-  <!-- STEP 4: FRAMES -->
+  <!-- STEP 4: IMPORTAR JSON -->
   <div class="panel">
     <div class="panel-hd">
       <div class="snum">4</div>
+      <div class="ptitle">Importar roteiro (JSON)</div>
+    </div>
+    <textarea id="jsonIn" class="mono" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false"></textarea>
+    <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap">
+      <button class="btn-sm btn-add" onclick="importJSON()">⬆ Importar roteiro</button>
+      <button class="btn-sm btn-del" onclick="fillExample()">Ver exemplo</button>
+      <button class="btn-sm btn-del" onclick="exportJSON()">⬇ Exportar atual</button>
+      <button class="btn-sm btn-mic" onclick="copyClaudePrompt()">📋 Prompt p/ Claude</button>
+    </div>
+    <div class="jmsg" id="jsonMsg"></div>
+    <div class="tip">
+      <b style="color:#666">Campos por cena:</b> <code>imagem</code> (descrição p/ a IA gerar o fundo) · <code>texto</code> (aparece na tela e é narrado) · <code>narracao</code> (opcional, só se a fala for diferente) · <code>estilo</code> (viral, neon, shadow, outline, highlight, minimal) · <code>animacao</code> ("palavra" ou "fixo").<br>
+      Reimportar reaproveita imagens e narrações das cenas que não mudaram — não gasta crédito à toa.
+    </div>
+  </div>
+
+  <!-- STEP 5: FRAMES -->
+  <div class="panel">
+    <div class="panel-hd">
+      <div class="snum">5</div>
       <div class="ptitle">Cenas</div>
     </div>
     <div id="framesList"></div>
@@ -248,10 +279,10 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
     </div>
   </div>
 
-  <!-- STEP 5: GERAR E EXPORTAR -->
+  <!-- STEP 6: GERAR E EXPORTAR -->
   <div class="panel">
     <div class="panel-hd">
-      <div class="snum">5</div>
+      <div class="snum">6</div>
       <div class="ptitle">Gerar e exportar</div>
     </div>
     <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
@@ -356,6 +387,7 @@ function saveState(){
       fps: document.getElementById('fps').value,
       resolution: document.getElementById('resolution').value,
       elModel: document.getElementById('elModel').value,
+      gmModel: document.getElementById('gmModel').value,
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
@@ -385,6 +417,13 @@ function loadState(){
   set('frameDuration', d.frameDuration); set('tailPause', d.tailPause);
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('voiceManual', d.voiceManual);
+  // o modelo salvo pode não estar na lista curta inicial; insere para não perder
+  if(d.gmModel){
+    const gs=document.getElementById('gmModel');
+    if(![...gs.options].some(o=>o.value===d.gmModel))
+      gs.insertAdjacentHTML('beforeend','<option value="'+esc(d.gmModel)+'">'+esc(d.gmModel)+'</option>');
+    gs.value=d.gmModel;
+  }
   if(d.voiceSel){
     const sel=document.getElementById('voiceSel');
     sel.insertAdjacentHTML('beforeend','<option value="'+esc(d.voiceSel)+'" selected>voz salva ('+esc(d.voiceSel.slice(0,8))+'…)</option>');
@@ -724,14 +763,69 @@ document.addEventListener('visibilitychange',()=>{
 });
 
 // ── GEMINI ───────────────────────────────────────────────
+const GM_API='https://generativelanguage.googleapis.com/v1beta';
+
+function gmModel(){ return document.getElementById('gmModel').value || 'gemini-2.0-flash'; }
+
+// O Google aposenta modelos e o ID varia por key/região, então não vale
+// cravar um no código: pergunta à própria API quais existem.
+async function loadGeminiModels(){
+  const key=document.getElementById('apiKey').value.trim();
+  if(!key){ setStatus('⚠️ Cole a API key do Google no passo 1.'); return; }
+  setStatus('↻ Buscando modelos disponíveis…');
+  try{
+    let models=[], pageToken='';
+    do{
+      const res=await fetch(`${GM_API}/models?pageSize=200&key=${key}`+(pageToken?`&pageToken=${pageToken}`:''));
+      if(!res.ok){
+        let msg='Erro ao listar modelos ('+res.status+')';
+        try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
+        throw new Error(msg);
+      }
+      const d=await res.json();
+      models=models.concat(d.models||[]);
+      pageToken=d.nextPageToken||'';
+    }while(pageToken && models.length<600);
+
+    // só os que servem para gerar texto a partir do nosso prompt
+    const usable=models
+      .filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent'))
+      .map(m=>({id:String(m.name||'').replace(/^models\//,''), label:m.displayName||''}))
+      .filter(m=>m.id && !/embedding|aqa|imagen/i.test(m.id));
+    if(!usable.length) throw new Error('Nenhum modelo com generateContent nesta key.');
+
+    // mais novo primeiro: ordena pela versão numérica no ID
+    const ver=id=>{ const m=id.match(/(\d+)\.(\d+)/); return m?parseInt(m[1])*100+parseInt(m[2]):0; };
+    usable.sort((a,b)=> ver(b.id)-ver(a.id) || a.id.localeCompare(b.id));
+
+    const sel=document.getElementById('gmModel');
+    const prev=sel.value;
+    sel.innerHTML=usable.map(m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`).join('');
+    // mantém a escolha anterior se ainda existir; senão pega o flash mais novo
+    if(usable.some(m=>m.id===prev)) sel.value=prev;
+    else{
+      const flash=usable.find(m=>/flash/i.test(m.id) && !/thinking|live|tts|image/i.test(m.id));
+      sel.value=(flash||usable[0]).id;
+    }
+    saveState();
+    setStatus(`✅ ${usable.length} modelos encontrados. Selecionado: ${sel.value}`);
+  }catch(e){
+    setStatus('❌ '+e.message);
+  }
+}
+
 async function enhancePrompt(desc,key){
-  const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+  const model=gmModel();
+  const res=await fetch(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for a YouTube Shorts vertical background (9:16, cinematic, dramatic, ultra-detailed). Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
   });
   if(!res.ok){
     let msg='Erro no Gemini ('+res.status+')';
     try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
+    // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
+    if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
+      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no passo 1 e escolha outro.\n\nGoogle disse: ${msg}`;
     throw new Error(msg);
   }
   const d=await res.json();
@@ -1235,6 +1329,217 @@ FFmpeg (monta tudo de uma vez):
     btn.disabled=false;
     checkDone();
   }
+}
+
+// ── IMPORTAR / EXPORTAR ROTEIRO (JSON) ───────────────────
+// Aceita nomes em pt e en para os campos, porque o JSON vem de um LLM e
+// exigir uma grafia exata só geraria import falhando por detalhe bobo.
+function firstOf(o,keys){
+  for(const k of keys){ const v=o[k]; if(v!=null&&v!=='') return v; }
+  return '';
+}
+const K_IMG =['imagem','image','prompt','descricao','descrição','imagem_prompt','imagePrompt'];
+const K_TXT =['texto','text','legenda','caption','tela'];
+const K_NAR =['narracao','narração','narration','voz','fala','audio'];
+const K_STY =['estilo','style'];
+const K_ANI =['animacao','animação','animation','anim'];
+
+function normAnim(v){
+  const s=String(v||'').toLowerCase().trim();
+  if(!s) return null;
+  if(['fixo','fixa','fixed','estatico','estático','static'].includes(s)) return 'fixed';
+  if(['palavra','palavras','word','words','karaoke'].includes(s)) return 'word';
+  return null;
+}
+
+function normScene(s,i,defStyle,defAnim){
+  if(typeof s==='string') s={texto:s};
+  if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error(`Cena ${i+1}: item não é um objeto.`);
+  const imagem=String(firstOf(s,K_IMG)||'').trim();
+  const texto =String(firstOf(s,K_TXT)||'').trim();
+  const narr  =String(firstOf(s,K_NAR)||'').trim();
+  if(!imagem&&!texto) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem" ou "texto".`);
+  const est=String(firstOf(s,K_STY)||'').toLowerCase().trim();
+  return {
+    imagem, texto, narracao:narr,
+    estilo: STYLES[est] ? est : defStyle,
+    animacao: normAnim(firstOf(s,K_ANI)) || defAnim
+  };
+}
+
+function applyConfig(c){
+  if(!c||typeof c!=='object') return;
+  const fps=String(parseInt(c.fps));
+  if(fps==='24'||fps==='30') document.getElementById('fps').value=fps;
+  const res=String(c.resolucao||c.resolution||'');
+  if(res==='1080x1920'||res==='720x1280') document.getElementById('resolution').value=res;
+  const dur=parseFloat(c.duracaoSemAudio!=null?c.duracaoSemAudio:(c.duracao!=null?c.duracao:c.duration));
+  if(dur>0) document.getElementById('frameDuration').value=Math.min(30,Math.max(1,dur));
+  const tail=parseFloat(c.pausaAposFala!=null?c.pausaAposFala:(c.pausa!=null?c.pausa:c.tail));
+  if(tail>=0&&!isNaN(tail)) document.getElementById('tailPause').value=Math.min(3,Math.max(0,tail));
+  const voz=c.voiceId||c.vozId||c.voice_id;
+  if(voz) document.getElementById('voiceManual').value=String(voz);
+}
+
+function setJsonMsg(m,color){
+  const el=document.getElementById('jsonMsg');
+  el.textContent=m;
+  el.style.color=color||'var(--muted)';
+}
+
+function importJSON(){
+  if(rendering){ setJsonMsg('⚠️ Renderização em andamento.','var(--accent)'); return; }
+  const raw=document.getElementById('jsonIn').value.trim();
+  if(!raw){ setJsonMsg('⚠️ Cole o JSON no campo acima.','var(--accent)'); return; }
+
+  let data;
+  try{ data=JSON.parse(raw); }
+  catch(e){ setJsonMsg('❌ JSON inválido: '+e.message,'var(--accent)'); return; }
+
+  const list = Array.isArray(data) ? data : (data.cenas||data.scenes||data.frames||data.cards);
+  if(!Array.isArray(list)||!list.length){
+    setJsonMsg('❌ Não encontrei a lista de cenas. Use {"cenas":[...]} ou um array direto.','var(--accent)'); return;
+  }
+  if(list.length>20){ setJsonMsg(`❌ ${list.length} cenas — o máximo é 20.`,'var(--accent)'); return; }
+
+  const cfg=data.config||data.configuracao||data.configuração||{};
+  const defStyle = STYLES[String(cfg.estiloPadrao||cfg.estilo||'').toLowerCase()] ? String(cfg.estiloPadrao||cfg.estilo).toLowerCase() : 'viral';
+  const defAnim  = normAnim(cfg.animacaoPadrao||cfg.animacao) || 'word';
+
+  let scenes;
+  try{ scenes=list.map((s,i)=>normScene(s,i,defStyle,defAnim)); }
+  catch(e){ setJsonMsg('❌ '+e.message,'var(--accent)'); return; }
+
+  const hasWork=frames.some(f=>f.image||f.audioBuffer);
+  if(hasWork && !confirm('Importar substitui as cenas atuais.\n\nImagens e narrações de cenas que não mudaram são reaproveitadas; o resto é descartado.\n\nContinuar?')) return;
+
+  // reaproveita o que já foi gerado e não mudou — TTS custa crédito
+  const old=frames, keptIds=new Set();
+  const next=scenes.map((s,i)=>{
+    const o=old[i], f=newFrame();
+    f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao;
+    f.style=s.estilo; f.animType=s.animacao;
+    if(o){
+      if(o.image && o.prompt===f.prompt){
+        f.image=o.image; f.imageUrl=o.imageUrl; f.enhanced=o.enhanced;
+        o.image=null; // não revogar a blob URL que acabou de ser adotada
+      }
+      if(o.audioBuffer && narrationOf(o)===narrationOf(f)){
+        f.id=o.id; f.audioBytes=o.audioBytes; f.audioBuffer=o.audioBuffer;
+        f.audioUrl=o.audioUrl; f.wordTimes=o.wordTimes; f._hasAudio=true;
+        o.audioUrl=null;
+        keptIds.add(o.id);
+      }
+    }
+    return f;
+  });
+  old.forEach(o=>{ freeFrameAssets(o); if(!keptIds.has(o.id)) idbDel(o.id); });
+
+  frames=next;
+  document.getElementById('frameCount').value=frames.length;
+  applyConfig(cfg);
+  stopPreview(); pvIndex=-1; drawBlank(ctx,PW,PH);
+  renderCards(); checkDone(); updateTotals(); saveState();
+
+  const reImg=next.filter(f=>f.image).length, reAud=next.filter(f=>f.audioBuffer).length;
+  setJsonMsg(`✅ ${next.length} cenas importadas.`+((reImg||reAud)?` Reaproveitado: ${reImg} imagem(ns), ${reAud} narração(ões).`:''),'var(--green)');
+  setStatus(reImg===next.length?'Roteiro importado. Gere as narrações.':'Roteiro importado. Gere as imagens e as narrações.');
+}
+
+function exportJSON(){
+  frames.forEach((_,i)=>syncFrame(i));
+  const out={
+    config:{
+      fps: parseInt(document.getElementById('fps').value),
+      resolucao: document.getElementById('resolution').value,
+      duracaoSemAudio: parseFloat(document.getElementById('frameDuration').value),
+      pausaAposFala: parseFloat(document.getElementById('tailPause').value)
+    },
+    cenas: frames.map(f=>{
+      const c={imagem:f.prompt, texto:f.text};
+      if(f.narration) c.narracao=f.narration;
+      c.estilo=f.style;
+      c.animacao=f.animType==='fixed'?'fixo':'palavra';
+      return c;
+    })
+  };
+  const s=JSON.stringify(out,null,2);
+  document.getElementById('jsonIn').value=s;
+  copyText(s).then(ok=>setJsonMsg(ok?'✅ Roteiro atual no campo acima (e copiado).':'✅ Roteiro atual no campo acima.','var(--green)'));
+}
+
+function fillExample(){
+  document.getElementById('jsonIn').value=JSON.stringify({
+    config:{fps:30,resolucao:'1080x1920',duracaoSemAudio:3,pausaAposFala:0.4},
+    cenas:[
+      {imagem:'relógio antigo de bolso caindo em câmera lenta, fundo escuro, luz dourada lateral, cinematográfico',
+       texto:'Você perde 3 horas por dia sem perceber',estilo:'viral',animacao:'palavra'},
+      {imagem:'pessoa exausta diante de dezenas de telas brilhantes num quarto escuro, vista de cima',
+       texto:'E o culpado não é o seu celular',estilo:'highlight',animacao:'palavra'},
+      {imagem:'amanhecer sobre montanhas, silhueta de pessoa em pé, luz quente, épico',
+       texto:'É a decisão que você adia todo dia',
+       narracao:'É a decisão que você adia todo santo dia. Comece agora.',
+       estilo:'outline',animacao:'fixo'}
+    ]
+  },null,2);
+  setJsonMsg('Exemplo carregado. Clique em Importar roteiro.','var(--muted)');
+}
+
+const CLAUDE_PROMPT=`Você é roteirista de vídeos verticais curtos (Shorts / Reels / TikTok), em português do Brasil.
+
+Quando eu te der um tema, responda APENAS com um bloco JSON válido — sem texto antes, sem texto depois, sem comentários — exatamente neste formato:
+
+{
+  "config": { "fps": 30, "resolucao": "1080x1920", "duracaoSemAudio": 3, "pausaAposFala": 0.4 },
+  "cenas": [
+    { "imagem": "...", "texto": "...", "estilo": "viral", "animacao": "palavra" }
+  ]
+}
+
+REGRAS DAS CENAS
+- Entre 4 e 7 cenas.
+- "imagem": descrição visual do fundo, em português. Concreta e cinematográfica: sujeito + ação + ambiente + luz + enquadramento. Sem texto, sem letras, sem logos na imagem. Uma frase só.
+- "texto": o que aparece escrito na tela E é narrado em voz alta. No máximo 12 palavras. Linguagem falada, direta, sem ponto final.
+- "narracao": use SOMENTE se a fala precisar ser diferente do texto na tela. Se omitir, a narração usa o texto — e as palavras acendem sincronizadas com a voz. Prefira omitir.
+- "estilo": um de viral, neon, shadow, outline, highlight, minimal.
+- "animacao": "palavra" (revela palavra a palavra) ou "fixo" (tudo de uma vez).
+
+ESTRUTURA
+- Cena 1: gancho. Uma afirmação que gera curiosidade ou contradiz o senso comum.
+- Cenas do meio: desenvolvem uma ideia por cena, sem repetir.
+- Última cena: fecho com chamada para ação curta.
+
+FORMATO
+- Aspas retas ("), nunca curvas.
+- Sem emojis, sem markdown, sem crases em volta do JSON.
+- Sem quebras de linha dentro dos valores de texto.`;
+
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }
+  catch(e){
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      const ok=document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }catch(_){ return false; }
+  }
+}
+
+function copyClaudePrompt(){
+  copyText(CLAUDE_PROMPT).then(ok=>{
+    if(ok){ setJsonMsg('✅ Prompt copiado. Cole nas instruções de um Projeto do Claude.','var(--green)'); return; }
+    const el=document.getElementById('jsonIn');
+    // não destruir um JSON que o usuário já colou só para exibir o prompt
+    if(el.value.trim()){
+      setJsonMsg('⚠️ Não consegui copiar. Esvazie o campo acima e clique de novo para ver o prompt.','var(--accent)');
+    }else{
+      el.value=CLAUDE_PROMPT;
+      setJsonMsg('⚠️ Não consegui copiar — o prompt está no campo acima, copie à mão.','var(--accent)');
+    }
+  });
 }
 
 // ── UTILS ────────────────────────────────────────────────
