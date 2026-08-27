@@ -258,8 +258,23 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
     <label>Fonte da imagem</label>
     <select id="imgSource" onchange="onImgSourceChange()">
       <option value="gemini" selected>Gemini (usa a key do passo 1)</option>
+      <option value="replicate">Replicate (exige o proxy local serve.py)</option>
       <option value="pollinations">Pollinations (grátis, exige token próprio)</option>
     </select>
+    <div id="repRow" style="display:none">
+      <label>Token da Replicate</label>
+      <input type="password" id="repToken" placeholder="r8_..." autocomplete="off" oninput="saveStateSoon()">
+      <label>Modelo (owner/nome, ou o hash da versão)</label>
+      <input type="text" id="repModel" placeholder="ex: owner/nome-do-modelo" oninput="saveStateSoon()">
+      <label>Input extra (JSON opcional, mesclado com o prompt)</label>
+      <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:60px" oninput="saveStateSoon()"></textarea>
+      <label>Endereço do proxy local</label>
+      <input type="text" id="repProxy" value="/replicate" oninput="saveStateSoon()">
+      <div class="tip warn">
+        <b style="color:#a78bfa">A API da Replicate não aceita chamada de navegador</b> — não manda cabeçalhos CORS, então o fetch falha antes de sair da máquina. Rode <code>python serve.py</code> em vez do <code>http.server</code>: ele serve a página e repassa <code>/replicate/*</code>. O token continua no seu navegador; o proxy só encaminha e escuta apenas em 127.0.0.1.<br>
+        O campo de modelo não tem padrão de propósito — pegue o <code>owner/nome</code> exato na página do modelo em replicate.com. O <b>input extra</b> serve para parâmetros específicos daquele modelo.
+      </div>
+    </div>
     <div id="pollRow" style="display:none">
       <label>Token da Pollinations</label>
       <input type="password" id="pollToken" placeholder="cole seu token" autocomplete="off" oninput="saveStateSoon()">
@@ -447,6 +462,10 @@ function saveState(){
       gmImgModel: document.getElementById('gmImgModel').value,
       imgSource: document.getElementById('imgSource').value,
       pollToken: remember ? document.getElementById('pollToken').value : '',
+      repToken: remember ? document.getElementById('repToken').value : '',
+      repModel: document.getElementById('repModel').value,
+      repExtra: document.getElementById('repExtra').value,
+      repProxy: document.getElementById('repProxy').value,
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
@@ -495,6 +514,8 @@ function loadState(){
   }
   if(d.imgSource) document.getElementById('imgSource').value=d.imgSource;
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
+  if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
+  set('repModel',d.repModel); set('repExtra',d.repExtra); set('repProxy',d.repProxy);
   if(d.voiceSel){
     const sel=document.getElementById('voiceSel');
     sel.insertAdjacentHTML('beforeend','<option value="'+esc(d.voiceSel)+'" selected>voz salva ('+esc(d.voiceSel.slice(0,8))+'…)</option>');
@@ -556,7 +577,7 @@ function freeFrameAssets(f){
 
 // ── INIT ─────────────────────────────────────────────────
 loadState();
-document.getElementById('pollRow').style.display = imgSource()==='pollinations' ? 'block' : 'none';
+syncSourceRows();
 updateKeyStatus();
 buildFrames();
 drawBlank(ctx, PW, PH);
@@ -1025,13 +1046,14 @@ function buildImageUrl(prompt,cw,ch,seed){
 
 // fetch → blob → objectURL: a imagem vira same-origin, então o canvas nunca
 // fica "tainted" e o export não morre com SecurityError. Também dá timeout.
-async function loadImageFromUrl(url,timeoutMs=60000,quiet){
+async function loadImageFromUrl(url,timeoutMs=60000,quiet,label){
+  const SRC=label||'Pollinations';
   const ac=new AbortController();
   const timer=setTimeout(()=>ac.abort(),timeoutMs);
   const t0=performance.now();
   let blobUrl=null;
   try{
-    if(!quiet) logLine('info','Pollinations: pedindo imagem…',url.slice(0,220));
+    if(!quiet) logLine('info',SRC+': baixando imagem…',url.slice(0,220));
     const tok=(document.getElementById('pollToken')||{}).value;
     const headers = tok && tok.trim() ? {'Authorization':'Bearer '+tok.trim()} : undefined;
     const res=await fetch(url,{signal:ac.signal,mode:'cors',headers});
@@ -1039,16 +1061,19 @@ async function loadImageFromUrl(url,timeoutMs=60000,quiet){
     if(!res.ok){
       let body='';
       try{ body=(await res.text()).slice(0,300); }catch(_){}
-      logLine('err',`Pollinations HTTP ${res.status} (${ms}ms)`,body);
-      if(res.status===403||/turnstile|captcha/i.test(body))
+      logLine('err',`${SRC} HTTP ${res.status} (${ms}ms)`,body);
+      if(SRC==='Pollinations' && (res.status===403||/turnstile|captcha/i.test(body)))
         throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations no passo 3, ou troque a "Fonte da imagem" para Gemini.');
-      throw new Error(`Pollinations respondeu HTTP ${res.status}${res.status===429?' (limite de requisições — espere alguns segundos)':''}${body?': '+body:''}`);
+      throw new Error(`${SRC} respondeu HTTP ${res.status}${res.status===429?' (limite de requisições — espere alguns segundos)':''}${body?': '+body:''}`);
     }
     const blob=await res.blob();
     if(!blob.type.startsWith('image/')){
-      logLine('err',`Pollinations devolveu "${blob.type||'?'}" em vez de imagem (${ms}ms)`);
-      throw new Error(`Pollinations devolveu "${blob.type||'tipo desconhecido'}" em vez de uma imagem.`);
+      logLine('err',`${SRC} devolveu "${blob.type||'?'}" em vez de imagem (${ms}ms)`);
+      throw new Error(`${SRC} devolveu "${blob.type||'tipo desconhecido'}" em vez de uma imagem.`);
     }
+    // guarda os bytes: URL da Replicate expira e a da Pollinations pode cair,
+    // então a imagem persiste no IndexedDB em vez de depender do link
+    const bytes=new Uint8Array(await blob.arrayBuffer());
     blobUrl=URL.createObjectURL(blob);
     const img=new Image();
     await new Promise((ok,bad)=>{
@@ -1056,18 +1081,20 @@ async function loadImageFromUrl(url,timeoutMs=60000,quiet){
       img.onerror=()=>bad(new Error('Arquivo de imagem inválido (download corrompido)'));
       img.src=blobUrl;
     });
-    img._blobUrl=blobUrl;
-    if(!quiet) logLine('ok',`Pollinations OK (${ms}ms, ${blob.type}, ${(blob.size/1024).toFixed(0)} KB, ${img.width}x${img.height})`);
+    img._blobUrl=blobUrl; img._bytes=bytes; img._mime=blob.type;
+    if(!quiet) logLine('ok',`${SRC} OK (${ms}ms, ${blob.type}, ${(blob.size/1024).toFixed(0)} KB, ${img.width}x${img.height})`);
     return img;
   }catch(e){
     if(blobUrl) URL.revokeObjectURL(blobUrl);
     if(e.name==='AbortError'){
-      logLine('err',`Pollinations: timeout após ${Math.round(timeoutMs/1000)}s`);
-      throw new Error(`Timeout: Pollinations não respondeu em ${Math.round(timeoutMs/1000)}s. O serviço é gratuito e cai com frequência — tente de novo.`);
+      logLine('err',`${SRC}: timeout após ${Math.round(timeoutMs/1000)}s`);
+      throw new Error(`Timeout: ${SRC} não respondeu em ${Math.round(timeoutMs/1000)}s.`);
     }
     if(e.name==='TypeError'){
-      const m=describeNetErr(e,'image.pollinations.ai');
-      logLine('err','Pollinations: erro de rede',m);
+      let host='o servidor de imagens';
+      try{ host=new URL(url,location.href).host; }catch(_){}
+      const m=describeNetErr(e,host);
+      logLine('err',`${SRC}: erro de rede`,m);
       throw new Error(m);
     }
     throw e;
@@ -1101,8 +1128,13 @@ function gmImgModel(){ return document.getElementById('gmImgModel').value.trim()
 function imgSource(){ return document.getElementById('imgSource').value; }
 
 function onImgSourceChange(){
-  document.getElementById('pollRow').style.display = imgSource()==='pollinations' ? 'block' : 'none';
+  syncSourceRows();
   saveState();
+}
+function syncSourceRows(){
+  const src=imgSource();
+  document.getElementById('pollRow').style.display = src==='pollinations' ? 'block' : 'none';
+  document.getElementById('repRow').style.display  = src==='replicate'    ? 'block' : 'none';
 }
 
 // ── IMAGEM VIA GEMINI ────────────────────────────────────
@@ -1171,10 +1203,102 @@ async function geminiImageWithKey(prompt,key){
   return img;
 }
 
+// ── IMAGEM VIA REPLICATE ─────────────────────────────────
+function repToken(){ return document.getElementById('repToken').value.trim(); }
+function repModel(){ return document.getElementById('repModel').value.trim(); }
+function repProxy(){ return (document.getElementById('repProxy').value.trim()||'/replicate').replace(/\/+$/,''); }
+const REP_TERMINAL=['succeeded','failed','canceled'];
+
+async function repFetch(path,opts,label){
+  const o=Object.assign({},opts);
+  o.headers=Object.assign({'Authorization':'Bearer '+repToken()},o.headers||{});
+  let res;
+  try{
+    res=await fetchRetry(repProxy()+path,o,{label:label||'Replicate',tries:3,timeoutMs:180000,retryOn:RETRY_5XX});
+  }catch(e){
+    if(e.name==='TypeError')
+      throw new Error(`Proxy local não respondeu em ${repProxy()}. Rode "python serve.py" na pasta do projeto — a API da Replicate não aceita chamada direta do navegador.`);
+    throw e;
+  }
+  return res;
+}
+
+async function repError(res){
+  let msg='HTTP '+res.status;
+  try{
+    const j=await res.json();
+    msg=j.detail||j.title||JSON.stringify(j).slice(0,300);
+  }catch(_){ try{ msg=(await res.text()).slice(0,300)||msg; }catch(__){} }
+  if(res.status===401) return new Error('Token da Replicate inválido.');
+  if(res.status===402) return new Error('Replicate: sem créditos ou cobrança pendente. '+msg);
+  if(res.status===404) return new Error(`Modelo "${repModel()}" não encontrado na Replicate. Confira o owner/nome exato na página do modelo. ${msg}`);
+  if(res.status===422) return new Error(`Replicate recusou o input: ${msg} — ajuste o campo "Input extra" para os parâmetros deste modelo.`);
+  return new Error('Replicate: '+msg);
+}
+
+async function replicateImage(prompt){
+  const model=repModel();
+  if(!repToken()) throw new Error('Cole o token da Replicate no passo 3.');
+  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) no passo 3.');
+
+  const input={prompt};
+  const extra=document.getElementById('repExtra').value.trim();
+  if(extra){
+    let parsed;
+    try{ parsed=JSON.parse(extra); }
+    catch(e){ throw new Error('O "Input extra" não é JSON válido: '+e.message); }
+    if(!parsed||typeof parsed!=='object'||Array.isArray(parsed)) throw new Error('O "Input extra" precisa ser um objeto JSON.');
+    Object.assign(input,parsed);
+  }
+
+  // hash de versão vai no corpo; owner/nome vai na rota
+  const isVersion=/^[0-9a-f]{40,}$/i.test(model);
+  const path = isVersion ? '/predictions' : `/models/${model}/predictions`;
+  const body = isVersion ? {version:model,input} : {input};
+
+  logLine('info',`Replicate: criando predição (${model})`,JSON.stringify(input).slice(0,200));
+  const t0=performance.now();
+  // Prefer: wait deixa a Replicate segurar a resposta até terminar; se estourar
+  // o tempo dela, o polling abaixo assume.
+  let res=await repFetch(path,{method:'POST',headers:{'Content-Type':'application/json','Prefer':'wait'},body:JSON.stringify(body)});
+  if(!res.ok) throw await repError(res);
+  let pred=await res.json();
+
+  const deadline=Date.now()+300000;
+  while(!REP_TERMINAL.includes(pred.status)){
+    if(Date.now()>deadline) throw new Error('Timeout: a predição passou de 5 min sem terminar.');
+    if(!pred.id) throw new Error('Replicate não devolveu id da predição.');
+    setStatus(`Replicate: ${pred.status}…`);
+    await sleep(1500);
+    const pr=await repFetch(`/predictions/${encodeURIComponent(pred.id)}`,{},'Replicate (polling)');
+    if(!pr.ok) throw await repError(pr);
+    pred=await pr.json();
+  }
+  const ms=Math.round(performance.now()-t0);
+
+  if(pred.status!=='succeeded'){
+    logLine('err',`Replicate ${pred.status} (${ms}ms)`,pred.error||'sem detalhe');
+    throw new Error(`Replicate ${pred.status}: ${pred.error||'sem detalhe'}`);
+  }
+
+  let out=pred.output;
+  if(Array.isArray(out)) out=out[0];
+  if(typeof out!=='string'||!/^(https?:|data:image\/)/i.test(out)){
+    logLine('err','Replicate: saída não é URL de imagem',JSON.stringify(pred.output).slice(0,300));
+    throw new Error('Replicate terminou mas não devolveu URL de imagem. Saída: '+JSON.stringify(pred.output).slice(0,200));
+  }
+  logLine('ok',`Replicate: predição pronta em ${(ms/1000).toFixed(1)}s`,out.slice(0,180));
+  // a saída fica em replicate.delivery, que manda CORS — baixa direto
+  return loadImageFromUrl(out,120000,false,'Replicate');
+}
+
 // Roteia entre as fontes e devolve {img, url} — url só existe na Pollinations.
 async function makeImage(enhanced,cw,ch){
   if(imgSource()==='gemini'){
     return {img:await geminiImage(enhanced), url:null};
+  }
+  if(imgSource()==='replicate'){
+    return {img:await replicateImage(enhanced), url:null};
   }
   const url=buildImageUrl(enhanced,cw,ch,Math.floor(Math.random()*99999));
   return {img:await loadImageFromUrl(url), url};
@@ -1791,6 +1915,28 @@ async function testConnections(){
         else logLine('ok',`Pollinations OK (${r.status}, ${ms}ms, ${b.type}, ${b.size} bytes)`);
       }
     }catch(e){ logLine('err','Pollinations: erro de rede',describeNetErr(e,'image.pollinations.ai')); }
+  }
+
+  // 2b) Replicate (via proxy local)
+  if(imgSource()==='replicate'){
+    if(!repToken()) logLine('warn','Replicate: sem token, pulando.');
+    else{
+      const t0=performance.now();
+      try{
+        const r=await fetch(repProxy()+'/account',{headers:{'Authorization':'Bearer '+repToken()}});
+        const ms=Math.round(performance.now()-t0);
+        if(r.ok){
+          let who='';
+          try{ const j=await r.json(); who=j.username||j.type||''; }catch(_){}
+          logLine('ok',`Replicate OK via proxy (${r.status}, ${ms}ms)${who?' — conta: '+who:''} · modelo: ${repModel()||'(não informado)'}`);
+        }else{
+          logLine('err',`Replicate falhou (HTTP ${r.status}, ${ms}ms)`,(await r.text()).slice(0,300));
+        }
+      }catch(e){
+        logLine('err','Proxy local da Replicate não respondeu',
+          `Rode "python serve.py" na pasta do projeto e abra a página por ele. Endereço testado: ${repProxy()}/account — ${e.message}`);
+      }
+    }
   }
 
   // 3) ElevenLabs
