@@ -7,73 +7,121 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0a;--surface:#161616;--surface2:#1e1e1e;
-  --border:#252525;--border2:#333;
-  --text:#f0f0f0;--muted:#777;--dim:#444;
+  --bg:#0a0a0a;--surface:#151515;--surface2:#1c1c1c;
+  --border:#242424;--border2:#323232;
+  --text:#f0f0f0;--muted:#7a7a7a;--dim:#4a4a4a;
   --accent:#ff4444;--green:#3dba6f;--blue:#4a9eff;--violet:#a78bfa;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;overflow-x:hidden}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:48px;-webkit-font-smoothing:antialiased}
 
-/* HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:50}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px}
+/* ── TOPO FIXO ─────────────────────────────────────────── */
+.top{position:sticky;top:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--border)}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px}
 .logo em{color:var(--accent);font-style:normal}
 .hbadge{font-size:9px;padding:3px 8px;border-radius:20px;background:rgba(255,68,68,.1);color:var(--accent);border:1px solid rgba(255,68,68,.2);font-weight:500}
 
-/* MAIN */
+/* ── ABAS ──────────────────────────────────────────────── */
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:0 8px}
+.tab{position:relative;padding:7px 2px 9px;border:none;background:none;color:var(--dim);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .15s}
+.tab i{font-style:normal;font-size:15px;line-height:1;opacity:.75}
+.tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.tab.on i{opacity:1}
+.tab .pip{position:absolute;top:5px;right:calc(50% - 20px);width:6px;height:6px;border-radius:50%;background:var(--accent);display:none}
+.tab .pip.on{display:block}
+
+/* ── PREVIEW + STATUS (sempre visiveis) ────────────────── */
+.stage{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+.phone-frame{position:relative;width:86px;height:153px;border-radius:11px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0}
+#previewCanvas{width:100%;height:100%;display:block}
+.stage-info{flex:1;min-width:0}
+.pv-label{font-size:9px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+.status{font-size:11.5px;color:var(--muted);line-height:1.45;word-break:break-word}
+.prog-bar{width:100%;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;margin-top:8px;display:none}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .12s}
+.gen-ov{display:none;position:absolute;inset:0;background:rgba(0,0,0,.9);flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:11px;padding:0 6px}
+.gen-ov.show{display:flex}
+.spinner{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-txt{font-size:8px;color:var(--muted);text-align:center;line-height:1.4}
+.rec-dot{position:absolute;top:6px;left:6px;width:7px;height:7px;border-radius:50%;background:var(--accent);display:none;animation:pulse 1s infinite}
+.rec-dot.on{display:block}
+@keyframes pulse{50%{opacity:.25}}
+
+/* ── CONTEUDO ──────────────────────────────────────────── */
 .wrap{padding:14px 14px 0}
+.pane{display:none}
+.pane.on{display:block}
 
-/* PANEL */
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
-.panel-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.snum{width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ptitle{font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-.fpill{margin-left:auto;font-size:8px;font-weight:600;padding:2px 6px;border-radius:8px;background:rgba(61,186,111,.1);color:var(--green);border:1px solid rgba(61,186,111,.2)}
-.fpill.paid{background:rgba(167,139,250,.1);color:var(--violet);border-color:rgba(167,139,250,.2)}
+.sec{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
+.sec-hd{display:flex;align-items:center;gap:9px;margin-bottom:13px}
+.sec-ic{width:24px;height:24px;border-radius:7px;background:rgba(255,68,68,.09);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.sec-ic.v{background:rgba(167,139,250,.1);color:var(--violet)}
+.sec-ic.b{background:rgba(74,158,255,.1);color:var(--blue)}
+.sec-t{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.sec-pill{margin-left:auto;font-size:8px;font-weight:600;padding:2px 7px;border-radius:8px;background:rgba(61,186,111,.1);color:var(--green);border:1px solid rgba(61,186,111,.2);white-space:nowrap}
+.sec-pill.paid{background:rgba(167,139,250,.1);color:var(--violet);border-color:rgba(167,139,250,.2)}
 
-/* FORM */
-label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;margin-top:10px}
-label:first-of-type{margin-top:0}
-input,textarea,select{width:100%;background:#0d0d0d;border:1px solid var(--border2);border-radius:8px;padding:9px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+/* ── FORM ──────────────────────────────────────────────── */
+label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;margin-top:12px}
+.sec>label:first-of-type,.pickbox>label:first-of-type{margin-top:0}
+input,textarea,select{width:100%;background:#0c0c0c;border:1px solid var(--border2);border-radius:8px;padding:9px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s;-webkit-appearance:none}
 input:focus,textarea:focus,select:focus{border-color:var(--accent)}
 input:disabled,select:disabled{opacity:.45}
+input[readonly]{color:var(--muted)}
 textarea{resize:vertical;line-height:1.5;min-height:64px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.key-wrap{position:relative}
-.key-wrap input{padding-right:36px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 input[type=checkbox]{width:auto;margin:0;accent-color:var(--accent)}
-.chk{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);margin-top:9px;cursor:pointer}
-.eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px;padding:0}
+.chk{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);margin-top:12px;cursor:pointer}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.45}
+textarea.masked{-webkit-text-security:disc;text-security:disc}
+.hint{font-size:10px;color:var(--dim);margin-top:6px;line-height:1.5}
 
-/* BUTTONS */
-.btn{width:100%;padding:12px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:8px}
+.pickbox{background:#0c0c0c;border:1px solid rgba(255,68,68,.22);border-radius:10px;padding:11px 12px;margin-bottom:13px}
+.pickbox label{color:var(--accent);font-weight:500}
+
+/* ── LINHAS DE KEY ─────────────────────────────────────── */
+.keyrow{display:flex;gap:6px;align-items:center;margin-bottom:7px}
+.kdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.kdot.ok{background:var(--green)}
+.kdot.dead{background:var(--accent)}
+.kdot.empty{background:var(--dim)}
+.keyrow input{flex:1;min-width:0}
+.icobtn{background:var(--surface2);border:1px solid var(--border2);color:var(--muted);border-radius:8px;width:32px;height:36px;flex-shrink:0;cursor:pointer;font-size:12px;line-height:1;transition:all .15s;padding:0}
+.icobtn:active{background:#262626}
+.icobtn.danger:active{color:var(--accent)}
+.keystat{font-size:10.5px;color:var(--muted);margin-top:9px;line-height:1.5}
+.keystat b{color:var(--green);font-weight:500}
+.keystat .dead{color:var(--accent)}
+
+/* ── BOTOES ────────────────────────────────────────────── */
+.btn{width:100%;padding:12px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:9px}
 .btn-red{background:var(--accent);color:#fff}
-.btn-red:active{background:#c0332a;transform:scale(.98)}
-.btn-red:disabled{opacity:.35;cursor:not-allowed}
-.btn-violet{background:var(--violet);color:#14121c}
-.btn-violet:active{background:#8b6ff0;transform:scale(.98)}
-.btn-violet:disabled{opacity:.35;cursor:not-allowed}
+.btn-red:active{background:#c0332a;transform:scale(.99)}
+.btn-violet{background:var(--violet);color:#151122}
+.btn-violet:active{background:#8b6ff0;transform:scale(.99)}
 .btn-ghost{background:var(--surface2);border:1px solid var(--border2);color:var(--muted)}
-.btn-ghost:active{background:#222}
-.btn-ghost:disabled{opacity:.35;cursor:not-allowed}
-.btn-sm{padding:7px 12px;border-radius:7px;border:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
-.btn-add{background:rgba(255,68,68,.08);color:var(--accent);border:1px solid rgba(255,68,68,.15)}
+.btn-ghost:active{background:#242424}
+.btn:disabled{opacity:.32;cursor:not-allowed}
+.btn-sm{padding:7px 12px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.btn-add{background:rgba(255,68,68,.08);color:var(--accent);border:1px solid rgba(255,68,68,.16)}
 .btn-mic{background:rgba(167,139,250,.08);color:var(--violet);border:1px solid rgba(167,139,250,.18)}
-.btn-del{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--border)}
+.btn-del{background:rgba(255,255,255,.035);color:var(--muted);border:1px solid var(--border)}
 .btn-sm:disabled{opacity:.35;cursor:not-allowed}
+.btnrow{display:flex;gap:7px;flex-wrap:wrap}
 
-/* FRAME CARDS */
+/* ── CARDS DE CENA ─────────────────────────────────────── */
 .frame-card{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;overflow:hidden}
 .fc-head{display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer;user-select:none}
 .fc-n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);min-width:28px;line-height:1}
 .fc-info{flex:1;min-width:0}
 .fc-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fc-sub{font-size:10px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc-sub{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fc-badges{display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex-shrink:0}
 .fc-badge{font-size:9px;padding:2px 7px;border-radius:8px;white-space:nowrap}
-.b-pending{background:rgba(119,119,119,.1);color:var(--muted)}
+.b-pending{background:rgba(122,122,122,.1);color:var(--muted)}
 .b-gen{background:rgba(74,158,255,.1);color:var(--blue)}
 .b-done{background:rgba(61,186,111,.1);color:var(--green)}
 .b-err{background:rgba(255,68,68,.1);color:var(--accent)}
@@ -82,172 +130,264 @@ input[type=checkbox]{width:auto;margin:0;accent-color:var(--accent)}
 .fc-arr.open{transform:rotate(180deg)}
 .fc-body{display:none;padding:12px;border-top:1px solid var(--border)}
 .fc-body.open{display:block}
-audio{width:100%;height:32px;margin-top:8px;display:block}
-
-/* ANIM TABS */
-.atabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
-.atab{padding:7px 4px;background:#0d0d0d;border:1px solid var(--border2);border-radius:7px;color:var(--dim);font-size:10px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s}
+audio{width:100%;height:32px;margin-top:9px;display:block}
+.atabs{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.atab{padding:7px 4px;background:#0c0c0c;border:1px solid var(--border2);border-radius:7px;color:var(--dim);font-size:10px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s}
 .atab.on{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* STYLE GRID */
 .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
-.sopt{padding:7px 4px;background:#0d0d0d;border:1px solid var(--border2);border-radius:7px;text-align:center;cursor:pointer;font-size:9px;color:var(--dim);transition:all .15s}
+.sopt{padding:7px 4px;background:#0c0c0c;border:1px solid var(--border2);border-radius:7px;text-align:center;cursor:pointer;font-size:9px;color:var(--dim);transition:all .15s}
 .sopt.on{border-color:var(--accent);color:#fff;background:rgba(255,68,68,.07)}
 .soi{font-size:13px;display:block;margin-bottom:2px}
-
-/* MINI PREVIEW */
 .mini-canvas{width:100%;height:140px;border-radius:8px;display:block;margin-top:10px;background:#000}
 
-/* PROGRESS */
-.prog-bar{width:100%;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;margin-top:8px;display:none}
-.prog-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .1s}
-.status{font-size:11px;color:var(--muted);text-align:center;margin-top:6px;min-height:15px;line-height:1.4}
-
-/* PREVIEW CANVAS */
-.preview-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;display:flex;flex-direction:column;align-items:center;gap:8px}
-.phone-frame{position:relative;width:140px;height:249px;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 0 1px var(--border2)}
-#previewCanvas{width:100%;height:100%;display:block}
-.pv-label{font-size:9px;color:var(--dim)}
-.gen-ov{display:none;position:absolute;inset:0;background:rgba(0,0,0,.88);flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:14px}
-.gen-ov.show{display:flex}
-.spinner{width:24px;height:24px;border:2.5px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.gen-txt{font-size:10px;color:var(--muted);text-align:center;padding:0 10px;line-height:1.5}
-.rec-dot{position:absolute;top:8px;left:8px;width:8px;height:8px;border-radius:50%;background:var(--accent);display:none;animation:pulse 1s infinite}
-.rec-dot.on{display:block}
-@keyframes pulse{50%{opacity:.25}}
-
-/* TIP */
-.tip{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:10px;color:var(--dim);line-height:1.6;margin-top:8px}
+/* ── AVISOS / LOG ──────────────────────────────────────── */
+.tip{background:#0c0c0c;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:10px;color:var(--dim);line-height:1.6;margin-top:10px}
 .tip a{color:var(--accent);text-decoration:none}
-.tip.warn{border-color:rgba(167,139,250,.2);color:#8b7fb0}
 .tip code{color:#8a8a8a}
-.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.45;min-height:112px}
-textarea.masked{-webkit-text-security:disc;text-security:disc}
-.pickbox{background:#0d0d0d;border:1px solid rgba(255,68,68,.25);border-radius:9px;padding:10px 11px;margin-bottom:12px}
-.pickbox label{color:var(--accent);font-weight:500}
-.keystat{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.5}
-.keystat b{color:var(--green)}
-.keystat .dead{color:var(--accent)}
-.logbox{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:9px 10px;max-height:230px;overflow-y:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.tip.warn{border-color:rgba(167,139,250,.2);color:#8b7fb0}
+.err-box{background:rgba(255,68,68,.06);border:1px solid rgba(255,68,68,.2);border-radius:8px;padding:8px 10px;margin-top:9px;font-size:10px;color:#e08b8b;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.jmsg{font-size:11px;text-align:left;margin-top:9px;min-height:15px;line-height:1.5;color:var(--muted)}
+.logbox{background:#0c0c0c;border:1px solid var(--border);border-radius:8px;padding:9px 10px;max-height:260px;overflow-y:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
 .logbox:empty::before{content:'Nada registrado ainda.';color:var(--dim)}
-.lg-t{color:#555}
+.lg-t{color:#4a4a4a}
 .lg-info{color:var(--muted)}
 .lg-ok{color:var(--green)}
 .lg-err{color:var(--accent)}
 .lg-warn{color:#d9a441}
-.lg-d{color:#5a5a5a;display:block;padding-left:10px}
-.err-box{background:rgba(255,68,68,.06);border:1px solid rgba(255,68,68,.2);border-radius:7px;padding:7px 9px;margin-top:8px;font-size:10px;color:#e08b8b;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-.jmsg{font-size:11px;text-align:left;margin-top:8px;min-height:15px;line-height:1.5;color:var(--muted)}
+.lg-d{color:#585858;display:block;padding-left:10px}
+
+@media(min-width:620px){
+  .wrap{max-width:600px;margin:0 auto}
+  .tabs{max-width:600px;margin:0 auto}
+  .stage{max-width:600px;margin:0 auto;border:none}
+  header{max-width:600px;margin:0 auto}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">SHORTS <em>CREATOR</em></div>
-  <div class="hbadge">IMAGEM + VOZ</div>
-</header>
+<div class="top">
+  <header>
+    <div class="logo">SHORTS <em>CREATOR</em></div>
+    <div class="hbadge">IMAGEM + VOZ</div>
+  </header>
+  <nav class="tabs">
+    <button class="tab on" data-tab="cenas" onclick="showTab('cenas')"><i>🎬</i>Cenas</button>
+    <button class="tab" data-tab="chaves" onclick="showTab('chaves')"><i>🔑</i>Chaves<span class="pip" id="pipChaves"></span></button>
+    <button class="tab" data-tab="config" onclick="showTab('config')"><i>⚙️</i>Config</button>
+    <button class="tab" data-tab="diag" onclick="showTab('diag')"><i>🩺</i>Diagnóstico<span class="pip" id="pipDiag"></span></button>
+  </nav>
+</div>
+
+<!-- PREVIEW + STATUS, sempre visiveis -->
+<div class="stage">
+  <div class="phone-frame">
+    <canvas id="previewCanvas" width="1080" height="1920"></canvas>
+    <div class="rec-dot" id="recDot"></div>
+    <div class="gen-ov" id="genOv">
+      <div class="spinner"></div>
+      <div class="gen-txt" id="genTxt">Gerando…</div>
+    </div>
+  </div>
+  <div class="stage-info">
+    <div class="pv-label">Preview ao vivo · 9:16</div>
+    <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
+    <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+</div>
 
 <div class="wrap">
 
-  <!-- PREVIEW -->
-  <div class="preview-section">
-    <div class="phone-frame">
-      <canvas id="previewCanvas" width="1080" height="1920"></canvas>
-      <div class="rec-dot" id="recDot"></div>
-      <div class="gen-ov" id="genOv">
-        <div class="spinner"></div>
-        <div class="gen-txt" id="genTxt">Gerando…</div>
-      </div>
+<!-- ══════════ ABA: CENAS ══════════ -->
+<div class="pane on" data-tab="cenas">
+
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">📋</div>
+      <div class="sec-t">Importar roteiro</div>
     </div>
-    <div class="pv-label">Preview ao vivo · 9:16</div>
+    <textarea id="jsonIn" class="mono masked-off" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false" style="min-height:96px"></textarea>
+    <div class="btnrow" style="margin-top:9px">
+      <button class="btn-sm btn-add" onclick="importJSON()">⬆ Importar</button>
+      <button class="btn-sm btn-del" onclick="fillExample()">Exemplo</button>
+      <button class="btn-sm btn-del" onclick="exportJSON()">⬇ Exportar</button>
+      <button class="btn-sm btn-mic" onclick="copyClaudePrompt()">📋 Prompt p/ Claude</button>
+    </div>
+    <div class="jmsg" id="jsonMsg"></div>
+    <div class="tip">
+      Campos por cena: <code>imagem</code> · <code>texto</code> · <code>narracao</code> (opcional) · <code>estilo</code> · <code>animacao</code>.<br>
+      Reimportar reaproveita imagens e narrações das cenas que não mudaram.
+    </div>
   </div>
 
-  <!-- STEP 1: GEMINI KEY -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">1</div>
-      <div class="ptitle">Google AI Studio Key</div>
-      <div class="fpill">GRÁTIS</div>
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">🎞️</div>
+      <div class="sec-t">Cenas</div>
     </div>
-    <div class="key-wrap">
-      <textarea id="apiKeys" class="mono masked" placeholder="AIzaSy...&#10;cole outra key na próxima linha" spellcheck="false" autocomplete="off" style="min-height:70px" oninput="onKeysChange()"></textarea>
-      <button class="eye" onclick="toggleMask('apiKeys')">👁</button>
+    <div id="framesList"></div>
+    <div class="btnrow" style="margin-top:9px">
+      <button class="btn-sm btn-add" onclick="addFrame()">+ Adicionar cena</button>
+      <button class="btn-sm btn-del" onclick="resetAll()" style="margin-left:auto">↺ Limpar tudo</button>
     </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">✨</div>
+      <div class="sec-t">Gerar e exportar</div>
+    </div>
+    <button class="btn btn-red" id="genAllBtn" onclick="generateAll()" style="margin-top:0">✨ Gerar todas as imagens</button>
+    <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)">↻ Gerar só as que faltaram</button>
+    <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Gerar todas as narrações</button>
+    <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Renderizar vídeo com áudio</button>
+    <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
+    <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Exportar ZIP (imagens + MP3)</button>
+    <div class="tip">
+      <b style="color:#666">A renderização é em tempo real</b> — 30 s de vídeo levam 30 s, e a aba precisa ficar visível. Trocar de aba congela o desenho e o áudio dessincroniza.
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ ABA: CHAVES ══════════ -->
+<div class="pane" data-tab="chaves">
+
+  <div class="pickbox">
+    <label for="imgSource">Fonte da imagem — quem gera o fundo das cenas</label>
+    <select id="imgSource" onchange="onImgSourceChange()">
+      <option value="gemini" selected>Gemini · usa a key do Google abaixo</option>
+      <option value="replicate">Replicate · precisa do proxy local (serve.py)</option>
+      <option value="pollinations">Pollinations · grátis, exige token próprio</option>
+    </select>
+    <div class="hint">Isto decide quais chaves abaixo você precisa preencher.</div>
+  </div>
+
+  <!-- GOOGLE -->
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">🔵</div>
+      <div class="sec-t">Google AI Studio</div>
+      <div class="sec-pill">GRÁTIS</div>
+    </div>
+
+    <label style="margin-top:0">Chaves — o app troca sozinho quando uma estoura a cota</label>
+    <div id="gmKeyList"></div>
+    <button class="btn-sm btn-add" onclick="addKeyRow()">+ Adicionar chave</button>
+    <div class="keystat" id="keyStat"></div>
+    <button class="btn-sm btn-del" onclick="resetKeyQuota()" style="margin-top:8px">↺ Liberar todas de novo</button>
 
     <label>Modelo de texto (traduz o prompt)</label>
     <select id="gmModel" onchange="saveState()">
       <option value="gemini-2.5-flash" selected>gemini-2.5-flash</option>
     </select>
 
-    <label>Modelo de imagem (se a fonte for Gemini)</label>
+    <label>Modelo de imagem</label>
     <select id="gmImgModel" onchange="saveState()">
       <option value="">— clique em Carregar modelos —</option>
     </select>
-    <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:8px">↻ Carregar modelos da minha key</button>
+    <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:9px">↻ Carregar modelos da minha chave</button>
 
-    <div class="keystat" id="keyStat"></div>
-    <button class="btn-sm btn-del" onclick="resetKeyQuota()" style="margin-top:7px">↺ Marcar todas as keys como disponíveis</button>
-    <div class="tip"><b style="color:#888">Uma key por linha.</b> Quando uma estoura a cota (429), o app marca ela e continua na próxima automaticamente — o lote não para. A cota do plano grátis é por projeto e reseta diariamente; use apenas keys suas.</div>
-    <div class="tip"><a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create → Copiar. Grátis até 1.500 req/dia, sem cartão.<br>
-    O Google aposenta modelos de tempos em tempos. Se der erro de modelo, clique em <b style="color:#888">Carregar modelos</b> e escolha um da lista — ela vem direto da API, então está sempre certa.</div>
+    <div class="tip">
+      <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create. Grátis até 1.500 req/dia, sem cartão. A cota é por projeto, então dá para ter várias chaves criando projetos diferentes.
+    </div>
   </div>
 
-  <!-- STEP 2: ELEVENLABS -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">2</div>
-      <div class="ptitle">ElevenLabs · narração</div>
-      <div class="fpill paid">PAGO</div>
+  <!-- ELEVENLABS -->
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic v">🎤</div>
+      <div class="sec-t">ElevenLabs · narração</div>
+      <div class="sec-pill paid">PAGO</div>
     </div>
-    <div class="key-wrap">
-      <input type="password" id="elKey" placeholder="sk_..." autocomplete="off" oninput="saveStateSoon()">
-      <button class="eye" onclick="toggleKey('elKey')">👁</button>
+    <div class="keyrow">
+      <span class="kdot empty" id="elDot"></span>
+      <input type="password" id="elKey" placeholder="sk_…" autocomplete="off" spellcheck="false" oninput="saveStateSoon();updateKeyStatus()">
+      <button class="icobtn" onclick="toggleKey('elKey')" title="mostrar/ocultar">👁</button>
     </div>
 
     <label>Voz</label>
     <select id="voiceSel" onchange="saveState()"><option value="">— clique em Carregar vozes —</option></select>
-    <button class="btn-sm btn-mic" onclick="loadVoices()" style="margin-top:8px">↻ Carregar vozes</button>
+    <button class="btn-sm btn-mic" onclick="loadVoices()" style="margin-top:9px">↻ Carregar vozes</button>
 
     <label>Ou cole o Voice ID direto</label>
     <input type="text" id="voiceManual" placeholder="ex: 21m00Tcm4TlvDq8ikWAM" oninput="saveStateSoon()">
 
     <label>Modelo</label>
     <select id="elModel" onchange="saveState()">
-      <option value="eleven_multilingual_v2" selected>Multilingual v2 (melhor PT-BR)</option>
-      <option value="eleven_turbo_v2_5">Turbo v2.5 (mais barato)</option>
-      <option value="eleven_flash_v2_5">Flash v2.5 (mais rápido)</option>
+      <option value="eleven_multilingual_v2" selected>Multilingual v2 · melhor PT-BR</option>
+      <option value="eleven_turbo_v2_5">Turbo v2.5 · mais barato</option>
+      <option value="eleven_flash_v2_5">Flash v2.5 · mais rápido</option>
     </select>
+  </div>
 
-    <label class="chk"><input type="checkbox" id="rememberKey" onchange="saveState()"> Salvar as keys neste navegador</label>
+  <!-- REPLICATE -->
+  <div class="sec" id="repRow" style="display:none">
+    <div class="sec-hd">
+      <div class="sec-ic b">🖼️</div>
+      <div class="sec-t">Replicate</div>
+      <div class="sec-pill paid">PAGO</div>
+    </div>
+    <div class="keyrow">
+      <span class="kdot empty" id="repDot"></span>
+      <input type="password" id="repToken" placeholder="r8_…" autocomplete="off" spellcheck="false" oninput="saveStateSoon();updateKeyStatus()">
+      <button class="icobtn" onclick="toggleKey('repToken')" title="mostrar/ocultar">👁</button>
+    </div>
+
+    <label>Modelo (owner/nome, ou o hash da versão)</label>
+    <input type="text" id="repModel" placeholder="ex: owner/nome-do-modelo" oninput="saveStateSoon()">
+
+    <label>Input extra (JSON opcional, mesclado com o prompt)</label>
+    <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:58px" oninput="saveStateSoon()"></textarea>
+
+    <label>Endereço do proxy local</label>
+    <input type="text" id="repProxy" value="/replicate" oninput="saveStateSoon()">
+
     <div class="tip warn">
-      <b style="color:#a78bfa">A key fica só no seu navegador</b> (localStorage) e vai direto para a ElevenLabs. Publicar esta página (GitHub Pages, etc.) não expõe a key — ela nunca entra no arquivo. O que você não pode fazer é escrever uma key dentro do HTML e commitar.
+      <b style="color:#a78bfa">A API da Replicate não aceita chamada de navegador.</b> Rode <code>python serve.py</code> em vez do <code>http.server</code> e abra <code>http://localhost:8777</code> — pelo GitHub Pages esta fonte não funciona.
     </div>
   </div>
 
-  <!-- STEP 3: CONFIG -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">3</div>
-      <div class="ptitle">Configurações do vídeo</div>
+  <!-- POLLINATIONS -->
+  <div class="sec" id="pollRow" style="display:none">
+    <div class="sec-hd">
+      <div class="sec-ic b">🌸</div>
+      <div class="sec-t">Pollinations</div>
     </div>
-
-    <div class="pickbox">
-      <label for="imgSource" style="margin-top:0">Fonte da imagem — quem gera o fundo das cenas</label>
-      <select id="imgSource" onchange="onImgSourceChange()">
-        <option value="gemini" selected>Gemini · usa a key do passo 1</option>
-        <option value="replicate">Replicate · precisa do proxy local (serve.py)</option>
-        <option value="pollinations">Pollinations · grátis, exige token próprio</option>
-      </select>
+    <div class="keyrow">
+      <span class="kdot empty" id="pollDot"></span>
+      <input type="password" id="pollToken" placeholder="token" autocomplete="off" spellcheck="false" oninput="saveStateSoon();updateKeyStatus()">
+      <button class="icobtn" onclick="toggleKey('pollToken')" title="mostrar/ocultar">👁</button>
     </div>
+    <div class="tip">
+      Passou a exigir verificação anti-bot (Turnstile). Sem token responde <code>403 Missing Turnstile token</code>.
+    </div>
+  </div>
 
+  <div class="sec">
+    <label class="chk" style="margin-top:0"><input type="checkbox" id="rememberKey" onchange="saveState()"> Salvar as chaves neste navegador</label>
+    <div class="tip">
+      As chaves ficam só no <code>localStorage</code> deste navegador e vão direto para cada serviço. Publicar esta página não expõe nada — elas nunca entram no arquivo.
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ ABA: CONFIG ══════════ -->
+<div class="pane" data-tab="config">
+
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">🎚️</div>
+      <div class="sec-t">Vídeo</div>
+    </div>
     <div class="row2">
       <div>
-        <label>Nº de cenas</label>
+        <label style="margin-top:0">Nº de cenas</label>
         <input type="number" id="frameCount" value="3" min="1" max="20" inputmode="numeric" onchange="buildFrames()">
       </div>
       <div>
-        <label>Duração/cena sem áudio (s)</label>
+        <label style="margin-top:0">Duração/cena sem áudio (s)</label>
         <input type="number" id="frameDuration" value="3" min="1" max="30" inputmode="numeric" oninput="onDurChange()">
       </div>
     </div>
@@ -267,26 +407,6 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
         </select>
       </div>
     </div>
-    <div id="repRow" style="display:none">
-      <label>Token da Replicate</label>
-      <input type="password" id="repToken" placeholder="r8_..." autocomplete="off" oninput="saveStateSoon()">
-      <label>Modelo (owner/nome, ou o hash da versão)</label>
-      <input type="text" id="repModel" placeholder="ex: owner/nome-do-modelo" oninput="saveStateSoon()">
-      <label>Input extra (JSON opcional, mesclado com o prompt)</label>
-      <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:60px" oninput="saveStateSoon()"></textarea>
-      <label>Endereço do proxy local</label>
-      <input type="text" id="repProxy" value="/replicate" oninput="saveStateSoon()">
-      <div class="tip warn">
-        <b style="color:#a78bfa">A API da Replicate não aceita chamada de navegador</b> — não manda cabeçalhos CORS, então o fetch falha antes de sair da máquina. Rode <code>python serve.py</code> em vez do <code>http.server</code>: ele serve a página e repassa <code>/replicate/*</code>. O token continua no seu navegador; o proxy só encaminha e escuta apenas em 127.0.0.1.<br>
-        O campo de modelo não tem padrão de propósito — pegue o <code>owner/nome</code> exato na página do modelo em replicate.com. O <b>input extra</b> serve para parâmetros específicos daquele modelo.
-      </div>
-    </div>
-    <div id="pollRow" style="display:none">
-      <label>Token da Pollinations</label>
-      <input type="password" id="pollToken" placeholder="cole seu token" autocomplete="off" oninput="saveStateSoon()">
-      <div class="tip">A Pollinations passou a exigir verificação anti-bot (Turnstile) em chamadas anônimas — sem token ela responde <code>403 Missing Turnstile token</code>. Pegue um token na conta deles e cole aqui, ou use o Gemini como fonte.</div>
-    </div>
-
     <div class="row2">
       <div>
         <label>Pausa após a fala (s)</label>
@@ -297,81 +417,35 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
         <input type="text" id="totalDur" value="—" readonly>
       </div>
     </div>
-  </div>
-
-  <!-- STEP 4: IMPORTAR JSON -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">4</div>
-      <div class="ptitle">Importar roteiro (JSON)</div>
-    </div>
-    <textarea id="jsonIn" class="mono" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false"></textarea>
-    <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap">
-      <button class="btn-sm btn-add" onclick="importJSON()">⬆ Importar roteiro</button>
-      <button class="btn-sm btn-del" onclick="fillExample()">Ver exemplo</button>
-      <button class="btn-sm btn-del" onclick="exportJSON()">⬇ Exportar atual</button>
-      <button class="btn-sm btn-mic" onclick="copyClaudePrompt()">📋 Prompt p/ Claude</button>
-    </div>
-    <div class="jmsg" id="jsonMsg"></div>
     <div class="tip">
-      <b style="color:#666">Campos por cena:</b> <code>imagem</code> (descrição p/ a IA gerar o fundo) · <code>texto</code> (aparece na tela e é narrado) · <code>narracao</code> (opcional, só se a fala for diferente) · <code>estilo</code> (viral, neon, shadow, outline, highlight, minimal) · <code>animacao</code> ("palavra" ou "fixo").<br>
-      Reimportar reaproveita imagens e narrações das cenas que não mudaram — não gasta crédito à toa.
+      A duração de cada cena vem do áudio da narração. O campo acima só vale para cenas sem narração.
     </div>
   </div>
 
-  <!-- STEP 5: FRAMES -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">5</div>
-      <div class="ptitle">Cenas</div>
-    </div>
-    <div id="framesList"></div>
-    <div style="display:flex;gap:7px;margin-top:8px">
-      <button class="btn-sm btn-add" onclick="addFrame()">+ Adicionar cena</button>
-      <button class="btn-sm btn-del" onclick="resetAll()" style="margin-left:auto">↺ Limpar tudo</button>
-    </div>
-  </div>
+</div>
 
-  <!-- STEP 6: GERAR E EXPORTAR -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">6</div>
-      <div class="ptitle">Gerar e exportar</div>
-    </div>
-    <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
-    <div class="status" id="statusMsg">Configure as cenas acima e clique em Gerar</div>
-    <button class="btn btn-red" id="genAllBtn" onclick="generateAll()">✨ Gerar todas as imagens</button>
-    <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)">↻ Gerar só as cenas que faltaram</button>
-    <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Gerar todas as narrações</button>
-    <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Renderizar vídeo com áudio</button>
-    <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
-    <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Exportar ZIP (imagens + MP3) para CapCut</button>
-    <div class="tip">
-      <b style="color:#666">Renderização é em tempo real:</b> um vídeo de 30 s leva ~30 s e <b>a aba precisa ficar visível</b> — se você trocar de aba, o navegador congela o desenho e o áudio dessincroniza.
-    </div>
-    <div class="tip">
-      <b style="color:#666">No CapCut (rota ZIP):</b> Importar → pasta → "Sequência de imagens" → ajustar FPS → arrastar os MP3 de <code>audio/</code> → Exportar 9:16
-    </div>
-  </div>
+<!-- ══════════ ABA: DIAGNOSTICO ══════════ -->
+<div class="pane" data-tab="diag">
 
-  <!-- STEP 7: DIAGNÓSTICO -->
-  <div class="panel">
-    <div class="panel-hd">
-      <div class="snum">7</div>
-      <div class="ptitle">Diagnóstico</div>
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">🩺</div>
+      <div class="sec-t">Diagnóstico</div>
     </div>
     <div id="envBox"></div>
-    <div style="display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap">
+    <div class="btnrow" style="margin-bottom:11px">
       <button class="btn-sm btn-add" onclick="testConnections()">🔌 Testar conexões</button>
-      <button class="btn-sm btn-add" onclick="checkEnvironment(true)">📱 Checar este aparelho</button>
+      <button class="btn-sm btn-add" onclick="checkEnvironment(true)">📱 Checar aparelho</button>
       <button class="btn-sm btn-del" onclick="copyLog()">📋 Copiar log</button>
       <button class="btn-sm btn-del" onclick="clearLog()">Limpar</button>
     </div>
     <div class="logbox" id="logBox"></div>
     <div class="tip">
-      Cada etapa é registrada aqui com a mensagem exata do servidor. <b style="color:#888">Testar conexões</b> chama o Gemini, a Pollinations e a ElevenLabs separadamente e diz qual das três está falhando.
+      Cada etapa é registrada com a mensagem exata do servidor. <b style="color:#888">Testar conexões</b> chama cada serviço separadamente e diz qual está falhando.
     </div>
   </div>
+
+</div>
 
 </div><!-- /wrap -->
 
@@ -445,6 +519,53 @@ const idbGet = (k)=>idbTx('readonly', s=>s.get(k));
 const idbDel = (k)=>idbTx('readwrite',s=>s.delete(k));
 const idbClear = ()=>idbTx('readwrite',s=>s.clear());
 
+// ── ABAS ─────────────────────────────────────────────────
+const TAB_KEY='shortsCreator.tab';
+function showTab(name){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.dataset.tab===name));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===name));
+  try{ localStorage.setItem(TAB_KEY,name); }catch(e){}
+  window.scrollTo(0,0);
+}
+function restoreTab(){
+  let t=null;
+  try{ t=localStorage.getItem(TAB_KEY); }catch(e){}
+  if(t && document.querySelector(`.pane[data-tab="${t}"]`)) showTab(t);
+}
+
+// ── LINHAS DE CHAVE DO GOOGLE ────────────────────────────
+// Uma chave por linha, com + para adicionar. Guardar o valor no próprio
+// input evita ter duas fontes de verdade brigando com o que o usuário digita.
+function gmKeysRaw(){ return [...document.querySelectorAll('.gm-key')].map(i=>i.value.trim()); }
+function gmKeys(){ return gmKeysRaw().filter(Boolean); }
+
+function renderKeyRows(keys){
+  const list=(keys&&keys.length)?keys:[''];
+  document.getElementById('gmKeyList').innerHTML=list.map((k,i)=>`
+    <div class="keyrow">
+      <span class="kdot ${!k?'empty':(gmExhausted.has(k)?'dead':'ok')}"></span>
+      <input type="password" class="gm-key" value="${esc(k)}" placeholder="AIzaSy…" autocomplete="off" spellcheck="false" oninput="onKeysChange()">
+      <button class="icobtn" onclick="toggleRowMask(this)" title="mostrar/ocultar">👁</button>
+      <button class="icobtn danger" onclick="removeKeyRow(${i})" title="remover">✕</button>
+    </div>`).join('');
+}
+function addKeyRow(){
+  renderKeyRows([...gmKeysRaw(),'']);
+  const inputs=[...document.querySelectorAll('.gm-key')];
+  if(inputs.length) inputs[inputs.length-1].focus();
+  saveState();
+}
+function removeKeyRow(i){
+  const raw=gmKeysRaw();
+  raw.splice(i,1);
+  renderKeyRows(raw.length?raw:['']);
+  onKeysChange();
+}
+function toggleRowMask(btn){
+  const inp=btn.parentNode.querySelector('.gm-key');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+
 // ── PERSISTÊNCIA ─────────────────────────────────────────
 let saveT = null;
 function saveStateSoon(){clearTimeout(saveT);saveT=setTimeout(saveState,400);}
@@ -477,7 +598,7 @@ function saveState(){
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
-      apiKeys: remember ? document.getElementById('apiKeys').value : '',
+      apiKeys: remember ? gmKeysRaw().filter(Boolean).join('\n') : '',
       elKey:  remember ? document.getElementById('elKey').value  : ''
     }));
   }catch(e){ /* cota cheia ou modo privado: segue sem persistir */ }
@@ -530,8 +651,8 @@ function loadState(){
   }
   document.getElementById('rememberKey').checked = !!d.rememberKey;
   if(d.rememberKey){
-    if(d.apiKeys) document.getElementById('apiKeys').value = d.apiKeys;
-    else if(d.apiKey) document.getElementById('apiKeys').value = d.apiKey;  // sessões antigas: key única
+    const salvas=(d.apiKeys||d.apiKey||'').split(/[\s,;]+/).filter(Boolean);
+    if(salvas.length) renderKeyRows(salvas);
     if(d.elKey)  document.getElementById('elKey').value  = d.elKey;
   }
 }
@@ -584,7 +705,9 @@ function freeFrameAssets(f){
 }
 
 // ── INIT ─────────────────────────────────────────────────
+renderKeyRows(['']);
 loadState();
+restoreTab();
 syncSourceRows();
 updateKeyStatus();
 checkEnvironment(false);
@@ -880,23 +1003,30 @@ const GM_API='https://generativelanguage.googleapis.com/v1beta';
 
 function gmModel(){ return document.getElementById('gmModel').value || 'gemini-2.5-flash'; }
 
-// Várias keys, uma por linha. Aceita vírgula e ponto-e-vírgula porque colar
-// de uma planilha é o caminho mais provável.
-function gmKeys(){
-  return document.getElementById('apiKeys').value.split(/[\s,;]+/).map(k=>k.trim()).filter(Boolean);
-}
 function gmLiveKeys(){ return gmKeys().filter(k=>!gmExhausted.has(k)); }
-function maskKey(k){ return k.length<12 ? '***' : k.slice(0,6)+'…'+k.slice(-4); }
+function maskKey(k){ return k.length<10 ? k.slice(0,2)+'…' : k.slice(0,6)+'…'+k.slice(-4); }
 
 function updateKeyStatus(){
-  const keys=gmKeys(), live=gmLiveKeys();
+  const raw=gmKeysRaw(), keys=raw.filter(Boolean), live=gmLiveKeys();
+  // só repinta os pontinhos: reconstruir as linhas roubaria o foco enquanto digita
+  document.querySelectorAll('#gmKeyList .keyrow').forEach((row,i)=>{
+    const k=raw[i]||'', d=row.querySelector('.kdot');
+    if(d) d.className='kdot '+(!k?'empty':(gmExhausted.has(k)?'dead':'ok'));
+  });
+  const setDot=(id,val)=>{ const d=document.getElementById(id); if(d) d.className='kdot '+(val?'ok':'empty'); };
+  setDot('elDot',   document.getElementById('elKey').value.trim());
+  setDot('repDot',  document.getElementById('repToken').value.trim());
+  setDot('pollDot', document.getElementById('pollToken').value.trim());
+
   const el=document.getElementById('keyStat');
-  if(!keys.length){ el.innerHTML='<span class="dead">Nenhuma key colada.</span>'; return; }
+  if(!keys.length){ el.innerHTML='<span class="dead">Nenhuma chave adicionada.</span>'; refreshKeyPip(); return; }
   const cur=keys[gmKeyIdx%keys.length];
-  el.innerHTML=`${keys.length} key(s) · ativa: <b>${esc(maskKey(cur))}</b>`+
+  el.innerHTML=`${keys.length} chave(s) · ativa: <b>${esc(maskKey(cur))}</b>`+
     (keys.length-live.length ? ` · <span class="dead">${keys.length-live.length} sem cota</span>` : '');
+  refreshKeyPip();
 }
-function onKeysChange(){ gmKeyIdx=0; updateKeyStatus(); saveStateSoon(); }
+function onKeysChange(){ gmKeyIdx=0; updateKeyStatus(); refreshKeyPip(); saveStateSoon(); }
+function refreshKeyPip(){ setPip('pipChaves', !gmKeys().length); }
 function resetKeyQuota(){
   gmExhausted.clear(); gmKeyIdx=0; updateKeyStatus();
   logLine('info','Todas as keys marcadas como disponíveis de novo.');
@@ -1956,7 +2086,10 @@ function envProblems(e){
   return p;
 }
 
+function setPip(id,on){ const p=document.getElementById(id); if(p) p.classList.toggle('on',!!on); }
+
 function renderEnvBanner(problems){
+  setPip('pipDiag', problems.some(x=>x[0]==='err'));
   const box=document.getElementById('envBox');
   if(!box) return;
   const graves=problems.filter(x=>x[0]==='err');
