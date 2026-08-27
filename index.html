@@ -219,7 +219,7 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 
     <label class="chk"><input type="checkbox" id="rememberKey" onchange="saveState()"> Salvar as keys neste navegador</label>
     <div class="tip warn">
-      <b style="color:#a78bfa">Uso local apenas.</b> A key fica só no seu navegador (localStorage) e vai direto para a ElevenLabs. Não publique este arquivo em servidor público — a key ficaria exposta e qualquer um poderia queimar seus créditos.
+      <b style="color:#a78bfa">A key fica só no seu navegador</b> (localStorage) e vai direto para a ElevenLabs. Publicar esta página (GitHub Pages, etc.) não expõe a key — ela nunca entra no arquivo. O que você não pode fazer é escrever uma key dentro do HTML e commitar.
     </div>
   </div>
 
@@ -354,8 +354,10 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
       <div class="snum">7</div>
       <div class="ptitle">Diagnóstico</div>
     </div>
+    <div id="envBox"></div>
     <div style="display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap">
       <button class="btn-sm btn-add" onclick="testConnections()">🔌 Testar conexões</button>
+      <button class="btn-sm btn-add" onclick="checkEnvironment(true)">📱 Checar este aparelho</button>
       <button class="btn-sm btn-del" onclick="copyLog()">📋 Copiar log</button>
       <button class="btn-sm btn-del" onclick="clearLog()">Limpar</button>
     </div>
@@ -579,6 +581,7 @@ function freeFrameAssets(f){
 loadState();
 syncSourceRows();
 updateKeyStatus();
+checkEnvironment(false);
 buildFrames();
 drawBlank(ctx, PW, PH);
 checkDone();
@@ -1609,6 +1612,11 @@ function cancelRender(){ renderCancelled=true; setStatus('⏹ Cancelando…'); }
 
 async function renderVideo(){
   if(rendering) return;
+  const vb0=document.getElementById('videoBtn');
+  if(vb0.dataset.unsupported){
+    setStatus('❌ Este navegador não consegue gravar vídeo. Use Chrome/Edge no computador, ou exporte o ZIP.');
+    checkEnvironment(true); return;
+  }
   if(!window.MediaRecorder){ setStatus('❌ Este navegador não tem MediaRecorder. Use Chrome ou Edge.'); return; }
   const ready=frames.filter(f=>f.image);
   if(!ready.length){ setStatus('⚠️ Gere as imagens antes de renderizar.'); return; }
@@ -1730,7 +1738,8 @@ async function exportZIP(){
   const timeline=buildTimeline().filter(s=>s.f.image);
   if(!timeline.length){setStatus('⚠️ Nenhuma imagem gerada ainda.');return;}
   const total=timeline.reduce((a,s)=>a+Math.round(s.dur*fps),0);
-  if(total>2000 && !confirm(`Isso vai gerar ${total} imagens (~${Math.round(total*0.18)} MB) e pode travar o navegador.\n\nDica: use "Renderizar vídeo" no lugar, ou reduza FPS/resolução.\n\nContinuar mesmo assim?`)) return;
+  const limite = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ? 600 : 2000;
+  if(total>limite && !confirm(`Isso vai gerar ${total} imagens (~${Math.round(total*0.18)} MB) e pode travar o navegador.\n\nDica: use "Renderizar vídeo" no lugar, ou reduza FPS/resolução.\n\nContinuar mesmo assim?`)) return;
 
   stopPreview();
   const btn=document.getElementById('exportBtn');
@@ -1879,6 +1888,100 @@ async function fetchRetry(url,opts,cfg){
     }
   }
   throw new Error(label+': todas as tentativas falharam.');
+}
+
+// ── AMBIENTE ─────────────────────────────────────────────
+// Celular e hospedagem estática mudam o que o app consegue fazer. Melhor
+// descobrir aqui do que depois de esperar uma renderização inteira falhar.
+function envReport(){
+  const cv=document.createElement('canvas');
+  const ua=navigator.userAgent;
+  const ios=/iPhone|iPad|iPod/i.test(ua) || (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  let ls=false;
+  try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); ls=true; }catch(e){}
+  return {
+    host: location.hostname||'(arquivo local)',
+    protocolo: location.protocol,
+    estatico: /github\.io$/i.test(location.hostname)||/netlify|vercel|pages\.dev/i.test(location.hostname),
+    file: location.protocol==='file:',
+    movel: /Android|iPhone|iPad|iPod|Mobile/i.test(ua),
+    ios,
+    captureStream: typeof cv.captureStream==='function',
+    mediaRecorder: typeof window.MediaRecorder!=='undefined',
+    mime: (typeof window.MediaRecorder!=='undefined') ? pickMime() : '',
+    audio: !!(window.AudioContext||window.webkitAudioContext),
+    idb: !!window.indexedDB,
+    localStorage: ls,
+    download: 'download' in document.createElement('a'),
+    memoriaGB: navigator.deviceMemory||null,
+    tela: `${screen.width}x${screen.height}`
+  };
+}
+
+// Devolve a lista de impedimentos, do mais grave para o menos.
+function envProblems(e){
+  const p=[];
+  if(!e.mediaRecorder||!e.captureStream||!e.mime)
+    p.push(['err','Renderizar vídeo não funciona neste navegador',
+      `MediaRecorder: ${e.mediaRecorder?'ok':'ausente'} · canvas.captureStream: ${e.captureStream?'ok':'ausente'} · formato: ${e.mime||'nenhum'}. Use Chrome ou Edge no computador. A rota ZIP continua disponível.`]);
+  if(e.estatico)
+    p.push(['warn','Hospedagem estática: a fonte Replicate não funciona aqui',
+      `${e.host} serve só arquivos, então /replicate não existe e a API da Replicate bloqueia chamada direta do navegador (CORS). Use Gemini como fonte, ou rode "python serve.py" na sua máquina.`]);
+  if(e.file)
+    p.push(['err','Página aberta como file://',
+      'Nesse modo o navegador bloqueia as chamadas de API por CORS. Abra por http://localhost rodando "python serve.py".']);
+  if(e.movel){
+    p.push(['warn','No celular a renderização é frágil',
+      'A gravação é em tempo real e o desenho congela se a tela apagar, o app sair de foco ou chegar uma ligação — o vídeo sai com quadros perdidos. Mantenha a tela ligada e o app aberto, ou renderize no computador.']);
+    p.push(['warn','Memória: 1080×1920 pesa no celular',
+      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque a resolução para 720×1280 no passo 3.`]);
+  }
+  if(e.ios)
+    p.push(['warn','iPhone/iPad: baixar o arquivo costuma falhar',
+      'O Safari no iOS trata download de blob de forma limitada — o vídeo pode abrir numa aba em vez de salvar. Se acontecer, renderize no computador.']);
+  if(!e.idb)
+    p.push(['err','IndexedDB indisponível: imagens e narrações não sobrevivem ao recarregar',
+      'Modo privado/anônimo costuma causar isso.']);
+  else if(e.ios)
+    p.push(['warn','iOS apaga dados de sites pouco usados',
+      'Se ficar ~7 dias sem abrir a página, o iOS pode limpar o IndexedDB e você perde imagens e narrações já geradas. Exporte o ZIP quando terminar.']);
+  if(!e.localStorage)
+    p.push(['err','localStorage bloqueado: nada é salvo entre recarregamentos','Modo privado ou cookies bloqueados.']);
+  return p;
+}
+
+function renderEnvBanner(problems){
+  const box=document.getElementById('envBox');
+  if(!box) return;
+  const graves=problems.filter(x=>x[0]==='err');
+  const mostrar=graves.length?graves:problems.slice(0,2);
+  box.innerHTML = mostrar.length
+    ? mostrar.map(([lv,t,d])=>`<div class="${lv==='err'?'err-box':'tip warn'}" style="margin-top:0;margin-bottom:8px"><b>${lv==='err'?'⛔':'⚠️'} ${esc(t)}</b><br>${esc(d)}</div>`).join('')
+    : '';
+}
+
+function checkEnvironment(verbose){
+  const e=envReport();
+  const problems=envProblems(e);
+  renderEnvBanner(problems);
+  if(verbose){
+    logLine('info','── Ambiente ──');
+    logLine('info',`${e.host} (${e.protocolo}) · ${e.movel?'celular':'desktop'}${e.ios?' · iOS':''} · tela ${e.tela}${e.memoriaGB?' · '+e.memoriaGB+' GB':''}`);
+    logLine(e.mediaRecorder&&e.captureStream&&e.mime?'ok':'err',
+      `Vídeo: MediaRecorder ${e.mediaRecorder?'ok':'ausente'}, captureStream ${e.captureStream?'ok':'ausente'}, formato ${e.mime||'nenhum'}`);
+    logLine(e.idb&&e.localStorage?'ok':'err',`Armazenamento: IndexedDB ${e.idb?'ok':'ausente'}, localStorage ${e.localStorage?'ok':'bloqueado'}`);
+    logLine(e.audio?'ok':'err',`Áudio: AudioContext ${e.audio?'ok':'ausente'}`);
+    problems.forEach(([lv,t,d])=>logLine(lv,t,d));
+    logLine('info','── Fim ──');
+    setStatus(problems.length?`⚠️ ${problems.length} ponto(s) de atenção — veja o passo 7.`:'✅ Ambiente sem impedimentos.');
+  }
+  // trava o botão de vídeo quando o navegador não tem como gravar
+  const vb=document.getElementById('videoBtn');
+  if(!e.mediaRecorder||!e.captureStream||!e.mime){
+    vb.dataset.unsupported='1';
+    vb.textContent='🎬 Vídeo indisponível neste navegador';
+  }
+  return e;
 }
 
 async function testConnections(){
@@ -2187,7 +2290,8 @@ function setABadge(i,cls,txt){
 function checkDone(){
   const allImg = frames.length && frames.every(f=>f.image);
   document.getElementById('exportBtn').disabled = !allImg || rendering;
-  document.getElementById('videoBtn').disabled  = !allImg || rendering;
+  const vb=document.getElementById('videoBtn');
+  vb.disabled = !allImg || rendering || !!vb.dataset.unsupported;
 }
 </script>
 </body>
