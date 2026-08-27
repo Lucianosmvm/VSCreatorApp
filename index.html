@@ -123,6 +123,15 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
 .tip.warn{border-color:rgba(167,139,250,.2);color:#8b7fb0}
 .tip code{color:#8a8a8a}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.45;min-height:112px}
+.logbox{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:9px 10px;max-height:230px;overflow-y:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.logbox:empty::before{content:'Nada registrado ainda.';color:var(--dim)}
+.lg-t{color:#555}
+.lg-info{color:var(--muted)}
+.lg-ok{color:var(--green)}
+.lg-err{color:var(--accent)}
+.lg-warn{color:#d9a441}
+.lg-d{color:#5a5a5a;display:block;padding-left:10px}
+.err-box{background:rgba(255,68,68,.06);border:1px solid rgba(255,68,68,.2);border-radius:7px;padding:7px 9px;margin-top:8px;font-size:10px;color:#e08b8b;line-height:1.5;white-space:pre-wrap;word-break:break-word}
 .jmsg{font-size:11px;text-align:left;margin-top:8px;min-height:15px;line-height:1.5;color:var(--muted)}
 </style>
 </head>
@@ -160,9 +169,14 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
       <button class="eye" onclick="toggleKey('apiKey')">👁</button>
     </div>
 
-    <label>Modelo</label>
+    <label>Modelo de texto (traduz o prompt)</label>
     <select id="gmModel" onchange="saveState()">
       <option value="gemini-2.0-flash" selected>gemini-2.0-flash</option>
+    </select>
+
+    <label>Modelo de imagem (se a fonte for Gemini)</label>
+    <select id="gmImgModel" onchange="saveState()">
+      <option value="">— clique em Carregar modelos —</option>
     </select>
     <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:8px">↻ Carregar modelos da minha key</button>
 
@@ -234,6 +248,17 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
         </select>
       </div>
     </div>
+    <label>Fonte da imagem</label>
+    <select id="imgSource" onchange="onImgSourceChange()">
+      <option value="gemini" selected>Gemini (usa a key do passo 1)</option>
+      <option value="pollinations">Pollinations (grátis, exige token próprio)</option>
+    </select>
+    <div id="pollRow" style="display:none">
+      <label>Token da Pollinations</label>
+      <input type="password" id="pollToken" placeholder="cole seu token" autocomplete="off" oninput="saveStateSoon()">
+      <div class="tip">A Pollinations passou a exigir verificação anti-bot (Turnstile) em chamadas anônimas — sem token ela responde <code>403 Missing Turnstile token</code>. Pegue um token na conta deles e cole aqui, ou use o Gemini como fonte.</div>
+    </div>
+
     <div class="row2">
       <div>
         <label>Pausa após a fala (s)</label>
@@ -300,6 +325,23 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
     </div>
   </div>
 
+  <!-- STEP 7: DIAGNÓSTICO -->
+  <div class="panel">
+    <div class="panel-hd">
+      <div class="snum">7</div>
+      <div class="ptitle">Diagnóstico</div>
+    </div>
+    <div style="display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap">
+      <button class="btn-sm btn-add" onclick="testConnections()">🔌 Testar conexões</button>
+      <button class="btn-sm btn-del" onclick="copyLog()">📋 Copiar log</button>
+      <button class="btn-sm btn-del" onclick="clearLog()">Limpar</button>
+    </div>
+    <div class="logbox" id="logBox"></div>
+    <div class="tip">
+      Cada etapa é registrada aqui com a mensagem exata do servidor. <b style="color:#888">Testar conexões</b> chama o Gemini, a Pollinations e a ElevenLabs separadamente e diz qual das três está falhando.
+    </div>
+  </div>
+
 </div><!-- /wrap -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -333,8 +375,8 @@ let idSeq = 0;
 function newId(){ return 'f'+Date.now().toString(36)+'-'+(idSeq++); }
 function newFrame(){
   return {id:newId(),prompt:'',text:'',narration:'',animType:'word',style:'viral',
-          image:null,imageUrl:null,enhanced:'',
-          audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null};
+          image:null,imageUrl:null,imageBytes:null,enhanced:'',
+          audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null};
 }
 
 // ── INDEXEDDB (áudio) ────────────────────────────────────
@@ -378,7 +420,7 @@ function saveState(){
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration,
         animType:f.animType, style:f.style, enhanced:f.enhanced,
-        imageUrl:f.imageUrl||null,
+        imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null,
         audioDur: f.audioBuffer ? f.audioBuffer.duration : null
       })),
@@ -388,6 +430,9 @@ function saveState(){
       resolution: document.getElementById('resolution').value,
       elModel: document.getElementById('elModel').value,
       gmModel: document.getElementById('gmModel').value,
+      gmImgModel: document.getElementById('gmImgModel').value,
+      imgSource: document.getElementById('imgSource').value,
+      pollToken: remember ? document.getElementById('pollToken').value : '',
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
@@ -406,7 +451,7 @@ function loadState(){
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
       animType:f.animType==='fixed'?'fixed':'word',
       style:STYLES[f.style]?f.style:'viral',
-      enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null,
+      enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
       wordTimes:Array.isArray(f.wordTimes)?f.wordTimes:null,
       _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null
@@ -418,12 +463,16 @@ function loadState(){
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('voiceManual', d.voiceManual);
   // o modelo salvo pode não estar na lista curta inicial; insere para não perder
-  if(d.gmModel){
-    const gs=document.getElementById('gmModel');
-    if(![...gs.options].some(o=>o.value===d.gmModel))
-      gs.insertAdjacentHTML('beforeend','<option value="'+esc(d.gmModel)+'">'+esc(d.gmModel)+'</option>');
-    gs.value=d.gmModel;
+  for(const pair of [['gmModel',d.gmModel],['gmImgModel',d.gmImgModel]]){
+    const id=pair[0], val=pair[1];
+    if(!val) continue;
+    const gs=document.getElementById(id);
+    if(![...gs.options].some(o=>o.value===val))
+      gs.insertAdjacentHTML('beforeend','<option value="'+esc(val)+'">'+esc(val)+'</option>');
+    gs.value=val;
   }
+  if(d.imgSource) document.getElementById('imgSource').value=d.imgSource;
+  if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.voiceSel){
     const sel=document.getElementById('voiceSel');
     sel.insertAdjacentHTML('beforeend','<option value="'+esc(d.voiceSel)+'" selected>voz salva ('+esc(d.voiceSel.slice(0,8))+'…)</option>');
@@ -437,11 +486,18 @@ function loadState(){
 
 // Recarrega imagens (pela URL com seed) e áudios (do IndexedDB).
 async function restoreAssets(){
-  const needImg = frames.some(f=>f.imageUrl&&!f.image);
+  const needImg = frames.some(f=>(f.imageUrl||f._hasImageBytes)&&!f.image);
   const needAud = frames.some(f=>f._hasAudio&&!f.audioBytes);
   if(!needImg&&!needAud) { updateTotals(); return; }
   setStatus('↻ Recarregando a sessão anterior…');
   await Promise.all(frames.map(async f=>{
+    if(!f.image && f._hasImageBytes){
+      const rec=await idbGet('img:'+f.id);
+      if(rec&&rec.bytes){
+        try{ f.image=await imageFromBytes(new Uint8Array(rec.bytes),rec.mime); f.imageBytes=f.image._bytes; }
+        catch(e){ f._hasImageBytes=false; }
+      }
+    }
     if(f.imageUrl&&!f.image){
       try{ f.image = await loadImageFromUrl(f.imageUrl); }catch(e){ f.imageUrl=null; }
     }
@@ -477,6 +533,7 @@ function freeFrameAssets(f){
 
 // ── INIT ─────────────────────────────────────────────────
 loadState();
+document.getElementById('pollRow').style.display = imgSource()==='pollinations' ? 'block' : 'none';
 buildFrames();
 drawBlank(ctx, PW, PH);
 checkDone();
@@ -491,7 +548,7 @@ function buildFrames(){
   const n = Math.max(1, Math.min(20, parseInt(document.getElementById('frameCount').value)||3));
   document.getElementById('frameCount').value = n;
   while(frames.length < n) frames.push(newFrame());
-  frames.slice(n).forEach(f=>{ freeFrameAssets(f); idbDel(f.id); });
+  frames.slice(n).forEach(f=>{ freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id); });
   frames = frames.slice(0,n);
   if(pvIndex>=frames.length){ stopPreview(); pvIndex=-1; drawBlank(ctx,PW,PH); }
   renderCards(); checkDone(); updateTotals(); saveState();
@@ -507,7 +564,7 @@ function addFrame(){
 function removeFrame(i){
   if(frames.length<=1) return;
   const f=frames[i];
-  freeFrameAssets(f); idbDel(f.id);
+  freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id);
   frames.splice(i,1);
   document.getElementById('frameCount').value = frames.length;
   if(pvIndex===i){ stopPreview(); pvIndex=-1; drawBlank(ctx,PW,PH); }
@@ -599,6 +656,8 @@ function renderCards(){
         ${f.image?`<canvas class="mini-canvas" id="mini-${i}" width="360" height="140"></canvas>`:''}
         ${f.audioUrl?`<audio controls preload="none" src="${esc(f.audioUrl)}"></audio>`:''}
         ${f.audioBuffer&&f.wordTimes?`<div style="font-size:9px;color:var(--violet);margin-top:6px">⏱ ${f.wordTimes.length} palavras sincronizadas com a fala</div>`:''}
+        ${f.lastError?`<div class="err-box">⚠ Último erro nesta cena:
+${esc(f.lastError)}</div>`:''}
 
         <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
           <button class="btn-sm btn-add" onclick="generateSingle(${i})">✨ Gerar imagem</button>
@@ -798,9 +857,22 @@ async function loadGeminiModels(){
     const ver=id=>{ const m=id.match(/(\d+)\.(\d+)/); return m?parseInt(m[1])*100+parseInt(m[2]):0; };
     usable.sort((a,b)=> ver(b.id)-ver(a.id) || a.id.localeCompare(b.id));
 
+    const opts=usable.map(m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`).join('');
+
+    // select de imagem: mesma lista, mas pré-seleciona quem tem "image" no id
+    const isel=document.getElementById('gmImgModel');
+    const iprev=isel.value;
+    isel.innerHTML=opts;
+    if(usable.some(m=>m.id===iprev)) isel.value=iprev;
+    else{
+      const im=usable.find(m=>/image/i.test(m.id)&&!/embedding/i.test(m.id));
+      isel.value=im?im.id:usable[0].id;
+      if(!im) logLine('warn','Nenhum modelo com "image" no nome. Se a fonte for Gemini, escolha o modelo de imagem à mão.');
+    }
+
     const sel=document.getElementById('gmModel');
     const prev=sel.value;
-    sel.innerHTML=usable.map(m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`).join('');
+    sel.innerHTML=opts;
     // mantém a escolha anterior se ainda existir; senão pega o flash mais novo
     if(usable.some(m=>m.id===prev)) sel.value=prev;
     else{
@@ -808,7 +880,8 @@ async function loadGeminiModels(){
       sel.value=(flash||usable[0]).id;
     }
     saveState();
-    setStatus(`✅ ${usable.length} modelos encontrados. Selecionado: ${sel.value}`);
+    logLine('ok',`${usable.length} modelos disponíveis`,`texto: ${sel.value} | imagem: ${isel.value}`);
+    setStatus(`✅ ${usable.length} modelos. Texto: ${sel.value} · Imagem: ${isel.value}`);
   }catch(e){
     setStatus('❌ '+e.message);
   }
@@ -816,21 +889,37 @@ async function loadGeminiModels(){
 
 async function enhancePrompt(desc,key){
   const model=gmModel();
-  const res=await fetch(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for a YouTube Shorts vertical background (9:16, cinematic, dramatic, ultra-detailed). Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
-  });
+  const t0=performance.now();
+  let res;
+  try{
+    res=await fetch(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for a YouTube Shorts vertical background (9:16, cinematic, dramatic, ultra-detailed). Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
+    });
+  }catch(e){
+    throw new Error('[Gemini] '+describeNetErr(e,'generativelanguage.googleapis.com'));
+  }
+  const ms=Math.round(performance.now()-t0);
   if(!res.ok){
-    let msg='Erro no Gemini ('+res.status+')';
+    let msg='HTTP '+res.status;
     try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
+    logLine('err',`Gemini HTTP ${res.status} (${ms}ms, modelo ${model})`,msg);
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
-      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no passo 1 e escolha outro.\n\nGoogle disse: ${msg}`;
-    throw new Error(msg);
+      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no passo 1 e escolha outro. Google disse: ${msg}`;
+    else if(res.status===400&&/api key/i.test(msg)) msg='API key do Google inválida. '+msg;
+    else if(res.status===403) msg='Key sem permissão para este modelo. '+msg;
+    else if(res.status===429) msg='Cota do Gemini estourada (429). Aguarde e tente de novo. '+msg;
+    throw new Error('[Gemini] '+msg);
   }
   const d=await res.json();
   const out=d.candidates?.[0]?.content?.parts?.[0]?.text;
-  if(!out) throw new Error('Gemini não devolveu texto (conteúdo bloqueado?)');
+  if(!out){
+    const fin=d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'sem motivo informado';
+    logLine('err','Gemini respondeu 200 mas sem texto',`finishReason/blockReason: ${fin}`);
+    throw new Error(`[Gemini] Respondeu sem texto (${fin}). Reescreva a descrição da imagem.`);
+  }
+  logLine('ok',`Gemini OK (${ms}ms, ${model})`,out.slice(0,160));
   return out.trim();
 }
 
@@ -842,34 +931,151 @@ function buildImageUrl(prompt,cw,ch,seed){
 
 // fetch → blob → objectURL: a imagem vira same-origin, então o canvas nunca
 // fica "tainted" e o export não morre com SecurityError. Também dá timeout.
-async function loadImageFromUrl(url,timeoutMs=60000){
+async function loadImageFromUrl(url,timeoutMs=60000,quiet){
   const ac=new AbortController();
   const timer=setTimeout(()=>ac.abort(),timeoutMs);
+  const t0=performance.now();
   let blobUrl=null;
   try{
-    const res=await fetch(url,{signal:ac.signal,mode:'cors'});
-    if(!res.ok) throw new Error('Pollinations respondeu '+res.status);
+    if(!quiet) logLine('info','Pollinations: pedindo imagem…',url.slice(0,220));
+    const tok=(document.getElementById('pollToken')||{}).value;
+    const headers = tok && tok.trim() ? {'Authorization':'Bearer '+tok.trim()} : undefined;
+    const res=await fetch(url,{signal:ac.signal,mode:'cors',headers});
+    const ms=Math.round(performance.now()-t0);
+    if(!res.ok){
+      let body='';
+      try{ body=(await res.text()).slice(0,300); }catch(_){}
+      logLine('err',`Pollinations HTTP ${res.status} (${ms}ms)`,body);
+      if(res.status===403||/turnstile|captcha/i.test(body))
+        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations no passo 3, ou troque a "Fonte da imagem" para Gemini.');
+      throw new Error(`Pollinations respondeu HTTP ${res.status}${res.status===429?' (limite de requisições — espere alguns segundos)':''}${body?': '+body:''}`);
+    }
     const blob=await res.blob();
-    if(!blob.type.startsWith('image/')) throw new Error('Resposta não é uma imagem');
+    if(!blob.type.startsWith('image/')){
+      logLine('err',`Pollinations devolveu "${blob.type||'?'}" em vez de imagem (${ms}ms)`);
+      throw new Error(`Pollinations devolveu "${blob.type||'tipo desconhecido'}" em vez de uma imagem.`);
+    }
     blobUrl=URL.createObjectURL(blob);
     const img=new Image();
     await new Promise((ok,bad)=>{
       img.onload=ok;
-      img.onerror=()=>bad(new Error('Arquivo de imagem inválido'));
+      img.onerror=()=>bad(new Error('Arquivo de imagem inválido (download corrompido)'));
       img.src=blobUrl;
     });
     img._blobUrl=blobUrl;
+    if(!quiet) logLine('ok',`Pollinations OK (${ms}ms, ${blob.type}, ${(blob.size/1024).toFixed(0)} KB, ${img.width}x${img.height})`);
     return img;
   }catch(e){
     if(blobUrl) URL.revokeObjectURL(blobUrl);
-    if(e.name==='AbortError') throw new Error('Timeout: Pollinations demorou demais. Tente de novo.');
+    if(e.name==='AbortError'){
+      logLine('err',`Pollinations: timeout após ${Math.round(timeoutMs/1000)}s`);
+      throw new Error(`Timeout: Pollinations não respondeu em ${Math.round(timeoutMs/1000)}s. O serviço é gratuito e cai com frequência — tente de novo.`);
+    }
+    if(e.name==='TypeError'){
+      const m=describeNetErr(e,'image.pollinations.ai');
+      logLine('err','Pollinations: erro de rede',m);
+      throw new Error(m);
+    }
     throw e;
   }finally{ clearTimeout(timer); }
 }
 
 function setFrameImage(f,img,url){
   if(f.image&&f.image._blobUrl&&f.image._blobUrl!==img._blobUrl) URL.revokeObjectURL(f.image._blobUrl);
-  f.image=img; f.imageUrl=url;
+  f.image=img; f.imageUrl=url||null;
+  f.imageBytes=img._bytes||null;
+  if(f.imageBytes) idbPut('img:'+f.id,{bytes:f.imageBytes.buffer.slice(0),mime:img._mime||'image/png'});
+}
+
+// Constrói um <img> a partir de bytes já em memória (Gemini devolve base64,
+// não URL), pelo mesmo caminho blob → same-origin que evita canvas tainted.
+async function imageFromBytes(bytes,mime){
+  const blobUrl=URL.createObjectURL(new Blob([bytes],{type:mime||'image/png'}));
+  const img=new Image();
+  try{
+    await new Promise((ok,bad)=>{
+      img.onload=ok;
+      img.onerror=()=>bad(new Error('Bytes não formam uma imagem válida'));
+      img.src=blobUrl;
+    });
+  }catch(e){ URL.revokeObjectURL(blobUrl); throw e; }
+  img._blobUrl=blobUrl; img._bytes=bytes; img._mime=mime||'image/png';
+  return img;
+}
+
+function gmImgModel(){ return document.getElementById('gmImgModel').value.trim(); }
+function imgSource(){ return document.getElementById('imgSource').value; }
+
+function onImgSourceChange(){
+  document.getElementById('pollRow').style.display = imgSource()==='pollinations' ? 'block' : 'none';
+  saveState();
+}
+
+// ── IMAGEM VIA GEMINI ────────────────────────────────────
+async function geminiImage(prompt,key){
+  const model=gmImgModel();
+  if(!model) throw new Error('Escolha o "Modelo de imagem" no passo 1 (clique em Carregar modelos).');
+  const url=`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
+  const text=prompt+'. Vertical 9:16 composition, cinematic, ultra detailed, no text, no letters, no watermark.';
+
+  const send=async(withModalities)=>{
+    const body={contents:[{parts:[{text}]}]};
+    if(withModalities) body.generationConfig={responseModalities:['TEXT','IMAGE']};
+    return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  };
+
+  const t0=performance.now();
+  let res;
+  try{ res=await send(true); }
+  catch(e){ throw new Error(describeNetErr(e,'generativelanguage.googleapis.com')); }
+
+  if(!res.ok){
+    let msg='HTTP '+res.status;
+    try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
+    // nem toda versão aceita responseModalities; tenta de novo sem o campo
+    if(/responseModalities|response_modalities|Unknown name|Invalid JSON payload/i.test(msg)){
+      logLine('warn','Gemini recusou responseModalities, repetindo sem o campo…',msg);
+      try{ res=await send(false); }
+      catch(e){ throw new Error(describeNetErr(e,'generativelanguage.googleapis.com')); }
+      if(!res.ok){
+        let m2='HTTP '+res.status;
+        try{const e=await res.json();m2=e.error?.message||m2;}catch(_){}
+        logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model})`,m2);
+        throw new Error(`${m2} — modelo "${model}" pode não gerar imagens. Escolha outro no passo 1.`);
+      }
+    }else{
+      logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model})`,msg);
+      if(res.status===404) msg=`Modelo "${model}" não existe para esta key. Clique em "Carregar modelos".`;
+      if(res.status===429) msg='Cota do Gemini estourada (429). '+msg;
+      throw new Error(msg);
+    }
+  }
+
+  const ms=Math.round(performance.now()-t0);
+  const d=await res.json();
+  const parts=d.candidates?.[0]?.content?.parts||[];
+  const p=parts.find(x=>(x.inlineData&&x.inlineData.data)||(x.inline_data&&x.inline_data.data));
+  if(!p){
+    const why=d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'sem imagem na resposta';
+    const txt=parts.map(x=>x.text).filter(Boolean).join(' ').slice(0,200);
+    logLine('err',`Gemini imagem: resposta sem imagem (${why})`,txt||JSON.stringify(d).slice(0,300));
+    throw new Error(`Modelo "${model}" não devolveu imagem (${why}). Confirme que escolheu um modelo de imagem no passo 1.`);
+  }
+  const inline=p.inlineData||p.inline_data;
+  const bytes=b64ToBytes(inline.data);
+  const mime=inline.mimeType||inline.mime_type||'image/png';
+  const img=await imageFromBytes(bytes,mime);
+  logLine('ok',`Gemini imagem OK (${ms}ms, ${mime}, ${(bytes.length/1024).toFixed(0)} KB, ${img.width}x${img.height})`);
+  return img;
+}
+
+// Roteia entre as fontes e devolve {img, url} — url só existe na Pollinations.
+async function makeImage(enhanced,key,cw,ch){
+  if(imgSource()==='gemini'){
+    return {img:await geminiImage(enhanced,key), url:null};
+  }
+  const url=buildImageUrl(enhanced,cw,ch,Math.floor(Math.random()*99999));
+  return {img:await loadImageFromUrl(url), url};
 }
 
 function currentRes(){
@@ -1010,14 +1216,20 @@ async function narrateSingle(i){
   setABadge(i,'b-gen','⏳ voz…');
   showOv(`🎤 Cena ${i+1}: gerando narração…`);
   setStatus(`Cena ${i+1}: chamando ElevenLabs…`);
+  logLine('info',`Cena ${i+1}: pedindo narração à ElevenLabs…`,narrationOf(f).slice(0,160));
   try{
     const r=await ttsScene(f);
+    f.lastError=null;
+    logLine('ok',`Cena ${i+1}: áudio ${r.dur.toFixed(1)}s${r.synced?' (com timestamps)':' (sem timestamps)'}`);
     hideOv();
     renderCards(); checkDone(); updateTotals(); saveState();
     setStatus(`✅ Cena ${i+1}: ${r.dur.toFixed(1)}s${r.synced?' com sync palavra a palavra':' (sem sync — narração difere do texto na tela)'}`);
     if(f.image) previewFrame(i);
   }catch(e){
+    f.lastError='[ElevenLabs] '+e.message;
+    logLine('err',`Cena ${i+1}: narração falhou`,e.message);
     setABadge(i,'b-err','✗ voz'); hideOv(); setStatus('❌ '+e.message);
+    renderCards();
   }
 }
 
@@ -1037,11 +1249,16 @@ async function narrateAll(){
     setProg(Math.round((i/frames.length)*100));
     try{
       const r=await ttsScene(frames[i]);
+      frames[i].lastError=null;
+      logLine('ok',`Cena ${i+1}: áudio ${r.dur.toFixed(1)}s${r.synced?' (com timestamps)':' (sem timestamps)'}`);
       if(r.synced) synced++;
       setABadge(i,'b-aud','🔊 '+r.dur.toFixed(1)+'s');
     }catch(e){
-      fails++; setABadge(i,'b-err','✗ voz'); setStatus('❌ Cena '+(i+1)+': '+e.message);
-      if(/inválida|429/.test(e.message)) break;
+      fails++;
+      frames[i].lastError='[ElevenLabs] '+e.message;
+      logLine('err',`Cena ${i+1}: narração falhou`,e.message);
+      setABadge(i,'b-err','✗ voz'); setStatus('❌ Cena '+(i+1)+': '+e.message);
+      if(/inválida|429/.test(e.message)){ logLine('warn','Interrompendo o lote: erro de key ou limite.'); break; }
     }
   }
   setProg(100); hideOv();
@@ -1063,18 +1280,26 @@ async function generateSingle(i){
   setBadge(i,'b-gen','⏳ gerando…');
   showOv(`🤖 Cena ${i+1}: Gemini traduzindo…`);
   setStatus(`Cena ${i+1}: aprimorando prompt…`);
+  logLine('info',`Cena ${i+1}: iniciando geração de imagem…`,f.prompt);
   try{
     const enhanced=await enhancePrompt(f.prompt,key);
     f.enhanced=enhanced;
     showOv(`🎨 Cena ${i+1}: gerando imagem…<br><small style="color:#444">~15 seg</small>`);
     setStatus(`Cena ${i+1}: gerando imagem…`);
-    const url=buildImageUrl(enhanced,cw,ch,Math.floor(Math.random()*99999));
-    setFrameImage(f,await loadImageFromUrl(url),url);
+    let made;
+    try{ made=await makeImage(enhanced,key,cw,ch); }
+    catch(e){ throw new Error('[Imagem] '+e.message); }
+    setFrameImage(f,made.img,made.url);
+    f.lastError=null;
     setBadge(i,'b-done','✓ imagem');
     hideOv();setStatus(`✅ Cena ${i+1} gerada!`);
+    logLine('ok',`Cena ${i+1}: imagem pronta.`);
     renderCards();previewFrame(i);checkDone();saveState();
   }catch(e){
+    f.lastError=e.message;
+    logLine('err',`Cena ${i+1} falhou`,e.message);
     setBadge(i,'b-err','✗ erro');hideOv();setStatus('❌ '+e.message);
+    renderCards();
   }
 }
 
@@ -1097,16 +1322,23 @@ async function generateAll(){
     showOv(`🤖 Cena ${i+1}/${frames.length}: Gemini…`);
     setStatus(`Cena ${i+1}/${frames.length}: aprimorando prompt…`);
     setProg(Math.round((i/frames.length)*100));
+    logLine('info',`Cena ${i+1}/${frames.length}: iniciando…`,f.prompt);
     try{
       f.enhanced=await enhancePrompt(f.prompt,key);
       showOv(`🎨 Cena ${i+1}/${frames.length}: gerando imagem…<br><small style="color:#444">~15 seg</small>`);
       setStatus(`Cena ${i+1}/${frames.length}: gerando imagem…`);
-      const url=buildImageUrl(f.enhanced,cw,ch,Math.floor(Math.random()*99999));
-      setFrameImage(f,await loadImageFromUrl(url),url);
+      let made;
+      try{ made=await makeImage(f.enhanced,key,cw,ch); }
+      catch(e){ throw new Error('[Imagem] '+e.message); }
+      setFrameImage(f,made.img,made.url);
+      f.lastError=null;
       setBadge(i,'b-done','✓ imagem');
+      logLine('ok',`Cena ${i+1}: imagem pronta.`);
       previewFrame(i);
     }catch(e){
       fails++;
+      f.lastError=e.message;
+      logLine('err',`Cena ${i+1} falhou`,e.message);
       setBadge(i,'b-err','✗ erro');setStatus('❌ Cena '+(i+1)+': '+e.message);
     }
     if(i<frames.length-1) await new Promise(r=>setTimeout(r,800));
@@ -1331,6 +1563,95 @@ FFmpeg (monta tudo de uma vez):
   }
 }
 
+// ── LOG / DIAGNÓSTICO ────────────────────────────────────
+// A barra de status guarda uma linha só e é sobrescrita pela cena seguinte;
+// sem histórico não dá para saber qual etapa quebrou nem o que o servidor disse.
+const LOG=[];
+function logLine(level,msg,detail){
+  LOG.push({t:new Date().toLocaleTimeString('pt-BR'),level,msg,detail:detail?String(detail):''});
+  if(LOG.length>300) LOG.shift();
+  renderLog();
+  if(level==='err') console.error('[ShortsCreator] '+msg,detail||'');
+}
+function renderLog(){
+  const box=document.getElementById('logBox');
+  if(!box) return;
+  const near = box.scrollTop+box.clientHeight >= box.scrollHeight-40;
+  box.innerHTML=LOG.map(l=>
+    `<span class="lg-t">${l.t}</span> <span class="lg-${l.level}">${esc(l.msg)}</span>`+
+    (l.detail?`<span class="lg-d">${esc(l.detail)}</span>`:'')
+  ).join('<br>');
+  if(near) box.scrollTop=box.scrollHeight;
+}
+function clearLog(){ LOG.length=0; renderLog(); }
+function copyLog(){
+  const txt=LOG.map(l=>`${l.t} [${l.level}] ${l.msg}${l.detail?'\n    '+l.detail:''}`).join('\n');
+  copyText(txt||'(log vazio)').then(ok=>logLine(ok?'ok':'warn',ok?'Log copiado.':'Não consegui copiar — selecione o texto à mão.'));
+}
+
+// Erros de rede do fetch vêm como TypeError sem detalhe nenhum ("Failed to
+// fetch"), que é o caso mais confuso de todos. Traduzir para algo acionável.
+function describeNetErr(e,host){
+  if(e && e.name==='TypeError')
+    return `Não consegui falar com ${host}. Causas comuns: sem internet, o site fora do ar, bloqueio de CORS, ou a página aberta como arquivo (file://) em vez de http://localhost.`;
+  return e && e.message ? e.message : String(e);
+}
+
+async function testConnections(){
+  logLine('info','── Teste de conexões ──');
+  const gKey=document.getElementById('apiKey').value.trim();
+  const eKey=elKey();
+
+  // 1) Gemini
+  if(!gKey) logLine('warn','Gemini: sem key, pulando.');
+  else{
+    const t0=performance.now();
+    try{
+      const r=await fetch(`${GM_API}/models?pageSize=1&key=${gKey}`);
+      const ms=Math.round(performance.now()-t0);
+      if(r.ok) logLine('ok',`Gemini OK (${r.status}, ${ms}ms) — modelo atual: ${gmModel()}`);
+      else{
+        let m='';try{m=(await r.json()).error?.message||'';}catch(_){}
+        logLine('err',`Gemini falhou (HTTP ${r.status}, ${ms}ms)`,m);
+      }
+    }catch(e){ logLine('err','Gemini: erro de rede',describeNetErr(e,'generativelanguage.googleapis.com')); }
+  }
+
+  // 2) Pollinations — imagem minúscula só para provar o caminho
+  {
+    const url=buildImageUrl('a red square',64,64,1);
+    const t0=performance.now();
+    try{
+      const r=await fetch(url,{mode:'cors'});
+      const ms=Math.round(performance.now()-t0);
+      if(!r.ok){ logLine('err',`Pollinations falhou (HTTP ${r.status}, ${ms}ms)`,(await r.text()).slice(0,300)); }
+      else{
+        const b=await r.blob();
+        if(!b.type.startsWith('image/')) logLine('err',`Pollinations devolveu ${b.type||'tipo desconhecido'} em vez de imagem (${ms}ms)`);
+        else logLine('ok',`Pollinations OK (${r.status}, ${ms}ms, ${b.type}, ${b.size} bytes)`);
+      }
+    }catch(e){ logLine('err','Pollinations: erro de rede',describeNetErr(e,'image.pollinations.ai')); }
+  }
+
+  // 3) ElevenLabs
+  if(!eKey) logLine('warn','ElevenLabs: sem key, pulando.');
+  else{
+    const t0=performance.now();
+    try{
+      const r=await fetch(EL_API+'/user',{headers:{'xi-api-key':eKey}});
+      const ms=Math.round(performance.now()-t0);
+      if(r.ok) logLine('ok',`ElevenLabs OK (${r.status}, ${ms}ms) — voz: ${voiceId()||'(nenhuma escolhida)'}`);
+      else{
+        let m='';try{const j=await r.json();m=j.detail?.message||JSON.stringify(j.detail||j).slice(0,300);}catch(_){}
+        logLine('err',`ElevenLabs falhou (HTTP ${r.status}, ${ms}ms)`,m);
+      }
+    }catch(e){ logLine('err','ElevenLabs: erro de rede',describeNetErr(e,'api.elevenlabs.io')); }
+  }
+
+  logLine('info','── Fim do teste ──');
+  setStatus('Teste concluído — veja o passo 7.');
+}
+
 // ── IMPORTAR / EXPORTAR ROTEIRO (JSON) ───────────────────
 // Aceita nomes em pt e en para os campos, porque o JSON vem de um LLM e
 // exigir uma grafia exata só geraria import falhando por detalhe bobo.
@@ -1421,7 +1742,8 @@ function importJSON(){
     f.style=s.estilo; f.animType=s.animacao;
     if(o){
       if(o.image && o.prompt===f.prompt){
-        f.image=o.image; f.imageUrl=o.imageUrl; f.enhanced=o.enhanced;
+        f.image=o.image; f.imageUrl=o.imageUrl; f.imageBytes=o.imageBytes; f.enhanced=o.enhanced;
+        if(o.imageBytes&&f.id!==o.id) idbPut('img:'+f.id,{bytes:o.imageBytes.buffer.slice(0),mime:o.image._mime||'image/png'});
         o.image=null; // não revogar a blob URL que acabou de ser adotada
       }
       if(o.audioBuffer && narrationOf(o)===narrationOf(f)){
@@ -1433,7 +1755,7 @@ function importJSON(){
     }
     return f;
   });
-  old.forEach(o=>{ freeFrameAssets(o); if(!keptIds.has(o.id)) idbDel(o.id); });
+  old.forEach(o=>{ freeFrameAssets(o); if(!keptIds.has(o.id)){ idbDel(o.id); idbDel('img:'+o.id); } });
 
   frames=next;
   document.getElementById('frameCount').value=frames.length;
