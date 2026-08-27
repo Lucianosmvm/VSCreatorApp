@@ -123,6 +123,10 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
 .tip.warn{border-color:rgba(167,139,250,.2);color:#8b7fb0}
 .tip code{color:#8a8a8a}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.45;min-height:112px}
+textarea.masked{-webkit-text-security:disc;text-security:disc}
+.keystat{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.5}
+.keystat b{color:var(--green)}
+.keystat .dead{color:var(--accent)}
 .logbox{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:9px 10px;max-height:230px;overflow-y:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
 .logbox:empty::before{content:'Nada registrado ainda.';color:var(--dim)}
 .lg-t{color:#555}
@@ -165,8 +169,8 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
       <div class="fpill">GRÁTIS</div>
     </div>
     <div class="key-wrap">
-      <input type="password" id="apiKey" placeholder="AIzaSy..." autocomplete="off" oninput="saveStateSoon()">
-      <button class="eye" onclick="toggleKey('apiKey')">👁</button>
+      <textarea id="apiKeys" class="mono masked" placeholder="AIzaSy...&#10;cole outra key na próxima linha" spellcheck="false" autocomplete="off" style="min-height:70px" oninput="onKeysChange()"></textarea>
+      <button class="eye" onclick="toggleMask('apiKeys')">👁</button>
     </div>
 
     <label>Modelo de texto (traduz o prompt)</label>
@@ -180,6 +184,9 @@ audio{width:100%;height:32px;margin-top:8px;display:block}
     </select>
     <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:8px">↻ Carregar modelos da minha key</button>
 
+    <div class="keystat" id="keyStat"></div>
+    <button class="btn-sm btn-del" onclick="resetKeyQuota()" style="margin-top:7px">↺ Marcar todas as keys como disponíveis</button>
+    <div class="tip"><b style="color:#888">Uma key por linha.</b> Quando uma estoura a cota (429), o app marca ela e continua na próxima automaticamente — o lote não para. A cota do plano grátis é por projeto e reseta diariamente; use apenas keys suas.</div>
     <div class="tip"><a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create → Copiar. Grátis até 1.500 req/dia, sem cartão.<br>
     O Google aposenta modelos de tempos em tempos. Se der erro de modelo, clique em <b style="color:#888">Carregar modelos</b> e escolha um da lista — ela vem direto da API, então está sempre certa.</div>
   </div>
@@ -363,6 +370,8 @@ const LS_KEY = 'shortsCreator.v2';
 // declarado junto do estado: loadState() roda no init e já chama logLine(),
 // que morreria na TDZ se LOG fosse declarado lá embaixo com o resto do log
 const LOG=[];
+let gmKeyIdx=0;
+const gmExhausted=new Set();   // keys que já bateram cota nesta sessão
 
 // ── STYLES ───────────────────────────────────────────────
 const STYLES = {
@@ -441,7 +450,7 @@ function saveState(){
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
-      apiKey: remember ? document.getElementById('apiKey').value : '',
+      apiKeys: remember ? document.getElementById('apiKeys').value : '',
       elKey:  remember ? document.getElementById('elKey').value  : ''
     }));
   }catch(e){ /* cota cheia ou modo privado: segue sem persistir */ }
@@ -492,7 +501,8 @@ function loadState(){
   }
   document.getElementById('rememberKey').checked = !!d.rememberKey;
   if(d.rememberKey){
-    if(d.apiKey) document.getElementById('apiKey').value = d.apiKey;
+    if(d.apiKeys) document.getElementById('apiKeys').value = d.apiKeys;
+    else if(d.apiKey) document.getElementById('apiKeys').value = d.apiKey;  // sessões antigas: key única
     if(d.elKey)  document.getElementById('elKey').value  = d.elKey;
   }
 }
@@ -547,6 +557,7 @@ function freeFrameAssets(f){
 // ── INIT ─────────────────────────────────────────────────
 loadState();
 document.getElementById('pollRow').style.display = imgSource()==='pollinations' ? 'block' : 'none';
+updateKeyStatus();
 buildFrames();
 drawBlank(ctx, PW, PH);
 checkDone();
@@ -837,12 +848,70 @@ document.addEventListener('visibilitychange',()=>{
 // ── GEMINI ───────────────────────────────────────────────
 const GM_API='https://generativelanguage.googleapis.com/v1beta';
 
-function gmModel(){ return document.getElementById('gmModel').value || 'gemini-2.0-flash'; }
+function gmModel(){ return document.getElementById('gmModel').value || 'gemini-2.5-flash'; }
+
+// Várias keys, uma por linha. Aceita vírgula e ponto-e-vírgula porque colar
+// de uma planilha é o caminho mais provável.
+function gmKeys(){
+  return document.getElementById('apiKeys').value.split(/[\s,;]+/).map(k=>k.trim()).filter(Boolean);
+}
+function gmLiveKeys(){ return gmKeys().filter(k=>!gmExhausted.has(k)); }
+function maskKey(k){ return k.length<12 ? '***' : k.slice(0,6)+'…'+k.slice(-4); }
+
+function updateKeyStatus(){
+  const keys=gmKeys(), live=gmLiveKeys();
+  const el=document.getElementById('keyStat');
+  if(!keys.length){ el.innerHTML='<span class="dead">Nenhuma key colada.</span>'; return; }
+  const cur=keys[gmKeyIdx%keys.length];
+  el.innerHTML=`${keys.length} key(s) · ativa: <b>${esc(maskKey(cur))}</b>`+
+    (keys.length-live.length ? ` · <span class="dead">${keys.length-live.length} sem cota</span>` : '');
+}
+function onKeysChange(){ gmKeyIdx=0; updateKeyStatus(); saveStateSoon(); }
+function resetKeyQuota(){
+  gmExhausted.clear(); gmKeyIdx=0; updateKeyStatus();
+  logLine('info','Todas as keys marcadas como disponíveis de novo.');
+  setStatus('✅ Keys liberadas. Pode gerar.');
+}
+function toggleMask(id){ document.getElementById(id).classList.toggle('masked'); }
+
+// 429 e 403-de-cota não adiantam repetir na mesma key: o certo é trocar.
+// Key inválida também é descartada para não travar o lote inteiro.
+function isKeyDead(status,msg){
+  if(status===429) return true;
+  if(status===403 && /quota|exceed|exhaust|billing|disabled/i.test(msg)) return true;
+  if(status===400 && /api key not valid|invalid api key/i.test(msg)) return true;
+  return false;
+}
+
+// Executa run(key) e, se a key morrer, marca e tenta a próxima.
+async function withKeyRotation(label,run){
+  const keys=gmKeys();
+  if(!keys.length) throw new Error('Cole ao menos uma API key do Google no passo 1.');
+  let last=null, tried=0;
+  for(let n=0;n<keys.length;n++){
+    const i=(gmKeyIdx+n)%keys.length;
+    const key=keys[i];
+    if(gmExhausted.has(key)) continue;
+    gmKeyIdx=i; updateKeyStatus(); tried++;
+    try{ return await run(key); }
+    catch(e){
+      last=e;
+      if(!e || !e.keyDead) throw e;
+      gmExhausted.add(key);
+      updateKeyStatus();
+      const restantes=gmLiveKeys().length;
+      logLine('warn',`${label}: key ${i+1}/${keys.length} (${maskKey(key)}) fora de cota — ${restantes} key(s) restante(s)`,e.message);
+      setStatus(`🔑 Key ${i+1} sem cota. Trocando… (${restantes} restante(s))`);
+    }
+  }
+  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra no passo 1 ou clique em "Marcar todas como disponíveis".`);
+  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key no passo 1 ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
+}
 
 // O Google aposenta modelos e o ID varia por key/região, então não vale
 // cravar um no código: pergunta à própria API quais existem.
 async function loadGeminiModels(){
-  const key=document.getElementById('apiKey').value.trim();
+  const key=gmLiveKeys()[0]||gmKeys()[0]||'';
   if(!key){ setStatus('⚠️ Cole a API key do Google no passo 1.'); return; }
   setStatus('↻ Buscando modelos disponíveis…');
   try{
@@ -905,15 +974,20 @@ async function loadGeminiModels(){
   }
 }
 
-async function enhancePrompt(desc,key){
+function enhancePrompt(desc){
+  return withKeyRotation('Gemini texto', key=>enhancePromptWithKey(desc,key));
+}
+
+async function enhancePromptWithKey(desc,key){
   const model=gmModel();
+  const retryOn = gmLiveKeys().length>1 ? RETRY_5XX : RETRY_STATUS;
   const t0=performance.now();
   let res;
   try{
     res=await fetchRetry(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for a YouTube Shorts vertical background (9:16, cinematic, dramatic, ultra-detailed). Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
-    },{label:`Gemini texto (${model})`,tries:4,timeoutMs:60000});
+    },{label:`Gemini texto (${model})`,tries:4,timeoutMs:60000,retryOn});
   }catch(e){
     throw new Error('[Gemini] '+describeNetErr(e,'generativelanguage.googleapis.com'));
   }
@@ -921,7 +995,8 @@ async function enhancePrompt(desc,key){
   if(!res.ok){
     let msg='HTTP '+res.status;
     try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
-    logLine('err',`Gemini HTTP ${res.status} (${ms}ms, modelo ${model})`,msg);
+    logLine('err',`Gemini HTTP ${res.status} (${ms}ms, modelo ${model}, key ${maskKey(key)})`,msg);
+    if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
       msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no passo 1 e escolha outro. Google disse: ${msg}`;
@@ -1031,8 +1106,13 @@ function onImgSourceChange(){
 }
 
 // ── IMAGEM VIA GEMINI ────────────────────────────────────
-async function geminiImage(prompt,key){
+function geminiImage(prompt){
+  return withKeyRotation('Gemini imagem', key=>geminiImageWithKey(prompt,key));
+}
+
+async function geminiImageWithKey(prompt,key){
   const model=gmImgModel();
+  const retryOn = gmLiveKeys().length>1 ? RETRY_5XX : RETRY_STATUS;
   if(!model) throw new Error('Escolha o "Modelo de imagem" no passo 1 (clique em Carregar modelos).');
   const url=`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
   const text=prompt+'. Vertical 9:16 composition, cinematic, ultra detailed, no text, no letters, no watermark.';
@@ -1041,7 +1121,7 @@ async function geminiImage(prompt,key){
     const body={contents:[{parts:[{text}]}]};
     if(withModalities) body.generationConfig={responseModalities:['TEXT','IMAGE']};
     return fetchRetry(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},
-                      {label:`Gemini imagem (${model})`,tries:4,timeoutMs:120000});
+                      {label:`Gemini imagem (${model})`,tries:4,timeoutMs:120000,retryOn});
   };
 
   const t0=performance.now();
@@ -1064,7 +1144,8 @@ async function geminiImage(prompt,key){
         throw new Error(`${m2} — modelo "${model}" pode não gerar imagens. Escolha outro no passo 1.`);
       }
     }else{
-      logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model})`,msg);
+      logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model}, key ${maskKey(key)})`,msg);
+      if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
       if(res.status===404) msg=`Modelo "${model}" não existe para esta key. Clique em "Carregar modelos".`;
       if(res.status===429) msg='Cota do Gemini estourada (429). '+msg;
       if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de imagem no passo 1 ou espere alguns minutos. ${msg}`;
@@ -1091,9 +1172,9 @@ async function geminiImage(prompt,key){
 }
 
 // Roteia entre as fontes e devolve {img, url} — url só existe na Pollinations.
-async function makeImage(enhanced,key,cw,ch){
+async function makeImage(enhanced,cw,ch){
   if(imgSource()==='gemini'){
-    return {img:await geminiImage(enhanced,key), url:null};
+    return {img:await geminiImage(enhanced), url:null};
   }
   const url=buildImageUrl(enhanced,cw,ch,Math.floor(Math.random()*99999));
   return {img:await loadImageFromUrl(url), url};
@@ -1292,10 +1373,10 @@ async function narrateAll(){
 // ── GENERATE SINGLE ───────────────────────────────────────
 async function generateSingle(i){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
-  const key=document.getElementById('apiKey').value.trim();
   syncFrame(i);
   const f=frames[i];
-  if(!key){setStatus('⚠️ Cole sua API key no passo 1.');return;}
+  if(!gmKeys().length){setStatus('⚠️ Cole sua API key no passo 1.');return;}
+  if(!gmLiveKeys().length){setStatus('⚠️ Todas as keys estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   if(!f.prompt){setStatus('⚠️ Descreva a imagem da cena '+(i+1));return;}
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
@@ -1303,12 +1384,12 @@ async function generateSingle(i){
   setStatus(`Cena ${i+1}: aprimorando prompt…`);
   logLine('info',`Cena ${i+1}: iniciando geração de imagem…`,f.prompt);
   try{
-    const enhanced=await enhancePrompt(f.prompt,key);
+    const enhanced=await enhancePrompt(f.prompt);
     f.enhanced=enhanced;
     showOv(`🎨 Cena ${i+1}: gerando imagem…<br><small style="color:#444">~15 seg</small>`);
     setStatus(`Cena ${i+1}: gerando imagem…`);
     let made;
-    try{ made=await makeImage(enhanced,key,cw,ch); }
+    try{ made=await makeImage(enhanced,cw,ch); }
     catch(e){ throw new Error('[Imagem] '+e.message); }
     setFrameImage(f,made.img,made.url);
     f.lastError=null;
@@ -1327,8 +1408,8 @@ async function generateSingle(i){
 // ── GENERATE ALL ─────────────────────────────────────────
 async function generateAll(onlyMissing){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
-  const key=document.getElementById('apiKey').value.trim();
-  if(!key){setStatus('⚠️ Cole sua API key no passo 1.');return;}
+  if(!gmKeys().length){setStatus('⚠️ Cole sua API key no passo 1.');return;}
+  if(!gmLiveKeys().length){setStatus('⚠️ Todas as keys estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   frames.forEach((_,i)=>syncFrame(i));
 
   // refazer só o que faltou evita queimar cota nas cenas que já deram certo
@@ -1354,11 +1435,11 @@ async function generateAll(onlyMissing){
     setProg(Math.round((done/targets.length)*100));
     logLine('info',`Cena ${i+1} (${done+1}/${targets.length}): iniciando…`,f.prompt);
     try{
-      f.enhanced=await enhancePrompt(f.prompt,key);
+      f.enhanced=await enhancePrompt(f.prompt);
       showOv(`🎨 Cena ${i+1}: gerando imagem…<br><small style="color:#444">~15 seg</small>`);
       setStatus(`Cena ${i+1}: gerando imagem…`);
       let made;
-      try{ made=await makeImage(f.enhanced,key,cw,ch); }
+      try{ made=await makeImage(f.enhanced,cw,ch); }
       catch(e){ throw new Error('[Imagem] '+e.message); }
       setFrameImage(f,made.img,made.url);
       f.lastError=null;
@@ -1637,6 +1718,8 @@ function describeNetErr(e,host){
 // congestionado e a mesma chamada costuma passar segundos depois. Sem retry,
 // uma cena morria por um soluço de infraestrutura alheia.
 const RETRY_STATUS=new Set([408,425,429,500,502,503,504]);
+// com mais de uma key, 429 vira motivo de troca e não de espera
+const RETRY_5XX=new Set([408,425,500,502,503,504]);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function backoffMs(attempt){
   const base=Math.pow(2,attempt)*1000;              // 2s, 4s, 8s, 16s
@@ -1646,13 +1729,14 @@ function backoffMs(attempt){
 async function fetchRetry(url,opts,cfg){
   cfg=cfg||{};
   const tries=cfg.tries||4, label=cfg.label||'servidor', timeoutMs=cfg.timeoutMs||90000;
+  const retryOn=cfg.retryOn||RETRY_STATUS;
   for(let a=1;a<=tries;a++){
     const ac=new AbortController();
     const timer=setTimeout(()=>ac.abort(),timeoutMs);
     try{
       const res=await fetch(url,Object.assign({},opts,{signal:ac.signal}));
       clearTimeout(timer);
-      if(res.ok || !RETRY_STATUS.has(res.status) || a===tries) return res;
+      if(res.ok || !retryOn.has(res.status) || a===tries) return res;
       const ra=parseFloat(res.headers.get('retry-after'));
       const wait=(ra>0?ra*1000:0)||backoffMs(a);
       logLine('warn',`${label}: HTTP ${res.status} — tentativa ${a}/${tries}, repetindo em ${(wait/1000).toFixed(1)}s`);
@@ -1675,7 +1759,7 @@ async function fetchRetry(url,opts,cfg){
 
 async function testConnections(){
   logLine('info','── Teste de conexões ──');
-  const gKey=document.getElementById('apiKey').value.trim();
+  const gKey=gmLiveKeys()[0]||gmKeys()[0]||'';
   const eKey=elKey();
 
   // 1) Gemini
