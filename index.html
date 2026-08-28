@@ -1114,9 +1114,28 @@ function resetKeyQuota(){
 }
 function toggleMask(id){ document.getElementById(id).classList.toggle('masked'); }
 
+// "limit: 0" não é cota gasta — é cota inexistente: o modelo não faz parte
+// do plano. Trocar de chave não muda nada, porque toda chave grátis tem 0 ali.
+// Tratar isso como chave morta queimava as duas chaves e ainda mandava o
+// usuário arrumar uma terceira.
+function isModeloForaDoPlano(status,msg){
+  return status===429 && /limit:\s*0\b/.test(msg||'');
+}
+
+// Mensagem única para os dois caminhos (texto e imagem).
+function erroForaDoPlano(model,qual){
+  const outros=[...document.getElementById(qual==='imagem'?'gmImgModel':'gmModel').options]
+    .map(o=>o.value).filter(v=>v&&v!==model);
+  return `"${model}" não está disponível no nível gratuito (a API respondeu "limit: 0"). `+
+    `Isso não é cota gasta: nenhuma chave grátis vai gerar com ele. `+
+    `Ative o faturamento no Google Cloud para essa chave, ou escolha outro modelo de ${qual} na aba Chaves.`+
+    (outros.length?` Outros na lista: ${outros.slice(0,4).join(', ')}.`:'');
+}
+
 // 429 e 403-de-cota não adiantam repetir na mesma key: o certo é trocar.
 // Key inválida também é descartada para não travar o lote inteiro.
 function isKeyDead(status,msg){
+  if(isModeloForaDoPlano(status,msg)) return false;
   if(status===429) return true;
   if(status===403 && /quota|exceed|exhaust|billing|disabled/i.test(msg)) return true;
   if(status===400 && /api key not valid|invalid api key/i.test(msg)) return true;
@@ -1268,6 +1287,10 @@ async function enhancePromptWithKey(desc,key){
     let msg='HTTP '+res.status;
     try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
     logLine('err',`Gemini HTTP ${res.status} (${ms}ms, modelo ${model}, key ${maskKey(key)})`,msg);
+    if(isModeloForaDoPlano(res.status,msg)){
+      logLine('warn',`Modelo de texto "${model}" fora do nível gratuito`,'limit: 0 — trocar de chave não resolve.');
+      throw new Error('[Gemini] '+erroForaDoPlano(model,'texto'));
+    }
     if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
@@ -1428,6 +1451,10 @@ async function geminiImageWithKey(prompt,key){
       }
     }else{
       logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model}, key ${maskKey(key)})`,msg);
+      if(isModeloForaDoPlano(res.status,msg)){
+        logLine('warn',`Modelo de imagem "${model}" fora do nível gratuito`,'limit: 0 — trocar de chave não resolve.');
+        throw new Error(erroForaDoPlano(model,'imagem'));
+      }
       if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
       if(res.status===404) msg=`Modelo "${model}" não existe para esta key. Clique em "Carregar modelos".`;
       if(res.status===429) msg='Cota do Gemini estourada (429). '+msg;
@@ -1914,7 +1941,7 @@ async function generateAll(onlyMissing){
       logLine('err',`Cena ${i+1} falhou`,e.message);
       setBadge(i,'b-err','✗ erro');setStatus('❌ Cena '+(i+1)+': '+e.message);
       // erro de configuracao se repete em toda cena: parar poupa cota
-      if(/respondeu com texto|nao devolveu imagem|nao existe para esta key|inválida/i.test(e.message)){
+      if(/respondeu com texto|nao devolveu imagem|nao existe para esta key|inválida|nível gratuito/i.test(e.message)){
         logLine('warn','Lote interrompido: o erro e de configuracao e vai repetir em todas as cenas.');
         break;
       }
