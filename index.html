@@ -1923,7 +1923,10 @@ async function renderVideo(){
     rec.ondataavailable=e=>{ if(e.data&&e.data.size) chunks.push(e.data); };
     const stopped=new Promise(r=>{ rec.onstop=r; });
 
-    rec.start(1000);
+    // sem timeslice: com rec.start(1000) o Chrome escreve um MP4 fragmentado
+    // cujo mvhd declarou 3,04s para um vídeo de 12s — sites de upload leem
+    // esse metadado. Um blob único ao parar sai com a duração correta.
+    rec.start();
 
     // Folga mínima entre ligar o gravador e soltar o áudio. Tentei esperar
     // rec.onstart para zerar isso, mas em aba oculta o evento demora e a
