@@ -254,6 +254,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
     <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Baixar peças soltas (p/ editar no CapCut)</button>
     <div class="tip">
+      <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
       <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir no Shorts, Reels ou TikTok. É em tempo real: 30 s de vídeo levam 30 s, e a aba precisa ficar visível.<br><br>
       <b style="color:#666">Baixar peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
     </div>
@@ -267,20 +268,21 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
   <div class="pickbox">
     <label for="imgSource">Fonte da imagem — quem gera o fundo das cenas</label>
     <select id="imgSource" onchange="onImgSourceChange()">
-      <option value="gemini" selected>Gemini · usa a key do Google abaixo</option>
-      <option value="replicate">Replicate · precisa do proxy local (serve.py)</option>
-      <option value="pollinations">Pollinations · grátis, exige token próprio</option>
+      <option value="replicate" selected>Replicate · precisa do proxy local (serve.py)</option>
+      <option value="pollinations">Pollinations · exige token e passar pelo Turnstile</option>
     </select>
-    <div class="hint">Isto decide quais chaves abaixo você precisa preencher.</div>
+    <div class="hint">A Replicate só funciona com <code>python serve.py</code> rodando na sua máquina — pelo GitHub Pages a API dela bloqueia o navegador (CORS).</div>
   </div>
 
   <!-- GOOGLE -->
-  <div class="sec">
+  <div class="sec" id="gmBox">
     <div class="sec-hd">
       <div class="sec-ic">🔵</div>
-      <div class="sec-t">Google AI Studio</div>
-      <div class="sec-pill">GRÁTIS</div>
+      <div class="sec-t">Google Gemini · tradução do prompt</div>
+      <div class="sec-pill">OPCIONAL</div>
     </div>
+    <label class="chk" style="margin-top:0"><input type="checkbox" id="useTranslate" checked onchange="onTranslateChange()"> Traduzir a descrição da cena para inglês antes de gerar</label>
+    <div class="hint">Geradores de imagem respondem melhor a prompt em inglês. Desligue se você já escrever as descrições em inglês — aí o Gemini não é usado para nada e as chaves abaixo ficam dispensáveis.</div>
 
     <label style="margin-top:0">Chaves — o app troca sozinho quando uma estoura a cota</label>
     <div id="gmKeyList"></div>
@@ -293,16 +295,11 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
       <option value="gemini-2.5-flash" selected>gemini-2.5-flash</option>
     </select>
 
-    <label>Modelo de imagem — gera o fundo da cena</label>
-    <select id="gmImgModel" onchange="saveState()">
-      <option value="">— clique em Carregar modelos —</option>
-    </select>
     <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:9px">↻ Carregar modelos da minha chave</button>
-    <label class="chk"><input type="checkbox" id="showAllModels" onchange="onShowAllModels()"> Mostrar todos os modelos nas duas listas</label>
-    <div class="hint">Cada lista mostra só os modelos do seu tipo. Marque a caixa se um modelo de imagem não aparecer — a API não informa a modalidade, a separação é pelo nome.</div>
 
     <div class="tip">
-      <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create. Grátis até 1.500 req/dia, sem cartão. A cota é por projeto, então dá para ter várias chaves criando projetos diferentes.
+      <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create. O nível gratuito cobre bem este uso, que é só traduzir uma frase por cena. A cota é por projeto, então dá para ter várias chaves criando projetos diferentes.<br>
+      A geração de <b>imagem</b> pelo Gemini foi removida: os modelos de imagem respondem <code>limit: 0</code> no nível gratuito, ou seja, exigem faturamento ativo.
     </div>
   </div>
 
@@ -619,8 +616,7 @@ function saveState(){
       elModel: document.getElementById('elModel').value,
       gmModel: document.getElementById('gmModel').value,
       textModel25: true,
-      gmImgModel: document.getElementById('gmImgModel').value,
-      showAllModels: document.getElementById('showAllModels').checked,
+      useTranslate: document.getElementById('useTranslate').checked,
       imgSource: document.getElementById('imgSource').value,
       pollToken: remember ? document.getElementById('pollToken').value : '',
       repToken: remember ? document.getElementById('repToken').value : '',
@@ -666,15 +662,13 @@ function loadState(){
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('voiceManual', d.voiceManual);
   // o modelo salvo pode não estar na lista curta inicial; insere para não perder
-  for(const pair of [['gmModel',d.gmModel],['gmImgModel',d.gmImgModel]]){
-    const id=pair[0], val=pair[1];
-    if(!val) continue;
-    const gs=document.getElementById(id);
-    if(![...gs.options].some(o=>o.value===val))
-      gs.insertAdjacentHTML('beforeend','<option value="'+esc(val)+'">'+esc(val)+'</option>');
-    gs.value=val;
+  if(d.gmModel){
+    const gs=document.getElementById('gmModel');
+    if(![...gs.options].some(o=>o.value===d.gmModel))
+      gs.insertAdjacentHTML('beforeend','<option value="'+esc(d.gmModel)+'">'+esc(d.gmModel)+'</option>');
+    gs.value=d.gmModel;
   }
-  document.getElementById('showAllModels').checked=!!d.showAllModels;
+  if(d.useTranslate!==undefined) document.getElementById('useTranslate').checked=!!d.useTranslate;
   if(d.imgSource) document.getElementById('imgSource').value=d.imgSource;
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
@@ -743,6 +737,7 @@ renderKeyRows(['']);
 loadState();
 restoreTab();
 syncSourceRows();
+onTranslateChange();
 updateKeyStatus();
 checkEnvironment(false);
 buildFrames();
@@ -1124,7 +1119,7 @@ function isModeloForaDoPlano(status,msg){
 
 // Mensagem única para os dois caminhos (texto e imagem).
 function erroForaDoPlano(model,qual){
-  const outros=[...document.getElementById(qual==='imagem'?'gmImgModel':'gmModel').options]
+  const outros=[...document.getElementById('gmModel').options]
     .map(o=>o.value).filter(v=>v&&v!==model);
   return `"${model}" não está disponível no nível gratuito (a API respondeu "limit: 0"). `+
     `Isso não é cota gasta: nenhuma chave grátis vai gerar com ele. `+
@@ -1201,11 +1196,9 @@ async function loadGeminiModels(){
     renderModelSelects();
     saveState();
 
-    const nImg=usable.filter(ehModeloDeImagem).length;
-    const sel=document.getElementById('gmModel'), isel=document.getElementById('gmImgModel');
-    logLine('ok',`${usable.length} modelos (${nImg} de imagem, ${usable.length-nImg} de texto)`,
-      `texto: ${sel.value} | imagem: ${isel.value||'(nenhum)'}`);
-    setStatus(`✅ ${usable.length} modelos · texto: ${sel.value} · imagem: ${isel.value||'nenhum encontrado'}`);
+    const sel=document.getElementById('gmModel');
+    logLine('ok',`${usable.length} modelos disponíveis`,`tradução usará: ${sel.value}`);
+    setStatus(`✅ ${usable.length} modelos · tradução: ${sel.value}`);
   }catch(e){
     setStatus('❌ '+e.message);
   }
@@ -1214,58 +1207,45 @@ async function loadGeminiModels(){
 // Só o nome distingue um gerador de imagem de um modelo de texto: a API não
 // declara a modalidade de saída. Por isso existe o "mostrar todos", para o
 // caso de um modelo novo não seguir a convenção.
-function ehModeloDeImagem(m){
-  const alvo=(m.id+' '+(m.label||'')+' '+(m.desc||'')).toLowerCase();
-  if(/embedding/.test(alvo)) return false;
-  return /image|imagen/.test(alvo);
-}
+// Só o nome distingue as famílias: a API não declara a modalidade de saída.
+// Aqui interessa apenas texto — a geração de imagem saiu para a Replicate.
 function ehModeloDeTexto(m){
-  return !/tts|audio|live|embedding/i.test(m.id) && !ehModeloDeImagem(m);
+  const alvo=(m.id+' '+(m.label||'')).toLowerCase();
+  return !/tts|audio|live|embedding|image|imagen/.test(alvo);
 }
 
 function renderModelSelects(){
-  const todos=document.getElementById('showAllModels')?.checked;
-  const sel=document.getElementById('gmModel'), isel=document.getElementById('gmImgModel');
-  const prevT=sel.value, prevI=isel.value;
+  const sel=document.getElementById('gmModel');
+  const prev=sel.value;
+  const txt=GM_MODELS.filter(ehModeloDeTexto);
+  const lista=txt.length?txt:GM_MODELS;
+  sel.innerHTML=lista.map(m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`).join('');
 
-  const opt=m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`;
-  const txt = todos ? GM_MODELS : GM_MODELS.filter(ehModeloDeTexto);
-  const img = todos ? GM_MODELS : GM_MODELS.filter(ehModeloDeImagem);
-
-  sel.innerHTML = (txt.length?txt:GM_MODELS).map(opt).join('');
-  isel.innerHTML = img.length
-    ? img.map(opt).join('')
-    : '<option value="">— nenhum modelo de imagem nesta chave —</option>';
-
-  // Este passo só traduz o prompt — não precisa do modelo de ponta, que é o
-  // mais disputado e o que mais devolve 503. Prefere 2.5-flash.
-  if([...sel.options].some(o=>o.value===prevT)) sel.value=prevT;
+  // Traduzir uma frase não pede o modelo de ponta, que é o mais disputado e o
+  // que mais devolve 503. Prefere 2.5-flash.
+  if([...sel.options].some(o=>o.value===prev)) sel.value=prev;
   else{
-    const noise=/thinking|live|tts|image|audio|embedding/i;
-    const pick = txt.find(m=>m.id==='gemini-2.5-flash')
-              || txt.find(m=>/^gemini-2\.5-flash/i.test(m.id) && !noise.test(m.id))
-              || txt.find(m=>/flash/i.test(m.id) && !noise.test(m.id))
-              || txt[0] || GM_MODELS[0];
+    const pick = lista.find(m=>m.id==='gemini-2.5-flash')
+              || lista.find(m=>/^gemini-2\.5-flash/i.test(m.id))
+              || lista.find(m=>/flash/i.test(m.id))
+              || lista[0];
     if(pick) sel.value=pick.id;
   }
-  if([...isel.options].some(o=>o.value===prevI)) isel.value=prevI;
-  else if(img.length){
-    // geramos por :generateContent; a familia Imagen usa :predict, entao
-    // ela so vale como ultimo recurso mesmo aparecendo na lista
-    const nativo=img.find(m=>!/^imagen/i.test(m.id));
-    isel.value=(nativo||img[0]).id;
+}
+
+function usaTraducao(){ return document.getElementById('useTranslate').checked; }
+function onTranslateChange(){
+  document.getElementById('gmBox').style.opacity = usaTraducao()?'1':'.45';
+  saveState();
+}
+
+// Sem tradução a descrição vai crua para o gerador. Vale quando o roteiro já
+// vem em inglês — e economiza uma chamada por cena.
+async function enhancePrompt(desc){
+  if(!usaTraducao()){
+    logLine('info','Tradução desligada: usando a descrição como está.',desc.slice(0,140));
+    return desc;
   }
-
-  if(!img.length) logLine('warn','Nenhum modelo de imagem nesta chave.',
-    'Marque "mostrar todos os modelos" se souber de um que gere imagem sem "image" no nome.');
-}
-
-function onShowAllModels(){
-  if(!GM_MODELS.length){ setStatus('⚠️ Clique em "Carregar modelos" primeiro.'); return; }
-  renderModelSelects(); saveState();
-}
-
-function enhancePrompt(desc){
   return withKeyRotation('Gemini texto', key=>enhancePromptWithKey(desc,key));
 }
 
@@ -1398,11 +1378,12 @@ async function imageFromBytes(bytes,mime){
   return img;
 }
 
-function gmImgModel(){ return document.getElementById('gmImgModel').value.trim(); }
+
 function imgSource(){ return document.getElementById('imgSource').value; }
 
 function onImgSourceChange(){
   syncSourceRows();
+  checkEnvironment(false);
   saveState();
 }
 function syncSourceRows(){
@@ -1411,81 +1392,7 @@ function syncSourceRows(){
   document.getElementById('repRow').style.display  = src==='replicate'    ? 'block' : 'none';
 }
 
-// ── IMAGEM VIA GEMINI ────────────────────────────────────
-function geminiImage(prompt){
-  return withKeyRotation('Gemini imagem', key=>geminiImageWithKey(prompt,key));
-}
-
-async function geminiImageWithKey(prompt,key){
-  const model=gmImgModel();
-  const retryOn = gmLiveKeys().length>1 ? RETRY_5XX : RETRY_STATUS;
-  if(!model) throw new Error('Escolha o "Modelo de imagem" na aba Chaves (clique em Carregar modelos).');
-  const url=`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
-  const text=prompt+'. Vertical 9:16 composition, cinematic, ultra detailed, no text, no letters, no watermark.';
-
-  const send=async(withModalities)=>{
-    const body={contents:[{parts:[{text}]}]};
-    if(withModalities) body.generationConfig={responseModalities:['TEXT','IMAGE']};
-    return fetchRetry(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},
-                      {label:`Gemini imagem (${model})`,tries:4,timeoutMs:120000,retryOn});
-  };
-
-  const t0=performance.now();
-  let res;
-  try{ res=await send(true); }
-  catch(e){ throw new Error(describeNetErr(e,'generativelanguage.googleapis.com')); }
-
-  if(!res.ok){
-    let msg='HTTP '+res.status;
-    try{const e=await res.json();msg=e.error?.message||msg;}catch(_){}
-    // nem toda versão aceita responseModalities; tenta de novo sem o campo
-    if(/responseModalities|response_modalities|Unknown name|Invalid JSON payload/i.test(msg)){
-      logLine('warn','Gemini recusou responseModalities, repetindo sem o campo…',msg);
-      try{ res=await send(false); }
-      catch(e){ throw new Error(describeNetErr(e,'generativelanguage.googleapis.com')); }
-      if(!res.ok){
-        let m2='HTTP '+res.status;
-        try{const e=await res.json();m2=e.error?.message||m2;}catch(_){}
-        logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model})`,m2);
-        throw new Error(`${m2} — modelo "${model}" pode não gerar imagens. Escolha outro na aba Chaves.`);
-      }
-    }else{
-      logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model}, key ${maskKey(key)})`,msg);
-      if(isModeloForaDoPlano(res.status,msg)){
-        logLine('warn',`Modelo de imagem "${model}" fora do nível gratuito`,'limit: 0 — trocar de chave não resolve.');
-        throw new Error(erroForaDoPlano(model,'imagem'));
-      }
-      if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
-      if(res.status===404) msg=`Modelo "${model}" não existe para esta key. Clique em "Carregar modelos".`;
-      if(res.status===429) msg='Cota do Gemini estourada (429). '+msg;
-      if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de imagem na aba Chaves ou espere alguns minutos. ${msg}`;
-      throw new Error(msg);
-    }
-  }
-
-  const ms=Math.round(performance.now()-t0);
-  const d=await res.json();
-  const parts=d.candidates?.[0]?.content?.parts||[];
-  const p=parts.find(x=>(x.inlineData&&x.inlineData.data)||(x.inline_data&&x.inline_data.data));
-  if(!p){
-    const why=d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'sem imagem na resposta';
-    const txt=parts.map(x=>x.text).filter(Boolean).join(' ').slice(0,200);
-    logLine('err',`Gemini imagem: resposta sem imagem (${why})`,txt||JSON.stringify(d).slice(0,300));
-    const sugestao=[...document.getElementById('gmImgModel').options]
-      .map(o=>o.value).find(v=>/image/i.test(v)&&!/embedding/i.test(v));
-    throw new Error(`"${model}" respondeu com texto, nao com imagem — e um modelo de texto.`+
-      (sugestao?` Na aba Chaves, troque "Modelo de imagem" para ${sugestao}.`
-               :' Na aba Chaves, clique em "Carregar modelos" e escolha um cujo nome contenha "image".'));
-  }
-  const inline=p.inlineData||p.inline_data;
-  const bytes=b64ToBytes(inline.data);
-  const mime=inline.mimeType||inline.mime_type||'image/png';
-  const img=await imageFromBytes(bytes,mime);
-  logLine('ok',`Gemini imagem OK (${ms}ms, ${mime}, ${(bytes.length/1024).toFixed(0)} KB, ${img.width}x${img.height})`);
-  return img;
-}
-
-// ── IMAGEM VIA REPLICATE ─────────────────────────────────
+// ── IMAGEM VIA REPLICATE ─────────────────
 function repToken(){ return document.getElementById('repToken').value.trim(); }
 function repModel(){ return document.getElementById('repModel').value.trim(); }
 function repProxy(){ return (document.getElementById('repProxy').value.trim()||'/replicate').replace(/\/+$/,''); }
@@ -1576,9 +1483,6 @@ async function replicateImage(prompt){
 
 // Roteia entre as fontes e devolve {img, url} — url só existe na Pollinations.
 async function makeImage(enhanced,cw,ch){
-  if(imgSource()==='gemini'){
-    return {img:await geminiImage(enhanced), url:null};
-  }
   if(imgSource()==='replicate'){
     return {img:await replicateImage(enhanced), url:null};
   }
@@ -1776,43 +1680,15 @@ async function narrateAll(){
   if(!fails) setStatus(`✅ Narrações prontas (${synced}/${frames.length} com sync palavra a palavra).`);
 }
 
-// O modelo de imagem e o de texto sao campos separados e e facil deixar um
-// modelo de texto nos dois. Sem esta checagem o lote seguia ate o fim
-// gastando uma chamada de texto e uma de imagem por cena, todas perdidas.
-function imgModelSuspeito(){
-  if(imgSource()!=='gemini') return null;
-  const m=gmImgModel();
-  if(!m) return 'Nenhum "Modelo de imagem" escolhido na aba Chaves.';
-  if(/image|imagen/i.test(m)) return null;
-  if(m===gmModel()) return `"${m}" esta selecionado como modelo de texto E de imagem. Modelo de texto devolve texto, nao imagem.`;
-  return `"${m}" nao parece um modelo de imagem — o nome nao contem "image".`;
-}
-
-// Avisa uma vez e deixa o usuario decidir: nao da para provar pelo nome que
-// um modelo nao gera imagem.
-function confirmaModeloImagem(){
-  const aviso=imgModelSuspeito();
-  if(!aviso) return true;
-  const alt=[...document.getElementById('gmImgModel').options]
-    .map(o=>o.value).find(v=>/image/i.test(v)&&!/embedding/i.test(v));
-  logLine('warn','Modelo de imagem suspeito',aviso);
-  const linhas=['⚠️ '+aviso,'',
-    alt ? 'Sugestão: use "'+alt+'".' : 'Clique em "Carregar modelos" na aba Chaves.',
-    '','Gerar assim mesmo?'];
-  const ok=confirm(linhas.join('\n'));
-  if(!ok) setStatus('⚠️ Escolha um "Modelo de imagem" na aba Chaves e tente de novo.');
-  return ok;
-}
 
 // ── GENERATE SINGLE ───────────────────────────────────────
 async function generateSingle(i){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   syncFrame(i);
   const f=frames[i];
-  if(!gmKeys().length){setStatus('⚠️ Cole sua API key na aba Chaves.');return;}
-  if(!gmLiveKeys().length){setStatus('⚠️ Todas as keys estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
+  if(usaTraducao()&&!gmKeys().length){setStatus('⚠️ Cole a chave do Google na aba Chaves, ou desligue a tradução.');return;}
+  if(usaTraducao()&&!gmLiveKeys().length){setStatus('⚠️ Todas as chaves do Google estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   if(!f.prompt){setStatus('⚠️ Descreva a imagem da cena '+(i+1));return;}
-  if(!confirmaModeloImagem()) return;
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
   showOv(`🤖 Cena ${i+1}: Gemini traduzindo…`);
@@ -1846,8 +1722,7 @@ async function rerollImage(i){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   const f=frames[i];
   if(!f.enhanced){ setStatus('⚠️ Use "Gerar imagem" primeiro nesta cena.'); return; }
-  if(imgSource()==='gemini'&&!gmLiveKeys().length){ setStatus('⚠️ Nenhuma chave do Google com cota.'); return; }
-  if(!confirmaModeloImagem()) return;
+  if(usaTraducao()&&!gmLiveKeys().length){ setStatus('⚠️ Nenhuma chave do Google com cota para traduzir.'); return; }
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
   showOv(`🎲 Cena ${i+1}: outra variação…`);
@@ -1895,8 +1770,8 @@ async function uploadImage(i,input){
 // ── GENERATE ALL ─────────────────────────────────────────
 async function generateAll(onlyMissing){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
-  if(!gmKeys().length){setStatus('⚠️ Cole sua API key na aba Chaves.');return;}
-  if(!gmLiveKeys().length){setStatus('⚠️ Todas as keys estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
+  if(usaTraducao()&&!gmKeys().length){setStatus('⚠️ Cole a chave do Google na aba Chaves, ou desligue a tradução.');return;}
+  if(usaTraducao()&&!gmLiveKeys().length){setStatus('⚠️ Todas as chaves do Google estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   frames.forEach((_,i)=>syncFrame(i));
 
   // refazer só o que faltou evita queimar cota nas cenas que já deram certo
@@ -1905,7 +1780,6 @@ async function generateAll(onlyMissing){
   const mi=targets.find(i=>!frames[i].prompt);
   if(mi!==undefined){setStatus(`⚠️ Cena ${mi+1} sem descrição.`);return;}
 
-  if(!confirmaModeloImagem()) return;
 
   const btn=document.getElementById(onlyMissing?'genMissingBtn':'genAllBtn');
   const btnLabel=btn.textContent;
@@ -2308,8 +2182,8 @@ function envProblems(e){
   if(!e.mediaRecorder||!e.captureStream||!e.mime)
     p.push(['err','Renderizar vídeo não funciona neste navegador',
       `MediaRecorder: ${e.mediaRecorder?'ok':'ausente'} · canvas.captureStream: ${e.captureStream?'ok':'ausente'} · formato: ${e.mime||'nenhum'}. Use Chrome ou Edge no computador. A rota ZIP continua disponível.`]);
-  if(e.estatico)
-    p.push(['warn','Hospedagem estática: a fonte Replicate não funciona aqui',
+  if(e.estatico && imgSource()==='replicate')
+    p.push(['err','A Replicate não funciona nesta hospedagem',
       `${e.host} serve só arquivos, então /replicate não existe e a API da Replicate bloqueia chamada direta do navegador (CORS). Use Gemini como fonte, ou rode "python serve.py" na sua máquina.`]);
   if(e.file)
     p.push(['err','Página aberta como file://',
@@ -2377,7 +2251,8 @@ async function testConnections(){
   const eKey=elKey();
 
   // 1) Gemini
-  if(!gKey) logLine('warn','Gemini: sem key, pulando.');
+  if(!usaTraducao()) logLine('info','Gemini: tradução desligada, pulando.');
+  else if(!gKey) logLine('warn','Gemini: sem chave, pulando.');
   else{
     const t0=performance.now();
     try{
@@ -2391,8 +2266,9 @@ async function testConnections(){
     }catch(e){ logLine('err','Gemini: erro de rede',describeNetErr(e,'generativelanguage.googleapis.com')); }
   }
 
-  // 2) Pollinations — imagem minúscula só para provar o caminho
-  {
+  // 2) Pollinations — só quando é a fonte ativa
+  if(imgSource()!=='pollinations') logLine('info','Pollinations: não é a fonte ativa, pulando.');
+  else {
     const url=buildImageUrl('a red square',64,64,1);
     const t0=performance.now();
     try{
@@ -2621,7 +2497,7 @@ Quando eu te der um tema, responda APENAS com um bloco JSON válido — sem text
 
 REGRAS DAS CENAS
 - Entre 4 e 7 cenas.
-- "imagem": descrição visual do fundo, em português. Concreta e cinematográfica: sujeito + ação + ambiente + luz + enquadramento. Sem texto, sem letras, sem logos na imagem. Uma frase só.
+- "imagem": descrição visual do fundo. Concreta e cinematográfica: sujeito + ação + ambiente + luz + enquadramento. Sem texto, sem letras, sem logos na imagem. Uma frase só. Pode escrever em português (o app traduz) ou já em inglês, se a tradução estiver desligada no app.
 - "texto": o que aparece escrito na tela E é narrado em voz alta. No máximo 12 palavras. Linguagem falada, direta, sem ponto final.
 - "narracao": use SOMENTE se a fala precisar ser diferente do texto na tela. Se omitir, a narração usa o texto — e as palavras acendem sincronizadas com a voz. Prefira omitir.
 - "estilo": um de viral, neon, shadow, outline, highlight, minimal.
