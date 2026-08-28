@@ -288,16 +288,18 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <div class="keystat" id="keyStat"></div>
     <button class="btn-sm btn-del" onclick="resetKeyQuota()" style="margin-top:8px">↺ Liberar todas de novo</button>
 
-    <label>Modelo de texto (traduz o prompt)</label>
+    <label>Modelo de texto — traduz o prompt para inglês</label>
     <select id="gmModel" onchange="saveState()">
       <option value="gemini-2.5-flash" selected>gemini-2.5-flash</option>
     </select>
 
-    <label>Modelo de imagem</label>
+    <label>Modelo de imagem — gera o fundo da cena</label>
     <select id="gmImgModel" onchange="saveState()">
       <option value="">— clique em Carregar modelos —</option>
     </select>
     <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:9px">↻ Carregar modelos da minha chave</button>
+    <label class="chk"><input type="checkbox" id="showAllModels" onchange="onShowAllModels()"> Mostrar todos os modelos nas duas listas</label>
+    <div class="hint">Cada lista mostra só os modelos do seu tipo. Marque a caixa se um modelo de imagem não aparecer — a API não informa a modalidade, a separação é pelo nome.</div>
 
     <div class="tip">
       <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> → Get API key → Create. Grátis até 1.500 req/dia, sem cartão. A cota é por projeto, então dá para ter várias chaves criando projetos diferentes.
@@ -480,6 +482,7 @@ const LS_KEY = 'shortsCreator.v2';
 const LOG=[];
 let gmKeyIdx=0;
 const gmExhausted=new Set();   // keys que já bateram cota nesta sessão
+let GM_MODELS=[];              // lista crua vinda da API, para refiltrar sem rechamar
 
 // ── STYLES ───────────────────────────────────────────────
 const STYLES = {
@@ -617,6 +620,7 @@ function saveState(){
       gmModel: document.getElementById('gmModel').value,
       textModel25: true,
       gmImgModel: document.getElementById('gmImgModel').value,
+      showAllModels: document.getElementById('showAllModels').checked,
       imgSource: document.getElementById('imgSource').value,
       pollToken: remember ? document.getElementById('pollToken').value : '',
       repToken: remember ? document.getElementById('repToken').value : '',
@@ -670,6 +674,7 @@ function loadState(){
       gs.insertAdjacentHTML('beforeend','<option value="'+esc(val)+'">'+esc(val)+'</option>');
     gs.value=val;
   }
+  document.getElementById('showAllModels').checked=!!d.showAllModels;
   if(d.imgSource) document.getElementById('imgSource').value=d.imgSource;
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
@@ -1163,50 +1168,82 @@ async function loadGeminiModels(){
       pageToken=d.nextPageToken||'';
     }while(pageToken && models.length<600);
 
-    // só os que servem para gerar texto a partir do nosso prompt
     const usable=models
       .filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent'))
-      .map(m=>({id:String(m.name||'').replace(/^models\//,''), label:m.displayName||''}))
-      .filter(m=>m.id && !/embedding|aqa|imagen/i.test(m.id));
+      .map(m=>({id:String(m.name||'').replace(/^models\//,''), label:m.displayName||'', desc:m.description||''}))
+      .filter(m=>m.id && !/embedding|aqa/i.test(m.id));
     if(!usable.length) throw new Error('Nenhum modelo com generateContent nesta key.');
 
     // mais novo primeiro: ordena pela versão numérica no ID
     const ver=id=>{ const m=id.match(/(\d+)\.(\d+)/); return m?parseInt(m[1])*100+parseInt(m[2]):0; };
     usable.sort((a,b)=> ver(b.id)-ver(a.id) || a.id.localeCompare(b.id));
 
-    const opts=usable.map(m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`).join('');
-
-    // select de imagem: mesma lista, mas pré-seleciona quem tem "image" no id
-    const isel=document.getElementById('gmImgModel');
-    const iprev=isel.value;
-    isel.innerHTML=opts;
-    if(usable.some(m=>m.id===iprev)) isel.value=iprev;
-    else{
-      const im=usable.find(m=>/image/i.test(m.id)&&!/embedding/i.test(m.id));
-      isel.value=im?im.id:usable[0].id;
-      if(!im) logLine('warn','Nenhum modelo com "image" no nome. Se a fonte for Gemini, escolha o modelo de imagem à mão.');
-    }
-
-    const sel=document.getElementById('gmModel');
-    const prev=sel.value;
-    sel.innerHTML=opts;
-    // Este passo só traduz o prompt para inglês — não precisa do modelo de
-    // ponta, que é o mais disputado e o que mais devolve 503. Prefere 2.5-flash.
-    if(usable.some(m=>m.id===prev)) sel.value=prev;
-    else{
-      const noise=/thinking|live|tts|image|audio|embedding/i;
-      const pick = usable.find(m=>m.id==='gemini-2.5-flash')
-                || usable.find(m=>/^gemini-2\.5-flash/i.test(m.id) && !noise.test(m.id))
-                || usable.find(m=>/flash/i.test(m.id) && !noise.test(m.id))
-                || usable[0];
-      sel.value=pick.id;
-    }
+    GM_MODELS=usable;
+    renderModelSelects();
     saveState();
-    logLine('ok',`${usable.length} modelos disponíveis`,`texto: ${sel.value} | imagem: ${isel.value}`);
-    setStatus(`✅ ${usable.length} modelos. Texto: ${sel.value} · Imagem: ${isel.value}`);
+
+    const nImg=usable.filter(ehModeloDeImagem).length;
+    const sel=document.getElementById('gmModel'), isel=document.getElementById('gmImgModel');
+    logLine('ok',`${usable.length} modelos (${nImg} de imagem, ${usable.length-nImg} de texto)`,
+      `texto: ${sel.value} | imagem: ${isel.value||'(nenhum)'}`);
+    setStatus(`✅ ${usable.length} modelos · texto: ${sel.value} · imagem: ${isel.value||'nenhum encontrado'}`);
   }catch(e){
     setStatus('❌ '+e.message);
   }
+}
+
+// Só o nome distingue um gerador de imagem de um modelo de texto: a API não
+// declara a modalidade de saída. Por isso existe o "mostrar todos", para o
+// caso de um modelo novo não seguir a convenção.
+function ehModeloDeImagem(m){
+  const alvo=(m.id+' '+(m.label||'')+' '+(m.desc||'')).toLowerCase();
+  if(/embedding/.test(alvo)) return false;
+  return /image|imagen/.test(alvo);
+}
+function ehModeloDeTexto(m){
+  return !/tts|audio|live|embedding/i.test(m.id) && !ehModeloDeImagem(m);
+}
+
+function renderModelSelects(){
+  const todos=document.getElementById('showAllModels')?.checked;
+  const sel=document.getElementById('gmModel'), isel=document.getElementById('gmImgModel');
+  const prevT=sel.value, prevI=isel.value;
+
+  const opt=m=>`<option value="${esc(m.id)}">${esc(m.id)}${m.label?' · '+esc(m.label):''}</option>`;
+  const txt = todos ? GM_MODELS : GM_MODELS.filter(ehModeloDeTexto);
+  const img = todos ? GM_MODELS : GM_MODELS.filter(ehModeloDeImagem);
+
+  sel.innerHTML = (txt.length?txt:GM_MODELS).map(opt).join('');
+  isel.innerHTML = img.length
+    ? img.map(opt).join('')
+    : '<option value="">— nenhum modelo de imagem nesta chave —</option>';
+
+  // Este passo só traduz o prompt — não precisa do modelo de ponta, que é o
+  // mais disputado e o que mais devolve 503. Prefere 2.5-flash.
+  if([...sel.options].some(o=>o.value===prevT)) sel.value=prevT;
+  else{
+    const noise=/thinking|live|tts|image|audio|embedding/i;
+    const pick = txt.find(m=>m.id==='gemini-2.5-flash')
+              || txt.find(m=>/^gemini-2\.5-flash/i.test(m.id) && !noise.test(m.id))
+              || txt.find(m=>/flash/i.test(m.id) && !noise.test(m.id))
+              || txt[0] || GM_MODELS[0];
+    if(pick) sel.value=pick.id;
+  }
+  if([...isel.options].some(o=>o.value===prevI)) isel.value=prevI;
+  else if(img.length){
+    // geramos por :generateContent; a familia Imagen usa :predict, entao
+    // ela so vale como ultimo recurso mesmo aparecendo na lista
+    const nativo=img.find(m=>!/^imagen/i.test(m.id));
+    isel.value=(nativo||img[0]).id;
+  }
+
+  if(!img.length) logLine('warn','Nenhum modelo de imagem nesta chave.',
+    'Marque "mostrar todos os modelos" se souber de um que gere imagem sem "image" no nome.');
+}
+
+function onShowAllModels(){
+  if(!GM_MODELS.length){ setStatus('⚠️ Clique em "Carregar modelos" primeiro.'); return; }
+  renderModelSelects(); saveState();
 }
 
 function enhancePrompt(desc){
