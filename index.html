@@ -1912,17 +1912,6 @@ async function renderVideo(){
     dest=ac.createMediaStreamDestination();
 
     // agenda cada narração no seu offset da timeline
-    const LEAD=0.3;
-    const startAt=ac.currentTime+LEAD;
-    timeline.forEach(seg=>{
-      if(!seg.f.audioBuffer) return;
-      const src=ac.createBufferSource();
-      src.buffer=seg.f.audioBuffer;
-      src.connect(dest);
-      src.start(startAt+seg.start);
-      sources.push(src);
-    });
-
     const vstream=off.captureStream(fps);
     const stream=new MediaStream([...vstream.getVideoTracks(),...dest.stream.getAudioTracks()]);
     const chunks=[];
@@ -1933,14 +1922,33 @@ async function renderVideo(){
     });
     rec.ondataavailable=e=>{ if(e.data&&e.data.size) chunks.push(e.data); };
     const stopped=new Promise(r=>{ rec.onstop=r; });
+
     rec.start(1000);
+
+    // Folga mínima entre ligar o gravador e soltar o áudio. Tentei esperar
+    // rec.onstart para zerar isso, mas em aba oculta o evento demora e a
+    // espera virava segundos de gravação vazia — pior que a folga fixa.
+    const LEAD=0.1;
+    const startAt=ac.currentTime+LEAD;
+    timeline.forEach(seg=>{
+      if(!seg.f.audioBuffer) return;
+      const src=ac.createBufferSource();
+      src.buffer=seg.f.audioBuffer;
+      src.connect(dest);
+      src.start(startAt+seg.start);
+      sources.push(src);
+    });
 
     // loop de desenho amarrado ao relógio do AudioContext (não ao rAF),
     // então imagem e áudio compartilham a mesma base de tempo
     let painted=0;
     await new Promise(resolve=>{
-      let finished=false;
-      const finish=()=>{ if(finished) return; finished=true; clearInterval(watchdog); resolve(); };
+      let finished=false, watchdog=null, hardStop=null;
+      const finish=()=>{
+        if(finished) return; finished=true;
+        clearInterval(watchdog); clearTimeout(hardStop);
+        resolve();
+      };
       const paint=()=>{
         const el=ac.currentTime-startAt;
         if(renderCancelled||el>=totalDur){ finish(); return false; }
@@ -1957,13 +1965,19 @@ async function renderVideo(){
       const draw=()=>{ if(paint()) requestAnimationFrame(draw); };
       // o rAF congela se a aba for ocultada; sem este watchdog a promise
       // nunca resolveria e a renderização ficaria travada para sempre
-      const watchdog=setInterval(paint,250);
+      watchdog=setInterval(paint,250);
+      // corte no instante exato: esperar o loop perceber custava até 250ms
+      // de quadro repetido no fim
+      hardStop=setTimeout(finish,(LEAD+totalDur)*1000);
       requestAnimationFrame(draw);
     });
 
-    rec.stop();
-    await stopped;
+    // corta a captura antes de fechar o arquivo, senão o canvas continua
+    // emitindo o último quadro enquanto o gravador esvazia o buffer
     sources.forEach(s=>{ try{s.stop();}catch(_){} });
+    try{ vstream.getVideoTracks().forEach(t=>t.stop()); }catch(_){}
+    try{ if(rec.state!=='inactive') rec.stop(); }catch(_){}
+    await stopped;
 
     if(renderCancelled){ setStatus('⏹ Renderização cancelada.'); return; }
 
