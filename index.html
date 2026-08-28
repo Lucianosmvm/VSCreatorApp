@@ -1121,7 +1121,7 @@ function isKeyDead(status,msg){
 // Executa run(key) e, se a key morrer, marca e tenta a próxima.
 async function withKeyRotation(label,run){
   const keys=gmKeys();
-  if(!keys.length) throw new Error('Cole ao menos uma API key do Google no passo 1.');
+  if(!keys.length) throw new Error('Cole ao menos uma API key do Google na aba Chaves.');
   let last=null, tried=0;
   for(let n=0;n<keys.length;n++){
     const i=(gmKeyIdx+n)%keys.length;
@@ -1139,15 +1139,15 @@ async function withKeyRotation(label,run){
       setStatus(`🔑 Key ${i+1} sem cota. Trocando… (${restantes} restante(s))`);
     }
   }
-  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra no passo 1 ou clique em "Marcar todas como disponíveis".`);
-  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key no passo 1 ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
+  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra na aba Chaves ou clique em "Liberar todas de novo".`);
+  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key na aba Chaves ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
 }
 
 // O Google aposenta modelos e o ID varia por key/região, então não vale
 // cravar um no código: pergunta à própria API quais existem.
 async function loadGeminiModels(){
   const key=gmLiveKeys()[0]||gmKeys()[0]||'';
-  if(!key){ setStatus('⚠️ Cole a API key do Google no passo 1.'); return; }
+  if(!key){ setStatus('⚠️ Cole a API key do Google na aba Chaves.'); return; }
   setStatus('↻ Buscando modelos disponíveis…');
   try{
     let models=[], pageToken='';
@@ -1234,11 +1234,11 @@ async function enhancePromptWithKey(desc,key){
     if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
-      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no passo 1 e escolha outro. Google disse: ${msg}`;
+      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" na aba Chaves e escolha outro. Google disse: ${msg}`;
     else if(res.status===400&&/api key/i.test(msg)) msg='API key do Google inválida. '+msg;
     else if(res.status===403) msg='Key sem permissão para este modelo. '+msg;
     else if(res.status===429) msg='Cota do Gemini estourada (429). Aguarde e tente de novo. '+msg;
-    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto no passo 1 ou espere alguns minutos. ${msg}`;
+    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto na aba Chaves ou espere alguns minutos. ${msg}`;
     throw new Error('[Gemini] '+msg);
   }
   const d=await res.json();
@@ -1277,7 +1277,7 @@ async function loadImageFromUrl(url,timeoutMs=60000,quiet,label){
       try{ body=(await res.text()).slice(0,300); }catch(_){}
       logLine('err',`${SRC} HTTP ${res.status} (${ms}ms)`,body);
       if(SRC==='Pollinations' && (res.status===403||/turnstile|captcha/i.test(body)))
-        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations no passo 3, ou troque a "Fonte da imagem" para Gemini.');
+        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations na aba Chaves, ou troque a "Fonte da imagem" para Gemini.');
       throw new Error(`${SRC} respondeu HTTP ${res.status}${res.status===429?' (limite de requisições — espere alguns segundos)':''}${body?': '+body:''}`);
     }
     const blob=await res.blob();
@@ -1359,7 +1359,7 @@ function geminiImage(prompt){
 async function geminiImageWithKey(prompt,key){
   const model=gmImgModel();
   const retryOn = gmLiveKeys().length>1 ? RETRY_5XX : RETRY_STATUS;
-  if(!model) throw new Error('Escolha o "Modelo de imagem" no passo 1 (clique em Carregar modelos).');
+  if(!model) throw new Error('Escolha o "Modelo de imagem" na aba Chaves (clique em Carregar modelos).');
   const url=`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
   const text=prompt+'. Vertical 9:16 composition, cinematic, ultra detailed, no text, no letters, no watermark.';
 
@@ -1387,14 +1387,14 @@ async function geminiImageWithKey(prompt,key){
         let m2='HTTP '+res.status;
         try{const e=await res.json();m2=e.error?.message||m2;}catch(_){}
         logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model})`,m2);
-        throw new Error(`${m2} — modelo "${model}" pode não gerar imagens. Escolha outro no passo 1.`);
+        throw new Error(`${m2} — modelo "${model}" pode não gerar imagens. Escolha outro na aba Chaves.`);
       }
     }else{
       logLine('err',`Gemini imagem HTTP ${res.status} (modelo ${model}, key ${maskKey(key)})`,msg);
       if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
       if(res.status===404) msg=`Modelo "${model}" não existe para esta key. Clique em "Carregar modelos".`;
       if(res.status===429) msg='Cota do Gemini estourada (429). '+msg;
-      if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de imagem no passo 1 ou espere alguns minutos. ${msg}`;
+      if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de imagem na aba Chaves ou espere alguns minutos. ${msg}`;
       throw new Error(msg);
     }
   }
@@ -1407,7 +1407,11 @@ async function geminiImageWithKey(prompt,key){
     const why=d.candidates?.[0]?.finishReason||d.promptFeedback?.blockReason||'sem imagem na resposta';
     const txt=parts.map(x=>x.text).filter(Boolean).join(' ').slice(0,200);
     logLine('err',`Gemini imagem: resposta sem imagem (${why})`,txt||JSON.stringify(d).slice(0,300));
-    throw new Error(`Modelo "${model}" não devolveu imagem (${why}). Confirme que escolheu um modelo de imagem no passo 1.`);
+    const sugestao=[...document.getElementById('gmImgModel').options]
+      .map(o=>o.value).find(v=>/image/i.test(v)&&!/embedding/i.test(v));
+    throw new Error(`"${model}" respondeu com texto, nao com imagem — e um modelo de texto.`+
+      (sugestao?` Na aba Chaves, troque "Modelo de imagem" para ${sugestao}.`
+               :' Na aba Chaves, clique em "Carregar modelos" e escolha um cujo nome contenha "image".'));
   }
   const inline=p.inlineData||p.inline_data;
   const bytes=b64ToBytes(inline.data);
@@ -1452,8 +1456,8 @@ async function repError(res){
 
 async function replicateImage(prompt){
   const model=repModel();
-  if(!repToken()) throw new Error('Cole o token da Replicate no passo 3.');
-  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) no passo 3.');
+  if(!repToken()) throw new Error('Cole o token da Replicate na aba Chaves.');
+  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) na aba Chaves.');
 
   const input={prompt};
   const extra=document.getElementById('repExtra').value.trim();
@@ -1547,7 +1551,7 @@ async function elError(res,fallback){
 
 async function loadVoices(){
   const key=elKey();
-  if(!key){ setStatus('⚠️ Cole a key da ElevenLabs no passo 2.'); return; }
+  if(!key){ setStatus('⚠️ Cole a key da ElevenLabs na aba Chaves.'); return; }
   setStatus('↻ Buscando vozes…');
   try{
     const res=await fetch(EL_API+'/voices',{headers:{'xi-api-key':key}});
@@ -1611,7 +1615,7 @@ async function attachAudio(f,bytes,wordTimes){
 async function ttsScene(f){
   const key=elKey(), vid=voiceId(), model=document.getElementById('elModel').value;
   const text=narrationOf(f);
-  if(!key) throw new Error('Cole a key da ElevenLabs no passo 2.');
+  if(!key) throw new Error('Cole a key da ElevenLabs na aba Chaves.');
   if(!vid) throw new Error('Escolha uma voz (ou cole o Voice ID).');
   if(!text) throw new Error('Cena sem texto para narrar.');
 
@@ -1708,14 +1712,43 @@ async function narrateAll(){
   if(!fails) setStatus(`✅ Narrações prontas (${synced}/${frames.length} com sync palavra a palavra).`);
 }
 
+// O modelo de imagem e o de texto sao campos separados e e facil deixar um
+// modelo de texto nos dois. Sem esta checagem o lote seguia ate o fim
+// gastando uma chamada de texto e uma de imagem por cena, todas perdidas.
+function imgModelSuspeito(){
+  if(imgSource()!=='gemini') return null;
+  const m=gmImgModel();
+  if(!m) return 'Nenhum "Modelo de imagem" escolhido na aba Chaves.';
+  if(/image|imagen/i.test(m)) return null;
+  if(m===gmModel()) return `"${m}" esta selecionado como modelo de texto E de imagem. Modelo de texto devolve texto, nao imagem.`;
+  return `"${m}" nao parece um modelo de imagem — o nome nao contem "image".`;
+}
+
+// Avisa uma vez e deixa o usuario decidir: nao da para provar pelo nome que
+// um modelo nao gera imagem.
+function confirmaModeloImagem(){
+  const aviso=imgModelSuspeito();
+  if(!aviso) return true;
+  const alt=[...document.getElementById('gmImgModel').options]
+    .map(o=>o.value).find(v=>/image/i.test(v)&&!/embedding/i.test(v));
+  logLine('warn','Modelo de imagem suspeito',aviso);
+  const linhas=['⚠️ '+aviso,'',
+    alt ? 'Sugestão: use "'+alt+'".' : 'Clique em "Carregar modelos" na aba Chaves.',
+    '','Gerar assim mesmo?'];
+  const ok=confirm(linhas.join('\n'));
+  if(!ok) setStatus('⚠️ Escolha um "Modelo de imagem" na aba Chaves e tente de novo.');
+  return ok;
+}
+
 // ── GENERATE SINGLE ───────────────────────────────────────
 async function generateSingle(i){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   syncFrame(i);
   const f=frames[i];
-  if(!gmKeys().length){setStatus('⚠️ Cole sua API key no passo 1.');return;}
+  if(!gmKeys().length){setStatus('⚠️ Cole sua API key na aba Chaves.');return;}
   if(!gmLiveKeys().length){setStatus('⚠️ Todas as keys estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   if(!f.prompt){setStatus('⚠️ Descreva a imagem da cena '+(i+1));return;}
+  if(!confirmaModeloImagem()) return;
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
   showOv(`🤖 Cena ${i+1}: Gemini traduzindo…`);
@@ -1750,6 +1783,7 @@ async function rerollImage(i){
   const f=frames[i];
   if(!f.enhanced){ setStatus('⚠️ Use "Gerar imagem" primeiro nesta cena.'); return; }
   if(imgSource()==='gemini'&&!gmLiveKeys().length){ setStatus('⚠️ Nenhuma chave do Google com cota.'); return; }
+  if(!confirmaModeloImagem()) return;
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
   showOv(`🎲 Cena ${i+1}: outra variação…`);
@@ -1797,7 +1831,7 @@ async function uploadImage(i,input){
 // ── GENERATE ALL ─────────────────────────────────────────
 async function generateAll(onlyMissing){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
-  if(!gmKeys().length){setStatus('⚠️ Cole sua API key no passo 1.');return;}
+  if(!gmKeys().length){setStatus('⚠️ Cole sua API key na aba Chaves.');return;}
   if(!gmLiveKeys().length){setStatus('⚠️ Todas as keys estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   frames.forEach((_,i)=>syncFrame(i));
 
@@ -1806,6 +1840,8 @@ async function generateAll(onlyMissing){
   if(!targets.length){ setStatus('✅ Todas as cenas já têm imagem.'); return; }
   const mi=targets.find(i=>!frames[i].prompt);
   if(mi!==undefined){setStatus(`⚠️ Cena ${mi+1} sem descrição.`);return;}
+
+  if(!confirmaModeloImagem()) return;
 
   const btn=document.getElementById(onlyMissing?'genMissingBtn':'genAllBtn');
   const btnLabel=btn.textContent;
@@ -1840,6 +1876,11 @@ async function generateAll(onlyMissing){
       f.lastError=e.message;
       logLine('err',`Cena ${i+1} falhou`,e.message);
       setBadge(i,'b-err','✗ erro');setStatus('❌ Cena '+(i+1)+': '+e.message);
+      // erro de configuracao se repete em toda cena: parar poupa cota
+      if(/respondeu com texto|nao devolveu imagem|nao existe para esta key|inválida/i.test(e.message)){
+        logLine('warn','Lote interrompido: o erro e de configuracao e vai repetir em todas as cenas.');
+        break;
+      }
     }
     done++;
     if(done<targets.length) await sleep(800);
@@ -2213,7 +2254,7 @@ function envProblems(e){
     p.push(['warn','No celular a renderização é frágil',
       'A gravação é em tempo real e o desenho congela se a tela apagar, o app sair de foco ou chegar uma ligação — o vídeo sai com quadros perdidos. Mantenha a tela ligada e o app aberto, ou renderize no computador.']);
     p.push(['warn','Memória: 1080×1920 pesa no celular',
-      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque a resolução para 720×1280 no passo 3.`]);
+      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque a resolução para 720×1280 na aba Config.`]);
   }
   if(e.ios)
     p.push(['warn','iPhone/iPad: baixar o arquivo costuma falhar',
@@ -2255,7 +2296,7 @@ function checkEnvironment(verbose){
     logLine(e.audio?'ok':'err',`Áudio: AudioContext ${e.audio?'ok':'ausente'}`);
     problems.forEach(([lv,t,d])=>logLine(lv,t,d));
     logLine('info','── Fim ──');
-    setStatus(problems.length?`⚠️ ${problems.length} ponto(s) de atenção — veja o passo 7.`:'✅ Ambiente sem impedimentos.');
+    setStatus(problems.length?`⚠️ ${problems.length} ponto(s) de atenção — veja a aba Diagnóstico.`:'✅ Ambiente sem impedimentos.');
   }
   // trava o botão de vídeo quando o navegador não tem como gravar
   const vb=document.getElementById('videoBtn');
@@ -2340,7 +2381,7 @@ async function testConnections(){
   }
 
   logLine('info','── Fim do teste ──');
-  setStatus('Teste concluído — veja o passo 7.');
+  setStatus('Teste concluído — veja a aba Diagnóstico.');
 }
 
 // ── IMPORTAR / EXPORTAR ROTEIRO (JSON) ───────────────────
