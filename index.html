@@ -250,11 +250,12 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <button class="btn btn-red" id="genAllBtn" onclick="generateAll()" style="margin-top:0">✨ Gerar todas as imagens</button>
     <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)">↻ Gerar só as que faltaram</button>
     <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Gerar todas as narrações</button>
-    <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Renderizar vídeo com áudio</button>
+    <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Gerar vídeo pronto para postar</button>
     <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
-    <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Exportar ZIP (imagens + MP3)</button>
+    <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Baixar peças soltas (p/ editar no CapCut)</button>
     <div class="tip">
-      <b style="color:#666">A renderização é em tempo real</b> — 30 s de vídeo levam 30 s, e a aba precisa ficar visível. Trocar de aba congela o desenho e o áudio dessincroniza.
+      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir no Shorts, Reels ou TikTok. É em tempo real: 30 s de vídeo levam 30 s, e a aba precisa ficar visível.<br><br>
+      <b style="color:#666">Baixar peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
     </div>
   </div>
 
@@ -1983,7 +1984,7 @@ async function renderVideo(){
   }finally{
     rendering=false; renderCancelled=false;
     if(dest) try{ dest.disconnect(); }catch(_){}
-    vbtn.disabled=false; vbtn.textContent='🎬 Renderizar vídeo com áudio';
+    vbtn.disabled=false; vbtn.textContent='🎬 Gerar vídeo pronto para postar';
     document.getElementById('cancelBtn').style.display='none';
     document.getElementById('progBar').style.display='none';
     document.getElementById('recDot').classList.remove('on');
@@ -2000,7 +2001,7 @@ async function exportZIP(){
   if(!timeline.length){setStatus('⚠️ Nenhuma imagem gerada ainda.');return;}
   const total=timeline.reduce((a,s)=>a+Math.round(s.dur*fps),0);
   const limite = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ? 600 : 2000;
-  if(total>limite && !confirm(`Isso vai gerar ${total} imagens (~${Math.round(total*0.18)} MB) e pode travar o navegador.\n\nDica: use "Renderizar vídeo" no lugar, ou reduza FPS/resolução.\n\nContinuar mesmo assim?`)) return;
+  if(total>limite && !confirm(`Isso vai gerar ${total} imagens (~${Math.round(total*0.18)} MB) e pode travar o navegador.\n\nDica: use "Gerar vídeo pronto para postar" no lugar, ou reduza FPS/resolução.\n\nContinuar mesmo assim?`)) return;
 
   stopPreview();
   const btn=document.getElementById('exportBtn');
