@@ -138,7 +138,12 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 .sopt{padding:7px 4px;background:#0c0c0c;border:1px solid var(--border2);border-radius:7px;text-align:center;cursor:pointer;font-size:9px;color:var(--dim);transition:all .15s}
 .sopt.on{border-color:var(--accent);color:#fff;background:rgba(255,68,68,.07)}
 .soi{font-size:13px;display:block;margin-bottom:2px}
-.mini-canvas{width:100%;height:140px;border-radius:8px;display:block;margin-top:10px;background:#000}
+.cardpv{display:flex;gap:11px;margin-top:12px;align-items:flex-start}
+.cardpv-frame{position:relative;width:112px;height:199px;border-radius:9px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--border2);flex-shrink:0}
+.cardpv-frame canvas{width:100%;height:100%;display:block}
+.cardpv-acts{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.cardpv-acts .btn-sm{width:100%;justify-content:center}
+.pv-tag{position:absolute;left:5px;bottom:5px;font-size:8px;padding:2px 6px;border-radius:6px;background:rgba(0,0,0,.7);color:var(--muted);backdrop-filter:blur(3px)}
 
 /* ── AVISOS / LOG ──────────────────────────────────────── */
 .tip{background:#0c0c0c;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:10px;color:var(--dim);line-height:1.6;margin-top:10px}
@@ -190,7 +195,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
   </div>
   <div class="stage-info">
-    <div class="pv-label">Preview ao vivo · 9:16</div>
+    <div class="pv-label" id="pvLabel">Preview · 9:16</div>
     <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
     <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
   </div>
@@ -830,31 +835,39 @@ function renderCards(){
         </div>
 
         ${f.enhanced?`<div style="font-size:9px;color:var(--dim);margin-top:8px;font-style:italic;line-height:1.4">🤖 ${esc(f.enhanced.substring(0,100))}…</div>`:''}
-        ${f.image?`<canvas class="mini-canvas" id="mini-${i}" width="360" height="140"></canvas>`:''}
+
+        <div class="cardpv">
+          <div class="cardpv-frame">
+            <canvas id="mini-${i}" width="270" height="480"></canvas>
+            <div class="pv-tag" id="pvtag-${i}">${f.image?'9:16':'sem imagem'}</div>
+          </div>
+          <div class="cardpv-acts">
+            <button class="btn-sm btn-add" onclick="generateSingle(${i})">${f.image?'✨ Gerar de novo':'✨ Gerar imagem'}</button>
+            ${f.image&&f.enhanced?`<button class="btn-sm btn-del" onclick="rerollImage(${i})">🎲 Outra variação</button>`:''}
+            <button class="btn-sm btn-del" onclick="document.getElementById('up-${i}').click()">📁 Enviar minha imagem</button>
+            <input type="file" id="up-${i}" accept="image/*" style="display:none" onchange="uploadImage(${i},this)">
+            <button class="btn-sm btn-mic" onclick="narrateSingle(${i})">🎤 ${f.audioBuffer?'Regerar narração':'Gerar narração'}</button>
+          </div>
+        </div>
+
         ${f.audioUrl?`<audio controls preload="none" src="${esc(f.audioUrl)}"></audio>`:''}
         ${f.audioBuffer&&f.wordTimes?`<div style="font-size:9px;color:var(--violet);margin-top:6px">⏱ ${f.wordTimes.length} palavras sincronizadas com a fala</div>`:''}
         ${f.lastError?`<div class="err-box">⚠ Último erro nesta cena:
 ${esc(f.lastError)}</div>`:''}
 
-        <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
-          <button class="btn-sm btn-add" onclick="generateSingle(${i})">✨ Gerar imagem</button>
-          <button class="btn-sm btn-mic" onclick="narrateSingle(${i})">🎤 Gerar narração</button>
-          ${f.image?`<button class="btn-sm btn-add" onclick="previewFrame(${i})">▶ Preview</button>`:''}
-          <button class="btn-sm btn-del" onclick="removeFrame(${i})" style="margin-left:auto">✕</button>
+        <div style="display:flex;gap:7px;margin-top:11px;flex-wrap:wrap">
+          ${f.image?`<button class="btn-sm btn-del" onclick="previewFrame(${i})">▶ Reiniciar animação</button>`:''}
+          <button class="btn-sm btn-del" onclick="removeFrame(${i})" style="margin-left:auto">✕ Remover cena</button>
         </div>
       </div>
     `;
     list.appendChild(card);
 
-    if(f.image){
-      requestAnimationFrame(()=>{
-        const mini=document.getElementById('mini-'+i);
-        if(!mini)return;
-        const mc=mini.getContext('2d');
-        drawBgOnCtx(mc,f.image,360,140);
-        drawTextOnCtx(mc,f.text,f.style,360,140,f.text);
-      });
-    }
+    requestAnimationFrame(()=>{
+      const mini=document.getElementById('mini-'+i);
+      if(!mini)return;
+      drawScene(mini.getContext('2d'),f,sceneDur(f),sceneDur(f),mini.width,mini.height);
+    });
   });
 
   open.forEach(id=>{
@@ -883,7 +896,7 @@ function toggleCard(i){
   const open=body.classList.toggle('open');
   arr.classList.toggle('open',open);
   if(open&&frames[i].image) previewFrame(i);
-  else if(!open&&pvIndex===i) stopPreview();
+  else if(!open&&pvIndex===i){ stopPreview(); setPvLabel(-1); }
 }
 
 function setAnim(i,type,el){
@@ -970,6 +983,10 @@ function drawScene(c,f,tIn,dur,cw,ch){
 function stopPreview(){
   if(pvInterval){clearInterval(pvInterval);pvInterval=null;}
 }
+function setPvLabel(i){
+  const el=document.getElementById('pvLabel');
+  if(el) el.textContent = (i>=0&&frames[i]) ? `Cena ${i+1} de ${frames.length} · 9:16` : 'Preview · 9:16';
+}
 
 function previewFrame(i){
   if(rendering) return;
@@ -978,16 +995,18 @@ function previewFrame(i){
   pvIndex=i;
   if(!f||!f.image){drawBlank(ctx,PW,PH);return;}
   const dur=sceneDur(f);
-  if(f.animType==='fixed'){
-    drawScene(ctx,f,dur,dur,PW,PH);
-    return;
-  }
+  setPvLabel(i);
+  // desenha no canvas grande e no da própria cena, para dar para julgar o
+  // enquadramento do texto sem depender do preview minúsculo do topo
+  const paint=(t)=>{
+    drawScene(ctx,f,t,dur,PW,PH);
+    const mini=document.getElementById('mini-'+i);
+    if(mini) drawScene(mini.getContext('2d'),f,t,dur,mini.width,mini.height);
+  };
+  if(f.animType==='fixed'){ paint(dur); return; }
   // mesma fórmula do render, para o preview não mentir sobre o resultado final
   const t0=performance.now();
-  const tick=()=>{
-    const el=((performance.now()-t0)/1000)%dur;
-    drawScene(ctx,f,el,dur,PW,PH);
-  };
+  const tick=()=>paint(((performance.now()-t0)/1000)%dur);
   tick();
   pvInterval=setInterval(tick,120);
 }
@@ -1665,6 +1684,57 @@ async function generateSingle(i){
     logLine('err',`Cena ${i+1} falhou`,e.message);
     setBadge(i,'b-err','✗ erro');hideOv();setStatus('❌ '+e.message);
     renderCards();
+  }
+}
+
+// Refaz só a imagem com o prompt que o Gemini já traduziu — sem gastar uma
+// chamada de texto e sem mexer no que você escreveu.
+async function rerollImage(i){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  const f=frames[i];
+  if(!f.enhanced){ setStatus('⚠️ Use "Gerar imagem" primeiro nesta cena.'); return; }
+  if(imgSource()==='gemini'&&!gmLiveKeys().length){ setStatus('⚠️ Nenhuma chave do Google com cota.'); return; }
+  const {cw,ch}=currentRes();
+  setBadge(i,'b-gen','⏳ gerando…');
+  showOv(`🎲 Cena ${i+1}: outra variação…`);
+  setStatus(`Cena ${i+1}: gerando outra variação…`);
+  logLine('info',`Cena ${i+1}: nova variação (prompt reaproveitado)`,f.enhanced.slice(0,140));
+  try{
+    const made=await makeImage(f.enhanced,cw,ch);
+    setFrameImage(f,made.img,made.url);
+    f.lastError=null;
+    setBadge(i,'b-done','✓ imagem');
+    hideOv(); setStatus(`✅ Cena ${i+1}: nova variação pronta.`);
+    renderCards(); previewFrame(i); checkDone(); saveState();
+  }catch(e){
+    f.lastError='[Imagem] '+e.message;
+    logLine('err',`Cena ${i+1}: variação falhou`,e.message);
+    setBadge(i,'b-err','✗ erro'); hideOv(); setStatus('❌ '+e.message);
+    renderCards();
+  }
+}
+
+// Imagem própria: entra pelo mesmo caminho blob → bytes das geradas, então
+// persiste no IndexedDB e o canvas nunca fica tainted.
+async function uploadImage(i,input){
+  const file=input.files&&input.files[0];
+  input.value='';
+  if(!file) return;
+  if(!file.type.startsWith('image/')){ setStatus('⚠️ Selecione um arquivo de imagem.'); return; }
+  if(file.size>25*1024*1024){ setStatus('⚠️ Imagem acima de 25 MB. Reduza antes de enviar.'); return; }
+  try{
+    const bytes=new Uint8Array(await file.arrayBuffer());
+    const img=await imageFromBytes(bytes,file.type);
+    const f=frames[i];
+    setFrameImage(f,img,null);
+    f.lastError=null;
+    logLine('ok',`Cena ${i+1}: imagem enviada`,`${file.name} · ${(file.size/1024).toFixed(0)} KB · ${img.width}x${img.height}`);
+    setBadge(i,'b-done','✓ imagem');
+    setStatus(`✅ Cena ${i+1}: imagem substituída (${img.width}×${img.height}).`);
+    renderCards(); previewFrame(i); checkDone(); saveState();
+  }catch(e){
+    logLine('err',`Cena ${i+1}: falha ao ler a imagem`,e.message);
+    setStatus('❌ Não consegui ler esse arquivo: '+e.message);
   }
 }
 
