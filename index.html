@@ -134,6 +134,11 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 .atabs{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .atab{padding:7px 4px;background:#0c0c0c;border:1px solid var(--border2);border-radius:7px;color:var(--dim);font-size:10px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s}
 .atab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.slider{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:none;margin-top:7px;padding:0;border:none}
+.slider::-webkit-slider-runnable-track{height:3px;background:var(--border2);border-radius:2px}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;margin-top:-6px;border-radius:50%;background:var(--accent);cursor:pointer}
+.slider::-moz-range-track{height:3px;background:var(--border2);border-radius:2px}
+.slider::-moz-range-thumb{width:15px;height:15px;border:none;border-radius:50%;background:var(--accent);cursor:pointer}
 .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
 .sopt{padding:7px 4px;background:#0c0c0c;border:1px solid var(--border2);border-radius:7px;text-align:center;cursor:pointer;font-size:9px;color:var(--dim);transition:all .15s}
 .sopt.on{border-color:var(--accent);color:#fff;background:rgba(255,68,68,.07)}
@@ -220,7 +225,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
     <div class="jmsg" id="jsonMsg"></div>
     <div class="tip">
-      Campos por cena: <code>imagem</code> · <code>texto</code> · <code>narracao</code> (opcional) · <code>estilo</code> · <code>animacao</code>.<br>
+      Campos por cena: <code>imagem</code> · <code>texto</code> · <code>narracao</code> (opcional) · <code>estilo</code> · <code>animacao</code> · <code>posicao</code>.<br>
       Reimportar reaproveita imagens e narrações das cenas que não mudaram.
     </div>
   </div>
@@ -488,8 +493,25 @@ const STYLE_ICONS = {viral:'🔥',neon:'💡',shadow:'🌑',outline:'⬜',highli
 
 let idSeq = 0;
 function newId(){ return 'f'+Date.now().toString(36)+'-'+(idSeq++); }
+const TEXT_POS={topo:20,centro:50,legenda:80};
+function normPos(v,fallback){
+  if(typeof v==='number'&&isFinite(v)) return Math.min(100,Math.max(0,Math.round(v)));
+  const k=String(v||'').toLowerCase().trim();
+  if(TEXT_POS[k]!=null) return TEXT_POS[k];
+  if(k==='baixo'||k==='rodape'||k==='rodapé'||k==='bottom') return TEXT_POS.legenda;
+  if(k==='top'||k==='cima') return TEXT_POS.topo;
+  if(k==='center'||k==='meio') return TEXT_POS.centro;
+  const n=parseFloat(k);
+  return isFinite(n)?Math.min(100,Math.max(0,Math.round(n))):(fallback==null?50:fallback);
+}
+function posLabel(v){
+  if(v<=25) return 'topo';
+  if(v>=72) return 'legenda';
+  return v===50 ? 'centro' : v+'%';
+}
+
 function newFrame(){
-  return {id:newId(),prompt:'',text:'',narration:'',animType:'word',style:'viral',
+  return {id:newId(),prompt:'',text:'',narration:'',animType:'word',style:'viral',textPos:TEXT_POS.legenda,
           image:null,imageUrl:null,imageBytes:null,enhanced:'',
           audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null};
 }
@@ -581,7 +603,7 @@ function saveState(){
     localStorage.setItem(LS_KEY, JSON.stringify({
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration,
-        animType:f.animType, style:f.style, enhanced:f.enhanced,
+        animType:f.animType, style:f.style, textPos:f.textPos, enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null,
         audioDur: f.audioBuffer ? f.audioBuffer.duration : null
@@ -626,6 +648,7 @@ function loadState(){
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
       animType:f.animType==='fixed'?'fixed':'word',
       style:STYLES[f.style]?f.style:'viral',
+      textPos:normPos(f.textPos,TEXT_POS.legenda),
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
       wordTimes:Array.isArray(f.wordTimes)?f.wordTimes:null,
@@ -826,6 +849,14 @@ function renderCards(){
           <div class="atab ${f.animType==='fixed'?'on':''}" onclick="setAnim(${i},'fixed',this)">▬ Texto fixo</div>
         </div>
 
+        <label>Posição do texto — <span id="poslbl-${i}">${esc(posLabel(f.textPos))}</span></label>
+        <div class="atabs" style="grid-template-columns:repeat(3,1fr)">
+          <div class="atab ${f.textPos<=25?'on':''}" onclick="setPos(${i},20)">⬆ Topo</div>
+          <div class="atab ${f.textPos>25&&f.textPos<72?'on':''}" onclick="setPos(${i},50)">⬛ Centro</div>
+          <div class="atab ${f.textPos>=72?'on':''}" onclick="setPos(${i},80)">⬇ Legenda</div>
+        </div>
+        <input type="range" class="slider" id="pos-${i}" min="5" max="95" step="1" value="${f.textPos}" oninput="setPos(${i},+this.value,true)">
+
         <label>Estilo do texto</label>
         <div class="sgrid">
           ${Object.keys(STYLES).map(s=>`
@@ -907,6 +938,23 @@ function setAnim(i,type,el){
   saveState();
 }
 
+// fromSlider evita reconstruir o card enquanto arrasta (perderia o dedo/mouse)
+function setPos(i,v,fromSlider){
+  frames[i].textPos=normPos(v);
+  const lbl=document.getElementById('poslbl-'+i);
+  if(lbl) lbl.textContent=posLabel(frames[i].textPos);
+  const sl=document.getElementById('pos-'+i);
+  if(sl&&!fromSlider) sl.value=frames[i].textPos;
+  const tabs=document.querySelectorAll(`#fc-body-${i} .atab`);
+  if(tabs.length>=5){
+    const p=frames[i].textPos;
+    [tabs[2],tabs[3],tabs[4]].forEach((t,k)=>t.classList.toggle('on',
+      (k===0&&p<=25)||(k===1&&p>25&&p<72)||(k===2&&p>=72)));
+  }
+  if(frames[i].image) previewFrame(i);
+  saveStateSoon();
+}
+
 function setStyle(i,s,el){
   frames[i].style=s;
   el.closest('.sgrid').querySelectorAll('.sopt').forEach(o=>o.classList.remove('on'));
@@ -926,7 +974,7 @@ function drawBgOnCtx(c,img,cw,ch){
   }
 }
 
-function drawTextOnCtx(c,text,styleName,cw,ch,visibleText){
+function drawTextOnCtx(c,text,styleName,cw,ch,visibleText,posPct){
   if(!visibleText||!visibleText.trim())return;
   const s=STYLES[styleName]||STYLES.viral;
   const scale=cw/1080;
@@ -948,7 +996,14 @@ function drawTextOnCtx(c,text,styleName,cw,ch,visibleText){
   const fm=scaledFont.match(/([\d.]+)px/);
   const fs=fm?parseFloat(fm[1]):Math.round(64*scale);
   const lineH=fs*1.18;
-  const startY=ch/2-(lines.length*lineH)/2+lineH/2;
+  // posPct é onde fica o CENTRO do bloco de texto (0 = topo, 100 = base).
+  // O clamp evita que uma legenda com 3 linhas saia pela borda de baixo.
+  const pos=Math.min(100,Math.max(0, posPct==null?50:posPct));
+  const block=lines.length*lineH;
+  const margin=ch*.05;
+  let startY=ch*(pos/100)-block/2+lineH/2;
+  const minY=margin+lineH/2, maxY=ch-margin-block+lineH/2;
+  startY=maxY<minY ? minY : Math.max(minY,Math.min(maxY,startY));
   lines.forEach((l,idx)=>{
     if(s.stroke){c.strokeStyle=s.stroke;c.lineWidth=s.strokeW*scale;c.strokeText(l,cw/2,startY+idx*lineH);}
     c.fillStyle=s.fill;c.fillText(l,cw/2,startY+idx*lineH);
@@ -976,7 +1031,7 @@ function drawScene(c,f,tIn,dur,cw,ch){
     const words=(f.text||'').split(/\s+/).filter(Boolean);
     visible=words.slice(0,visibleWordCount(f,tIn,dur)).join(' ');
   }
-  drawTextOnCtx(c,f.text,f.style,cw,ch,visible);
+  drawTextOnCtx(c,f.text,f.style,cw,ch,visible,f.textPos);
 }
 
 // ── PREVIEW ───────────────────────────────────────────────
@@ -2282,6 +2337,7 @@ const K_TXT =['texto','text','legenda','caption','tela'];
 const K_NAR =['narracao','narração','narration','voz','fala','audio'];
 const K_STY =['estilo','style'];
 const K_ANI =['animacao','animação','animation','anim'];
+const K_POS =['posicao','posição','position','pos','alinhamento'];
 
 function normAnim(v){
   const s=String(v||'').toLowerCase().trim();
@@ -2291,7 +2347,7 @@ function normAnim(v){
   return null;
 }
 
-function normScene(s,i,defStyle,defAnim){
+function normScene(s,i,defStyle,defAnim,defPos){
   if(typeof s==='string') s={texto:s};
   if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error(`Cena ${i+1}: item não é um objeto.`);
   const imagem=String(firstOf(s,K_IMG)||'').trim();
@@ -2299,10 +2355,12 @@ function normScene(s,i,defStyle,defAnim){
   const narr  =String(firstOf(s,K_NAR)||'').trim();
   if(!imagem&&!texto) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem" ou "texto".`);
   const est=String(firstOf(s,K_STY)||'').toLowerCase().trim();
+  const rawPos=firstOf(s,K_POS);
   return {
     imagem, texto, narracao:narr,
     estilo: STYLES[est] ? est : defStyle,
-    animacao: normAnim(firstOf(s,K_ANI)) || defAnim
+    animacao: normAnim(firstOf(s,K_ANI)) || defAnim,
+    posicao: rawPos===''||rawPos==null ? defPos : normPos(rawPos,defPos)
   };
 }
 
@@ -2344,9 +2402,10 @@ function importJSON(){
   const cfg=data.config||data.configuracao||data.configuração||{};
   const defStyle = STYLES[String(cfg.estiloPadrao||cfg.estilo||'').toLowerCase()] ? String(cfg.estiloPadrao||cfg.estilo).toLowerCase() : 'viral';
   const defAnim  = normAnim(cfg.animacaoPadrao||cfg.animacao) || 'word';
+  const defPos   = normPos(cfg.posicaoPadrao||cfg.posicao, TEXT_POS.legenda);
 
   let scenes;
-  try{ scenes=list.map((s,i)=>normScene(s,i,defStyle,defAnim)); }
+  try{ scenes=list.map((s,i)=>normScene(s,i,defStyle,defAnim,defPos)); }
   catch(e){ setJsonMsg('❌ '+e.message,'var(--accent)'); return; }
 
   const hasWork=frames.some(f=>f.image||f.audioBuffer);
@@ -2357,7 +2416,7 @@ function importJSON(){
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
     f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao;
-    f.style=s.estilo; f.animType=s.animacao;
+    f.style=s.estilo; f.animType=s.animacao; f.textPos=s.posicao;
     if(o){
       if(o.image && o.prompt===f.prompt){
         f.image=o.image; f.imageUrl=o.imageUrl; f.imageBytes=o.imageBytes; f.enhanced=o.enhanced;
@@ -2400,6 +2459,7 @@ function exportJSON(){
       if(f.narration) c.narracao=f.narration;
       c.estilo=f.style;
       c.animacao=f.animType==='fixed'?'fixo':'palavra';
+      c.posicao=(f.textPos===TEXT_POS.topo)?'topo':(f.textPos===TEXT_POS.centro)?'centro':(f.textPos===TEXT_POS.legenda)?'legenda':f.textPos;
       return c;
     })
   };
@@ -2413,13 +2473,13 @@ function fillExample(){
     config:{fps:30,resolucao:'1080x1920',duracaoSemAudio:3,pausaAposFala:0.4},
     cenas:[
       {imagem:'relógio antigo de bolso caindo em câmera lenta, fundo escuro, luz dourada lateral, cinematográfico',
-       texto:'Você perde 3 horas por dia sem perceber',estilo:'viral',animacao:'palavra'},
+       texto:'Você perde 3 horas por dia sem perceber',estilo:'viral',animacao:'palavra',posicao:'legenda'},
       {imagem:'pessoa exausta diante de dezenas de telas brilhantes num quarto escuro, vista de cima',
-       texto:'E o culpado não é o seu celular',estilo:'highlight',animacao:'palavra'},
+       texto:'E o culpado não é o seu celular',estilo:'highlight',animacao:'palavra',posicao:'legenda'},
       {imagem:'amanhecer sobre montanhas, silhueta de pessoa em pé, luz quente, épico',
        texto:'É a decisão que você adia todo dia',
        narracao:'É a decisão que você adia todo santo dia. Comece agora.',
-       estilo:'outline',animacao:'fixo'}
+       estilo:'outline',animacao:'fixo',posicao:'topo'}
     ]
   },null,2);
   setJsonMsg('Exemplo carregado. Clique em Importar roteiro.','var(--muted)');
@@ -2432,7 +2492,7 @@ Quando eu te der um tema, responda APENAS com um bloco JSON válido — sem text
 {
   "config": { "fps": 30, "resolucao": "1080x1920", "duracaoSemAudio": 3, "pausaAposFala": 0.4 },
   "cenas": [
-    { "imagem": "...", "texto": "...", "estilo": "viral", "animacao": "palavra" }
+    { "imagem": "...", "texto": "...", "estilo": "viral", "animacao": "palavra", "posicao": "legenda" }
   ]
 }
 
@@ -2443,6 +2503,7 @@ REGRAS DAS CENAS
 - "narracao": use SOMENTE se a fala precisar ser diferente do texto na tela. Se omitir, a narração usa o texto — e as palavras acendem sincronizadas com a voz. Prefira omitir.
 - "estilo": um de viral, neon, shadow, outline, highlight, minimal.
 - "animacao": "palavra" (revela palavra a palavra) ou "fixo" (tudo de uma vez).
+- "posicao": "legenda" (embaixo, padrão), "centro" ou "topo". Também aceita um número de 0 a 100. Prefira "legenda" — deixa a imagem respirar.
 
 ESTRUTURA
 - Cena 1: gancho. Uma afirmação que gera curiosidade ou contradiz o senso comum.
