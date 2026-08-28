@@ -345,16 +345,20 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
 
     <label>Modelo (owner/nome, ou o hash da versão)</label>
-    <input type="text" id="repModel" placeholder="ex: owner/nome-do-modelo" oninput="saveStateSoon()">
+    <input type="text" id="repModel" value="black-forest-labs/flux-schnell" placeholder="ex: owner/nome-do-modelo" oninput="saveStateSoon()">
 
     <label>Input extra (JSON opcional, mesclado com o prompt)</label>
-    <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:58px" oninput="saveStateSoon()"></textarea>
+    <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:58px" oninput="saveStateSoon()">{"aspect_ratio":"9:16"}</textarea>
 
     <label>Endereço do proxy local</label>
     <input type="text" id="repProxy" value="/replicate" oninput="saveStateSoon()">
 
     <div class="tip warn">
       <b style="color:#a78bfa">A API da Replicate não aceita chamada de navegador.</b> Rode <code>python serve.py</code> em vez do <code>http.server</code> e abra <code>http://localhost:8777</code> — pelo GitHub Pages esta fonte não funciona.
+    </div>
+    <div class="tip">
+      Vem com <code>flux-schnell</code>: <b>$3 por mil imagens</b>, barato o bastante para refazer o roteiro à vontade. Para o corte final, <code>bytedance/seedream-5-lite</code> (US$ 0,035/imagem) sai mais cinematográfico — troque o modelo e use <b>🎲 Outra variação</b> em cada cena.<br>
+      O <code>aspect_ratio</code> no input extra é o que evita recorte: sem ele a maioria gera em 1:1 e o app corta as laterais.
     </div>
   </div>
 
