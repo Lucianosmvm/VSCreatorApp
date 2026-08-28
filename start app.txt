@@ -1,0 +1,12 @@
+Passo a passo
+Abre o terminal na pasta D:\Nova pasta\VSCreatorApp
+Roda:
+python serve.py
+
+Vai aparecer:
+
+Shorts Creator em  http://127.0.0.1:8777
+Proxy da Replicate em  /replicate/*  ->  https://api.replicate.com/v1/
+Ctrl+C para parar.
+No navegador, digita: http://localhost:8777
+Deixa o terminal aberto enquanto usa. Fechar o terminal derruba o proxy e a Replicate para de responder.
