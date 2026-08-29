@@ -403,7 +403,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <div class="row2">
       <div>
         <label style="margin-top:0">Nº de cenas</label>
-        <input type="number" id="frameCount" value="3" min="1" max="20" inputmode="numeric" onchange="buildFrames()">
+        <input type="number" id="frameCount" value="3" min="1" max="60" inputmode="numeric" onchange="buildFrames()">
       </div>
       <div>
         <label style="margin-top:0">Duração/cena sem áudio (s)</label>
@@ -435,15 +435,23 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <div class="row2">
       <div>
         <label>Pausa após a fala (s)</label>
-        <input type="number" id="tailPause" value="0.4" min="0" max="3" step="0.1" inputmode="decimal" oninput="saveStateSoon()">
+        <input type="number" id="tailPause" value="0.25" min="0" max="3" step="0.05" inputmode="decimal" oninput="onDurChange()">
       </div>
+      <div>
+        <label>Transição entre cenas (s)</label>
+        <input type="number" id="transition" value="0.35" min="0" max="1.5" step="0.05" inputmode="decimal" oninput="saveStateSoon()">
+      </div>
+    </div>
+    <div class="row2">
       <div>
         <label>Trilha total</label>
         <input type="text" id="totalDur" value="—" readonly>
       </div>
+      <div></div>
     </div>
     <div class="tip">
-      A duração de cada cena vem do áudio da narração. O campo acima só vale para cenas sem narração.
+      A duração de cada cena vem do áudio da narração. O campo <b>Duração/cena sem áudio</b> só vale para cenas sem narração.<br><br>
+      O app corta o silêncio que a ElevenLabs deixa nas pontas de cada clipe, então a <b>pausa</b> é contada a partir da última palavra falada — 0,25 s já soa natural. A <b>transição</b> é um cross-dissolve que acontece <i>durante</i> essa pausa, então a imagem já está trocando enquanto o silêncio corre. Ponha 0 para corte seco.
     </div>
   </div>
 
@@ -479,6 +487,16 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 // ── CANVAS ────────────────────────────────────────────────
 const canvas = document.getElementById('previewCanvas');
 const ctx    = canvas.getContext('2d');
+
+// Teto de cenas. Não há limite técnico duro: o localStorage guarda só
+// metadados e os bytes ficam no IndexedDB. O que pesa é imagem decodificada
+// em RAM — cerca de 4 MB por cena — mais o tempo, já que cada cena é uma
+// chamada paga e sequencial à Replicate. 60 cenas ficam em ~250 MB, que o
+// Chrome de computador aguenta; o número existe para impedir que um JSON de
+// 500 cenas trave a aba, não porque 20 fosse um limite real.
+const MAX_CENAS = 60;
+// acima disto o navegador começa a sofrer, então vale avisar sem bloquear
+const CENAS_PESADO = 30;
 
 // ── STATE ─────────────────────────────────────────────────
 let frames = [];
@@ -625,6 +643,7 @@ function saveState(){
       })),
       frameDuration: document.getElementById('frameDuration').value,
       tailPause: document.getElementById('tailPause').value,
+      transition: document.getElementById('transition').value,
       fps: document.getElementById('fps').value,
       resolution: document.getElementById('resolution').value,
       elModel: document.getElementById('elModel').value,
@@ -659,7 +678,7 @@ function loadState(){
     logLine('info','Modelo de texto migrado para gemini-2.5-flash (menos sujeito a 503).');
   }
   if(Array.isArray(d.frames)&&d.frames.length){
-    frames = d.frames.slice(0,20).map(f=>({
+    frames = d.frames.slice(0,MAX_CENAS).map(f=>({
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
       animType:f.animType==='fixed'?'fixed':'word',
       style:STYLES[f.style]?f.style:'viral',
@@ -673,6 +692,7 @@ function loadState(){
   }
   const set=(id,v)=>{ if(v!==undefined&&v!==null&&v!=='') document.getElementById(id).value=v; };
   set('frameDuration', d.frameDuration); set('tailPause', d.tailPause);
+  set('transition', d.transition);
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('voiceManual', d.voiceManual);
   // o modelo salvo pode não estar na lista curta inicial; insere para não perder
@@ -765,7 +785,7 @@ function drawBlank(c,w,h){
 
 // ── BUILD FRAMES ─────────────────────────────────────────
 function buildFrames(){
-  const n = Math.max(1, Math.min(20, parseInt(document.getElementById('frameCount').value)||3));
+  const n = Math.max(1, Math.min(MAX_CENAS, parseInt(document.getElementById('frameCount').value)||3));
   document.getElementById('frameCount').value = n;
   while(frames.length < n) frames.push(newFrame());
   frames.slice(n).forEach(f=>{ freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id); });
@@ -775,7 +795,7 @@ function buildFrames(){
 }
 
 function addFrame(){
-  if(frames.length>=20){ setStatus('⚠️ Máximo de 20 cenas.'); return; }
+  if(frames.length>=MAX_CENAS){ setStatus(`⚠️ Máximo de ${MAX_CENAS} cenas.`); return; }
   frames.push(newFrame());
   document.getElementById('frameCount').value = frames.length;
   renderCards(); checkDone(); updateTotals(); saveState();
@@ -1041,11 +1061,47 @@ function visibleWordCount(f,tIn,dur){
   const words=(f.text||'').split(/\s+/).filter(Boolean);
   if(!words.length) return 0;
   if(f.wordTimes && f.wordTimes.length===words.length){
+    // os timestamps vêm do áudio original; o buffer tocado teve o silêncio
+    // inicial removido, então o relógio da cena está adiantado por esse tanto
+    const t=tIn+(f.audioTrimStart||0);
     let n=0;
-    while(n<words.length && f.wordTimes[n]<=tIn) n++;
+    while(n<words.length && f.wordTimes[n]<=t) n++;
     return n;
   }
   return Math.min(words.length, Math.round((tIn/Math.max(.001,dur))*words.length));
+}
+
+function transDur(){
+  const v=parseFloat((document.getElementById('transition')||{}).value);
+  return isNaN(v)?0:Math.min(1.5,Math.max(0,v));
+}
+
+// Cross-dissolve na virada. Roda no FIM da cena que sai, não no começo da que
+// entra: assim a imagem já está trocando durante a pausa da narração, que é o
+// que tira a sensação de buraco. A duração total da timeline não muda.
+//
+// A cena que entra é desenhada em tIn=0, então na animação "palavra" ela chega
+// sem texto — a legenda nova só acende depois do corte, como deve ser.
+function drawSceneComTransicao(c,saindo,tIn,dur,entrando,mistura,cw,ch){
+  drawScene(c,saindo,tIn,dur,cw,ch);
+  if(!entrando||mistura<=0) return;
+  c.save();
+  c.globalAlpha=Math.min(1,mistura);
+  drawScene(c,entrando,0,sceneDur(entrando),cw,ch);
+  c.restore();
+}
+
+// Quanto da próxima cena já deve aparecer em `t` (0 = nada, 1 = totalmente).
+function misturaEm(timeline,idx,t){
+  const trans=transDur();
+  const prox=timeline[idx+1];
+  if(!trans||!prox) return 0;
+  const seg=timeline[idx];
+  const restante=(seg.start+seg.dur)-t;
+  // uma cena curta não pode ser engolida pela transição
+  const janela=Math.min(trans,seg.dur*0.5);
+  if(restante>=janela) return 0;
+  return 1-(restante/janela);
 }
 
 function drawScene(c,f,tIn,dur,cw,ch){
@@ -1725,11 +1781,44 @@ function getAudioCtx(){
 
 // decodeAudioData consome (detacha) o ArrayBuffer, então decodifico uma cópia
 // e guardo os bytes originais para o download / ZIP.
+// A ElevenLabs entrega silêncio nas pontas do clipe: medi 0,21 s no fim de uma
+// frase curta. Somado dos dois lados mais a pausa configurada, a troca de cena
+// virava um buraco de mais de meio segundo. Cortar aqui deixa a pausa ser
+// exatamente o que está no campo, e nada mais.
+//
+// Devolve quanto saiu do começo: os timestamps de palavra da ElevenLabs se
+// referem ao áudio original, então quem lê precisa descontar isso.
+function cortarSilencio(ac,buf,limiar=0.006,margem=0.03){
+  const canais=buf.numberOfChannels, n=buf.length;
+  const dados=[];
+  for(let c=0;c<canais;c++) dados.push(buf.getChannelData(c));
+  const temSom=i=>{ for(let c=0;c<canais;c++) if(Math.abs(dados[c][i])>limiar) return true; return false; };
+
+  let ini=0; while(ini<n && !temSom(ini)) ini++;
+  if(ini>=n) return {buffer:buf, cortadoInicio:0, cortadoFim:0};  // clipe mudo: não mexe
+  let fim=n-1; while(fim>ini && !temSom(fim)) fim--;
+
+  // deixa uma folga para não cortar o ataque da primeira sílaba nem a cauda da última
+  const pad=Math.round(margem*buf.sampleRate);
+  ini=Math.max(0,ini-pad); fim=Math.min(n-1,fim+pad);
+
+  const novoN=fim-ini+1;
+  if(novoN>=n) return {buffer:buf, cortadoInicio:0, cortadoFim:0};
+  const out=ac.createBuffer(canais,novoN,buf.sampleRate);
+  for(let c=0;c<canais;c++) out.getChannelData(c).set(dados[c].subarray(ini,fim+1));
+  return {buffer:out, cortadoInicio:ini/buf.sampleRate, cortadoFim:(n-1-fim)/buf.sampleRate};
+}
+
 async function attachAudio(f,bytes,wordTimes){
   const ac=getAudioCtx();
-  const buf=await ac.decodeAudioData(bytes.slice().buffer);
+  const bruto=await ac.decodeAudioData(bytes.slice().buffer);
+  const {buffer:buf,cortadoInicio,cortadoFim}=cortarSilencio(ac,bruto);
   if(f.audioUrl) URL.revokeObjectURL(f.audioUrl);
   f.audioBytes=bytes;
+  // os wordTimes ficam como vieram e o desconto é aplicado na hora de ler:
+  // se eu deslocasse aqui, recarregar a página deslocaria de novo
+  f.audioTrimStart=cortadoInicio;
+  f.audioTrimEnd=cortadoFim;
   f.audioBuffer=buf;
   f.audioUrl=URL.createObjectURL(new Blob([bytes],{type:'audio/mpeg'}));
   f.wordTimes=wordTimes||null;
@@ -2088,9 +2177,11 @@ async function renderVideo(){
         const el=ac.currentTime-startAt;
         if(renderCancelled||el>=totalDur){ finish(); return false; }
         const t=Math.max(0,el);
-        let seg=timeline[timeline.length-1];
-        for(const s of timeline){ if(t<s.start+s.dur){ seg=s; break; } }
-        drawScene(oc,seg.f,t-seg.start,seg.dur,cw,ch);
+        let idx=timeline.length-1;
+        for(let k=0;k<timeline.length;k++){ if(t<timeline[k].start+timeline[k].dur){ idx=k; break; } }
+        const seg=timeline[idx];
+        drawSceneComTransicao(oc,seg.f,t-seg.start,seg.dur,
+          timeline[idx+1]?timeline[idx+1].f:null, misturaEm(timeline,idx,t), cw,ch);
         ctx.drawImage(off,0,0,canvas.width,canvas.height); // espelha no preview
         painted++;
         setProg(Math.round((t/totalDur)*100));
@@ -2170,10 +2261,16 @@ async function exportZIP(){
       const seg=timeline[si], f=seg.f;
       const totalF=Math.round(seg.dur*fps);
       cues.push({cena:si+1,inicio_s:+seg.start.toFixed(3),duracao_s:+seg.dur.toFixed(3),
-                 frame_inicial:gf, audio:f.audioBytes?`audio/cena_${String(si+1).padStart(2,'0')}.mp3`:null});
+                 frame_inicial:gf, audio:f.audioBytes?`audio/cena_${String(si+1).padStart(2,'0')}.mp3`:null,
+                 // o MP3 exportado é o original da ElevenLabs, com o silêncio que
+                 // o app corta na hora de tocar — quem montar à mão precisa saber
+                 audio_cortar_inicio_s:+(f.audioTrimStart||0).toFixed(3),
+                 audio_cortar_fim_s:+(f.audioTrimEnd||0).toFixed(3)});
       if(f.audioBytes) audioDir.file(`cena_${String(si+1).padStart(2,'0')}.mp3`,f.audioBytes);
       for(let fn=0;fn<totalF;fn++){
-        drawScene(oc,f,(fn/fps),seg.dur,cw,ch);
+        const tAbs=seg.start+(fn/fps);
+        drawSceneComTransicao(oc,f,(fn/fps),seg.dur,
+          timeline[si+1]?timeline[si+1].f:null, misturaEm(timeline,si,tAbs), cw,ch);
         // toBlob em vez de toDataURL: não infla 33% em string base64 na memória
         const blob=await new Promise((ok,bad)=>{
           try{ off.toBlob(b=>b?ok(b):bad(new Error('Falha ao codificar o frame')),'image/jpeg',.88); }
@@ -2199,6 +2296,9 @@ CapCut:
   1. Importar -> pasta shorts_frames -> "Sequência de imagens" -> FPS ${fps}
   2. Arrastar os MP3 de audio/ para a trilha de áudio
   3. Usar timeline.json para conferir onde cada cena começa
+     Os MP3 saem como a ElevenLabs mandou. O app corta o silencio das pontas
+     ao montar o video; para bater igual, apare cada MP3 pelos campos
+     audio_cortar_inicio_s e audio_cortar_fim_s do timeline.json.
   4. Exportar ${cw>ch?'16:9':'9:16'}
 
 FFmpeg (monta tudo de uma vez):
@@ -2530,6 +2630,21 @@ function applyConfig(c){
   if(voz) document.getElementById('voiceManual').value=String(voz);
 }
 
+// Roteiro longo não é erro, mas muda o que esperar: cada cena é uma chamada
+// paga e sequencial, e as imagens decodificadas ficam todas na memória da aba.
+// Melhor dizer isso antes de a pessoa clicar em "gerar tudo" e esperar meia
+// hora — ou ver a aba recarregar sozinha no meio.
+function avisarVolume(n){
+  if(n<=CENAS_PESADO) return;
+  const min=Math.ceil(n*60/60);
+  logLine('warn',`Roteiro com ${n} cenas — vai demorar e pesar.`,
+    `São ${n} chamadas à Replicate, uma de cada vez: conte perto de ${min} min de geração. `+
+    `As imagens ficam todas na memória da aba (~${Math.round(n*4)} MB). `+
+    `Se a aba recarregar sozinha, gere em duas levas com "↻ Gerar só as cenas que faltaram", `+
+    `ou baixe o ZIP e monte no CapCut em vez de renderizar aqui.`);
+  setStatus(`⚠️ ${n} cenas: geração longa. Veja o aviso na aba Diagnóstico.`);
+}
+
 function setJsonMsg(m,color){
   const el=document.getElementById('jsonMsg');
   el.textContent=m;
@@ -2549,7 +2664,7 @@ function importJSON(){
   if(!Array.isArray(list)||!list.length){
     setJsonMsg('❌ Não encontrei a lista de cenas. Use {"cenas":[...]} ou um array direto.','var(--accent)'); return;
   }
-  if(list.length>20){ setJsonMsg(`❌ ${list.length} cenas — o máximo é 20.`,'var(--accent)'); return; }
+  if(list.length>MAX_CENAS){ setJsonMsg(`❌ ${list.length} cenas — o máximo é ${MAX_CENAS}.`,'var(--accent)'); return; }
 
   const cfg=data.config||data.configuracao||data.configuração||{};
   const defStyle = STYLES[String(cfg.estiloPadrao||cfg.estilo||'').toLowerCase()] ? String(cfg.estiloPadrao||cfg.estilo).toLowerCase() : 'viral';
@@ -2594,6 +2709,7 @@ function importJSON(){
 
   const reImg=next.filter(f=>f.image).length, reAud=next.filter(f=>f.audioBuffer).length;
   setJsonMsg(`✅ ${next.length} cenas importadas.`+((reImg||reAud)?` Reaproveitado: ${reImg} imagem(ns), ${reAud} narração(ões).`:''),'var(--green)');
+  avisarVolume(next.length);
   setStatus(reImg===next.length?'Roteiro importado. Gere as narrações.':'Roteiro importado. Gere as imagens e as narrações.');
 }
 
