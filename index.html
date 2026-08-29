@@ -34,6 +34,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 
 /* ── PREVIEW + STATUS (sempre visiveis) ────────────────── */
 .stage{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+.phone-frame.wide{width:153px;height:86px}
 .phone-frame{position:relative;width:86px;height:153px;border-radius:11px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0}
 #previewCanvas{width:100%;height:100%;display:block}
 .stage-info{flex:1;min-width:0}
@@ -144,6 +145,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 .sopt.on{border-color:var(--accent);color:#fff;background:rgba(255,68,68,.07)}
 .soi{font-size:13px;display:block;margin-bottom:2px}
 .cardpv{display:flex;gap:11px;margin-top:12px;align-items:flex-start}
+.cardpv-frame.wide{width:199px;height:112px}
 .cardpv-frame{position:relative;width:112px;height:199px;border-radius:9px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--border2);flex-shrink:0}
 .cardpv-frame canvas{width:100%;height:100%;display:block}
 .cardpv-acts{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
@@ -255,7 +257,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Baixar peças soltas (p/ editar no CapCut)</button>
     <div class="tip">
       <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
-      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir no Shorts, Reels ou TikTok. É em tempo real: 30 s de vídeo levam 30 s, e a aba precisa ficar visível.<br><br>
+      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, na aba Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a aba precisa ficar visível.<br><br>
       <b style="color:#666">Baixar peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
     </div>
   </div>
@@ -292,7 +294,10 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 
     <label>Modelo de texto — traduz o prompt para inglês</label>
     <select id="gmModel" onchange="saveState()">
-      <option value="gemini-2.5-flash" selected>gemini-2.5-flash</option>
+      <option value="gemini-3.6-flash" selected>gemini-3.6-flash</option>
+      <option value="gemini-3.5-flash">gemini-3.5-flash</option>
+      <option value="gemini-flash-latest">gemini-flash-latest</option>
+      <option value="gemini-2.5-flash">gemini-2.5-flash (legado)</option>
     </select>
 
     <button class="btn-sm btn-add" onclick="loadGeminiModels()" style="margin-top:9px">↻ Carregar modelos da minha chave</button>
@@ -358,7 +363,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
     <div class="tip">
       Vem com <code>flux-schnell</code>: <b>$3 por mil imagens</b>, barato o bastante para refazer o roteiro à vontade. Para o corte final, <code>bytedance/seedream-5-lite</code> (US$ 0,035/imagem) sai mais cinematográfico — troque o modelo e use <b>🎲 Outra variação</b> em cada cena.<br>
-      O <code>aspect_ratio</code> no input extra é o que evita recorte: sem ele a maioria gera em 1:1 e o app corta as laterais.
+      O <code>aspect_ratio</code> acompanha sozinho a resolução da aba Config — trocar para 16:9 lá muda este campo. É ele que evita recorte: sem ele a maioria dos modelos gera em 1:1 e o app corta as laterais.
     </div>
   </div>
 
@@ -415,9 +420,15 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
       </div>
       <div>
         <label>Resolução</label>
-        <select id="resolution" onchange="saveState()">
-          <option value="1080x1920" selected>1080×1920</option>
-          <option value="720x1280">720×1280</option>
+        <select id="resolution" onchange="onResolutionChange()">
+          <optgroup label="Vertical 9:16 — Shorts, Reels, TikTok">
+            <option value="1080x1920" selected>1080×1920</option>
+            <option value="720x1280">720×1280</option>
+          </optgroup>
+          <optgroup label="Horizontal 16:9 — YouTube">
+            <option value="1920x1080">1920×1080</option>
+            <option value="1280x720">1280×720</option>
+          </optgroup>
         </select>
       </div>
     </div>
@@ -468,7 +479,6 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 // ── CANVAS ────────────────────────────────────────────────
 const canvas = document.getElementById('previewCanvas');
 const ctx    = canvas.getContext('2d');
-const PW = 1080, PH = 1920;
 
 // ── STATE ─────────────────────────────────────────────────
 let frames = [];
@@ -727,7 +737,7 @@ async function resetAll(){
   await idbClear();
   frames=[]; pvIndex=-1;
   document.getElementById('frameCount').value=3;
-  buildFrames(); drawBlank(ctx,PW,PH); checkDone(); updateTotals();
+  buildFrames(); drawBlank(ctx,canvas.width,canvas.height); checkDone(); updateTotals();
   setStatus('Configure as cenas acima e clique em Gerar');
 }
 
@@ -745,7 +755,7 @@ onTranslateChange();
 updateKeyStatus();
 checkEnvironment(false);
 buildFrames();
-drawBlank(ctx, PW, PH);
+aplicarFormato();   // ajusta canvas, quadros e aspect_ratio ao formato salvo
 checkDone();
 restoreAssets();
 
@@ -760,7 +770,7 @@ function buildFrames(){
   while(frames.length < n) frames.push(newFrame());
   frames.slice(n).forEach(f=>{ freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id); });
   frames = frames.slice(0,n);
-  if(pvIndex>=frames.length){ stopPreview(); pvIndex=-1; drawBlank(ctx,PW,PH); }
+  if(pvIndex>=frames.length){ stopPreview(); pvIndex=-1; drawBlank(ctx,canvas.width,canvas.height); }
   renderCards(); checkDone(); updateTotals(); saveState();
 }
 
@@ -777,7 +787,7 @@ function removeFrame(i){
   freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id);
   frames.splice(i,1);
   document.getElementById('frameCount').value = frames.length;
-  if(pvIndex===i){ stopPreview(); pvIndex=-1; drawBlank(ctx,PW,PH); }
+  if(pvIndex===i){ stopPreview(); pvIndex=-1; drawBlank(ctx,canvas.width,canvas.height); }
   else if(pvIndex>i) pvIndex--;
   renderCards(); checkDone(); updateTotals(); saveState();
 }
@@ -815,6 +825,11 @@ function renderCards(){
   // preserva quais cartões estavam abertos antes do re-render
   const open = new Set();
   list.querySelectorAll('.fc-body.open').forEach(b=>open.add(b.id.replace('fc-body-','')));
+
+  // o mini-preview de cada cena segue a orientação escolhida, senão o cartão
+  // mostra 9:16 enquanto o vídeo sai 16:9
+  const fmt=formato();
+  const miniW=fmt.horizontal?480:270, miniH=fmt.horizontal?270:480;
 
   list.innerHTML='';
   frames.forEach((f,i)=>{
@@ -873,9 +888,9 @@ function renderCards(){
         ${f.enhanced?`<div style="font-size:9px;color:var(--dim);margin-top:8px;font-style:italic;line-height:1.4">🤖 ${esc(f.enhanced.substring(0,100))}…</div>`:''}
 
         <div class="cardpv">
-          <div class="cardpv-frame">
-            <canvas id="mini-${i}" width="270" height="480"></canvas>
-            <div class="pv-tag" id="pvtag-${i}">${f.image?'9:16':'sem imagem'}</div>
+          <div class="cardpv-frame${fmt.horizontal?' wide':''}">
+            <canvas id="mini-${i}" width="${miniW}" height="${miniH}"></canvas>
+            <div class="pv-tag" id="pvtag-${i}">${f.image?fmt.ratio:'sem imagem'}</div>
           </div>
           <div class="cardpv-acts">
             <button class="btn-sm btn-add" onclick="generateSingle(${i})">${f.image?'✨ Gerar de novo':'✨ Gerar imagem'}</button>
@@ -982,12 +997,16 @@ function drawBgOnCtx(c,img,cw,ch){
 function drawTextOnCtx(c,text,styleName,cw,ch,visibleText,posPct){
   if(!visibleText||!visibleText.trim())return;
   const s=STYLES[styleName]||STYLES.viral;
-  const scale=cw/1080;
+  // a escala sai da ALTURA: legenda se mede em porcentagem da altura do quadro,
+  // e é isso que mantém o mesmo peso visual nos dois formatos. Em vertical
+  // ch/1920 dá exatamente o antigo cw/1080, então nada muda no 9:16.
+  const scale=ch/1920;
   const scaledFont=s.font.replace(/(\d+)px/,m=>Math.max(1,Math.round(parseInt(m)*scale))+'px');
   c.font=scaledFont;c.textAlign='center';c.textBaseline='middle';
   c.shadowColor=s.shadow;c.shadowBlur=s.blur*scale;
   c.shadowOffsetX=s.off*scale;c.shadowOffsetY=s.off*scale;
-  const maxW=cw*.84;
+  // linha larga demais cansa de ler; no horizontal sobra largura, então aperta
+  const maxW=cw*(cw>ch?.62:.84);
   const words=visibleText.split(' ');
   const lines=[];let line='';
   for(const w of words){
@@ -1045,7 +1064,8 @@ function stopPreview(){
 }
 function setPvLabel(i){
   const el=document.getElementById('pvLabel');
-  if(el) el.textContent = (i>=0&&frames[i]) ? `Cena ${i+1} de ${frames.length} · 9:16` : 'Preview · 9:16';
+  const r=formato().ratio;
+  if(el) el.textContent = (i>=0&&frames[i]) ? `Cena ${i+1} de ${frames.length} · ${r}` : `Preview · ${r}`;
 }
 
 function previewFrame(i){
@@ -1053,13 +1073,13 @@ function previewFrame(i){
   stopPreview();
   const f=frames[i];
   pvIndex=i;
-  if(!f||!f.image){drawBlank(ctx,PW,PH);return;}
+  if(!f||!f.image){drawBlank(ctx,canvas.width,canvas.height);return;}
   const dur=sceneDur(f);
   setPvLabel(i);
   // desenha no canvas grande e no da própria cena, para dar para julgar o
   // enquadramento do texto sem depender do preview minúsculo do topo
   const paint=(t)=>{
-    drawScene(ctx,f,t,dur,PW,PH);
+    drawScene(ctx,f,t,dur,canvas.width,canvas.height);
     const mini=document.getElementById('mini-'+i);
     if(mini) drawScene(mini.getContext('2d'),f,t,dur,mini.width,mini.height);
   };
@@ -1250,10 +1270,47 @@ async function enhancePrompt(desc){
     logLine('info','Tradução desligada: usando a descrição como está.',desc.slice(0,140));
     return desc;
   }
-  return withKeyRotation('Gemini texto', key=>enhancePromptWithKey(desc,key));
+  // A tradução é enfeite: melhora o prompt, mas nunca pode impedir a imagem de
+  // sair. Sem key, sem cota ou com o Gemini fora do ar, segue com a descrição
+  // crua — a Replicate aceita português e o resultado só perde fidelidade.
+  // Antes qualquer tropeço aqui matava a cena inteira antes de chamar a imagem.
+  if(!gmLiveKeys().length){
+    logLine('warn','Sem chave do Google com cota — gerando a imagem com a descrição original.',
+      'Cole uma key na aba Chaves para traduzir o prompt para inglês, ou desligue a tradução para não ver mais este aviso.');
+    return desc;
+  }
+  try{
+    return await withKeyRotation('Gemini texto', key=>enhancePromptWithKey(desc,key));
+  }catch(e){
+    logLine('warn','Tradução falhou — gerando a imagem com a descrição original.',e.message);
+    return desc;
+  }
 }
 
-async function enhancePromptWithKey(desc,key){
+// O Google aposenta modelo e o nome antigo fica salvo no navegador do usuário,
+// então o app abre amanhã apontando para algo que não existe mais. O próprio
+// erro 404 diz qual usar no lugar — vale trocar sozinho em vez de parar.
+function usarModeloDeTexto(nome){
+  const sel=document.getElementById('gmModel');
+  if(!sel) return;
+  if(![...sel.options].some(o=>o.value===nome)){
+    const o=document.createElement('option');
+    o.value=nome; o.textContent=nome+' (sugerido pelo Google)';
+    sel.appendChild(o);
+  }
+  sel.value=nome;
+  saveState();
+}
+
+// O gerador precisa saber o enquadramento: pedir "vertical" e renderizar em
+// 16:9 devolve imagem que o app corta nas laterais.
+function enquadramentoEmIngles(){
+  return formato().horizontal
+    ? 'a widescreen YouTube video background (16:9 landscape, cinematic, dramatic, ultra-detailed)'
+    : 'a YouTube Shorts vertical background (9:16 portrait, cinematic, dramatic, ultra-detailed)';
+}
+
+async function enhancePromptWithKey(desc,key,jaTrocou){
   const model=gmModel();
   const retryOn = gmLiveKeys().length>1 ? RETRY_5XX : RETRY_STATUS;
   const t0=performance.now();
@@ -1261,7 +1318,7 @@ async function enhancePromptWithKey(desc,key){
   try{
     res=await fetchRetry(`${GM_API}/models/${encodeURIComponent(model)}:generateContent?key=${key}`,{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for a YouTube Shorts vertical background (9:16, cinematic, dramatic, ultra-detailed). Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
+      body:JSON.stringify({contents:[{parts:[{text:`Convert this Portuguese description into a powerful English image generation prompt for ${enquadramentoEmIngles()}. Return ONLY the English prompt, nothing else.\n\nDescription: ${desc}`}]}]})
     },{label:`Gemini texto (${model})`,tries:4,timeoutMs:60000,retryOn});
   }catch(e){
     throw new Error('[Gemini] '+describeNetErr(e,'generativelanguage.googleapis.com'));
@@ -1276,6 +1333,17 @@ async function enhancePromptWithKey(desc,key){
       throw new Error('[Gemini] '+erroForaDoPlano(model,'texto'));
     }
     if(isKeyDead(res.status,msg)){ const e=new Error(msg); e.keyDead=true; throw e; }
+    // "This model models/X is no longer available... use models/Y": o Google
+    // entrega o substituto no texto do erro. Troca uma vez e tenta de novo.
+    if(!jaTrocou && res.status===404){
+      const citados=[...msg.matchAll(/models\/([A-Za-z0-9._-]+)/g)].map(m=>m[1]);
+      const sugerido=citados.find(c=>c!==model);
+      if(sugerido){
+        usarModeloDeTexto(sugerido);
+        logLine('warn',`Modelo de texto "${model}" foi aposentado — trocando para "${sugerido}".`,msg);
+        return enhancePromptWithKey(desc,key,true);
+      }
+    }
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
       msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" na aba Chaves e escolha outro. Google disse: ${msg}`;
@@ -1298,8 +1366,45 @@ async function enhancePromptWithKey(desc,key){
 
 // ── POLLINATIONS ─────────────────────────────────────────
 function buildImageUrl(prompt,cw,ch,seed){
-  const p=encodeURIComponent(prompt+', vertical 9:16, cinematic, sharp, high quality');
+  const orient=formato().horizontal?'widescreen 16:9':'vertical 9:16';
+  const p=encodeURIComponent(prompt+', '+orient+', cinematic, sharp, high quality');
   return `https://image.pollinations.ai/prompt/${p}?width=${cw}&height=${ch}&seed=${seed}&nologo=true`;
+}
+
+// O token só vale na Pollinations. Mandar Authorization para replicate.delivery
+// forçava um preflight que aquele CDN recusa — o download morria com "Failed to
+// fetch" e a chave ainda vazava para um domínio de terceiro.
+function imageAuthHeaders(url){
+  let host='';
+  try{ host=new URL(url,location.href).host.toLowerCase(); }catch(_){ return undefined; }
+  if(host!=='pollinations.ai' && !host.endsWith('.pollinations.ai')) return undefined;
+  const tok=((document.getElementById('pollToken')||{}).value||'').trim();
+  return tok ? {'Authorization':'Bearer '+tok} : undefined;
+}
+
+// A Replicate entrega a saída num CDN que NÃO manda Access-Control-Allow-Origin
+// (hoje r2.cloudflarestorage.com; antes era replicate.delivery, que mandava).
+// O navegador recusa o download antes de ler um byte — com a imagem já gerada e
+// já cobrada. Por isso, na Replicate o caminho normal é o proxy local, e o
+// download direto fica só como reserva. Na Pollinations é o contrário: ela manda
+// CORS e o token dela só pode sair no fetch direto.
+function proxyFetchUrl(url){
+  return repProxy().replace(/[/]replicate$/,'')+'/fetch?url='+encodeURIComponent(url);
+}
+
+async function fetchImageBytes(url,signal,label){
+  const direto = ()=>fetch(url,{signal,mode:'cors',headers:imageAuthHeaders(url)});
+  const viaProxy = ()=>fetch(proxyFetchUrl(url),{signal});
+  const httpUrl = /^https?:/i.test(url);
+  const primeiro = (label==='Replicate' && httpUrl) ? viaProxy : direto;
+  const reserva  = (label==='Replicate' && httpUrl) ? direto : viaProxy;
+  try{
+    return await primeiro();
+  }catch(e){
+    if(e.name==='AbortError' || !httpUrl) throw e;
+    logLine('warn',`${label}: primeira tentativa de download falhou, tentando o outro caminho…`,e.message);
+    return await reserva();
+  }
 }
 
 // fetch → blob → objectURL: a imagem vira same-origin, então o canvas nunca
@@ -1312,9 +1417,7 @@ async function loadImageFromUrl(url,timeoutMs=60000,quiet,label){
   let blobUrl=null;
   try{
     if(!quiet) logLine('info',SRC+': baixando imagem…',url.slice(0,220));
-    const tok=(document.getElementById('pollToken')||{}).value;
-    const headers = tok && tok.trim() ? {'Authorization':'Bearer '+tok.trim()} : undefined;
-    const res=await fetch(url,{signal:ac.signal,mode:'cors',headers});
+    const res=await fetchImageBytes(url,ac.signal,SRC);
     const ms=Math.round(performance.now()-t0);
     if(!res.ok){
       let body='';
@@ -1434,7 +1537,9 @@ async function replicateImage(prompt){
   if(!repToken()) throw new Error('Cole o token da Replicate na aba Chaves.');
   if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) na aba Chaves.');
 
-  const input={prompt};
+  // o aspect_ratio sai da resolução escolhida; sem ele a maioria dos modelos
+  // gera 1:1 e o app corta as laterais. O "Input extra" continua vencendo.
+  const input={prompt, aspect_ratio: formato().ratio};
   const extra=document.getElementById('repExtra').value.trim();
   if(extra){
     let parsed;
@@ -1481,7 +1586,7 @@ async function replicateImage(prompt){
     throw new Error('Replicate terminou mas não devolveu URL de imagem. Saída: '+JSON.stringify(pred.output).slice(0,200));
   }
   logLine('ok',`Replicate: predição pronta em ${(ms/1000).toFixed(1)}s`,out.slice(0,180));
-  // a saída fica em replicate.delivery, que manda CORS — baixa direto
+  // a saída vem de um CDN sem CORS, então o download passa pelo proxy local
   return loadImageFromUrl(out,120000,false,'Replicate');
 }
 
@@ -1497,6 +1602,50 @@ async function makeImage(enhanced,cw,ch){
 function currentRes(){
   const r=document.getElementById('resolution').value.split('x');
   return {cw:parseInt(r[0]),ch:parseInt(r[1])};
+}
+
+// Trocar de 9:16 para 16:9 mexe em mais coisa que o tamanho do canvas: muda o
+// prompt mandado ao gerador, o aspect_ratio da Replicate, o quadro do preview
+// e a largura da legenda. Tudo lê daqui para não haver dois lugares
+// discordando sobre a orientação.
+const RESOLUCOES=['1080x1920','720x1280','1920x1080','1280x720'];
+
+function formato(){
+  const {cw,ch}=currentRes();
+  const horizontal=cw>ch;
+  return {cw,ch,horizontal,ratio:horizontal?'16:9':'9:16'};
+}
+
+function onResolutionChange(){ aplicarFormato(); saveState(); }
+
+// Repinta tudo que depende da orientação. Chamado na troca de resolução, ao
+// restaurar o estado salvo e ao importar um roteiro com "resolucao".
+function aplicarFormato(){
+  const {cw,ch,horizontal,ratio}=formato();
+  // o preview precisa ter a proporção do arquivo final, senão o enquadramento
+  // que você aprova aqui não é o que sai no vídeo
+  if(canvas.width!==cw||canvas.height!==ch){ canvas.width=cw; canvas.height=ch; }
+  const pf=document.querySelector('.phone-frame');
+  if(pf) pf.classList.toggle('wide',horizontal);
+  sincronizarAspectRatioReplicate(ratio);
+  setPvLabel(pvIndex);
+  renderCards();
+  if(pvIndex>=0&&frames[pvIndex]&&frames[pvIndex].image) previewFrame(pvIndex);
+  else drawBlank(ctx,cw,ch);
+}
+
+// O "Input extra" é visível e editável, e ele vence o padrão do app. Deixá-lo
+// dizendo 9:16 com a resolução em 16:9 seria mentira que custa uma imagem.
+// Ajusta só quando a chave já existe; JSON inválido fica intocado.
+function sincronizarAspectRatioReplicate(ratio){
+  const el=document.getElementById('repExtra');
+  if(!el||!el.value.trim()) return;
+  let o;
+  try{ o=JSON.parse(el.value); }catch(_){ return; }
+  if(!o||typeof o!=='object'||Array.isArray(o)) return;
+  if(!('aspect_ratio' in o)||o.aspect_ratio===ratio) return;
+  o.aspect_ratio=ratio;
+  el.value=JSON.stringify(o);
 }
 
 // ── ELEVENLABS ───────────────────────────────────────────
@@ -1536,8 +1685,12 @@ async function loadVoices(){
     sel.innerHTML='<option value="">— escolha uma voz —</option>'+
       list.map(v=>`<option value="${esc(v.voice_id)}">${esc(v.name)}${v.labels&&v.labels.accent?' · '+esc(v.labels.accent):''}</option>`).join('');
     if(prev && list.some(v=>v.voice_id===prev)) sel.value=prev;
+    // Deixar a seleção vazia só adia o erro para a hora de narrar. Se ainda não
+    // há voz escolhida (nem no campo manual), assume a primeira da conta —
+    // trocar depois é um clique, ficar sem áudio custa a geração inteira.
+    if(!voiceId()) sel.value=list[0].voice_id;
     saveState();
-    setStatus(`✅ ${list.length} vozes carregadas.`);
+    setStatus(`✅ ${list.length} vozes carregadas. Voz atual: ${sel.options[sel.selectedIndex].textContent}`);
   }catch(e){
     setStatus('❌ '+e.message+' (se for erro de rede, cole o Voice ID à mão)');
   }
@@ -1690,13 +1843,12 @@ async function generateSingle(i){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   syncFrame(i);
   const f=frames[i];
-  if(usaTraducao()&&!gmKeys().length){setStatus('⚠️ Cole a chave do Google na aba Chaves, ou desligue a tradução.');return;}
-  if(usaTraducao()&&!gmLiveKeys().length){setStatus('⚠️ Todas as chaves do Google estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   if(!f.prompt){setStatus('⚠️ Descreva a imagem da cena '+(i+1));return;}
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
-  showOv(`🤖 Cena ${i+1}: Gemini traduzindo…`);
-  setStatus(`Cena ${i+1}: aprimorando prompt…`);
+  const traduz = usaTraducao() && gmLiveKeys().length>0;
+  showOv(traduz ? `🤖 Cena ${i+1}: Gemini traduzindo…` : `🎨 Cena ${i+1}: gerando imagem…`);
+  setStatus(traduz ? `Cena ${i+1}: aprimorando prompt…` : `Cena ${i+1}: gerando imagem…`);
   logLine('info',`Cena ${i+1}: iniciando geração de imagem…`,f.prompt);
   try{
     const enhanced=await enhancePrompt(f.prompt);
@@ -1726,7 +1878,6 @@ async function rerollImage(i){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   const f=frames[i];
   if(!f.enhanced){ setStatus('⚠️ Use "Gerar imagem" primeiro nesta cena.'); return; }
-  if(usaTraducao()&&!gmLiveKeys().length){ setStatus('⚠️ Nenhuma chave do Google com cota para traduzir.'); return; }
   const {cw,ch}=currentRes();
   setBadge(i,'b-gen','⏳ gerando…');
   showOv(`🎲 Cena ${i+1}: outra variação…`);
@@ -1774,8 +1925,6 @@ async function uploadImage(i,input){
 // ── GENERATE ALL ─────────────────────────────────────────
 async function generateAll(onlyMissing){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
-  if(usaTraducao()&&!gmKeys().length){setStatus('⚠️ Cole a chave do Google na aba Chaves, ou desligue a tradução.');return;}
-  if(usaTraducao()&&!gmLiveKeys().length){setStatus('⚠️ Todas as chaves do Google estão sem cota. Adicione outra ou clique em "Marcar todas como disponíveis".');return;}
   frames.forEach((_,i)=>syncFrame(i));
 
   // refazer só o que faltou evita queimar cota nas cenas que já deram certo
@@ -1942,7 +2091,7 @@ async function renderVideo(){
         let seg=timeline[timeline.length-1];
         for(const s of timeline){ if(t<s.start+s.dur){ seg=s; break; } }
         drawScene(oc,seg.f,t-seg.start,seg.dur,cw,ch);
-        ctx.drawImage(off,0,0,PW,PH); // espelha no preview
+        ctx.drawImage(off,0,0,canvas.width,canvas.height); // espelha no preview
         painted++;
         setProg(Math.round((t/totalDur)*100));
         setStatus(`🎬 ${fmtTime(t)} / ${fmtTime(totalDur)} — mantenha esta aba visível`);
@@ -2050,7 +2199,7 @@ CapCut:
   1. Importar -> pasta shorts_frames -> "Sequência de imagens" -> FPS ${fps}
   2. Arrastar os MP3 de audio/ para a trilha de áudio
   3. Usar timeline.json para conferir onde cada cena começa
-  4. Exportar 9:16
+  4. Exportar ${cw>ch?'16:9':'9:16'}
 
 FFmpeg (monta tudo de uma vez):
   ffmpeg -framerate ${fps} -i shorts_frames/frame_%05d.jpg \\
@@ -2188,15 +2337,15 @@ function envProblems(e){
       `MediaRecorder: ${e.mediaRecorder?'ok':'ausente'} · canvas.captureStream: ${e.captureStream?'ok':'ausente'} · formato: ${e.mime||'nenhum'}. Use Chrome ou Edge no computador. A rota ZIP continua disponível.`]);
   if(e.estatico && imgSource()==='replicate')
     p.push(['err','A Replicate não funciona nesta hospedagem',
-      `${e.host} serve só arquivos, então /replicate não existe e a API da Replicate bloqueia chamada direta do navegador (CORS). Use Gemini como fonte, ou rode "python serve.py" na sua máquina.`]);
+      `${e.host} serve só arquivos, então /replicate não existe e a API da Replicate bloqueia chamada direta do navegador (CORS). Rode "python serve.py" na sua máquina e abra http://localhost:8777.`]);
   if(e.file)
     p.push(['err','Página aberta como file://',
       'Nesse modo o navegador bloqueia as chamadas de API por CORS. Abra por http://localhost rodando "python serve.py".']);
   if(e.movel){
     p.push(['warn','No celular a renderização é frágil',
       'A gravação é em tempo real e o desenho congela se a tela apagar, o app sair de foco ou chegar uma ligação — o vídeo sai com quadros perdidos. Mantenha a tela ligada e o app aberto, ou renderize no computador.']);
-    p.push(['warn','Memória: 1080×1920 pesa no celular',
-      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque a resolução para 720×1280 na aba Config.`]);
+    p.push(['warn','Memória: resolução cheia pesa no celular',
+      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque para a resolução menor do mesmo formato (720×1280 ou 1280×720) na aba Config.`]);
   }
   if(e.ios)
     p.push(['warn','iPhone/iPad: baixar o arquivo costuma falhar',
@@ -2372,7 +2521,7 @@ function applyConfig(c){
   const fps=String(parseInt(c.fps));
   if(fps==='24'||fps==='30') document.getElementById('fps').value=fps;
   const res=String(c.resolucao||c.resolution||'');
-  if(res==='1080x1920'||res==='720x1280') document.getElementById('resolution').value=res;
+  if(RESOLUCOES.includes(res)){ document.getElementById('resolution').value=res; aplicarFormato(); }
   const dur=parseFloat(c.duracaoSemAudio!=null?c.duracaoSemAudio:(c.duracao!=null?c.duracao:c.duration));
   if(dur>0) document.getElementById('frameDuration').value=Math.min(30,Math.max(1,dur));
   const tail=parseFloat(c.pausaAposFala!=null?c.pausaAposFala:(c.pausa!=null?c.pausa:c.tail));
@@ -2440,7 +2589,7 @@ function importJSON(){
   frames=next;
   document.getElementById('frameCount').value=frames.length;
   applyConfig(cfg);
-  stopPreview(); pvIndex=-1; drawBlank(ctx,PW,PH);
+  stopPreview(); pvIndex=-1; drawBlank(ctx,canvas.width,canvas.height);
   renderCards(); checkDone(); updateTotals(); saveState();
 
   const reImg=next.filter(f=>f.image).length, reAud=next.filter(f=>f.audioBuffer).length;
@@ -2473,7 +2622,7 @@ function exportJSON(){
 
 function fillExample(){
   document.getElementById('jsonIn').value=JSON.stringify({
-    config:{fps:30,resolucao:'1080x1920',duracaoSemAudio:3,pausaAposFala:0.4},
+    config:{fps:30,resolucao:document.getElementById('resolution').value,duracaoSemAudio:3,pausaAposFala:0.4},
     cenas:[
       {imagem:'relógio antigo de bolso caindo em câmera lenta, fundo escuro, luz dourada lateral, cinematográfico',
        texto:'Você perde 3 horas por dia sem perceber',estilo:'viral',animacao:'palavra',posicao:'legenda'},
@@ -2488,19 +2637,35 @@ function fillExample(){
   setJsonMsg('Exemplo carregado. Clique em Importar roteiro.','var(--muted)');
 }
 
-const CLAUDE_PROMPT=`Você é roteirista de vídeos verticais curtos (Shorts / Reels / TikTok), em português do Brasil.
+function claudePrompt(){
+  const f=formato();
+  const perfil = f.horizontal
+    ? 'vídeos horizontais para YouTube'
+    : 'vídeos verticais curtos (Shorts / Reels / TikTok)';
+  const cenas = f.horizontal ? 'Entre 6 e 12 cenas.' : 'Entre 4 e 7 cenas.';
+  return CLAUDE_PROMPT
+    .replace('{{PERFIL}}', perfil)
+    .replace('{{RESOLUCAO}}', document.getElementById('resolution').value)
+    .replace('{{QTD_CENAS}}', cenas)
+    .replace('{{ENQUADRAMENTO}}', f.horizontal
+      ? 'Enquadramento horizontal 16:9: pense em planos abertos, paisagem, espaço nas laterais.'
+      : 'Enquadramento vertical 9:16: pense em close, sujeito centralizado, pouco espaço lateral.');
+}
+
+const CLAUDE_PROMPT=`Você é roteirista de {{PERFIL}}, em português do Brasil.
 
 Quando eu te der um tema, responda APENAS com um bloco JSON válido — sem texto antes, sem texto depois, sem comentários — exatamente neste formato:
 
 {
-  "config": { "fps": 30, "resolucao": "1080x1920", "duracaoSemAudio": 3, "pausaAposFala": 0.4 },
+  "config": { "fps": 30, "resolucao": "{{RESOLUCAO}}", "duracaoSemAudio": 3, "pausaAposFala": 0.4 },
   "cenas": [
     { "imagem": "...", "texto": "...", "estilo": "viral", "animacao": "palavra", "posicao": "legenda" }
   ]
 }
 
 REGRAS DAS CENAS
-- Entre 4 e 7 cenas.
+- {{QTD_CENAS}}
+- {{ENQUADRAMENTO}}
 - "imagem": descrição visual do fundo. Concreta e cinematográfica: sujeito + ação + ambiente + luz + enquadramento. Sem texto, sem letras, sem logos na imagem. Uma frase só. Pode escrever em português (o app traduz) ou já em inglês, se a tradução estiver desligada no app.
 - "texto": o que aparece escrito na tela E é narrado em voz alta. No máximo 12 palavras. Linguagem falada, direta, sem ponto final.
 - "narracao": use SOMENTE se a fala precisar ser diferente do texto na tela. Se omitir, a narração usa o texto — e as palavras acendem sincronizadas com a voz. Prefira omitir.
@@ -2533,14 +2698,15 @@ async function copyText(t){
 }
 
 function copyClaudePrompt(){
-  copyText(CLAUDE_PROMPT).then(ok=>{
+  const texto=claudePrompt();
+  copyText(texto).then(ok=>{
     if(ok){ setJsonMsg('✅ Prompt copiado. Cole nas instruções de um Projeto do Claude.','var(--green)'); return; }
     const el=document.getElementById('jsonIn');
     // não destruir um JSON que o usuário já colou só para exibir o prompt
     if(el.value.trim()){
       setJsonMsg('⚠️ Não consegui copiar. Esvazie o campo acima e clique de novo para ver o prompt.','var(--accent)');
     }else{
-      el.value=CLAUDE_PROMPT;
+      el.value=texto;
       setJsonMsg('⚠️ Não consegui copiar — o prompt está no campo acima, copie à mão.','var(--accent)');
     }
   });
