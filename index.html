@@ -253,6 +253,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <button class="btn btn-red" id="genAllBtn" onclick="generateAll()" style="margin-top:0">✨ Gerar todas as imagens</button>
     <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)">↻ Gerar só as que faltaram</button>
     <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Gerar todas as narrações</button>
+    <div class="tip warn" id="avisoNarracao" style="display:none"></div>
     <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Gerar vídeo pronto para postar</button>
     <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
     <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Baixar peças soltas (p/ editar no CapCut)</button>
@@ -669,7 +670,7 @@ function saveState(){
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration,
         animType:f.animType, style:f.style, font:f.font||'', textPos:f.textPos, enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
-        hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null,
+        hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
         audioDur: f.audioBuffer ? f.audioBuffer.duration : null
       })),
       frameDuration: document.getElementById('frameDuration').value,
@@ -719,7 +720,7 @@ function loadState(){
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
       wordTimes:Array.isArray(f.wordTimes)?f.wordTimes:null,
-      _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null
+      _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null, audioText:f.audioText!=null?f.audioText:null
     }));
     document.getElementById('frameCount').value = frames.length;
   }
@@ -772,7 +773,8 @@ async function restoreAssets(){
     if(f._hasAudio&&!f.audioBytes){
       const rec = await idbGet(f.id);
       if(rec&&rec.bytes){
-        try{ await attachAudio(f, new Uint8Array(rec.bytes), rec.wordTimes||f.wordTimes||null); }
+        try{ await attachAudio(f, new Uint8Array(rec.bytes), rec.wordTimes||f.wordTimes||null);
+             f.audioText = rec.text!=null ? rec.text : (f.audioText||''); }
         catch(e){ f._hasAudio=false; }
       } else f._hasAudio=false;
     }
@@ -888,8 +890,10 @@ function renderCards(){
   frames.forEach((f,i)=>{
     const imgCls = f.image?'b-done':'b-pending';
     const imgTxt = f.image?'✓ imagem':'sem imagem';
-    const audCls = f.audioBuffer?'b-aud':'b-pending';
-    const audTxt = f.audioBuffer?('🔊 '+f.audioBuffer.duration.toFixed(1)+'s'):'sem áudio';
+    const velha = narracaoVelha(f);
+    const audCls = velha?'b-err':(f.audioBuffer?'b-aud':'b-pending');
+    const audTxt = velha?'⚠️ refazer voz'
+                 : (f.audioBuffer?('🔊 '+f.audioBuffer.duration.toFixed(1)+'s'):'sem áudio');
 
     const card = document.createElement('div');
     card.className='frame-card';
@@ -997,6 +1001,12 @@ function syncFrame(i){
   const sub=document.getElementById('fc-sub-'+i);
   if(title) title.textContent=frames[i].prompt||'Sem descrição';
   if(sub) sub.textContent=frames[i].text||'Sem texto';
+  // editar o texto pode ter acabado de invalidar a narração desta cena
+  const velha=narracaoVelha(frames[i]);
+  setABadge(i, velha?'b-err':(frames[i].audioBuffer?'b-aud':'b-pending'),
+    velha?'⚠️ refazer voz'
+        : (frames[i].audioBuffer?('🔊 '+frames[i].audioBuffer.duration.toFixed(1)+'s'):'sem áudio'));
+  checkDone();
   saveStateSoon();
 }
 
@@ -1769,6 +1779,21 @@ function voiceId(){
 }
 function narrationOf(f){ return (f.narration||f.text||'').trim(); }
 
+// O áudio fala o texto que existia quando foi gerado. Editar a cena depois não
+// invalidava nada: a voz continuava dizendo a frase velha, os timestamps de
+// palavra continuavam sendo os dela, e o vídeo saía com legenda e narração
+// discordando — sem aviso nenhum. Aqui é onde isso passa a ser detectado.
+function narracaoVelha(f){
+  if(!f || !f.audioBuffer) return false;
+  // áudio de antes desta correção não tem marca; não dá para afirmar que está
+  // velho, então fica de fora em vez de acusar falso positivo
+  if(f.audioText==null) return false;
+  return f.audioText.trim() !== narrationOf(f);
+}
+function cenasComNarracaoVelha(){
+  return frames.map((f,i)=>narracaoVelha(f)?i+1:0).filter(Boolean);
+}
+
 async function elError(res,fallback){
   let msg=fallback+' ('+res.status+')';
   try{
@@ -1918,6 +1943,8 @@ async function ttsScene(f){
   const usable = times && times.length===words.length ? times : null;
 
   await attachAudio(f,bytes,usable);
+  // marca de qual texto este áudio é: editar a cena depois torna o áudio velho
+  f.audioText=text;
   await idbPut(f.id,{bytes:bytes.buffer.slice(0),wordTimes:usable,text});
   return {synced:!!usable, dur:f.audioBuffer.duration};
 }
@@ -2723,6 +2750,12 @@ function applyConfig(c){
   if(dur>0) document.getElementById('frameDuration').value=Math.min(30,Math.max(1,dur));
   const tail=parseFloat(c.pausaAposFala!=null?c.pausaAposFala:(c.pausa!=null?c.pausa:c.tail));
   if(tail>=0&&!isNaN(tail)) document.getElementById('tailPause').value=Math.min(3,Math.max(0,tail));
+  const tr=parseFloat(c.transicao!=null?c.transicao:(c.transition!=null?c.transition:NaN));
+  if(tr>=0&&!isNaN(tr)) document.getElementById('transition').value=Math.min(1.5,Math.max(0,tr));
+  const par=parseInt(c.paralelo!=null?c.paralelo:c.parallel);
+  if(par>0) document.getElementById('parallel').value=Math.min(8,Math.max(1,par));
+  const fp=String(c.fontePadrao||'').toLowerCase().trim();
+  if(FONTES[fp]) frames.forEach(f=>{ if(!f.font) f.font=fp; });
   const voz=c.voiceId||c.vozId||c.voice_id;
   if(voz) document.getElementById('voiceManual').value=String(voz);
 }
@@ -2861,6 +2894,8 @@ function claudePrompt(){
     .replace('{{PERFIL}}', perfil)
     .replace('{{RESOLUCAO}}', document.getElementById('resolution').value)
     .replace('{{QTD_CENAS}}', cenas)
+    .replace('{{FONTE_ATUAL}}', (frames[0] && frames[0].font) || 'bebas')
+    .replace('{{ESTILOS}}', Object.keys(STYLES).join(', '))
     .replace('{{FONTES}}', Object.keys(FONTES).join(', '))
     .replace('{{ENQUADRAMENTO}}', f.horizontal
       ? 'Enquadramento horizontal 16:9: pense em planos abertos, paisagem, espaço nas laterais.'
@@ -2872,9 +2907,17 @@ const CLAUDE_PROMPT=`Você é roteirista de {{PERFIL}}, em português do Brasil.
 Quando eu te der um tema, responda APENAS com um bloco JSON válido — sem texto antes, sem texto depois, sem comentários — exatamente neste formato:
 
 {
-  "config": { "fps": 30, "resolucao": "{{RESOLUCAO}}", "duracaoSemAudio": 3, "pausaAposFala": 0.4 },
+  "config": {
+    "fps": 30,
+    "resolucao": "{{RESOLUCAO}}",
+    "duracaoSemAudio": 3,
+    "pausaAposFala": 0.25,
+    "transicao": 0.35,
+    "estiloPadrao": "viral",
+    "fontePadrao": "{{FONTE_ATUAL}}"
+  },
   "cenas": [
-    { "imagem": "...", "texto": "...", "estilo": "viral", "animacao": "palavra", "posicao": "legenda" }
+    { "imagem": "...", "texto": "...", "animacao": "palavra", "posicao": "legenda" }
   ]
 }
 
@@ -2882,17 +2925,28 @@ REGRAS DAS CENAS
 - {{QTD_CENAS}}
 - {{ENQUADRAMENTO}}
 - "imagem": descrição visual do fundo. Concreta e cinematográfica: sujeito + ação + ambiente + luz + enquadramento. Sem texto, sem letras, sem logos na imagem. Uma frase só. Pode escrever em português (o app traduz) ou já em inglês, se a tradução estiver desligada no app.
-- "texto": o que aparece escrito na tela E é narrado em voz alta. No máximo 12 palavras. Linguagem falada, direta, sem ponto final.
+- "texto": o que aparece escrito na tela E é narrado em voz alta. De 6 a 12 palavras. Linguagem falada, direta, sem ponto final.
 - "narracao": use SOMENTE se a fala precisar ser diferente do texto na tela. Se omitir, a narração usa o texto — e as palavras acendem sincronizadas com a voz. Prefira omitir.
-- "estilo": um de viral, neon, shadow, outline, highlight, minimal. Controla cor, sombra e contorno.
-- "fonte" (opcional): um de {{FONTES}}. Omita para usar a fonte padrão do estilo. Mantenha a mesma fonte no roteiro inteiro, salvo se quiser destacar uma cena.
-- "animacao": "palavra" (revela palavra a palavra) ou "fixo" (tudo de uma vez).
-- "posicao": "legenda" (embaixo, padrão), "centro" ou "topo". Também aceita um número de 0 a 100. Prefira "legenda" — deixa a imagem respirar.
+- "estilo" (cor, sombra, contorno): um de {{ESTILOS}}.
+- "fonte" (família da letra): uma de {{FONTES}}.
+- Estilo e fonte: deixe em "config" (estiloPadrao, fontePadrao) e NÃO repita em cada cena. Só ponha numa cena específica quando quiser destacá-la de propósito — no máximo uma ou duas no roteiro inteiro.
+- "animacao": "palavra" (revela palavra a palavra) ou "fixo" (tudo de uma vez). Use a mesma em todas as cenas.
+- "posicao": "legenda" (embaixo, padrão), "centro" ou "topo". Também aceita um número de 0 a 100. Use a mesma em todas as cenas — legenda pulando de lugar a cada corte cansa quem assiste.
+
+CONSISTÊNCIA NA TROCA DE CENA
+Entre uma cena e a seguinte há uma pausa curta na narração e um cross-dissolve na imagem. Isso muda como o texto precisa ser escrito:
+- Cada "texto" é uma ideia COMPLETA, que se sustenta sozinha ao ser lida em voz alta. Nunca parta uma frase no meio entre duas cenas: "uma List guarda vários valores" / "do mesmo tipo numa variável só" soa quebrado, porque existe silêncio e uma troca de imagem entre as duas metades.
+- Sem conectivo pendurado no fim: não termine em "e", "mas", "porque", "que", "para", vírgula ou reticências.
+- Não repita o sujeito a cada cena. Depois de apresentá-lo uma vez, siga com pronome ou direto no verbo — o espectador não perdeu o fio.
+- Mantenha a mesma pessoa e o mesmo tempo verbal do começo ao fim (ou tudo em "você", ou tudo impessoal — não alterne).
+- Uma cena puxa a seguinte pelo sentido, não por repetir palavras. Evite começar várias cenas com a mesma palavra.
+- Comprimento parecido entre as cenas: de 6 a 12 palavras. Uma cena de 3 palavras entre duas de 12 quebra o ritmo, porque a duração de cada cena vem do tamanho da narração.
 
 ESTRUTURA
 - Cena 1: gancho. Uma afirmação que gera curiosidade ou contradiz o senso comum.
 - Cenas do meio: desenvolvem uma ideia por cena, sem repetir.
 - Última cena: fecho com chamada para ação curta.
+- As descrições de "imagem" também acompanham: mesma paleta, mesma luz e mesmo tratamento do começo ao fim, senão o cross-dissolve liga dois mundos diferentes.
 
 FORMATO
 - Aspas retas ("), nunca curvas.
@@ -2944,9 +2998,50 @@ function setABadge(i,cls,txt){
 }
 function checkDone(){
   const allImg = frames.length && frames.every(f=>f.image);
-  document.getElementById('exportBtn').disabled = !allImg || rendering;
+  // narração velha não é detalhe: o arquivo sai com a voz dizendo uma frase e a
+  // legenda mostrando outra. Melhor travar do que entregar isso pronto.
+  const velhas = cenasComNarracaoVelha();
+  const bloqueado = !allImg || rendering || velhas.length>0;
+  document.getElementById('exportBtn').disabled = bloqueado;
   const vb=document.getElementById('videoBtn');
-  vb.disabled = !allImg || rendering || !!vb.dataset.unsupported;
+  vb.disabled = bloqueado || !!vb.dataset.unsupported;
+
+  const aviso=document.getElementById('avisoNarracao');
+  if(aviso){
+    aviso.style.display = velhas.length ? 'block' : 'none';
+    if(velhas.length) aviso.innerHTML =
+      `⚠️ <b>Cena${velhas.length>1?'s':''} ${velhas.join(', ')}: o texto mudou depois da narração.</b> `+
+      `A voz ainda fala a frase antiga. Refaça a narração dessas cenas — `+
+      `<button class="btn-sm btn-mic" onclick="narrarDesatualizadas()">🎤 Refazer só as desatualizadas</button>`;
+  }
+}
+
+// Regerar só o que ficou velho evita gastar caracteres da ElevenLabs
+// refazendo narração que já está certa.
+async function narrarDesatualizadas(){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  frames.forEach((_,i)=>syncFrame(i));
+  const alvos=frames.map((f,i)=>narracaoVelha(f)?i:-1).filter(i=>i>=0);
+  if(!alvos.length){ setStatus('✅ Nenhuma narração desatualizada.'); return; }
+  logLine('info',`Refazendo ${alvos.length} narração(ões) desatualizada(s).`);
+  let fails=0;
+  for(const i of alvos){
+    setABadge(i,'b-gen','⏳ voz…');
+    setStatus(`Cena ${i+1}: refazendo narração…`);
+    try{
+      const r=await ttsScene(frames[i]);
+      frames[i].lastError=null;
+      setABadge(i,'b-aud','🔊 '+r.dur.toFixed(1)+'s');
+      logLine('ok',`Cena ${i+1}: narração refeita (${r.dur.toFixed(1)}s).`);
+    }catch(e){
+      fails++;
+      frames[i].lastError='[ElevenLabs] '+e.message;
+      logLine('err',`Cena ${i+1}: narração falhou`,e.message);
+      setABadge(i,'b-err','✗ voz');
+    }
+  }
+  renderCards(); checkDone(); updateTotals(); saveState();
+  setStatus(fails?`⚠️ ${fails} narração(ões) falharam.`:'✅ Narrações atualizadas.');
 }
 </script>
 </body>
