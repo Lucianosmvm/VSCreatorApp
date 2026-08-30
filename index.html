@@ -874,7 +874,7 @@ function posLabel(v){
 }
 
 function newFrame(){
-  return {id:newId(),prompt:'',text:'',
+  return {id:newId(),prompt:'',text:'',narration:'',
           image:null,imageUrl:null,imageBytes:null,video:null,videoBytes:null,enhanced:'',
           audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null};
 }
@@ -965,7 +965,7 @@ function saveState(){
     const remember = document.getElementById('rememberKey').checked;
     localStorage.setItem(LS_KEY, JSON.stringify({
       frames: frames.map(f=>({
-        id:f.id, prompt:f.prompt, text:f.text,
+        id:f.id, prompt:f.prompt, text:f.text, narration:f.narration||'',
         enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
@@ -1020,7 +1020,7 @@ function loadState(){
   }
   if(Array.isArray(d.frames)&&d.frames.length){
     frames = d.frames.slice(0,MAX_CENAS).map(f=>({
-      id:f.id||newId(), prompt:f.prompt||'', text:f.text||'',
+      id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes,
       video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
@@ -1409,8 +1409,11 @@ function renderCards(){
       <div class="fc-body">
         <div class="fc-sec">ROTEIRO</div>
 
-        <label>Texto na tela</label>
-        <textarea id="ft-${i}" placeholder="Ex: Você sabia que 90% das pessoas erram isso?" oninput="syncFrame(${i})">${esc(f.text)}</textarea>
+        <label>Narração <span class="fc-opt">o que a voz fala</span></label>
+        <textarea id="fn-${i}" placeholder="Vem do roteiro" oninput="syncFrame(${i})">${esc(f.narration||'')}</textarea>
+
+        <label>Texto na tela <span class="fc-opt">vazio = igual à narração</span></label>
+        <textarea id="ft-${i}" placeholder="${esc(narrationOf(f)||'igual à narração')}" oninput="syncFrame(${i})">${esc(f.text||'')}</textarea>
 
         <label>Prompt da imagem</label>
         <textarea id="fp-${i}" placeholder="Ex: pôr do sol dramático sobre cidade futurista, cinematográfico" oninput="syncFrame(${i})">${esc(f.prompt)}</textarea>
@@ -1450,13 +1453,15 @@ function renderCards(){
 function syncFrame(i){
   const p=document.getElementById('fp-'+i);
   const t=document.getElementById('ft-'+i);
+  const n=document.getElementById('fn-'+i);
 
   if(p) frames[i].prompt=p.value;
   if(t) frames[i].text=t.value;
+  if(n) frames[i].narration=n.value;
   const title=document.getElementById('fc-title-'+i);
   const sub=document.getElementById('fc-sub-'+i);
   if(title) title.textContent=frames[i].prompt||'Sem descrição';
-  if(sub) sub.textContent=frames[i].text||'Sem texto';
+  if(sub) sub.textContent=textoNaTela(frames[i])||'Sem texto';
   // editar o texto pode ter acabado de invalidar a narração desta cena
   const velha=narracaoVelha(frames[i]);
   setABadge(i, velha?'b-err':(frames[i].audioBuffer?'b-aud':'b-pending'),
@@ -1529,7 +1534,7 @@ function drawTextOnCtx(c,text,styleName,cw,ch,visibleText,posPct,fontId){
 // Quantas palavras já apareceram em `tIn` segundos dentro da cena.
 // Com timestamps da ElevenLabs, cada palavra acende no instante em que é falada.
 function visibleWordCount(f,tIn,dur){
-  const words=(f.text||'').split(/\s+/).filter(Boolean);
+  const words=textoNaTela(f).split(/\s+/).filter(Boolean);
   if(!words.length) return 0;
   if(f.wordTimes && f.wordTimes.length===words.length){
     // os timestamps vêm do áudio original; o buffer tocado teve o silêncio
@@ -1579,16 +1584,16 @@ function drawScene(c,f,tIn,dur,cw,ch){
   // o clipe manda quando existe; a imagem continua sendo o fundo das cenas
   // que você ainda não animou, então os dois convivem no mesmo roteiro
   drawBgOnCtx(c, f.video || f.image, cw, ch);
-  let visible=f.text;
+  let visible=textoNaTela(f);
   const modo=animAtual();
   if(modo!=='fixed'){
-    const words=(f.text||'').split(/\s+/).filter(Boolean);
+    const words=textoNaTela(f).split(/\s+/).filter(Boolean);
     const n=visibleWordCount(f,tIn,dur);
     // "single": só a palavra que está sendo falada agora. "word": tudo o que já
     // foi falado, acumulando. Os dois usam a mesma contagem — muda só o recorte.
     visible = modo==='single' ? (words[n-1]||'') : words.slice(0,n).join(' ');
   }
-  drawTextOnCtx(c,f.text,estiloAtual(),cw,ch,visible,posAtual());
+  drawTextOnCtx(c,textoNaTela(f),estiloAtual(),cw,ch,visible,posAtual());
 }
 
 // ── SINCRONIA DO VÍDEO ────────────────────────────────────
@@ -2555,7 +2560,14 @@ function voiceId(){
 // efeito escondido: o alinhamento por palavra da ElevenLabs só vale quando a
 // fala é exatamente o texto escrito, então quem preenchia a narração perdia a
 // sincronia da legenda sem entender por quê. Agora ela vale sempre.
-function narrationOf(f){ return (f.text||'').trim(); }
+// Dois textos, de propósito distintos:
+//   f.narration  o que a voz FALA — vem do roteiro (narration_text)
+//   f.text       o que aparece ESCRITO — editável à parte
+// Existem para o caso de grafia e pronúncia não coincidirem: na tela
+// "1º/01/2024", na fala "primeiro de janeiro de dois mil e vinte e quatro".
+// Um vazio herda o outro, então quem não precisa da distinção não vê diferença.
+function narrationOf(f){ return (f.narration||f.text||'').trim(); }
+function textoNaTela(f){ return (f.text||f.narration||'').trim(); }
 
 // O áudio fala o texto que existia quando foi gerado. Editar a cena depois não
 // invalidava nada: a voz continuava dizendo a frase velha, os timestamps de
@@ -2714,12 +2726,17 @@ async function ttsScene(f){
     alignment=d.alignment||d.normalized_alignment||null;
   }
 
-  // narração e texto da tela são a mesma coisa, então o alinhamento por
-  // palavra sempre pode ser usado — antes ele era descartado quando alguém
-  // preenchia a narração à parte
+  // O alinhamento marca as palavras FALADAS. A legenda mostra as da TELA, que
+  // podem ser outras ("2024" escrito, "dois mil e vinte e quatro" falado).
+  // Guardo as marcações quando batem com a fala; quem lê (visibleWordCount)
+  // confere de novo contra o texto da tela e, se as contagens divergirem, cai
+  // na divisão por tempo em vez de acender a palavra errada.
   const times = wordTimesFromAlignment(alignment);
-  const words=text.split(/\s+/).filter(Boolean);
-  const usable = times && times.length===words.length ? times : null;
+  const faladas=text.split(/\s+/).filter(Boolean);
+  const usable = times && times.length===faladas.length ? times : null;
+  if(usable && textoNaTela(f).split(/\s+/).filter(Boolean).length!==faladas.length)
+    logLine('info','Texto da tela tem contagem de palavras diferente da fala.',
+      'A legenda vai avançar pelo tempo da cena, e não pelas marcações da ElevenLabs.');
 
   await attachAudio(f,bytes,usable);
   // marca de qual texto este áudio é: editar a cena depois torna o áudio velho
@@ -3585,8 +3602,9 @@ function firstOf(o,keys){
 const K_IMG =['imagem','image','prompt','descricao','descrição','imagem_prompt','imagePrompt','image_prompt','imagePrompt'];
 // narration_text entra aqui, e não numa chave de narração: desde que a fala é o
 // próprio texto da tela, os dois são a mesma coisa
-const K_TXT =['texto','text','legenda','caption','tela','narration_text','narrationText','narration','voiceover'];
-const K_NAR =['narracao','narração','narration','voz','fala','audio'];
+// narration_text é o que se FALA; "texto"/"legenda" é o que se ESCREVE
+const K_TXT =['texto','text','legenda','caption','tela','on_screen_text','screenText','texto_tela'];
+const K_NAR =['narracao','narração','narration','narration_text','narrationText','voz','fala','voiceover','audio'];
 const K_STY =['estilo','style'];
 const K_ANI =['animacao','animação','animation','anim'];
 const K_POS =['posicao','posição','position','pos','alinhamento'];
@@ -3606,7 +3624,7 @@ function normScene(s,i){
   const imagem=String(firstOf(s,K_IMG)||'').trim();
   const texto =String(firstOf(s,K_TXT)||'').trim();
   const narr  =String(firstOf(s,K_NAR)||'').trim();
-  if(!imagem&&!texto) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem" ou "texto".`);
+  if(!imagem&&!texto&&!narr) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem", "texto" ou "narration_text".`);
   return { imagem, texto, narracao:narr };
 }
 
@@ -3695,7 +3713,7 @@ function importJSON(){
   const old=frames, keptIds=new Set();
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
-    f.prompt=s.imagem; f.text=s.texto;
+    f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao;
 
     if(o){
       if(o.image && o.prompt===f.prompt){
@@ -3749,7 +3767,10 @@ function exportJSON(){
         return p===TEXT_POS.topo?'topo':p===TEXT_POS.centro?'centro':p===TEXT_POS.legenda?'legenda':p;})()
     },
     cenas: frames.map(f=>{
-      const c={imagem:f.prompt, texto:f.text};
+      const c={image_prompt:f.prompt, narration_text:narrationOf(f)};
+      // o texto da tela só sai quando difere da fala — senão é ruído no JSON
+      const tela=(f.text||'').trim();
+      if(tela && tela!==narrationOf(f)) c.texto=tela;
       return c;
     })
   };
