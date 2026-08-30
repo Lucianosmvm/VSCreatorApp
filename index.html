@@ -36,8 +36,8 @@ header{display:flex;align-items:center;gap:14px;padding:7px 14px}
 
 /* ── PREVIEW (na coluna, ao lado do roteiro) ───────────── */
 .sec-preview{flex:0 0 auto !important}
-.phone-frame.wide{width:168px;height:95px}
-.phone-frame{position:relative;width:95px;height:168px;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0;margin:0 auto}
+.phone-frame.wide{width:132px;height:74px}
+.phone-frame{position:relative;width:74px;height:132px;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0;margin:0 auto}
 #previewCanvas{width:100%;height:100%;display:block}
 .status{flex:1;min-width:0;font-size:11px;color:var(--muted);line-height:1.35;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -138,6 +138,22 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
   background:var(--surface2);border:1px solid var(--border2);border-radius:10px}
 .barra .btn{width:auto;margin-top:0;padding:8px 13px;font-size:11px;white-space:nowrap}
 .barra select{width:auto;min-width:168px;font-size:11px;padding:6px 9px}
+/* As duas colunas do topo têm a MESMA altura, dada pela caixa do preview.
+   A caixa é quadrada de propósito: assim trocar 9:16 por 16:9 não muda a
+   altura da linha inteira e o canvas dos cartões não fica pulando. */
+.sec-preview{padding:9px !important}
+.sec-preview .sec-hd{margin-bottom:7px}
+.pv-tempo{font-size:12px;color:var(--text);margin-bottom:6px;text-align:center;min-height:16px}
+.pv-tempo .pv-est{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em}
+.pv-box{width:132px;height:132px;display:flex;align-items:center;justify-content:center}
+
+.sec-import{display:flex;flex-direction:column;padding:9px !important;min-width:0}
+.sec-import .sec-hd{margin-bottom:6px;flex:0 0 auto}
+/* o campo de JSON é quem estica: o resto tem altura fixa */
+.sec-import #jsonIn{flex:1 1 auto;min-height:0 !important;height:auto;resize:none}
+.sec-import .btnrow,.sec-import .jmsg,.sec-import .tip{flex:0 0 auto}
+.sec-import .tip{margin-top:6px;padding:6px 8px;line-height:1.4}
+
 .ajuda summary{cursor:pointer;color:var(--dim);font-size:10px;list-style:none;padding:1px 0}
 .ajuda summary::-webkit-details-marker{display:none}
 .ajuda summary::before{content:'▸ '}
@@ -154,6 +170,10 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
   background:#0a0a0a;border:1px solid var(--border2);border-radius:10px;
   cursor:grab;touch-action:none}
 .canvas-wrap.arrastando{cursor:grabbing}
+/* Enquanto arrasta, nada é selecionável: o ponteiro cruza os cartões com o
+   botão apertado e o navegador ia marcando os textos pelo caminho. */
+.canvas-wrap.arrastando,
+.canvas-wrap.arrastando *{user-select:none;-webkit-user-select:none}
 .canvas-pan{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform;padding:20px}
 .canvas-ctl{position:absolute;left:10px;bottom:10px;display:flex;align-items:center;gap:5px;
   background:rgba(12,12,12,.9);border:1px solid var(--border2);border-radius:9px;padding:5px 7px}
@@ -163,7 +183,9 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 .canvas-zoom{font-size:10px;color:var(--dim);min-width:36px;text-align:center}
 .canvas-dica{position:absolute;right:10px;bottom:14px;font-size:9px;color:var(--dim);pointer-events:none}
 
-.frames-flow{display:flex;flex-wrap:wrap;gap:30px 26px;align-items:flex-start}
+/* Fila única: os cartões seguem para o lado indefinidamente e a navegação é
+   arrastando. Sem quebra, a ordem das cenas fica óbvia — é a mesma da leitura. */
+.frames-flow{display:flex;flex-wrap:nowrap;gap:26px;align-items:flex-start}
 .frames-flow .frame-card{width:296px;flex:0 0 296px;margin-bottom:0;overflow:visible}
 .frames-flow .frame-card::after{
   content:'';position:absolute;top:86px;right:-26px;width:26px;height:2px;
@@ -271,7 +293,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
      saem para o visor ficar com o que sobra da janela */
   .pane[data-tab="cenas"] .sec:has(.canvas-wrap){padding:0;border:none;background:none;margin-bottom:0}
   .pane[data-tab="cenas"] .sec:has(.canvas-wrap) > .sec-hd{display:none}
-  .cenas-topo{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+  .cenas-topo{display:flex;gap:14px;align-items:stretch;margin-bottom:10px}
   .cenas-topo>.sec{flex:1 1 0;min-width:0;margin-bottom:0;padding:10px}
   /* a dica de campos é referência, não leitura corrida: some no recolhido */
   .cenas-topo .tip{margin-top:7px;padding:7px 9px;line-height:1.4}
@@ -308,6 +330,8 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
       <div class="sec-ic">👁️</div>
       <div class="sec-t" id="pvLabel">Preview · 9:16</div>
     </div>
+    <div class="pv-tempo" id="pvTempo"></div>
+    <div class="pv-box">
     <div class="phone-frame">
       <canvas id="previewCanvas" width="1080" height="1920"></canvas>
       <div class="rec-dot" id="recDot"></div>
@@ -316,9 +340,10 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
         <div class="gen-txt" id="genTxt">Gerando…</div>
       </div>
     </div>
+    </div>
   </div>
 
-  <div class="sec">
+  <div class="sec sec-import" id="secImport">
     <div class="sec-hd">
       <div class="sec-ic">📋</div>
       <div class="sec-t">Importar roteiro</div>
@@ -332,7 +357,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
     <div class="jmsg" id="jsonMsg"></div>
     <div class="tip">
-      Formato: <code>{"scenes":[{"narration_text":"…","image_prompt":"…"}]}</code> — é o que o <b>Prompt p/ Claude</b> pede. O antigo (<code>cenas</code>/<code>imagem</code>/<code>texto</code>, com <code>estilo</code> e <code>config</code>) continua sendo aceito. Reimportar reaproveita imagens e narrações das cenas que não mudaram.
+      <code>{"scenes":[{"narration_text":"…","image_prompt":"…"}]}</code> — o formato antigo também entra. Reimportar reaproveita o que não mudou.
     </div>
   </div>
 
@@ -615,9 +640,35 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
         </select>
       </div>
     </div>
+    <div class="sec-hd" style="margin-top:4px">
+      <div class="sec-ic">🔤</div>
+      <div class="sec-t">Legenda — vale para todas as cenas</div>
+    </div>
     <div class="row2">
       <div>
-        <label>Pausa após a fala (s)</label>
+        <label style="margin-top:0">Estilo</label>
+        <select id="globalStyle" onchange="onLegendaChange()"></select>
+      </div>
+      <div>
+        <label style="margin-top:0">Animação</label>
+        <select id="globalAnim" onchange="onLegendaChange()">
+          <option value="single" selected>◆ Só a palavra falada</option>
+          <option value="word">✦ Palavra a palavra (acumula)</option>
+          <option value="fixed">▬ Texto fixo</option>
+        </select>
+      </div>
+    </div>
+    <label>Posição — <span id="globalPosLbl">legenda</span></label>
+    <input type="range" class="slider" id="globalPos" min="5" max="95" step="1" value="80" oninput="onPosChange()">
+    <div class="hint">A fonte fica na aba Cenas, junto dos botões de gerar.</div>
+
+    <div class="sec-hd" style="margin-top:14px">
+      <div class="sec-ic">⏱️</div>
+      <div class="sec-t">Ritmo</div>
+    </div>
+    <div class="row2">
+      <div>
+        <label style="margin-top:0">Pausa após a fala (s)</label>
         <input type="number" id="tailPause" value="0.25" min="0" max="3" step="0.05" inputmode="decimal" oninput="onDurChange()">
       </div>
       <div>
@@ -692,9 +743,18 @@ let rendering = false;
 let emLote = false;   // lote paralelo em andamento: cenas não escrevem status individual
 // vista do canvas de cenas — declarado aqui porque o init roda antes do bloco
 // que usa estas variáveis, e `let` não é içado
+// Vista do canvas de cenas. Declaradas AQUI, com o resto do estado, porque o
+// bloco de inicialização roda antes do trecho que as usa e `let` não é içado —
+// deixá-las lá embaixo derrubava a página inteira no carregamento.
 let zoom = 1, panX = 0, panY = 0;
+let larguraCanvas = 0;   // largura de layout do canvas, independente do zoom
 let refImagem = null;   // {bytes, mime, w, h} — referência de personagem
-const ZOOM_MIN = 0.3, ZOOM_MAX = 1.6;
+// Mínimo folgado porque a largura de layout deixou de encolher com o zoom:
+// afastar é agora a única forma de ver um roteiro longo inteiro, e em 0.3 o
+// "enquadrar tudo" batia no limite sem conseguir enquadrar.
+// Mínimo bem folgado: numa fila só, um roteiro longo fica muito largo, e
+// "enquadrar tudo" precisa conseguir recuar o bastante para mostrar o conjunto.
+const ZOOM_MIN = 0.06, ZOOM_MAX = 1.6;
 let renderCancelled = false;
 let audioCtx = null;
 const LS_KEY = 'shortsCreator.v2';
@@ -732,6 +792,40 @@ function fonteDe(id){ return FONTES[id] || FONTES[FONTE_PADRAO]; }
 
 // Uma escolha só, válida para o roteiro inteiro. Fonte diferente a cada cena
 // não é estilo, é ruído: a legenda troca de cara no meio do vídeo.
+// Estilo, animação e posição passaram a ser do vídeo, não da cena: variar isso
+// de cartão em cartão não é estilo, é ruído — a legenda muda de cara no meio do
+// vídeo. Uma escolha só, como já era a fonte.
+function estiloAtual(){
+  const v=(document.getElementById('globalStyle')||{}).value;
+  return STYLES[v] ? v : 'viral';
+}
+const ANIMS=['single','word','fixed'];
+function animAtual(){
+  const v=(document.getElementById('globalAnim')||{}).value;
+  return ANIMS.includes(v) ? v : 'single';
+}
+function posAtual(){
+  const v=parseFloat((document.getElementById('globalPos')||{}).value);
+  return isNaN(v) ? TEXT_POS.legenda : normPos(v);
+}
+function preencherSeletorDeEstilo(){
+  const el=document.getElementById('globalStyle');
+  if(!el||el.options.length) return;
+  el.innerHTML=Object.keys(STYLES)
+    .map(k=>`<option value="${k}"${k==='viral'?' selected':''}>${STYLE_ICONS[k]} ${k}</option>`).join('');
+}
+function repintarCenas(){
+  renderCards();
+  if(pvIndex>=0&&frames[pvIndex]&&(frames[pvIndex].image||frames[pvIndex].video)) previewFrame(pvIndex);
+}
+function onLegendaChange(){ repintarCenas(); saveState(); }
+function onPosChange(){
+  const lbl=document.getElementById('globalPosLbl');
+  if(lbl) lbl.textContent=posLabel(posAtual());
+  repintarCenas();
+  saveStateSoon();
+}
+
 function fonteAtual(){
   const el=document.getElementById('globalFont');
   const v=el?el.value:'';
@@ -780,7 +874,7 @@ function posLabel(v){
 }
 
 function newFrame(){
-  return {id:newId(),prompt:'',text:'',animType:'word',style:'viral',textPos:TEXT_POS.legenda,
+  return {id:newId(),prompt:'',text:'',
           image:null,imageUrl:null,imageBytes:null,video:null,videoBytes:null,enhanced:'',
           audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null};
 }
@@ -872,7 +966,7 @@ function saveState(){
     localStorage.setItem(LS_KEY, JSON.stringify({
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text,
-        animType:f.animType, style:f.style, textPos:f.textPos, enhanced:f.enhanced,
+        enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
         hasVideo: !!f.videoBytes,
@@ -882,6 +976,9 @@ function saveState(){
       tailPause: document.getElementById('tailPause').value,
       transition: document.getElementById('transition').value,
       globalFont: fonteAtual(),
+      globalStyle: estiloAtual(),
+      globalAnim: animAtual(),
+      globalPos: posAtual(),
       vidOn: animacaoLigada(),
       vidModel: document.getElementById('vidModel').value,
       vidRes: document.getElementById('vidRes').value,
@@ -924,9 +1021,6 @@ function loadState(){
   if(Array.isArray(d.frames)&&d.frames.length){
     frames = d.frames.slice(0,MAX_CENAS).map(f=>({
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'',
-      animType:f.animType==='fixed'?'fixed':'word',
-      style:STYLES[f.style]?f.style:'viral',
-      textPos:normPos(f.textPos,TEXT_POS.legenda),
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes,
       video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
@@ -939,6 +1033,12 @@ function loadState(){
   set('frameDuration', d.frameDuration); set('tailPause', d.tailPause);
   set('transition', d.transition); set('parallel', d.parallel);
   if(FONTES[d.globalFont]) document.getElementById('globalFont').value=d.globalFont;
+  if(STYLES[d.globalStyle]) document.getElementById('globalStyle').value=d.globalStyle;
+  if(ANIMS.includes(d.globalAnim)) document.getElementById('globalAnim').value=d.globalAnim;
+  if(d.globalPos!=null){
+    document.getElementById('globalPos').value=normPos(d.globalPos);
+    document.getElementById('globalPosLbl').textContent=posLabel(normPos(d.globalPos));
+  }
   set('vidModel', d.vidModel); set('vidRes', d.vidRes); set('vidMotion', d.vidMotion);
   set('repStyle', d.repStyle);
   document.getElementById('vidOn').checked = !!d.vidOn;
@@ -1027,24 +1127,6 @@ function freeFrameAssets(f){
   if(f.audioUrl) URL.revokeObjectURL(f.audioUrl);
 }
 
-// ── INIT ─────────────────────────────────────────────────
-renderKeyRows(['']);
-preencherSeletorDeFonte();
-loadState();
-aplicarToggleVideo();
-ligarCanvas();
-restoreTab();
-syncSourceRows();
-onTranslateChange();
-updateKeyStatus();
-checkEnvironment(false);
-buildFrames();
-aplicarFormato();   // ajusta canvas, quadros e aspect_ratio ao formato salvo
-checkDone();
-restoreAssets();
-// depois do loadState, senão a consulta do schema sai sem token e não dá para
-// dizer se o modelo aceita referência
-restaurarReferencia();
 
 function drawBlank(c,w,h){
   c.fillStyle='#0a0a0a';c.fillRect(0,0,w,h);
@@ -1091,9 +1173,44 @@ function buildTimeline(){
   let t=0;
   return frames.map(f=>{ const d=sceneDur(f); const seg={f,start:t,dur:d}; t+=d; return seg; });
 }
+// Quantos caracteres por segundo a voz fala. Começa num valor medido em testes
+// com a ElevenLabs em PT-BR (≈17 c/s), mas assim que existir narração real ele
+// passa a sair DELA: cada voz e cada modelo têm ritmo próprio, e usar o que já
+// foi gerado neste roteiro é mais honesto do que uma constante minha.
+const FALA_PADRAO=17;
+function taxaDeFala(){
+  const comAudio=frames.filter(f=>f.audioBuffer&&narrationOf(f).length>8);
+  if(!comAudio.length) return FALA_PADRAO;
+  const chars=comAudio.reduce((a,f)=>a+narrationOf(f).length,0);
+  const segs =comAudio.reduce((a,f)=>a+f.audioBuffer.duration,0);
+  return segs>0 ? chars/segs : FALA_PADRAO;
+}
+
+// Duração provável da cena ANTES de gerar: com áudio é a real; sem áudio sai do
+// tamanho do texto. Serve para você ver o tamanho do vídeo e ajustar o roteiro
+// antes de gastar geração.
+function durEstimada(f){
+  if(f.audioBuffer) return f.audioBuffer.duration + tailPause();
+  const txt=narrationOf(f);
+  if(!txt) return fallbackDur();
+  return Math.max(1, txt.length/taxaDeFala()) + tailPause();
+}
+
 function updateTotals(){
-  const total = buildTimeline().reduce((a,s)=>a+s.dur,0);
-  document.getElementById('totalDur').value = total ? fmtTime(total) : '—';
+  const real = buildTimeline().reduce((a,s)=>a+s.dur,0);
+  document.getElementById('totalDur').value = real ? fmtTime(real) : '—';
+
+  const estimado = frames.reduce((a,f)=>a+durEstimada(f),0);
+  const faltam   = frames.filter(f=>!f.audioBuffer&&narrationOf(f)).length;
+  const el=document.getElementById('pvTempo');
+  if(!el) return;
+  if(!frames.length){ el.textContent=''; el.title=''; return; }
+  el.innerHTML = faltam
+    ? `<b>≈ ${fmtTime(estimado)}</b> <span class="pv-est">estimado</span>`
+    : `<b>${fmtTime(estimado)}</b> <span class="pv-est">final</span>`;
+  el.title = faltam
+    ? `${faltam} de ${frames.length} cena(s) ainda sem narração — o tempo delas vem do tamanho do texto, a ${taxaDeFala().toFixed(1)} caracteres por segundo.`
+    : 'Todas as cenas narradas: esta é a duração real do vídeo.';
 }
 function fmtTime(s){
   const m=Math.floor(s/60), r=s-m*60;
@@ -1106,24 +1223,47 @@ function esc(s){
   return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// Quantos cartões cabem por linha depende da largura da janela, então não dá
-// para saber no CSS qual deles termina a linha. Aqui os cartões com o mesmo
-// offsetTop são a mesma linha; o último de cada uma perde o conector, senão a
-// seta apontaria para o vazio na borda direita.
+// Numa fila só, o único sem conector é o último — a seta dele apontaria para
+// o vazio. (Antes isto comparava offsetTop para descobrir quem terminava cada
+// linha; sem quebra, não há mais linhas.)
+function marcarFimDeLinha(){
+  const cards=[...document.querySelectorAll('#framesList .frame-card')];
+  cards.forEach((c,i)=>c.classList.toggle('fim-da-linha', i===cards.length-1));
+}
+
 // Chamada direta, sem requestAnimationFrame: em aba oculta o rAF não dispara e
-// a marcação nunca acontecia — o conector do último cartão da linha ficava
-// apontando para o vazio até a aba voltar a ficar visível. Ler offsetTop já
-// força o reflow, então medir na hora é correto e não depende de quadro.
+// a marcação nunca acontecia. Ler offsetTop/offsetWidth já força o reflow.
 function agendarFimDeLinha(){ marcarFimDeLinha(); }
 
-// ── CANVAS: zoom com a roda, arrastar para mover ─────────────────────
+// Uma fila só: a largura de layout é a de todos os cartões enfileirados. As
+// medidas vêm do DOM em vez de repetidas aqui, então mudar o tamanho do cartão
+// no CSS continua batendo sem eu lembrar de dois lugares.
+function medirLarguraCanvas(){
+  const lista=document.getElementById('framesList');
+  let larg=296, vao=26;
+  const card=lista&&lista.querySelector('.frame-card');
+  if(card&&card.offsetWidth) larg=card.offsetWidth;
+  if(lista){
+    const g=parseFloat(getComputedStyle(lista).columnGap);
+    if(!isNaN(g)) vao=g;
+  }
+  const n=Math.max(1,frames.length);
+  larguraCanvas=n*larg+(n-1)*vao;
+}
+
+// O zoom é um transform no contêiner, não mudança de tamanho dos cartões: os
+// campos seguem funcionando e a largura de layout NÃO depende do zoom, então
+// aproximar e afastar nunca remonta a fila.
 function aplicarVista(){
   const pan=document.getElementById('canvasPan');
   const wrap=document.getElementById('canvasWrap');
   if(!pan||!wrap) return;
-  // A largura de quebra é a do visor DIVIDIDA pelo zoom: afastando, cabe mais
-  // cartão por linha em vez de sobrar faixa vazia à direita.
-  pan.style.width=Math.max(320,(wrap.clientWidth/zoom)-40)+'px';
+  if(!larguraCanvas) medirLarguraCanvas();
+  // a largura vai no FLUXO, não no contêiner: o padding do contêiner roubaria
+  // área útil e o último cartão cairia fora da conta
+  const lista=document.getElementById('framesList');
+  if(lista) lista.style.width=larguraCanvas+'px';
+  pan.style.width='max-content';
   pan.style.transform=`translate(${panX}px,${panY}px) scale(${zoom})`;
   const z=document.getElementById('canvasZoom');
   if(z) z.textContent=Math.round(zoom*100)+'%';
@@ -1136,7 +1276,7 @@ function definirZoom(novo,ancoraX,ancoraY){
   const z=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,novo));
   if(z===zoom) return;
   const r=wrap.getBoundingClientRect();
-  // âncora: o ponto sob o cursor tem que continuar sob o cursor depois do zoom
+  // âncora: o ponto sob o cursor continua sob o cursor depois do zoom
   const ax=(ancoraX==null?r.width/2:ancoraX-r.left);
   const ay=(ancoraY==null?r.height/2:ancoraY-r.top);
   panX = ax-(ax-panX)*(z/zoom);
@@ -1147,47 +1287,44 @@ function definirZoom(novo,ancoraX,ancoraY){
 
 function zoomPasso(dir){ definirZoom(zoom*(dir>0?1.2:1/1.2)); }
 
-// Enquadrar de verdade, não só resetar. A largura sempre cabe (a quebra é
-// amarrada ao visor), então o que sobra é a altura — e diminuir o zoom também
-// diminui o número de linhas, o que muda a altura de novo. Daí a busca em
-// poucos passos, com raiz para amortecer e não passar do ponto.
+// Enquadra o conteúdo inteiro: acha o zoom em que a fila cabe e centraliza.
 function resetarVista(){
   const wrap=document.getElementById('canvasWrap');
   const lista=document.getElementById('framesList');
   if(!wrap||!lista) return;
-  zoom=1; panX=0; panY=0; aplicarVista();
+  zoom=1; panX=0; panY=0; medirLarguraCanvas(); aplicarVista();
+
   const folga=24;
-  for(let i=0;i<6;i++){
-    const naTela=lista.scrollHeight*zoom;
-    if(naTela<=wrap.clientHeight-folga || zoom<=ZOOM_MIN) break;
-    zoom=Math.max(ZOOM_MIN, zoom*Math.sqrt((wrap.clientHeight-folga)/naTela));
-    aplicarVista();
-  }
-  // encostado no topo: centralizar deixava um vão enorme acima quando o
-  // roteiro cabe em uma ou duas linhas
-  panX=0; panY=0;
+  const cards=[...lista.querySelectorAll('.frame-card')];
+  // extensão ocupada de fato, não a largura do contêiner
+  const w=cards.length ? Math.max(...cards.map(c=>c.offsetLeft+c.offsetWidth))  : (lista.scrollWidth||1);
+  const h=cards.length ? Math.max(...cards.map(c=>c.offsetTop +c.offsetHeight)) : (lista.scrollHeight||1);
+  const z=Math.min(ZOOM_MAX, Math.max(ZOOM_MIN,
+    Math.min((wrap.clientWidth-folga)/w, (wrap.clientHeight-folga)/h)));
+  zoom=z;
+  panX=Math.max(0,(wrap.clientWidth  - w*z)/2);
+  panY=Math.max(0,(wrap.clientHeight - h*z)/2);
   aplicarVista();
 }
 
-// O canvas ocupa o que sobra da janela em vez de uma altura fixa: assim tudo
-// cabe numa tela só, qualquer que seja o tamanho do bloco acima dele.
+// Os cartões são o trabalho; o resto é acessório. Piso de 60% da janela: se o
+// que está acima não couber junto, a página rola um pouco — melhor rolar do que
+// espremer a área principal. Com tolerância, para não criar rolagem por alguns
+// pixels.
 function ajustarAlturaCanvas(){
   const wrap=document.getElementById('canvasWrap');
   const pane=document.querySelector('.pane.on');
   if(!wrap||!pane) return;
-  const MIN=240;
-  // Encolhe ao mínimo e mede de verdade: o quanto existe ACIMA (rect.top) e o
-  // quanto sobrou ABAIXO do visor até o fim do painel.
-  //
-  // Tentei antes com document.scrollHeight - innerHeight, e nunca crescia: o
-  // body tem min-height:100vh, então a página nunca mede menos que a janela e
-  // a diferença dava zero sempre.
-  wrap.style.height=MIN+'px';
+  const PISO=Math.max(320,Math.round(innerHeight*0.60));
+  wrap.style.height=PISO+'px';
   const r=wrap.getBoundingClientRect();
   const abaixo=pane.getBoundingClientRect().bottom-r.bottom;
   const padBaixo=parseFloat(getComputedStyle(document.body).paddingBottom)||0;
-  const disponivel=innerHeight-r.top-abaixo-padBaixo-8;
-  wrap.style.height=Math.max(MIN,Math.round(disponivel))+'px';
+  const disponivel=Math.round(innerHeight-r.top-abaixo-padBaixo-8);
+  const TOLERANCIA=56;
+  const alvo = disponivel>=PISO ? disponivel
+             : (PISO-disponivel<=TOLERANCIA ? disponivel : PISO);
+  wrap.style.height=Math.max(280,alvo)+'px';
 }
 
 function ligarCanvas(){
@@ -1195,21 +1332,28 @@ function ligarCanvas(){
   if(!wrap||wrap._ligado) return;
   wrap._ligado=true;
 
+  // abrir ou fechar os blocos de cima muda o espaço disponível
+  document.querySelectorAll('details.ajuda').forEach(d=>
+    d.addEventListener('toggle',()=>{ ajustarAlturaCanvas(); medirLarguraCanvas(); aplicarVista(); }));
+
   wrap.addEventListener('wheel',e=>{
     e.preventDefault();
     // trackpad manda deltas pequenos e contínuos; roda manda saltos grandes
-    const passo=Math.exp(-e.deltaY*0.0014);
-    definirZoom(zoom*passo,e.clientX,e.clientY);
+    definirZoom(zoom*Math.exp(-e.deltaY*0.0014), e.clientX, e.clientY);
   },{passive:false});
 
   let arrastando=false, x0=0, y0=0, px0=0, py0=0;
   wrap.addEventListener('pointerdown',e=>{
-    // só o fundo arrasta: em cima de um cartão o clique é dele (abrir, digitar)
-    const noCartao=e.target.closest('.frame-card,.canvas-ctl');
-    if(noCartao && e.button!==1) return;
+    // só o fundo arrasta: em cima de um cartão o clique é dele (digitar, botões)
+    if(e.target.closest('.frame-card,.canvas-ctl') && e.button!==1) return;
     arrastando=true; x0=e.clientX; y0=e.clientY; px0=panX; py0=panY;
     wrap.classList.add('arrastando');
     wrap.setPointerCapture(e.pointerId);
+    // sem isto o navegador ancora uma seleção no ponto do clique e vai marcando
+    // os textos dos cartões por onde o ponteiro passa
+    e.preventDefault();
+    const sel=window.getSelection&&window.getSelection();
+    if(sel&&sel.removeAllRanges) sel.removeAllRanges();
   });
   wrap.addEventListener('pointermove',e=>{
     if(!arrastando) return;
@@ -1224,18 +1368,10 @@ function ligarCanvas(){
   wrap.addEventListener('pointerup',soltar);
   wrap.addEventListener('pointercancel',soltar);
 
-  addEventListener('resize',()=>{ ajustarAlturaCanvas(); aplicarVista(); });
+  addEventListener('resize',()=>{ ajustarAlturaCanvas(); medirLarguraCanvas(); aplicarVista(); });
   ajustarAlturaCanvas();
+  medirLarguraCanvas();
   aplicarVista();
-}
-
-function marcarFimDeLinha(){
-  const cards=[...document.querySelectorAll('#framesList .frame-card')];
-  cards.forEach(c=>c.classList.remove('fim-da-linha'));
-  cards.forEach((c,i)=>{
-    const prox=cards[i+1];
-    if(!prox || prox.offsetTop>c.offsetTop) c.classList.add('fim-da-linha');
-  });
 }
 
 
@@ -1279,24 +1415,6 @@ function renderCards(){
         <label>Prompt da imagem</label>
         <textarea id="fp-${i}" placeholder="Ex: pôr do sol dramático sobre cidade futurista, cinematográfico" oninput="syncFrame(${i})">${esc(f.prompt)}</textarea>
 
-        <div class="fc-lin2">
-          <div>
-            <label>Estilo</label>
-            <select onchange="setStyle(${i},this.value)">
-              ${Object.keys(STYLES).map(st=>`<option value="${st}"${f.style===st?' selected':''}>${STYLE_ICONS[st]} ${st}</option>`).join('')}
-            </select>
-          </div>
-          <div>
-            <label>Animação</label>
-            <select onchange="setAnim(${i},this.value)">
-              <option value="word"${f.animType==='word'?' selected':''}>✦ Palavra a palavra</option>
-              <option value="fixed"${f.animType==='fixed'?' selected':''}>▬ Texto fixo</option>
-            </select>
-          </div>
-        </div>
-
-        <label>Posição — <span id="poslbl-${i}">${esc(posLabel(f.textPos))}</span></label>
-        <input type="range" class="slider" id="pos-${i}" min="5" max="95" step="1" value="${f.textPos}" oninput="setPos(${i},+this.value,true)">
 
         ${f.enhanced?`<div class="fc-enh" title="${esc(f.enhanced)}">🤖 ${esc(f.enhanced.substring(0,70))}…</div>`:''}
 
@@ -1317,14 +1435,16 @@ function renderCards(){
     `;
     list.appendChild(card);
 
-    requestAnimationFrame(()=>{
-      const mini=document.getElementById('mini-'+i);
-      if(!mini)return;
-      drawScene(mini.getContext('2d'),f,sceneDur(f),sceneDur(f),mini.width,mini.height);
-    });
+    // desenho direto, sem requestAnimationFrame: o canvas já existe depois do
+    // appendChild e drawScene usa as dimensões do próprio elemento, não o
+    // layout. Com rAF, em aba oculta as miniaturas nunca eram redesenhadas —
+    // trocar o estilo da legenda não aparecia em nenhuma delas.
+    const mini=card.querySelector('#mini-'+i);
+    if(mini) drawScene(mini.getContext('2d'),f,sceneDur(f),sceneDur(f),mini.width,mini.height);
   });
 
-  agendarFimDeLinha();
+  medirLarguraCanvas();
+  aplicarVista();   // aplica a largura das 10 colunas e remarca as pontas
 }
 
 function syncFrame(i){
@@ -1343,31 +1463,14 @@ function syncFrame(i){
     velha?'⚠️ refazer voz'
         : (frames[i].audioBuffer?('🔊 '+frames[i].audioBuffer.duration.toFixed(1)+'s'):'sem áudio'));
   checkDone();
+  updateTotals();   // editar o texto muda a duração estimada da cena
   saveStateSoon();
 }
 
-function setAnim(i,type){
-  frames[i].animType=type;
-  if(frames[i].image||frames[i].video) previewFrame(i);
-  saveState();
-}
 
-// fromSlider evita reconstruir o card enquanto arrasta (perderia o dedo/mouse)
-function setPos(i,v,fromSlider){
-  frames[i].textPos=normPos(v);
-  const lbl=document.getElementById('poslbl-'+i);
-  if(lbl) lbl.textContent=posLabel(frames[i].textPos);
-  const sl=document.getElementById('pos-'+i);
-  if(sl&&!fromSlider) sl.value=frames[i].textPos;
-  if(frames[i].image||frames[i].video) previewFrame(i);
-  saveStateSoon();
-}
 
-function setStyle(i,s){
-  frames[i].style=s;
-  if(frames[i].image||frames[i].video) previewFrame(i);
-  saveState();
-}
+
+
 
 // ── DRAW HELPERS ─────────────────────────────────────────
 // Aceita <img> e <video>. Vídeo não tem .width/.height intrínsecos — o tamanho
@@ -1477,11 +1580,15 @@ function drawScene(c,f,tIn,dur,cw,ch){
   // que você ainda não animou, então os dois convivem no mesmo roteiro
   drawBgOnCtx(c, f.video || f.image, cw, ch);
   let visible=f.text;
-  if(f.animType==='word'){
+  const modo=animAtual();
+  if(modo!=='fixed'){
     const words=(f.text||'').split(/\s+/).filter(Boolean);
-    visible=words.slice(0,visibleWordCount(f,tIn,dur)).join(' ');
+    const n=visibleWordCount(f,tIn,dur);
+    // "single": só a palavra que está sendo falada agora. "word": tudo o que já
+    // foi falado, acumulando. Os dois usam a mesma contagem — muda só o recorte.
+    visible = modo==='single' ? (words[n-1]||'') : words.slice(0,n).join(' ');
   }
-  drawTextOnCtx(c,f.text,f.style,cw,ch,visible,f.textPos);
+  drawTextOnCtx(c,f.text,estiloAtual(),cw,ch,visible,posAtual());
 }
 
 // ── SINCRONIA DO VÍDEO ────────────────────────────────────
@@ -1564,7 +1671,7 @@ function previewFrame(i){
     const mini=document.getElementById('mini-'+i);
     if(mini) drawScene(mini.getContext('2d'),f,t,dur,mini.width,mini.height);
   };
-  if(f.animType==='fixed'){ paint(dur); return; }
+  if(animAtual()==='fixed'){ paint(dur); return; }
   // mesma fórmula do render, para o preview não mentir sobre o resultado final
   const t0=performance.now();
   const tick=()=>paint(((performance.now()-t0)/1000)%dur);
@@ -3489,24 +3596,18 @@ function normAnim(v){
   if(!s) return null;
   if(['fixo','fixa','fixed','estatico','estático','static'].includes(s)) return 'fixed';
   if(['palavra','palavras','word','words','karaoke'].includes(s)) return 'word';
+  if(['unica','única','uma','single','one','so-a-palavra'].includes(s)) return 'single';
   return null;
 }
 
-function normScene(s,i,defStyle,defAnim,defPos){
+function normScene(s,i){
   if(typeof s==='string') s={texto:s};
   if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error(`Cena ${i+1}: item não é um objeto.`);
   const imagem=String(firstOf(s,K_IMG)||'').trim();
   const texto =String(firstOf(s,K_TXT)||'').trim();
   const narr  =String(firstOf(s,K_NAR)||'').trim();
   if(!imagem&&!texto) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem" ou "texto".`);
-  const est=String(firstOf(s,K_STY)||'').toLowerCase().trim();
-  const rawPos=firstOf(s,K_POS);
-  return {
-    imagem, texto, narracao:narr,
-    estilo: STYLES[est] ? est : defStyle,
-    animacao: normAnim(firstOf(s,K_ANI)) || defAnim,
-    posicao: rawPos===''||rawPos==null ? defPos : normPos(rawPos,defPos)
-  };
+  return { imagem, texto, narracao:narr };
 }
 
 function applyConfig(c){
@@ -3568,12 +3669,23 @@ function importJSON(){
   if(list.length>MAX_CENAS){ setJsonMsg(`❌ ${list.length} cenas — o máximo é ${MAX_CENAS}.`,'var(--accent)'); return; }
 
   const cfg=data.config||data.configuracao||data.configuração||{};
-  const defStyle = STYLES[String(cfg.estiloPadrao||cfg.estilo||'').toLowerCase()] ? String(cfg.estiloPadrao||cfg.estilo).toLowerCase() : 'viral';
-  const defAnim  = normAnim(cfg.animacaoPadrao||cfg.animacao) || 'word';
-  const defPos   = normPos(cfg.posicaoPadrao||cfg.posicao, TEXT_POS.legenda);
+  // Estilo, animação e posição são do vídeo inteiro. O roteiro pode mandá-los
+  // em "config"; e um roteiro antigo, que os trazia por cena, tem a PRIMEIRA
+  // cena valendo como escolha — melhor aproveitar do que descartar em silêncio.
+  const pri = k => { for(const c of list){ const v=firstOf(c,k); if(v!==''&&v!=null) return v; } return null; };
+  const est = String(cfg.estiloPadrao||cfg.estilo||pri(K_STY)||'').toLowerCase().trim();
+  if(STYLES[est]) document.getElementById('globalStyle').value=est;
+  const ani = normAnim(cfg.animacaoPadrao||cfg.animacao||pri(K_ANI));
+  if(ani) document.getElementById('globalAnim').value=ani;
+  const rawPos = cfg.posicaoPadrao!=null?cfg.posicaoPadrao:(cfg.posicao!=null?cfg.posicao:pri(K_POS));
+  if(rawPos!==''&&rawPos!=null){
+    const pv=normPos(rawPos,TEXT_POS.legenda);
+    document.getElementById('globalPos').value=pv;
+    document.getElementById('globalPosLbl').textContent=posLabel(pv);
+  }
 
   let scenes;
-  try{ scenes=list.map((s,i)=>normScene(s,i,defStyle,defAnim,defPos)); }
+  try{ scenes=list.map((s,i)=>normScene(s,i)); }
   catch(e){ setJsonMsg('❌ '+e.message,'var(--accent)'); return; }
 
   const hasWork=frames.some(f=>f.image||f.audioBuffer);
@@ -3584,7 +3696,7 @@ function importJSON(){
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
     f.prompt=s.imagem; f.text=s.texto;
-    f.style=s.estilo; f.animType=s.animacao; f.textPos=s.posicao;
+
     if(o){
       if(o.image && o.prompt===f.prompt){
         f.image=o.image; f.imageUrl=o.imageUrl; f.imageBytes=o.imageBytes; f.enhanced=o.enhanced;
@@ -3630,13 +3742,14 @@ function exportJSON(){
       resolucao: document.getElementById('resolution').value,
       duracaoSemAudio: parseFloat(document.getElementById('frameDuration').value),
       pausaAposFala: parseFloat(document.getElementById('tailPause').value),
-      fontePadrao: fonteAtual()
+      fontePadrao: fonteAtual(),
+      estiloPadrao: estiloAtual(),
+      animacaoPadrao: {fixed:'fixo',word:'palavra',single:'unica'}[animAtual()],
+      posicaoPadrao: (()=>{const p=posAtual();
+        return p===TEXT_POS.topo?'topo':p===TEXT_POS.centro?'centro':p===TEXT_POS.legenda?'legenda':p;})()
     },
     cenas: frames.map(f=>{
       const c={imagem:f.prompt, texto:f.text};
-      c.estilo=f.style;
-      c.animacao=f.animType==='fixed'?'fixo':'palavra';
-      c.posicao=(f.textPos===TEXT_POS.topo)?'topo':(f.textPos===TEXT_POS.centro)?'centro':(f.textPos===TEXT_POS.legenda)?'legenda':f.textPos;
       return c;
     })
   };
@@ -3810,6 +3923,31 @@ async function narrarDesatualizadas(){
   renderCards(); checkDone(); updateTotals(); saveState();
   setStatus(fails?`⚠️ ${fails} narração(ões) falharam.`:'✅ Narrações atualizadas.');
 }
+// ── INIT ─────────────────────────────────────────────────
+// Fica no FIM do script de propósito. Rodando lá em cima, ele executava antes
+// das declarações `const`/`let` de módulo que estão abaixo, e qualquer uma
+// delas em zona morta temporal derrubava o script inteiro no carregamento —
+// deixando o app quebrado com um erro que nomeava uma variável qualquer.
+// Aconteceu cinco vezes; daqui, não tem como acontecer de novo.
+renderKeyRows(['']);
+preencherSeletorDeFonte();
+preencherSeletorDeEstilo();
+loadState();
+aplicarToggleVideo();
+ligarCanvas();
+restoreTab();
+syncSourceRows();
+onTranslateChange();
+updateKeyStatus();
+checkEnvironment(false);
+buildFrames();
+aplicarFormato();   // ajusta canvas, quadros e aspect_ratio ao formato salvo
+checkDone();
+restoreAssets();
+// depois do loadState, senão a consulta do schema sai sem token e não dá para
+// dizer se o modelo aceita referência
+restaurarReferencia();
+
 </script>
 </body>
 </html>
