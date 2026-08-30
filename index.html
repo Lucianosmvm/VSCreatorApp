@@ -18,29 +18,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 /* ── TOPO FIXO ─────────────────────────────────────────── */
 .top{position:sticky;top:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--border)}
-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px}
+header{display:flex;align-items:center;gap:14px;padding:7px 14px}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px}
 .logo em{color:var(--accent);font-style:normal}
 .hbadge{font-size:9px;padding:3px 8px;border-radius:20px;background:rgba(255,68,68,.1);color:var(--accent);border:1px solid rgba(255,68,68,.2);font-weight:500}
 
 /* ── ABAS ──────────────────────────────────────────────── */
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:0 8px}
-.tab{position:relative;padding:7px 2px 9px;border:none;background:none;color:var(--dim);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .15s}
-.tab i{font-style:normal;font-size:15px;line-height:1;opacity:.75}
+/* abas em linha, do lado do logo: empilhar ícone sobre rótulo custava ~34px
+   de altura, e o topo inteiro precisa caber junto com o resto sem rolagem */
+.tabs{display:flex;gap:2px;flex-shrink:0}
+.tab{position:relative;padding:6px 10px;border:none;background:none;color:var(--dim);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;display:flex;flex-direction:row;align-items:center;gap:5px;transition:color .15s;white-space:nowrap}
+.tab i{font-style:normal;font-size:13px;line-height:1;opacity:.75}
 .tab.on{color:var(--text);border-bottom-color:var(--accent)}
 .tab.on i{opacity:1}
-.tab .pip{position:absolute;top:5px;right:calc(50% - 20px);width:6px;height:6px;border-radius:50%;background:var(--accent);display:none}
+.tab .pip{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--accent);display:none}
 .tab .pip.on{display:block}
 
-/* ── PREVIEW + STATUS (sempre visiveis) ────────────────── */
-.stage{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
-.phone-frame.wide{width:153px;height:86px}
-.phone-frame{position:relative;width:86px;height:153px;border-radius:11px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0}
+/* ── PREVIEW (na coluna, ao lado do roteiro) ───────────── */
+.sec-preview{flex:0 0 auto !important}
+.phone-frame.wide{width:168px;height:95px}
+.phone-frame{position:relative;width:95px;height:168px;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0;margin:0 auto}
 #previewCanvas{width:100%;height:100%;display:block}
-.stage-info{flex:1;min-width:0}
-.pv-label{font-size:9px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
-.status{font-size:11.5px;color:var(--muted);line-height:1.45;word-break:break-word}
-.prog-bar{width:100%;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;margin-top:8px;display:none}
+.status{flex:1;min-width:0;font-size:11px;color:var(--muted);line-height:1.35;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prog-bar{width:100%;height:3px;background:var(--surface2);overflow:hidden;display:none}
 .prog-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .12s}
 .gen-ov{display:none;position:absolute;inset:0;background:rgba(0,0,0,.9);flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:11px;padding:0 6px}
 .gen-ov.show{display:flex}
@@ -85,6 +86,11 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 
 /* ── LINHAS DE KEY ─────────────────────────────────────── */
 .keyrow{display:flex;gap:6px;align-items:center;margin-bottom:7px}
+.ref-vazio{font-size:10px;color:var(--dim);line-height:1.45;padding:9px 10px;border:1px dashed var(--border2);border-radius:8px}
+.ref-tem{display:flex;gap:10px;align-items:flex-start}
+.ref-tem img{width:86px;height:86px;object-fit:cover;border-radius:8px;border:1px solid var(--border2);flex-shrink:0}
+.ref-acts{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.ref-info{font-size:9px;color:var(--dim)}
 .kdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .kdot.ok{background:var(--green)}
 .kdot.dead{background:var(--accent)}
@@ -115,7 +121,71 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 
 /* ── CARDS DE CENA ─────────────────────────────────────── */
 .frame-card{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;margin-bottom:8px;overflow:hidden}
-.fc-head{display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer;user-select:none}
+
+/* ── fluxo de cenas: cartões lado a lado, quebrando de linha ──────────
+   O conector é um pseudo-elemento na lateral direita de cada cartão. Qual
+   cartão termina a linha depende da largura da janela, então quem marca
+   .fim-da-linha é o JS (marcarFimDeLinha), comparando offsetTop. */
+/* ── canvas pan/zoom ─────────────────────────────────────────────────
+   O zoom é um transform no contêiner, não mudança de tamanho dos cartões:
+   assim os campos continuam funcionando normalmente e o layout não recalcula
+   a cada passo da roda. A largura de quebra acompanha o zoom, então afastar
+   faz caber mais cartão por linha em vez de só encolher tudo. */
+/* Barra de ações acima das cenas. Os .btn nascem largura total (desenhados
+   para a coluna estreita do celular); aqui viram pastilhas em linha, e a barra
+   quebra sozinha em telas menores. */
+.barra{display:flex;flex-wrap:wrap;align-items:center;gap:7px;padding:8px 9px;margin-bottom:10px;
+  background:var(--surface2);border:1px solid var(--border2);border-radius:10px}
+.barra .btn{width:auto;margin-top:0;padding:8px 13px;font-size:11px;white-space:nowrap}
+.barra select{width:auto;min-width:168px;font-size:11px;padding:6px 9px}
+.ajuda summary{cursor:pointer;color:var(--dim);font-size:10px;list-style:none;padding:1px 0}
+.ajuda summary::-webkit-details-marker{display:none}
+.ajuda summary::before{content:'▸ '}
+.ajuda[open] summary::before{content:'▾ '}
+.ajuda[open] summary{margin-bottom:7px}
+.barra-lbl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:0}
+.barra-sep{width:1px;height:22px;background:var(--border2);margin:0 3px}
+.barra-dir{margin-left:auto;display:flex;gap:7px}
+@media(max-width:760px){ .barra-dir{margin-left:0} }
+
+/* a altura vem do que sobra da janela (ajustarAlturaCanvas); o valor aqui é só
+   o que vale antes do primeiro cálculo */
+.canvas-wrap{position:relative;height:420px;min-height:240px;overflow:hidden;
+  background:#0a0a0a;border:1px solid var(--border2);border-radius:10px;
+  cursor:grab;touch-action:none}
+.canvas-wrap.arrastando{cursor:grabbing}
+.canvas-pan{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform;padding:20px}
+.canvas-ctl{position:absolute;left:10px;bottom:10px;display:flex;align-items:center;gap:5px;
+  background:rgba(12,12,12,.9);border:1px solid var(--border2);border-radius:9px;padding:5px 7px}
+.canvas-btn{width:26px;height:26px;border:none;border-radius:6px;background:#1c1c1c;color:var(--text);
+  font-size:14px;line-height:1;cursor:pointer}
+.canvas-btn:hover{background:#2a2a2a}
+.canvas-zoom{font-size:10px;color:var(--dim);min-width:36px;text-align:center}
+.canvas-dica{position:absolute;right:10px;bottom:14px;font-size:9px;color:var(--dim);pointer-events:none}
+
+.frames-flow{display:flex;flex-wrap:wrap;gap:30px 26px;align-items:flex-start}
+.frames-flow .frame-card{width:296px;flex:0 0 296px;margin-bottom:0;overflow:visible}
+.frames-flow .frame-card::after{
+  content:'';position:absolute;top:86px;right:-26px;width:26px;height:2px;
+  background:var(--border2);pointer-events:none}
+.frames-flow .frame-card::before{
+  content:'';position:absolute;top:82px;right:-11px;width:0;height:0;
+  border-left:7px solid var(--border2);
+  border-top:5px solid transparent;border-bottom:5px solid transparent;pointer-events:none}
+.frames-flow .frame-card.fim-da-linha::after,
+.frames-flow .frame-card.fim-da-linha::before{display:none}
+.frames-flow .frame-card{position:relative}
+/* a miniatura respeita a proporção do vídeo, mas com teto de altura: um 9:16
+   com a largura do cartão daria 526px e o cartão viraria uma torre */
+.fc-thumb{position:relative;background:#000;border-bottom:1px solid var(--border);
+  height:172px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.fc-thumb canvas{display:block;max-width:100%;max-height:172px;width:auto;height:auto}
+.fc-thumb .fc-pos{position:absolute;left:7px;top:7px;background:rgba(0,0,0,.72);color:#fff;
+  font-family:'Bebas Neue',sans-serif;font-size:15px;line-height:1;padding:4px 7px;border-radius:6px}
+.fc-head{display:flex;align-items:center;gap:6px;padding:8px 10px}
+.fc-del{margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:12px;
+  padding:2px 4px;border-radius:5px;line-height:1}
+.fc-del:hover{color:var(--accent);background:rgba(255,68,68,.1)}
 .fc-n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);min-width:28px;line-height:1}
 .fc-info{flex:1;min-width:0}
 .fc-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -127,10 +197,24 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 .b-done{background:rgba(61,186,111,.1);color:var(--green)}
 .b-err{background:rgba(255,68,68,.1);color:var(--accent)}
 .b-aud{background:rgba(167,139,250,.1);color:var(--violet)}
-.fc-arr{color:var(--dim);font-size:11px;transition:transform .2s;flex-shrink:0}
-.fc-arr.open{transform:rotate(180deg)}
-.fc-body{display:none;padding:12px;border-top:1px solid var(--border)}
-.fc-body.open{display:block}
+/* Sempre visível e miúdo: o cartão é a unidade de trabalho, e abrir/fechar a
+   cada ajuste custava um clique por cena. Campos pequenos com rolagem própria
+   ganham a altura de volta. */
+.fc-body{display:block;padding:9px 10px;border-top:1px solid var(--border)}
+.fc-sec{font-size:8px;letter-spacing:.09em;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.fc-body label{font-size:9px;margin-top:7px;margin-bottom:3px}
+.fc-opt{color:var(--dim);text-transform:none;letter-spacing:0}
+.fc-body textarea{min-height:0;height:50px;font-size:11px;padding:6px 8px;line-height:1.35;resize:vertical}
+.fc-body select{font-size:11px;padding:5px 7px}
+.fc-body .slider{margin-top:3px}
+.fc-lin2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.fc-lin2 label{margin-top:7px}
+.fc-enh{font-size:9px;color:var(--dim);margin-top:7px;font-style:italic;line-height:1.35;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fc-sync{font-size:9px;color:var(--violet);margin-top:6px}
+.fc-acts{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:9px}
+.fc-acts .btn-sm{width:100%;justify-content:center;font-size:10px;padding:6px 4px}
+.fc-body audio{width:100%;margin-top:7px;height:30px}
 audio{width:100%;height:32px;margin-top:9px;display:block}
 .atabs{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .atab{padding:7px 4px;background:#0c0c0c;border:1px solid var(--border2);border-radius:7px;color:var(--dim);font-size:10px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s}
@@ -171,8 +255,26 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 @media(min-width:620px){
   .wrap{max-width:600px;margin:0 auto}
   .tabs{max-width:600px;margin:0 auto}
-  .stage{max-width:600px;margin:0 auto;border:none}
   header{max-width:600px;margin:0 auto}
+}
+
+/* Em tela grande, só o fluxo de cenas ganha a largura toda. Formulário
+   esticado a 1300px fica ilegível, então as outras abas seguem estreitas. */
+@media(min-width:1000px){
+  .wrap,header,.prog-bar{max-width:1320px;margin-left:auto;margin-right:auto}
+  .pane:not([data-tab="cenas"]){max-width:620px}
+  /* o rodapé de 48px do body existe para o polegar não tapar o último botão no
+     celular; em tela grande é só espaço perdido */
+  body{padding-bottom:12px}
+  .wrap{padding-top:10px}
+  /* a seção das cenas é só a moldura do canvas: o título e as sobras de padding
+     saem para o visor ficar com o que sobra da janela */
+  .pane[data-tab="cenas"] .sec:has(.canvas-wrap){padding:0;border:none;background:none;margin-bottom:0}
+  .pane[data-tab="cenas"] .sec:has(.canvas-wrap) > .sec-hd{display:none}
+  .cenas-topo{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+  .cenas-topo>.sec{flex:1 1 0;min-width:0;margin-bottom:0;padding:10px}
+  /* a dica de campos é referência, não leitura corrida: some no recolhido */
+  .cenas-topo .tip{margin-top:7px;padding:7px 9px;line-height:1.4}
 }
 </style>
 </head>
@@ -181,31 +283,18 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 <div class="top">
   <header>
     <div class="logo">SHORTS <em>CREATOR</em></div>
+    <nav class="tabs">
+      <button class="tab on" data-tab="cenas" onclick="showTab('cenas')"><i>🎬</i>Cenas</button>
+      <button class="tab" data-tab="chaves" onclick="showTab('chaves')"><i>🔑</i>Chaves<span class="pip" id="pipChaves"></span></button>
+      <button class="tab" data-tab="config" onclick="showTab('config')"><i>⚙️</i>Config</button>
+      <button class="tab" data-tab="diag" onclick="showTab('diag')"><i>🩺</i>Diagnóstico<span class="pip" id="pipDiag"></span></button>
+    </nav>
+    <!-- o status fica no topo, e não junto do preview, porque as outras abas
+         também falam por ele (vozes carregadas, teste de ambiente, erros) -->
+    <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
     <div class="hbadge">IMAGEM + VOZ</div>
   </header>
-  <nav class="tabs">
-    <button class="tab on" data-tab="cenas" onclick="showTab('cenas')"><i>🎬</i>Cenas</button>
-    <button class="tab" data-tab="chaves" onclick="showTab('chaves')"><i>🔑</i>Chaves<span class="pip" id="pipChaves"></span></button>
-    <button class="tab" data-tab="config" onclick="showTab('config')"><i>⚙️</i>Config</button>
-    <button class="tab" data-tab="diag" onclick="showTab('diag')"><i>🩺</i>Diagnóstico<span class="pip" id="pipDiag"></span></button>
-  </nav>
-</div>
-
-<!-- PREVIEW + STATUS, sempre visiveis -->
-<div class="stage">
-  <div class="phone-frame">
-    <canvas id="previewCanvas" width="1080" height="1920"></canvas>
-    <div class="rec-dot" id="recDot"></div>
-    <div class="gen-ov" id="genOv">
-      <div class="spinner"></div>
-      <div class="gen-txt" id="genTxt">Gerando…</div>
-    </div>
-  </div>
-  <div class="stage-info">
-    <div class="pv-label" id="pvLabel">Preview · 9:16</div>
-    <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
-    <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
-  </div>
+  <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
 </div>
 
 <div class="wrap">
@@ -213,12 +302,28 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 <!-- ══════════ ABA: CENAS ══════════ -->
 <div class="pane on" data-tab="cenas">
 
+  <div class="cenas-topo">
+  <div class="sec sec-preview">
+    <div class="sec-hd">
+      <div class="sec-ic">👁️</div>
+      <div class="sec-t" id="pvLabel">Preview · 9:16</div>
+    </div>
+    <div class="phone-frame">
+      <canvas id="previewCanvas" width="1080" height="1920"></canvas>
+      <div class="rec-dot" id="recDot"></div>
+      <div class="gen-ov" id="genOv">
+        <div class="spinner"></div>
+        <div class="gen-txt" id="genTxt">Gerando…</div>
+      </div>
+    </div>
+  </div>
+
   <div class="sec">
     <div class="sec-hd">
       <div class="sec-ic">📋</div>
       <div class="sec-t">Importar roteiro</div>
     </div>
-    <textarea id="jsonIn" class="mono masked-off" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false" style="min-height:96px"></textarea>
+    <textarea id="jsonIn" class="mono masked-off" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false" style="min-height:64px;height:64px"></textarea>
     <div class="btnrow" style="margin-top:9px">
       <button class="btn-sm btn-add" onclick="importJSON()">⬆ Importar</button>
       <button class="btn-sm btn-del" onclick="fillExample()">Exemplo</button>
@@ -227,42 +332,57 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
     <div class="jmsg" id="jsonMsg"></div>
     <div class="tip">
-      Campos por cena: <code>imagem</code> · <code>texto</code> · <code>narracao</code> (opcional) · <code>estilo</code> · <code>fonte</code> (opcional) · <code>animacao</code> · <code>posicao</code>.<br>
-      Em <code>config</code> dá para pôr <code>fontePadrao</code> e valer para o roteiro todo.<br>
-      Reimportar reaproveita imagens e narrações das cenas que não mudaram.
+      Formato: <code>{"scenes":[{"narration_text":"…","image_prompt":"…"}]}</code> — é o que o <b>Prompt p/ Claude</b> pede. O antigo (<code>cenas</code>/<code>imagem</code>/<code>texto</code>, com <code>estilo</code> e <code>config</code>) continua sendo aceito. Reimportar reaproveita imagens e narrações das cenas que não mudaram.
     </div>
   </div>
+
+
+  </div><!-- /cenas-topo -->
 
   <div class="sec">
     <div class="sec-hd">
       <div class="sec-ic">🎞️</div>
       <div class="sec-t">Cenas</div>
     </div>
-    <div id="framesList"></div>
-    <div class="btnrow" style="margin-top:9px">
-      <button class="btn-sm btn-add" onclick="addFrame()">+ Adicionar cena</button>
-      <button class="btn-sm btn-del" onclick="resetAll()" style="margin-left:auto">↺ Limpar tudo</button>
+    <div class="barra">
+      <button class="btn btn-red"    id="genAllBtn"     onclick="generateAll()">✨ Gerar imagens</button>
+      <button class="btn btn-ghost"  id="genMissingBtn" onclick="generateAll(true)">↻ Só as que faltam</button>
+      <button class="btn btn-violet" id="ttsAllBtn"     onclick="narrateAll()">🎤 Narrações</button>
+      <button class="btn btn-ghost"  id="vidAllBtn"     onclick="animarTodas()" style="display:none">🎞️ Animar</button>
+      <span class="barra-sep"></span>
+      <button class="btn btn-red"   id="videoBtn"   onclick="renderVideo()" disabled>🎬 Gerar vídeo</button>
+      <button class="btn btn-ghost" id="exportBtn"  onclick="exportZIP()" disabled>⬇ Peças soltas</button>
+      <button class="btn btn-ghost" id="cancelBtn"  onclick="cancelRender()" style="display:none">⏹ Cancelar</button>
+      <span class="barra-sep"></span>
+      <label class="barra-lbl" for="globalFont">Fonte</label>
+      <select id="globalFont" onchange="onFontChange()"></select>
+      <span class="barra-dir">
+        <button class="btn btn-ghost" onclick="addFrame()">+ Cena</button>
+        <button class="btn btn-ghost" onclick="resetAll()">↺ Limpar tudo</button>
+      </span>
     </div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-hd">
-      <div class="sec-ic">✨</div>
-      <div class="sec-t">Gerar e exportar</div>
-    </div>
-    <button class="btn btn-red" id="genAllBtn" onclick="generateAll()" style="margin-top:0">✨ Gerar todas as imagens</button>
-    <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)">↻ Gerar só as que faltaram</button>
-    <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Gerar todas as narrações</button>
     <div class="tip warn" id="avisoNarracao" style="display:none"></div>
-    <button class="btn btn-red" id="videoBtn" onclick="renderVideo()" disabled>🎬 Gerar vídeo pronto para postar</button>
-    <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹ Cancelar renderização</button>
-    <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Baixar peças soltas (p/ editar no CapCut)</button>
-    <div class="tip">
+
+    <div class="canvas-wrap" id="canvasWrap">
+      <div class="canvas-pan" id="canvasPan">
+        <div id="framesList" class="frames-flow"></div>
+      </div>
+      <div class="canvas-ctl">
+        <button class="canvas-btn" onclick="zoomPasso(1)" title="Aproximar">+</button>
+        <button class="canvas-btn" onclick="zoomPasso(-1)" title="Afastar">−</button>
+        <button class="canvas-btn" onclick="resetarVista()" title="Enquadrar tudo">⤢</button>
+        <span class="canvas-zoom" id="canvasZoom">100%</span>
+      </div>
+      <div class="canvas-dica">rolar = aproximar/afastar · arrastar o fundo = mover</div>
+    </div>
+    <details class="tip ajuda">
+      <summary>Como funciona cada botão</summary>
       <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
       <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, na aba Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a aba precisa ficar visível.<br><br>
-      <b style="color:#666">Gerar todas as imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, na aba Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
-      <b style="color:#666">Baixar peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
-    </div>
+      <b style="color:#666">Gerar imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, na aba Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
+      <b style="color:#666">Animar</b> (ligado na aba Chaves) troca a imagem parada por um clipe gerado a partir dela. É cobrado por cena, à parte da imagem — anime só depois de aprovar a imagem. A duração de cada clipe acompanha a narração da cena.<br><br>
+      <b style="color:#666">Peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
+    </details>
   </div>
 
 </div>
@@ -352,11 +472,71 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
       <button class="icobtn" onclick="toggleKey('repToken')" title="mostrar/ocultar">👁</button>
     </div>
 
-    <label>Modelo (owner/nome, ou o hash da versão)</label>
-    <input type="text" id="repModel" value="black-forest-labs/flux-schnell" placeholder="ex: owner/nome-do-modelo" oninput="saveStateSoon()">
+    <label>Modelo de imagem</label>
+    <select id="repModelSel" onchange="onModeloChange()">
+      <optgroup label="Aceita referência de personagem">
+        <option value="black-forest-labs/flux-kontext-dev">FLUX.1 Kontext Dev · edita mantendo o personagem</option>
+        <option value="black-forest-labs/flux-kontext-pro">FLUX.1 Kontext Pro · igual, mais caro e melhor</option>
+        <option value="google/nano-banana">Nano Banana (Google) · aceita várias referências</option>
+        <option value="bytedance/seedream-4">Seedream 4 · até 10 referências</option>
+        <option value="luma/photon-flash">Photon Flash (Luma) · rápido, com referência</option>
+      </optgroup>
+      <optgroup label="Só texto → imagem (ignora referência)">
+        <option value="black-forest-labs/flux-schnell" selected>FLUX schnell · o mais rápido e barato</option>
+        <option value="google/imagen-4-fast">Imagen 4 Fast (Google)</option>
+        <option value="bytedance/seedream-3">Seedream 3</option>
+        <option value="recraft-ai/recraft-v3">Recraft v3 · bom para ilustração</option>
+      </optgroup>
+      <optgroup label="Outro">
+        <option value="__outro">Digitar owner/nome ou hash de versão…</option>
+      </optgroup>
+    </select>
+    <input type="text" id="repModel" value="black-forest-labs/flux-schnell" placeholder="ex: owner/nome-do-modelo" style="display:none;margin-top:7px" oninput="saveStateSoon();avisarSobreReferencia()">
+    <div class="hint">O preço varia bastante entre eles e não dá para consultar pela API — veja na página do modelo em replicate.com antes de rodar um roteiro inteiro.</div>
+
+    <label>Estilo forçado (opcional)</label>
+    <textarea id="repStyle" placeholder="Ex: dark atmospheric horror illustration, cel-shaded, thick black outlines, desaturated palette" spellcheck="false" style="min-height:52px" oninput="saveStateSoon()"></textarea>
+    <div class="hint">Entra na frente do prompt de toda cena, para o traço não mudar de uma para a outra. Deixe vazio para usar só o que está escrito no cartão.</div>
+
+    <label>Referência de personagem (opcional)</label>
+    <div id="refBox">
+      <div class="ref-vazio" id="refVazio">
+        Nenhuma imagem. Envie uma e ela vai como referência em toda cena — só funciona em modelo que aceita imagem de entrada.
+      </div>
+      <div class="ref-tem" id="refTem" style="display:none">
+        <img id="refThumb" alt="referência">
+        <div class="ref-acts">
+          <div class="ref-info" id="refInfo"></div>
+          <button class="btn-sm btn-del" onclick="document.getElementById('refUp').click()">⬆ Trocar imagem</button>
+          <button class="btn-sm btn-del" onclick="removerReferencia()">✕ Remover</button>
+        </div>
+      </div>
+      <button class="btn-sm btn-add" id="refBtn" onclick="document.getElementById('refUp').click()">⬆ Enviar referência</button>
+      <input type="file" id="refUp" accept="image/*" style="display:none" onchange="enviarReferencia(this)">
+    </div>
+    <div class="hint" id="refAviso"></div>
 
     <label>Input extra (JSON opcional, mesclado com o prompt)</label>
     <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:58px" oninput="saveStateSoon()">{"aspect_ratio":"9:16"}</textarea>
+
+    <label class="chk"><input type="checkbox" id="vidOn" onchange="onVidChange()"> Animar as cenas — transforma cada imagem num clipe de vídeo</label>
+    <div class="hint">Cobrança à parte da imagem, por cena. Medi ~24 s por clipe no seedance-1-lite a 480p; modelo ou resolução maior demora e custa mais. A imagem continua sendo gerada primeiro — o clipe parte dela, então você só anima o que já aprovou. A duração do clipe acompanha a narração da cena (o modelo aceita de 4 a 12 s).</div>
+
+    <div id="vidBox" style="display:none">
+      <label>Modelo de vídeo (imagem → vídeo)</label>
+      <input type="text" id="vidModel" value="bytedance/seedance-1-lite" oninput="saveStateSoon()">
+
+      <label>Resolução do clipe</label>
+      <select id="vidRes" onchange="saveState()">
+        <option value="480p" selected>480p · mais barato</option>
+        <option value="720p">720p</option>
+        <option value="1080p">1080p · mais caro</option>
+      </select>
+      <div class="hint">O clipe é o fundo: o app redimensiona para a resolução do vídeo final. 480p já segura bem em 1080×1920 com o escurecimento por cima.</div>
+
+      <label>Movimento (em inglês, somado à descrição da cena)</label>
+      <input type="text" id="vidMotion" value="subtle cinematic camera movement, natural motion" oninput="saveStateSoon()">
+    </div>
 
     <label>Endereço do proxy local</label>
     <input type="text" id="repProxy" value="/replicate" oninput="saveStateSoon()">
@@ -510,6 +690,11 @@ let pvInterval = null;
 let pvIndex = -1;
 let rendering = false;
 let emLote = false;   // lote paralelo em andamento: cenas não escrevem status individual
+// vista do canvas de cenas — declarado aqui porque o init roda antes do bloco
+// que usa estas variáveis, e `let` não é içado
+let zoom = 1, panX = 0, panY = 0;
+let refImagem = null;   // {bytes, mime, w, h} — referência de personagem
+const ZOOM_MIN = 0.3, ZOOM_MAX = 1.6;
 let renderCancelled = false;
 let audioCtx = null;
 const LS_KEY = 'shortsCreator.v2';
@@ -545,6 +730,25 @@ const FONTES = {
 const FONTE_PADRAO='bebas';
 function fonteDe(id){ return FONTES[id] || FONTES[FONTE_PADRAO]; }
 
+// Uma escolha só, válida para o roteiro inteiro. Fonte diferente a cada cena
+// não é estilo, é ruído: a legenda troca de cara no meio do vídeo.
+function fonteAtual(){
+  const el=document.getElementById('globalFont');
+  const v=el?el.value:'';
+  return FONTES[v] ? v : FONTE_PADRAO;
+}
+function preencherSeletorDeFonte(){
+  const el=document.getElementById('globalFont');
+  if(!el||el.options.length) return;
+  el.innerHTML=Object.entries(FONTES)
+    .map(([k,v])=>`<option value="${k}"${k===FONTE_PADRAO?' selected':''}>${v.nome}</option>`).join('');
+}
+function onFontChange(){
+  renderCards();
+  if(pvIndex>=0 && frames[pvIndex] && frames[pvIndex].image) previewFrame(pvIndex);
+  saveState();
+}
+
 // `fonte` aqui é só o padrão do estilo; a cena pode sobrescrever.
 const STYLES = {
   viral:     {tam:118, fonte:'bebas',  fill:'#FFF',   shadow:'rgba(0,0,0,.95)',blur:22,off:6, stroke:null},
@@ -576,8 +780,8 @@ function posLabel(v){
 }
 
 function newFrame(){
-  return {id:newId(),prompt:'',text:'',narration:'',animType:'word',style:'viral',font:'',textPos:TEXT_POS.legenda,
-          image:null,imageUrl:null,imageBytes:null,enhanced:'',
+  return {id:newId(),prompt:'',text:'',animType:'word',style:'viral',textPos:TEXT_POS.legenda,
+          image:null,imageUrl:null,imageBytes:null,video:null,videoBytes:null,enhanced:'',
           audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null};
 }
 
@@ -667,15 +871,21 @@ function saveState(){
     const remember = document.getElementById('rememberKey').checked;
     localStorage.setItem(LS_KEY, JSON.stringify({
       frames: frames.map(f=>({
-        id:f.id, prompt:f.prompt, text:f.text, narration:f.narration,
-        animType:f.animType, style:f.style, font:f.font||'', textPos:f.textPos, enhanced:f.enhanced,
+        id:f.id, prompt:f.prompt, text:f.text,
+        animType:f.animType, style:f.style, textPos:f.textPos, enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
+        hasVideo: !!f.videoBytes,
         audioDur: f.audioBuffer ? f.audioBuffer.duration : null
       })),
       frameDuration: document.getElementById('frameDuration').value,
       tailPause: document.getElementById('tailPause').value,
       transition: document.getElementById('transition').value,
+      globalFont: fonteAtual(),
+      vidOn: animacaoLigada(),
+      vidModel: document.getElementById('vidModel').value,
+      vidRes: document.getElementById('vidRes').value,
+      vidMotion: document.getElementById('vidMotion').value,
       parallel: document.getElementById('parallel').value,
       fps: document.getElementById('fps').value,
       resolution: document.getElementById('resolution').value,
@@ -688,6 +898,7 @@ function saveState(){
       repToken: remember ? document.getElementById('repToken').value : '',
       repModel: document.getElementById('repModel').value,
       repExtra: document.getElementById('repExtra').value,
+      repStyle: document.getElementById('repStyle').value,
       repProxy: document.getElementById('repProxy').value,
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
@@ -712,12 +923,12 @@ function loadState(){
   }
   if(Array.isArray(d.frames)&&d.frames.length){
     frames = d.frames.slice(0,MAX_CENAS).map(f=>({
-      id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
+      id:f.id||newId(), prompt:f.prompt||'', text:f.text||'',
       animType:f.animType==='fixed'?'fixed':'word',
       style:STYLES[f.style]?f.style:'viral',
-      font:FONTES[f.font]?f.font:'',
       textPos:normPos(f.textPos,TEXT_POS.legenda),
-      enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes, lastError:null,
+      enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes,
+      video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
       wordTimes:Array.isArray(f.wordTimes)?f.wordTimes:null,
       _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null, audioText:f.audioText!=null?f.audioText:null
@@ -727,6 +938,10 @@ function loadState(){
   const set=(id,v)=>{ if(v!==undefined&&v!==null&&v!=='') document.getElementById(id).value=v; };
   set('frameDuration', d.frameDuration); set('tailPause', d.tailPause);
   set('transition', d.transition); set('parallel', d.parallel);
+  if(FONTES[d.globalFont]) document.getElementById('globalFont').value=d.globalFont;
+  set('vidModel', d.vidModel); set('vidRes', d.vidRes); set('vidMotion', d.vidMotion);
+  set('repStyle', d.repStyle);
+  document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('voiceManual', d.voiceManual);
   // o modelo salvo pode não estar na lista curta inicial; insere para não perder
@@ -741,6 +956,8 @@ function loadState(){
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
   set('repModel',d.repModel); set('repExtra',d.repExtra); set('repProxy',d.repProxy);
+  // depois de repModel: a lista espelha o campo, e o campo é quem manda
+  sincronizarSeletorDeModelo();
   if(d.voiceSel){
     const sel=document.getElementById('voiceSel');
     sel.insertAdjacentHTML('beforeend','<option value="'+esc(d.voiceSel)+'" selected>voz salva ('+esc(d.voiceSel.slice(0,8))+'…)</option>');
@@ -755,9 +972,10 @@ function loadState(){
 
 // Recarrega imagens (pela URL com seed) e áudios (do IndexedDB).
 async function restoreAssets(){
+  const needVid = frames.some(f=>f._hasVideo&&!f.video);
   const needImg = frames.some(f=>(f.imageUrl||f._hasImageBytes)&&!f.image);
   const needAud = frames.some(f=>f._hasAudio&&!f.audioBytes);
-  if(!needImg&&!needAud) { updateTotals(); return; }
+  if(!needImg&&!needAud&&!needVid) { updateTotals(); return; }
   setStatus('↻ Recarregando a sessão anterior…');
   await Promise.all(frames.map(async f=>{
     if(!f.image && f._hasImageBytes){
@@ -769,6 +987,13 @@ async function restoreAssets(){
     }
     if(f.imageUrl&&!f.image){
       try{ f.image = await loadImageFromUrl(f.imageUrl); }catch(e){ f.imageUrl=null; }
+    }
+    if(!f.video && f._hasVideo){
+      const rec=await idbGet('vid:'+f.id);
+      if(rec&&rec.bytes){
+        try{ f.video=await videoDeBytes(new Uint8Array(rec.bytes),rec.mime); f.videoBytes=f.video._bytes; }
+        catch(e){ f._hasVideo=false; }
+      }
     }
     if(f._hasAudio&&!f.audioBytes){
       const rec = await idbGet(f.id);
@@ -798,12 +1023,16 @@ async function resetAll(){
 
 function freeFrameAssets(f){
   if(f.image&&f.image._blobUrl) URL.revokeObjectURL(f.image._blobUrl);
+  if(f.video&&f.video._blobUrl){ try{ f.video.pause(); }catch(_){} URL.revokeObjectURL(f.video._blobUrl); }
   if(f.audioUrl) URL.revokeObjectURL(f.audioUrl);
 }
 
 // ── INIT ─────────────────────────────────────────────────
 renderKeyRows(['']);
+preencherSeletorDeFonte();
 loadState();
+aplicarToggleVideo();
+ligarCanvas();
 restoreTab();
 syncSourceRows();
 onTranslateChange();
@@ -813,6 +1042,9 @@ buildFrames();
 aplicarFormato();   // ajusta canvas, quadros e aspect_ratio ao formato salvo
 checkDone();
 restoreAssets();
+// depois do loadState, senão a consulta do schema sai sem token e não dá para
+// dizer se o modelo aceita referência
+restaurarReferencia();
 
 function drawBlank(c,w,h){
   c.fillStyle='#0a0a0a';c.fillRect(0,0,w,h);
@@ -823,7 +1055,7 @@ function buildFrames(){
   const n = Math.max(1, Math.min(MAX_CENAS, parseInt(document.getElementById('frameCount').value)||3));
   document.getElementById('frameCount').value = n;
   while(frames.length < n) frames.push(newFrame());
-  frames.slice(n).forEach(f=>{ freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id); });
+  frames.slice(n).forEach(f=>{ freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id); idbDel('vid:'+f.id); });
   frames = frames.slice(0,n);
   if(pvIndex>=frames.length){ stopPreview(); pvIndex=-1; drawBlank(ctx,canvas.width,canvas.height); }
   renderCards(); checkDone(); updateTotals(); saveState();
@@ -839,7 +1071,7 @@ function addFrame(){
 function removeFrame(i){
   if(frames.length<=1) return;
   const f=frames[i];
-  freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id);
+  freeFrameAssets(f); idbDel(f.id); idbDel('img:'+f.id); idbDel('vid:'+f.id);
   frames.splice(i,1);
   document.getElementById('frameCount').value = frames.length;
   if(pvIndex===i){ stopPreview(); pvIndex=-1; drawBlank(ctx,canvas.width,canvas.height); }
@@ -874,12 +1106,141 @@ function esc(s){
   return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// Quantos cartões cabem por linha depende da largura da janela, então não dá
+// para saber no CSS qual deles termina a linha. Aqui os cartões com o mesmo
+// offsetTop são a mesma linha; o último de cada uma perde o conector, senão a
+// seta apontaria para o vazio na borda direita.
+// Chamada direta, sem requestAnimationFrame: em aba oculta o rAF não dispara e
+// a marcação nunca acontecia — o conector do último cartão da linha ficava
+// apontando para o vazio até a aba voltar a ficar visível. Ler offsetTop já
+// força o reflow, então medir na hora é correto e não depende de quadro.
+function agendarFimDeLinha(){ marcarFimDeLinha(); }
+
+// ── CANVAS: zoom com a roda, arrastar para mover ─────────────────────
+function aplicarVista(){
+  const pan=document.getElementById('canvasPan');
+  const wrap=document.getElementById('canvasWrap');
+  if(!pan||!wrap) return;
+  // A largura de quebra é a do visor DIVIDIDA pelo zoom: afastando, cabe mais
+  // cartão por linha em vez de sobrar faixa vazia à direita.
+  pan.style.width=Math.max(320,(wrap.clientWidth/zoom)-40)+'px';
+  pan.style.transform=`translate(${panX}px,${panY}px) scale(${zoom})`;
+  const z=document.getElementById('canvasZoom');
+  if(z) z.textContent=Math.round(zoom*100)+'%';
+  marcarFimDeLinha();
+}
+
+function definirZoom(novo,ancoraX,ancoraY){
+  const wrap=document.getElementById('canvasWrap');
+  if(!wrap) return;
+  const z=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,novo));
+  if(z===zoom) return;
+  const r=wrap.getBoundingClientRect();
+  // âncora: o ponto sob o cursor tem que continuar sob o cursor depois do zoom
+  const ax=(ancoraX==null?r.width/2:ancoraX-r.left);
+  const ay=(ancoraY==null?r.height/2:ancoraY-r.top);
+  panX = ax-(ax-panX)*(z/zoom);
+  panY = ay-(ay-panY)*(z/zoom);
+  zoom = z;
+  aplicarVista();
+}
+
+function zoomPasso(dir){ definirZoom(zoom*(dir>0?1.2:1/1.2)); }
+
+// Enquadrar de verdade, não só resetar. A largura sempre cabe (a quebra é
+// amarrada ao visor), então o que sobra é a altura — e diminuir o zoom também
+// diminui o número de linhas, o que muda a altura de novo. Daí a busca em
+// poucos passos, com raiz para amortecer e não passar do ponto.
+function resetarVista(){
+  const wrap=document.getElementById('canvasWrap');
+  const lista=document.getElementById('framesList');
+  if(!wrap||!lista) return;
+  zoom=1; panX=0; panY=0; aplicarVista();
+  const folga=24;
+  for(let i=0;i<6;i++){
+    const naTela=lista.scrollHeight*zoom;
+    if(naTela<=wrap.clientHeight-folga || zoom<=ZOOM_MIN) break;
+    zoom=Math.max(ZOOM_MIN, zoom*Math.sqrt((wrap.clientHeight-folga)/naTela));
+    aplicarVista();
+  }
+  // encostado no topo: centralizar deixava um vão enorme acima quando o
+  // roteiro cabe em uma ou duas linhas
+  panX=0; panY=0;
+  aplicarVista();
+}
+
+// O canvas ocupa o que sobra da janela em vez de uma altura fixa: assim tudo
+// cabe numa tela só, qualquer que seja o tamanho do bloco acima dele.
+function ajustarAlturaCanvas(){
+  const wrap=document.getElementById('canvasWrap');
+  const pane=document.querySelector('.pane.on');
+  if(!wrap||!pane) return;
+  const MIN=240;
+  // Encolhe ao mínimo e mede de verdade: o quanto existe ACIMA (rect.top) e o
+  // quanto sobrou ABAIXO do visor até o fim do painel.
+  //
+  // Tentei antes com document.scrollHeight - innerHeight, e nunca crescia: o
+  // body tem min-height:100vh, então a página nunca mede menos que a janela e
+  // a diferença dava zero sempre.
+  wrap.style.height=MIN+'px';
+  const r=wrap.getBoundingClientRect();
+  const abaixo=pane.getBoundingClientRect().bottom-r.bottom;
+  const padBaixo=parseFloat(getComputedStyle(document.body).paddingBottom)||0;
+  const disponivel=innerHeight-r.top-abaixo-padBaixo-8;
+  wrap.style.height=Math.max(MIN,Math.round(disponivel))+'px';
+}
+
+function ligarCanvas(){
+  const wrap=document.getElementById('canvasWrap');
+  if(!wrap||wrap._ligado) return;
+  wrap._ligado=true;
+
+  wrap.addEventListener('wheel',e=>{
+    e.preventDefault();
+    // trackpad manda deltas pequenos e contínuos; roda manda saltos grandes
+    const passo=Math.exp(-e.deltaY*0.0014);
+    definirZoom(zoom*passo,e.clientX,e.clientY);
+  },{passive:false});
+
+  let arrastando=false, x0=0, y0=0, px0=0, py0=0;
+  wrap.addEventListener('pointerdown',e=>{
+    // só o fundo arrasta: em cima de um cartão o clique é dele (abrir, digitar)
+    const noCartao=e.target.closest('.frame-card,.canvas-ctl');
+    if(noCartao && e.button!==1) return;
+    arrastando=true; x0=e.clientX; y0=e.clientY; px0=panX; py0=panY;
+    wrap.classList.add('arrastando');
+    wrap.setPointerCapture(e.pointerId);
+  });
+  wrap.addEventListener('pointermove',e=>{
+    if(!arrastando) return;
+    panX=px0+(e.clientX-x0); panY=py0+(e.clientY-y0);
+    aplicarVista();
+  });
+  const soltar=e=>{
+    if(!arrastando) return;
+    arrastando=false; wrap.classList.remove('arrastando');
+    try{ wrap.releasePointerCapture(e.pointerId); }catch(_){}
+  };
+  wrap.addEventListener('pointerup',soltar);
+  wrap.addEventListener('pointercancel',soltar);
+
+  addEventListener('resize',()=>{ ajustarAlturaCanvas(); aplicarVista(); });
+  ajustarAlturaCanvas();
+  aplicarVista();
+}
+
+function marcarFimDeLinha(){
+  const cards=[...document.querySelectorAll('#framesList .frame-card')];
+  cards.forEach(c=>c.classList.remove('fim-da-linha'));
+  cards.forEach((c,i)=>{
+    const prox=cards[i+1];
+    if(!prox || prox.offsetTop>c.offsetTop) c.classList.add('fim-da-linha');
+  });
+}
+
+
 function renderCards(){
   const list = document.getElementById('framesList');
-
-  // preserva quais cartões estavam abertos antes do re-render
-  const open = new Set();
-  list.querySelectorAll('.fc-body.open').forEach(b=>open.add(b.id.replace('fc-body-','')));
 
   // o mini-preview de cada cena segue a orientação escolhida, senão o cartão
   // mostra 9:16 enquanto o vídeo sai 16:9
@@ -888,8 +1249,8 @@ function renderCards(){
 
   list.innerHTML='';
   frames.forEach((f,i)=>{
-    const imgCls = f.image?'b-done':'b-pending';
-    const imgTxt = f.image?'✓ imagem':'sem imagem';
+    const imgCls = f.video?'b-done':(f.image?'b-done':'b-pending');
+    const imgTxt = f.video?'🎞️ vídeo':(f.image?'✓ imagem':'sem imagem');
     const velha = narracaoVelha(f);
     const audCls = velha?'b-err':(f.audioBuffer?'b-aud':'b-pending');
     const audTxt = velha?'⚠️ refazer voz'
@@ -898,81 +1259,60 @@ function renderCards(){
     const card = document.createElement('div');
     card.className='frame-card';
     card.innerHTML=`
-      <div class="fc-head" onclick="toggleCard(${i})">
-        <div class="fc-n">F${i+1}</div>
-        <div class="fc-info">
-          <div class="fc-title" id="fc-title-${i}">${esc(f.prompt||'Sem descrição')}</div>
-          <div class="fc-sub" id="fc-sub-${i}">${esc(f.text||'Sem texto')}</div>
-        </div>
-        <div class="fc-badges">
-          <div class="fc-badge ${imgCls}" id="fc-badge-${i}">${imgTxt}</div>
-          <div class="fc-badge ${audCls}" id="fc-abadge-${i}">${audTxt}</div>
-        </div>
-        <div class="fc-arr" id="fc-arr-${i}">▾</div>
+      <div class="fc-thumb" onclick="previewFrame(${i})" title="Ver esta cena no preview">
+        <canvas id="mini-${i}" width="${miniW}" height="${miniH}"></canvas>
+        <div class="fc-pos">F${i+1}</div>
       </div>
-      <div class="fc-body" id="fc-body-${i}">
-        <label>Descrição da imagem (em português)</label>
-        <textarea id="fp-${i}" placeholder="Ex: pôr do sol dramático sobre cidade futurista, cinematográfico" oninput="syncFrame(${i})">${esc(f.prompt)}</textarea>
+
+      <div class="fc-head">
+        <div class="fc-badge ${imgCls}" id="fc-badge-${i}">${imgTxt}</div>
+        <div class="fc-badge ${audCls}" id="fc-abadge-${i}">${audTxt}</div>
+        <button class="fc-del" onclick="removeFrame(${i})" title="Remover cena">🗑</button>
+      </div>
+
+      <div class="fc-body">
+        <div class="fc-sec">ROTEIRO</div>
 
         <label>Texto na tela</label>
         <textarea id="ft-${i}" placeholder="Ex: Você sabia que 90% das pessoas erram isso?" oninput="syncFrame(${i})">${esc(f.text)}</textarea>
 
-        <label>Narração (vazio = narra o texto na tela)</label>
-        <textarea id="fn-${i}" placeholder="Deixe vazio para narrar exatamente o texto acima" oninput="syncFrame(${i})">${esc(f.narration)}</textarea>
+        <label>Prompt da imagem</label>
+        <textarea id="fp-${i}" placeholder="Ex: pôr do sol dramático sobre cidade futurista, cinematográfico" oninput="syncFrame(${i})">${esc(f.prompt)}</textarea>
 
-        <label>Animação do texto</label>
-        <div class="atabs">
-          <div class="atab ${f.animType==='word'?'on':''}"  onclick="setAnim(${i},'word',this)">✦ Palavra por palavra</div>
-          <div class="atab ${f.animType==='fixed'?'on':''}" onclick="setAnim(${i},'fixed',this)">▬ Texto fixo</div>
+        <div class="fc-lin2">
+          <div>
+            <label>Estilo</label>
+            <select onchange="setStyle(${i},this.value)">
+              ${Object.keys(STYLES).map(st=>`<option value="${st}"${f.style===st?' selected':''}>${STYLE_ICONS[st]} ${st}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label>Animação</label>
+            <select onchange="setAnim(${i},this.value)">
+              <option value="word"${f.animType==='word'?' selected':''}>✦ Palavra a palavra</option>
+              <option value="fixed"${f.animType==='fixed'?' selected':''}>▬ Texto fixo</option>
+            </select>
+          </div>
         </div>
 
-        <label>Posição do texto — <span id="poslbl-${i}">${esc(posLabel(f.textPos))}</span></label>
-        <div class="atabs" style="grid-template-columns:repeat(3,1fr)">
-          <div class="atab ${f.textPos<=25?'on':''}" onclick="setPos(${i},20)">⬆ Topo</div>
-          <div class="atab ${f.textPos>25&&f.textPos<72?'on':''}" onclick="setPos(${i},50)">⬛ Centro</div>
-          <div class="atab ${f.textPos>=72?'on':''}" onclick="setPos(${i},80)">⬇ Legenda</div>
-        </div>
+        <label>Posição — <span id="poslbl-${i}">${esc(posLabel(f.textPos))}</span></label>
         <input type="range" class="slider" id="pos-${i}" min="5" max="95" step="1" value="${f.textPos}" oninput="setPos(${i},+this.value,true)">
 
-        <label>Fonte da legenda</label>
-        <select onchange="setFont(${i},this.value)">
-          <option value=""${f.font?'':' selected'}>Padrão do estilo (${fonteDe(STYLES[f.style]?STYLES[f.style].fonte:'bebas').nome.split(' ·')[0]})</option>
-          ${Object.entries(FONTES).map(([k,v])=>`<option value="${k}"${f.font===k?' selected':''}>${esc(v.nome)}</option>`).join('')}
-        </select>
+        ${f.enhanced?`<div class="fc-enh" title="${esc(f.enhanced)}">🤖 ${esc(f.enhanced.substring(0,70))}…</div>`:''}
 
-        <label>Estilo do texto</label>
-        <div class="sgrid">
-          ${Object.keys(STYLES).map(s=>`
-            <div class="sopt ${f.style===s?'on':''}" onclick="setStyle(${i},'${s}',this)">
-              <span class="soi">${STYLE_ICONS[s]}</span>${s}
-            </div>`).join('')}
-        </div>
-
-        ${f.enhanced?`<div style="font-size:9px;color:var(--dim);margin-top:8px;font-style:italic;line-height:1.4">🤖 ${esc(f.enhanced.substring(0,100))}…</div>`:''}
-
-        <div class="cardpv">
-          <div class="cardpv-frame${fmt.horizontal?' wide':''}">
-            <canvas id="mini-${i}" width="${miniW}" height="${miniH}"></canvas>
-            <div class="pv-tag" id="pvtag-${i}">${f.image?fmt.ratio:'sem imagem'}</div>
-          </div>
-          <div class="cardpv-acts">
-            <button class="btn-sm btn-add" onclick="generateSingle(${i})">${f.image?'✨ Gerar de novo':'✨ Gerar imagem'}</button>
-            ${f.image&&f.enhanced?`<button class="btn-sm btn-del" onclick="rerollImage(${i})">🎲 Outra variação</button>`:''}
-            <button class="btn-sm btn-del" onclick="document.getElementById('up-${i}').click()">📁 Enviar minha imagem</button>
-            <input type="file" id="up-${i}" accept="image/*" style="display:none" onchange="uploadImage(${i},this)">
-            <button class="btn-sm btn-mic" onclick="narrateSingle(${i})">🎤 ${f.audioBuffer?'Regerar narração':'Gerar narração'}</button>
-          </div>
+        <div class="fc-acts">
+          <button class="btn-sm btn-add" onclick="generateSingle(${i})">✨ ${f.image?'Refazer':'Gerar imagem'}</button>
+          <button class="btn-sm btn-mic" onclick="narrateSingle(${i})">🎤 ${f.audioBuffer?'Refazer voz':'Narrar'}</button>
+          ${f.image&&f.enhanced?`<button class="btn-sm btn-del" onclick="rerollImage(${i})">🎲 Variação</button>`:''}
+          <button class="btn-sm btn-del" onclick="document.getElementById('up-${i}').click()">📁 Minha imagem</button>
+          <input type="file" id="up-${i}" accept="image/*" style="display:none" onchange="uploadImage(${i},this)">
+          ${animacaoLigada()?`<button class="btn-sm btn-del" onclick="animarCena(${i})" ${f.image?'':'disabled'}>🎞️ ${f.video?'Reanimar':'Animar'}</button>`:''}
+          ${f.video?`<button class="btn-sm btn-del" onclick="removerVideo(${i})">✕ Sem vídeo</button>`:''}
         </div>
 
         ${f.audioUrl?`<audio controls preload="none" src="${esc(f.audioUrl)}"></audio>`:''}
-        ${f.audioBuffer&&f.wordTimes?`<div style="font-size:9px;color:var(--violet);margin-top:6px">⏱ ${f.wordTimes.length} palavras sincronizadas com a fala</div>`:''}
-        ${f.lastError?`<div class="err-box">⚠ Último erro nesta cena:
-${esc(f.lastError)}</div>`:''}
-
-        <div style="display:flex;gap:7px;margin-top:11px;flex-wrap:wrap">
-          ${f.image?`<button class="btn-sm btn-del" onclick="previewFrame(${i})">▶ Reiniciar animação</button>`:''}
-          <button class="btn-sm btn-del" onclick="removeFrame(${i})" style="margin-left:auto">✕ Remover cena</button>
-        </div>
+        ${f.audioBuffer&&f.wordTimes?`<div class="fc-sync">⏱ ${f.wordTimes.length} palavras sincronizadas</div>`:''}
+        ${f.lastError?`<div class="err-box">⚠ ${esc(f.lastError)}</div>`:''}
       </div>
     `;
     list.appendChild(card);
@@ -984,19 +1324,15 @@ ${esc(f.lastError)}</div>`:''}
     });
   });
 
-  open.forEach(id=>{
-    const b=document.getElementById('fc-body-'+id), a=document.getElementById('fc-arr-'+id);
-    if(b){ b.classList.add('open'); if(a) a.classList.add('open'); }
-  });
+  agendarFimDeLinha();
 }
 
 function syncFrame(i){
   const p=document.getElementById('fp-'+i);
   const t=document.getElementById('ft-'+i);
-  const n=document.getElementById('fn-'+i);
+
   if(p) frames[i].prompt=p.value;
   if(t) frames[i].text=t.value;
-  if(n) frames[i].narration=n.value;
   const title=document.getElementById('fc-title-'+i);
   const sub=document.getElementById('fc-sub-'+i);
   if(title) title.textContent=frames[i].prompt||'Sem descrição';
@@ -1010,20 +1346,9 @@ function syncFrame(i){
   saveStateSoon();
 }
 
-function toggleCard(i){
-  const body=document.getElementById('fc-body-'+i);
-  const arr=document.getElementById('fc-arr-'+i);
-  const open=body.classList.toggle('open');
-  arr.classList.toggle('open',open);
-  if(open&&frames[i].image) previewFrame(i);
-  else if(!open&&pvIndex===i){ stopPreview(); setPvLabel(-1); }
-}
-
-function setAnim(i,type,el){
+function setAnim(i,type){
   frames[i].animType=type;
-  el.closest('.atabs').querySelectorAll('.atab').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
-  if(frames[i].image) previewFrame(i);
+  if(frames[i].image||frames[i].video) previewFrame(i);
   saveState();
 }
 
@@ -1034,35 +1359,25 @@ function setPos(i,v,fromSlider){
   if(lbl) lbl.textContent=posLabel(frames[i].textPos);
   const sl=document.getElementById('pos-'+i);
   if(sl&&!fromSlider) sl.value=frames[i].textPos;
-  const tabs=document.querySelectorAll(`#fc-body-${i} .atab`);
-  if(tabs.length>=5){
-    const p=frames[i].textPos;
-    [tabs[2],tabs[3],tabs[4]].forEach((t,k)=>t.classList.toggle('on',
-      (k===0&&p<=25)||(k===1&&p>25&&p<72)||(k===2&&p>=72)));
-  }
-  if(frames[i].image) previewFrame(i);
+  if(frames[i].image||frames[i].video) previewFrame(i);
   saveStateSoon();
 }
 
-function setFont(i,v){
-  frames[i].font = FONTES[v] ? v : '';
-  previewFrame(i);
-  saveState();
-}
-
-function setStyle(i,s,el){
+function setStyle(i,s){
   frames[i].style=s;
-  el.closest('.sgrid').querySelectorAll('.sopt').forEach(o=>o.classList.remove('on'));
-  el.classList.add('on');
-  if(frames[i].image) previewFrame(i);
+  if(frames[i].image||frames[i].video) previewFrame(i);
   saveState();
 }
 
 // ── DRAW HELPERS ─────────────────────────────────────────
+// Aceita <img> e <video>. Vídeo não tem .width/.height intrínsecos — o tamanho
+// real está em videoWidth/videoHeight, e usar os errados encolheria o quadro.
 function drawBgOnCtx(c,img,cw,ch){
   if(img){
-    const sc=Math.max(cw/img.width,ch/img.height);
-    c.drawImage(img,(cw-img.width*sc)/2,(ch-img.height*sc)/2,img.width*sc,img.height*sc);
+    const iw=img.videoWidth||img.width, ih=img.videoHeight||img.height;
+    if(!iw||!ih){ c.fillStyle='#000'; c.fillRect(0,0,cw,ch); return; }
+    const sc=Math.max(cw/iw,ch/ih);
+    c.drawImage(img,(cw-iw*sc)/2,(ch-ih*sc)/2,iw*sc,ih*sc);
     c.fillStyle='rgba(0,0,0,.38)';c.fillRect(0,0,cw,ch);
   } else {
     c.fillStyle='#000';c.fillRect(0,0,cw,ch);
@@ -1072,7 +1387,7 @@ function drawBgOnCtx(c,img,cw,ch){
 function drawTextOnCtx(c,text,styleName,cw,ch,visibleText,posPct,fontId){
   if(!visibleText||!visibleText.trim())return;
   const s=STYLES[styleName]||STYLES.viral;
-  const ft=fonteDe(fontId||s.fonte);
+  const ft=fonteDe(fontId||fonteAtual());
   // a escala sai da ALTURA: legenda se mede em porcentagem da altura do quadro,
   // e é isso que mantém o mesmo peso visual nos dois formatos. Em vertical
   // ch/1920 dá exatamente o antigo cw/1080, então nada muda no 9:16.
@@ -1158,18 +1473,73 @@ function misturaEm(timeline,idx,t){
 }
 
 function drawScene(c,f,tIn,dur,cw,ch){
-  drawBgOnCtx(c,f.image,cw,ch);
+  // o clipe manda quando existe; a imagem continua sendo o fundo das cenas
+  // que você ainda não animou, então os dois convivem no mesmo roteiro
+  drawBgOnCtx(c, f.video || f.image, cw, ch);
   let visible=f.text;
   if(f.animType==='word'){
     const words=(f.text||'').split(/\s+/).filter(Boolean);
     visible=words.slice(0,visibleWordCount(f,tIn,dur)).join(' ');
   }
-  drawTextOnCtx(c,f.text,f.style,cw,ch,visible,f.textPos,f.font);
+  drawTextOnCtx(c,f.text,f.style,cw,ch,visible,f.textPos);
+}
+
+// ── SINCRONIA DO VÍDEO ────────────────────────────────────
+// Em tempo real o vídeo TOCA e só é corrigido quando deriva: buscar quadro a
+// quadro não acompanha 24 fps. Já na exportação em ZIP, que é passo a passo e
+// não em tempo real, é obrigatório buscar e esperar o "seeked" — senão todos
+// os quadros saem iguais, no ponto em que o vídeo por acaso estava.
+function sincronizarVideo(v,t){
+  if(!v||!v.duration) return;
+  const alvo=t % v.duration;
+  if(v.paused) v.play().catch(()=>{});
+  if(Math.abs(v.currentTime-alvo)>0.25) v.currentTime=alvo;
+}
+
+function posicionarVideo(v,t){
+  if(!v||!v.duration) return Promise.resolve();
+  if(!v.paused) v.pause();
+  const alvo=t % v.duration;
+  if(Math.abs(v.currentTime-alvo)<0.002) return Promise.resolve();
+  return new Promise(ok=>{
+    let pronto=false, timer=null;
+    const fim=()=>{
+      if(pronto) return;
+      pronto=true; clearTimeout(timer);
+      v.removeEventListener('seeked',fim);
+      ok();
+    };
+    // Dois sinais possíveis, e a escolha importa:
+    //
+    // requestVideoFrameCallback dispara quando o quadro foi APRESENTADO, que é
+    // o que drawImage precisa. Sem ele, o mesmo instante devolvia quadros
+    // diferentes a cada passada. É o certo — mas não dispara em aba oculta,
+    // porque está preso ao ciclo de render.
+    //
+    // "seeked" avisa só que a busca terminou; o quadro pode não estar pronto.
+    // Em compensação dispara com a aba oculta. Usar ele ali evita que cada
+    // busca caia no timeout — medi 1 s por quadro assim, o que inviabiliza
+    // exportar um roteiro inteiro.
+    //
+    // Aba visível: precisão. Aba oculta: velocidade. A renderização já pede
+    // aba visível de qualquer forma.
+    if(typeof v.requestVideoFrameCallback==='function' && !document.hidden)
+      v.requestVideoFrameCallback(fim);
+    else
+      v.addEventListener('seeked',fim);
+    v.currentTime=alvo;
+    timer=setTimeout(fim,800);   // rede de segurança: nunca travar a exportação
+  });
+}
+
+function pausarVideos(exceto){
+  frames.forEach(f=>{ if(f.video && f!==exceto && !f.video.paused) f.video.pause(); });
 }
 
 // ── PREVIEW ───────────────────────────────────────────────
 function stopPreview(){
   if(pvInterval){clearInterval(pvInterval);pvInterval=null;}
+  pausarVideos(null);
 }
 function setPvLabel(i){
   const el=document.getElementById('pvLabel');
@@ -1182,12 +1552,14 @@ function previewFrame(i){
   stopPreview();
   const f=frames[i];
   pvIndex=i;
-  if(!f||!f.image){drawBlank(ctx,canvas.width,canvas.height);return;}
+  if(!f||!(f.image||f.video)){drawBlank(ctx,canvas.width,canvas.height);return;}
+  pausarVideos(f);
   const dur=sceneDur(f);
   setPvLabel(i);
   // desenha no canvas grande e no da própria cena, para dar para julgar o
   // enquadramento do texto sem depender do preview minúsculo do topo
   const paint=(t)=>{
+    if(f.video) sincronizarVideo(f.video,t);
     drawScene(ctx,f,t,dur,canvas.width,canvas.height);
     const mini=document.getElementById('mini-'+i);
     if(mini) drawScene(mini.getContext('2d'),f,t,dur,mini.width,mini.height);
@@ -1597,6 +1969,21 @@ async function imageFromBytes(bytes,mime){
 
 function imgSource(){ return document.getElementById('imgSource').value; }
 
+// só o que é visual: o init chama isto antes de os quadros existirem, e
+// renderCards/saveState ali seriam cedo demais
+function aplicarToggleVideo(){
+  const b=document.getElementById('vidBox');
+  if(b) b.style.display = animacaoLigada() ? 'block' : 'none';
+  const bt=document.getElementById('vidAllBtn');
+  if(bt) bt.style.display = animacaoLigada() ? 'flex' : 'none';
+}
+
+function onVidChange(){
+  aplicarToggleVideo();
+  renderCards();
+  saveState();
+}
+
 function onImgSourceChange(){
   syncSourceRows();
   checkEnvironment(false);
@@ -1610,16 +1997,79 @@ function syncSourceRows(){
 
 // ── IMAGEM VIA REPLICATE ─────────────────
 function repToken(){ return document.getElementById('repToken').value.trim(); }
+// O texto continua sendo a fonte da verdade: a lista só escreve nele. Assim um
+// modelo digitado à mão (ou um hash de versão) segue funcionando igual.
 function repModel(){ return document.getElementById('repModel').value.trim(); }
+
+function onModeloChange(){
+  const sel=document.getElementById('repModelSel');
+  const txt=document.getElementById('repModel');
+  if(sel.value==='__outro'){
+    txt.style.display='block';
+    txt.focus();
+  }else{
+    txt.value=sel.value;
+    txt.style.display='none';
+  }
+  saveState();
+  avisarSobreReferencia();
+}
+
+// Deixa a lista refletindo o que está no campo de texto. Modelo que não está
+// entre os listados cai em "Outro" com o campo à mostra.
+function sincronizarSeletorDeModelo(){
+  const sel=document.getElementById('repModelSel');
+  const txt=document.getElementById('repModel');
+  if(!sel||!txt) return;
+  const conhecido=[...sel.options].some(o=>o.value===txt.value);
+  sel.value = conhecido ? txt.value : '__outro';
+  txt.style.display = conhecido ? 'none' : 'block';
+}
 function repProxy(){ return (document.getElementById('repProxy').value.trim()||'/replicate').replace(/\/+$/,''); }
 const REP_TERMINAL=['succeeded','failed','canceled'];
+// 429 é diferente de 5xx: a Replicate recusa ANTES de criar a predição, então
+// repetir não corre risco de cobrar duas vezes. Por isso ele pode ser repetido
+// até no POST de criação, que fora isso não repete.
+const REP_RETRY_CRIAR=new Set([429]);
+// valores escritos à mão de propósito: RETRY_5XX só é declarado bem mais
+// abaixo no arquivo, e `const` não é içado — referenciá-lo aqui derrubava o
+// script inteiro a partir deste ponto
+const REP_RETRY_LER=new Set([408,425,429,500,502,503,504]);
 
-async function repFetch(path,opts,label,tries){
+// Com menos de US$5 de crédito a Replicate corta para 6 req/min com burst de 1.
+// Rodando 4 cenas em paralelo, as quatro batem no limite ao mesmo tempo e ficam
+// se atropelando. Ao ver o primeiro 429, passo a espaçar as criações no ritmo
+// que a própria resposta informa.
+let repIntervalo=0, repProximaVaga=0;
+
+function anotarLimiteDeTaxa(res){
+  const ra=parseFloat(res.headers.get('retry-after'));
+  const novo = ra>0 ? ra*1000 : 10000;
+  if(novo>repIntervalo){
+    repIntervalo=novo;
+    logLine('warn',`Replicate limitou a taxa — espaçando as chamadas em ${(novo/1000).toFixed(0)}s.`,
+      'A conta está com pouco crédito: abaixo de US$5 o limite cai para 6 por minuto, uma de cada vez. '+
+      'Ponha "Cenas em paralelo" em 1 na aba Config, ou adicione crédito para voltar ao normal.');
+  }
+}
+
+// Fila global: cada criação pega a próxima vaga livre no ritmo permitido.
+async function aguardarVagaDeCriacao(){
+  if(!repIntervalo) return;
+  const agora=Date.now();
+  const vaga=Math.max(agora, repProximaVaga);
+  repProximaVaga=vaga+repIntervalo;
+  const espera=vaga-agora;
+  if(espera>0) await sleep(espera);
+}
+
+async function repFetch(path,opts,label,tries,retryOn){
   const o=Object.assign({},opts);
   o.headers=Object.assign({'Authorization':'Bearer '+repToken()},o.headers||{});
   let res;
   try{
-    res=await fetchRetry(repProxy()+path,o,{label:label||'Replicate',tries:tries||3,timeoutMs:180000,retryOn:RETRY_5XX});
+    res=await fetchRetry(repProxy()+path,o,{label:label||'Replicate',tries:tries||3,timeoutMs:180000,
+      retryOn:retryOn||RETRY_5XX, onStatus:r=>{ if(r.status===429) anotarLimiteDeTaxa(r); }});
   }catch(e){
     if(e.name==='TypeError')
       throw new Error(`Proxy local não respondeu em ${repProxy()}. Rode "python serve.py" na pasta do projeto — a API da Replicate não aceita chamada direta do navegador.`);
@@ -1638,17 +2088,283 @@ async function repError(res){
   if(res.status===402) return new Error('Replicate: sem créditos ou cobrança pendente. '+msg);
   if(res.status===404) return new Error(`Modelo "${repModel()}" não encontrado na Replicate. Confira o owner/nome exato na página do modelo. ${msg}`);
   if(res.status===422) return new Error(`Replicate recusou o input: ${msg} — ajuste o campo "Input extra" para os parâmetros deste modelo.`);
+  if(res.status===429) return new Error(
+    'Replicate limitou a taxa (429). Abaixo de US$5 de crédito ela cai para 6 chamadas por minuto, '+
+    'uma de cada vez. Ponha "Cenas em paralelo" em 1 na aba Config, ou adicione crédito. Resposta: '+msg);
   return new Error('Replicate: '+msg);
 }
 
-async function replicateImage(prompt){
-  const model=repModel();
+// Roda uma predição na Replicate e devolve a URL de saída. Imagem e vídeo
+// compartilham tudo daqui: mesma rota, mesmo polling, mesmo tratamento de erro.
+async function replicatePredict(model,input,rotulo){
   if(!repToken()) throw new Error('Cole o token da Replicate na aba Chaves.');
   if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) na aba Chaves.');
 
+  // hash de versão vai no corpo; owner/nome vai na rota
+  const isVersion=/^[0-9a-f]{40,}$/i.test(model);
+  const path = isVersion ? '/predictions' : `/models/${model}/predictions`;
+  const body = isVersion ? {version:model,input} : {input};
+
+  // não despejar a imagem em base64 inteira no log
+  const resumo=JSON.stringify(input,(k,v)=>
+    (typeof v==='string'&&v.length>120) ? v.slice(0,60)+`…[${v.length} chars]` : v).slice(0,220);
+  logLine('info',`${rotulo}: criando predição (${model})`,resumo);
+  const t0=performance.now();
+
+  // "Prefer: wait" sem número segura a conexão os 60 s inteiros mesmo quando a
+  // saída ficou pronta em 4 — medido: 63,8 s de POST para uma predição que a
+  // Replicate concluiu em 4 s. Com "wait=5" a predição rápida volta já no POST
+  // (~9 s) e a lenta cai no polling abaixo.
+  //
+  // Manter algum wait (em vez de só pollar) importa porque uma aba oculta tem
+  // os setTimeout estrangulados pelo Chrome, e o polling engasga; o fetch que
+  // fica pendurado, não.
+  //
+  // Uma tentativa só no POST: se a Replicate criar a predição e só então falhar
+  // ao responder, repetir criaria uma segunda — e cobraria as duas. O polling
+  // continua com retry, porque ler é idempotente.
+  await aguardarVagaDeCriacao();
+  // 8 tentativas SÓ para 429: recusa por limite de taxa não criou nada, então
+  // insistir é seguro. Qualquer outro erro continua com uma tentativa só.
+  let res=await repFetch(path,{method:'POST',headers:{'Content-Type':'application/json','Prefer':'wait=5'},body:JSON.stringify(body)},`${rotulo} (criando)`,8,REP_RETRY_CRIAR);
+  if(!res.ok) throw await repError(res);
+  let pred=await res.json();
+
+  // vídeo demora bem mais que imagem, então o teto é generoso
+  const deadline=Date.now()+900000;
+  while(!REP_TERMINAL.includes(pred.status)){
+    if(Date.now()>deadline) throw new Error(`Timeout: a predição de ${rotulo} passou de 15 min sem terminar.`);
+    if(!pred.id) throw new Error('Replicate não devolveu id da predição.');
+    if(!emLote) setStatus(`${rotulo}: ${pred.status}…`);
+    await sleep(1500);
+    const pr=await repFetch(`/predictions/${encodeURIComponent(pred.id)}`,{},`${rotulo} (polling)`,4,REP_RETRY_LER);
+    if(!pr.ok) throw await repError(pr);
+    pred=await pr.json();
+  }
+  const ms=Math.round(performance.now()-t0);
+
+  if(pred.status!=='succeeded'){
+    logLine('err',`${rotulo} ${pred.status} (${ms}ms)`,pred.error||'sem detalhe');
+    throw new Error(`Replicate ${pred.status}: ${pred.error||'sem detalhe'}`);
+  }
+
+  let out=pred.output;
+  if(Array.isArray(out)) out=out[0];
+  if(typeof out!=='string'||!/^(https?:|data:)/i.test(out)){
+    logLine('err',`${rotulo}: saída não é URL`,JSON.stringify(pred.output).slice(0,300));
+    throw new Error(`Replicate terminou mas não devolveu URL. Saída: ${JSON.stringify(pred.output).slice(0,200)}`);
+  }
+  logLine('ok',`${rotulo}: pronto em ${(ms/1000).toFixed(1)}s`,out.slice(0,180));
+  return out;
+}
+
+function vidModel(){ return (document.getElementById('vidModel')||{}).value?.trim()||'bytedance/seedance-1-lite'; }
+function vidRes(){ return (document.getElementById('vidRes')||{}).value||'480p'; }
+function vidMovimento(){ return ((document.getElementById('vidMotion')||{}).value||'').trim(); }
+function animacaoLigada(){ return !!(document.getElementById('vidOn')||{}).checked; }
+
+// A Replicate aceita data: URI em entrada de arquivo, então a imagem que você
+// já aprovou vai direto do navegador — sem precisar hospedar em lugar nenhum.
+function bytesParaDataURI(bytes,mime){
+  let bin='';
+  const CH=0x8000;                       // fatias: apply() estoura a pilha em array grande
+  for(let i=0;i<bytes.length;i+=CH) bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
+  return `data:${mime||'image/png'};base64,`+btoa(bin);
+}
+
+// Gera o clipe a partir da imagem da cena. A duração pedida é a da narração:
+// o modelo aceita de 4 a 12 s, e casar com o áudio evita o clipe acabar antes
+// da fala ou sobrar vídeo mudo no fim.
+async function replicateVideo(f){
+  if(!f.image || !f.imageBytes) throw new Error('Gere a imagem desta cena antes de animar.');
+  const alvo=Math.round(sceneDur(f));
+  const duracao=Math.min(12,Math.max(4,alvo||5));
+  const movimento=vidMovimento();
+  const prompt=[f.enhanced||f.prompt||'', movimento].filter(Boolean).join(', ');
+
+  const input={
+    image: bytesParaDataURI(f.imageBytes, f._mime||f.image._mime||'image/webp'),
+    prompt,
+    duration: duracao,
+    resolution: vidRes(),
+    aspect_ratio: formato().ratio
+  };
+  if(duracao<alvo) logLine('warn',`Cena com ${alvo}s de narração, clipe de ${duracao}s (teto do modelo).`,
+    'O vídeo repete do início para cobrir o resto da cena.');
+
+  const out=await replicatePredict(vidModel(),input,'Replicate vídeo');
+  return carregarVideo(out);
+}
+
+// Baixa pelo proxy local e vira blob same-origin: o canvas não pode ficar
+// tainted, senão a exportação morre com SecurityError na hora de gravar.
+async function carregarVideo(url){
+  logLine('info','Vídeo: baixando…',url.slice(0,160));
+  const res=await fetchImageBytes(url,undefined,'Replicate');
+  if(!res.ok) throw new Error(`Download do vídeo falhou (HTTP ${res.status}).`);
+  const blob=await res.blob();
+  if(!/^video\//.test(blob.type)) throw new Error(`Esperava vídeo e veio "${blob.type||'?'}".`);
+  const bytes=new Uint8Array(await blob.arrayBuffer());
+  const v=await videoDeBytes(bytes,blob.type);
+  logLine('ok',`Vídeo pronto (${(blob.size/1048576).toFixed(1)} MB, ${v.videoWidth}x${v.videoHeight}, ${v.duration.toFixed(1)}s)`);
+  return v;
+}
+
+function videoDeBytes(bytes,mime){
+  const url=URL.createObjectURL(new Blob([bytes],{type:mime||'video/mp4'}));
+  const v=document.createElement('video');
+  v.muted=true; v.playsInline=true; v.loop=true; v.preload='auto';
+  v._blobUrl=url; v._bytes=bytes; v._mime=mime||'video/mp4';
+  return new Promise((ok,bad)=>{
+    v.onloadeddata=()=>ok(v);
+    v.onerror=()=>{ URL.revokeObjectURL(url); bad(new Error('Arquivo de vídeo inválido.')); };
+    v.src=url;
+  });
+}
+
+// ── ESTILO FORÇADO E REFERÊNCIA DE PERSONAGEM ────────────────────────
+function repStyle(){ return ((document.getElementById('repStyle')||{}).value||'').trim(); }
+
+
+// Qual campo de imagem o modelo aceita muda de um para outro: flux-kontext usa
+// "input_image" (string), nano-banana e seedream usam "image_input" (array), e
+// o flux-schnell não aceita nenhum. Em vez de cravar um nome, leio o schema do
+// próprio modelo e uso o que existe — assim trocar de modelo continua valendo.
+const _schemaCache={};
+async function entradaDeImagemDoModelo(model){
+  if(model in _schemaCache) return _schemaCache[model];
+  let achado=null, leu=false;
+  try{
+    const r=await repFetch('/models/'+model,{},'Replicate (schema)',1);
+    if(r.ok){
+      const d=await r.json();
+      const props=d?.latest_version?.openapi_schema?.components?.schemas?.Input?.properties||{};
+      leu=true;
+      for(const [k,v] of Object.entries(props)){
+        const ehUri = v.format==='uri' || (v.type==='array' && v.items && v.items.format==='uri');
+        if(!ehUri || !/image|imagem|refer/i.test(k)) continue;
+        // Nem toda entrada de imagem é referência de personagem. O "image" do
+        // flux-dev e do qwen-image é img2img: manda a foto como base e o que
+        // sai é uma variação DELA, não a cena descrita — e o flux-dev ainda
+        // herda a proporção da foto, o que estouraria o 9:16. A descrição do
+        // próprio modelo é o que separa os dois casos.
+        const desc=(v.description||'')+' '+k;
+        const ehRef = /refer/i.test(desc);
+        const ehI2I = /image[\s._-]?to[\s._-]?image|img2img|inpaint/i.test(desc);
+        // Só img2img e nada de "reference" (flux-dev, qwen-image): a foto viraria
+        // a base do desenho, não o personagem da cena. Descarta.
+        if(ehI2I && !ehRef) continue;
+        // Dizer "reference" basta, mesmo que o texto também fale em
+        // image-to-image: o seedream-4 descreve "image-to-image generation …
+        // single or multi-reference" e é justamente um dos bons para manter
+        // personagem.
+        achado={chave:k, lista:v.type==='array', img2img:!ehRef};
+        if(ehRef) break;
+      }
+    }
+  }catch(e){ /* rede fora, token ainda não carregado: não é resposta do modelo */ }
+
+  // Só guarda quando a consulta REALMENTE aconteceu. Guardar a falha fazia o
+  // app dizer que o modelo não aceita imagem por causa de um 401 momentâneo na
+  // carga da página — e o erro ficava colado até recarregar de novo.
+  if(leu) _schemaCache[model]=achado;
+  return leu ? achado : undefined;
+}
+function atualizarRefUI(){
+  const tem=!!refImagem;
+  const vazio=document.getElementById('refVazio'), box=document.getElementById('refTem'),
+        btn=document.getElementById('refBtn');
+  if(!vazio) return;
+  vazio.style.display = tem?'none':'block';
+  box.style.display   = tem?'flex':'none';
+  btn.style.display   = tem?'none':'inline-flex';
+  if(tem){
+    document.getElementById('refThumb').src=URL.createObjectURL(new Blob([refImagem.bytes],{type:refImagem.mime}));
+    document.getElementById('refInfo').textContent=
+      `${refImagem.w}×${refImagem.h} · ${(refImagem.bytes.length/1024).toFixed(0)} KB`;
+  }
+  avisarSobreReferencia();
+}
+
+// A referência só serve se o modelo aceitar imagem. Dizer isso aqui evita
+// pagar uma cena inteira para descobrir que ela foi ignorada.
+async function avisarSobreReferencia(){
+  const el=document.getElementById('refAviso');
+  if(!el) return;
+  if(!refImagem){ el.textContent=''; el.style.color=''; return; }
+  const ent=await entradaDeImagemDoModelo(repModel());
+  if(ent && !ent.img2img){
+    el.textContent=`OK: "${repModel()}" recebe a referência em "${ent.chave}".`; el.style.color='var(--green)';
+  }else if(ent && ent.img2img){
+    el.textContent=`⚠ "${repModel()}" trata a imagem como base de img2img ("${ent.chave}"), não como referência de personagem: a saída vira uma variação da própria foto. Prefira flux-kontext-dev, nano-banana ou seedream-4.`;
+    el.style.color='var(--accent)';
+  }else if(ent===null){
+    el.textContent=`⚠ "${repModel()}" é só texto→imagem e ignora a referência. Troque para black-forest-labs/flux-kontext-dev, google/nano-banana ou bytedance/seedream-4.`;
+    el.style.color='var(--accent)';
+  }else{
+    // undefined = não deu para perguntar ao modelo, e afirmar qualquer coisa
+    // aqui seria chute
+    el.textContent='Não consegui checar este modelo agora (token ou proxy). O aviso aparece quando a consulta passar.';
+    el.style.color='var(--dim)';
+  }
+}
+
+async function enviarReferencia(input){
+  const file=input.files&&input.files[0];
+  input.value='';
+  if(!file) return;
+  if(!file.type.startsWith('image/')){ setStatus('⚠️ Selecione um arquivo de imagem.'); return; }
+  if(file.size>8*1024*1024){ setStatus('⚠️ Referência acima de 8 MB — ela viaja em base64 a cada cena.'); return; }
+  try{
+    const bytes=new Uint8Array(await file.arrayBuffer());
+    const img=await imageFromBytes(bytes,file.type);
+    refImagem={bytes, mime:file.type, w:img.width, h:img.height};
+    if(img._blobUrl) URL.revokeObjectURL(img._blobUrl);
+    await idbPut('refPersonagem',{bytes:bytes.buffer.slice(0),mime:file.type,w:img.width,h:img.height});
+    atualizarRefUI();
+    setStatus('✅ Referência salva. Vai junto em toda cena.');
+  }catch(e){ setStatus('❌ Não consegui ler essa imagem: '+e.message); }
+}
+
+function removerReferencia(){
+  refImagem=null;
+  idbDel('refPersonagem');
+  atualizarRefUI();
+  setStatus('Referência removida.');
+}
+
+async function restaurarReferencia(){
+  try{
+    const rec=await idbGet('refPersonagem');
+    if(rec&&rec.bytes){ refImagem={bytes:new Uint8Array(rec.bytes),mime:rec.mime,w:rec.w,h:rec.h}; atualizarRefUI(); }
+    else atualizarRefUI();
+  }catch(e){ atualizarRefUI(); }
+}
+
+async function replicateImage(prompt){
+  // o estilo forçado vai NA FRENTE: é ele que o modelo lê primeiro e é o que
+  // mantém o traço igual entre as cenas
+  const estilo=repStyle();
+  const promptFinal = estilo ? estilo.replace(/[.,\s]+$/,'')+'. '+prompt : prompt;
+
   // o aspect_ratio sai da resolução escolhida; sem ele a maioria dos modelos
   // gera 1:1 e o app corta as laterais. O "Input extra" continua vencendo.
-  const input={prompt, aspect_ratio: formato().ratio};
+  const input={prompt:promptFinal, aspect_ratio: formato().ratio};
+
+  // referência de personagem, quando existe E o modelo aceita
+  if(refImagem){
+    const ent=await entradaDeImagemDoModelo(repModel());
+    if(ent){
+      const uri=bytesParaDataURI(refImagem.bytes,refImagem.mime);
+      input[ent.chave]= ent.lista ? [uri] : uri;
+    }else if(ent===null){
+      logLine('warn',`"${repModel()}" não aceita imagem de entrada — a referência foi ignorada nesta cena.`,
+        'Troque para flux-kontext-dev, nano-banana ou seedream-4 na aba Chaves.');
+    }else{
+      logLine('warn','Não consegui checar se o modelo aceita a referência; gerando sem ela.',
+        'A consulta ao schema falhou. Confira o token da Replicate e o proxy local.');
+    }
+  }
   const extra=document.getElementById('repExtra').value.trim();
   if(extra){
     let parsed;
@@ -1657,56 +2373,7 @@ async function replicateImage(prompt){
     if(!parsed||typeof parsed!=='object'||Array.isArray(parsed)) throw new Error('O "Input extra" precisa ser um objeto JSON.');
     Object.assign(input,parsed);
   }
-
-  // hash de versão vai no corpo; owner/nome vai na rota
-  const isVersion=/^[0-9a-f]{40,}$/i.test(model);
-  const path = isVersion ? '/predictions' : `/models/${model}/predictions`;
-  const body = isVersion ? {version:model,input} : {input};
-
-  logLine('info',`Replicate: criando predição (${model})`,JSON.stringify(input).slice(0,200));
-  const t0=performance.now();
-  // "Prefer: wait" sem número segura a conexão os 60 s inteiros mesmo quando a
-  // imagem ficou pronta em 4 — medido: 63,8 s de POST para uma predição que a
-  // Replicate concluiu em 4 s. Com "wait=5" a predição rápida volta já no POST
-  // (~9 s) e a lenta cai no polling abaixo. Foi o que derrubou o tempo por cena
-  // de ~65 s para ~10 s.
-  //
-  // Manter algum wait (em vez de só pollar) importa porque uma aba oculta tem
-  // os setTimeout estrangulados pelo Chrome, e o polling engasga; o fetch que
-  // fica pendurado, não.
-  // uma tentativa só: se a Replicate criar a predição e só então falhar ao
-  // responder, repetir criaria uma segunda — e cobraria as duas. O polling
-  // abaixo continua com retry, porque ler é idempotente.
-  let res=await repFetch(path,{method:'POST',headers:{'Content-Type':'application/json','Prefer':'wait=5'},body:JSON.stringify(body)},'Replicate (criando)',1);
-  if(!res.ok) throw await repError(res);
-  let pred=await res.json();
-
-  const deadline=Date.now()+300000;
-  while(!REP_TERMINAL.includes(pred.status)){
-    if(Date.now()>deadline) throw new Error('Timeout: a predição passou de 5 min sem terminar.');
-    if(!pred.id) throw new Error('Replicate não devolveu id da predição.');
-    // num lote paralelo há várias predições ao mesmo tempo; escrever o status
-    // de cada uma apagaria o painel agregado "X/Y prontas"
-    if(!emLote) setStatus(`Replicate: ${pred.status}…`);
-    await sleep(1500);
-    const pr=await repFetch(`/predictions/${encodeURIComponent(pred.id)}`,{},'Replicate (polling)');
-    if(!pr.ok) throw await repError(pr);
-    pred=await pr.json();
-  }
-  const ms=Math.round(performance.now()-t0);
-
-  if(pred.status!=='succeeded'){
-    logLine('err',`Replicate ${pred.status} (${ms}ms)`,pred.error||'sem detalhe');
-    throw new Error(`Replicate ${pred.status}: ${pred.error||'sem detalhe'}`);
-  }
-
-  let out=pred.output;
-  if(Array.isArray(out)) out=out[0];
-  if(typeof out!=='string'||!/^(https?:|data:image\/)/i.test(out)){
-    logLine('err','Replicate: saída não é URL de imagem',JSON.stringify(pred.output).slice(0,300));
-    throw new Error('Replicate terminou mas não devolveu URL de imagem. Saída: '+JSON.stringify(pred.output).slice(0,200));
-  }
-  logLine('ok',`Replicate: predição pronta em ${(ms/1000).toFixed(1)}s`,out.slice(0,180));
+  const out=await replicatePredict(repModel(),input,'Replicate imagem');
   // a saída vem de um CDN sem CORS, então o download passa pelo proxy local
   return loadImageFromUrl(out,120000,false,'Replicate');
 }
@@ -1777,7 +2444,11 @@ function voiceId(){
   return document.getElementById('voiceManual').value.trim()
       || document.getElementById('voiceSel').value.trim();
 }
-function narrationOf(f){ return (f.narration||f.text||'').trim(); }
+// A narração é o texto da tela. Era um campo separado, e ter os dois criava um
+// efeito escondido: o alinhamento por palavra da ElevenLabs só vale quando a
+// fala é exatamente o texto escrito, então quem preenchia a narração perdia a
+// sincronia da legenda sem entender por quê. Agora ela vale sempre.
+function narrationOf(f){ return (f.text||'').trim(); }
 
 // O áudio fala o texto que existia quando foi gerado. Editar a cena depois não
 // invalidava nada: a voz continuava dizendo a frase velha, os timestamps de
@@ -1936,10 +2607,11 @@ async function ttsScene(f){
     alignment=d.alignment||d.normalized_alignment||null;
   }
 
-  // o alinhamento só serve se a narração for exatamente o texto da tela
-  const onScreen=(f.text||'').trim();
-  const times = (text===onScreen) ? wordTimesFromAlignment(alignment) : null;
-  const words=onScreen.split(/\s+/).filter(Boolean);
+  // narração e texto da tela são a mesma coisa, então o alinhamento por
+  // palavra sempre pode ser usado — antes ele era descartado quando alguém
+  // preenchia a narração à parte
+  const times = wordTimesFromAlignment(alignment);
+  const words=text.split(/\s+/).filter(Boolean);
   const usable = times && times.length===words.length ? times : null;
 
   await attachAudio(f,bytes,usable);
@@ -2119,6 +2791,95 @@ async function comLimite(itens,limite,tarefa,abortar){
   await Promise.all(Array.from({length:n},(_,k)=>trabalhador(k)));
 }
 
+function setFrameVideo(f,v){
+  if(f.video && f.video._blobUrl && f.video._blobUrl!==v._blobUrl){
+    try{ f.video.pause(); }catch(_){}
+    URL.revokeObjectURL(f.video._blobUrl);
+  }
+  f.video=v;
+  f.videoBytes=v._bytes||null;
+  if(f.videoBytes) idbPut('vid:'+f.id,{bytes:f.videoBytes.buffer.slice(0),mime:v._mime||'video/mp4'});
+}
+
+function removerVideo(i){
+  const f=frames[i];
+  if(!f.video) return;
+  try{ f.video.pause(); }catch(_){}
+  if(f.video._blobUrl) URL.revokeObjectURL(f.video._blobUrl);
+  f.video=null; f.videoBytes=null;
+  idbDel('vid:'+f.id);
+  renderCards(); previewFrame(i); updateTotals(); saveState();
+  setStatus(`Cena ${i+1}: voltou para a imagem parada.`);
+}
+
+async function animarCena(i){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  syncFrame(i);
+  const f=frames[i];
+  if(!f.image){ setStatus(`⚠️ Cena ${i+1}: gere a imagem antes de animar.`); return; }
+  setBadge(i,'b-gen','⏳ animando…');
+  showOv(`🎞️ Cena ${i+1}: gerando vídeo…<br><small style="color:#444">~25 s</small>`);
+  setStatus(`Cena ${i+1}: gerando vídeo…`);
+  try{
+    const v=await replicateVideo(f);
+    setFrameVideo(f,v);
+    f.lastError=null;
+    setBadge(i,'b-done','🎞️ vídeo');
+    hideOv(); setStatus(`✅ Cena ${i+1} animada.`);
+    renderCards(); previewFrame(i); checkDone(); saveState();
+  }catch(e){
+    f.lastError='[Vídeo] '+e.message;
+    logLine('err',`Cena ${i+1}: animação falhou`,e.message);
+    setBadge(i,'b-err','✗ erro'); hideOv(); setStatus('❌ '+e.message);
+    renderCards();
+  }
+}
+
+// Mesmo pool das imagens, mas com teto menor: clipe é bem mais pesado que
+// imagem, tanto na conta quanto na memória da aba.
+async function animarTodas(){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  frames.forEach((_,i)=>syncFrame(i));
+  const alvos=frames.map((f,i)=>(f.image&&!f.video)?i:-1).filter(i=>i>=0);
+  if(!alvos.length){ setStatus('✅ Todas as cenas com imagem já estão animadas.'); return; }
+
+  const btn=document.getElementById('vidAllBtn');
+  const rotulo=btn.textContent; btn.disabled=true; btn.textContent='Animando…';
+  document.getElementById('progBar').style.display='block';
+  emLote=true;
+  let fails=0, done=0, emVoo=0;
+  const lote=Math.max(1,Math.min(2,paralelo()));
+  logLine('info',`Animando ${alvos.length} cena(s), ${lote} por vez.`,
+    `Cada clipe é uma geração paga. Com ~25 s por clipe, estimo ${Math.max(1,Math.round(alvos.length*25/lote/60))} min.`);
+  const painel=()=>{
+    setProg(Math.round((done/alvos.length)*100));
+    const t=`${done}/${alvos.length} animadas`+(emVoo?` · ${emVoo} gerando`:'')+(fails?` · ${fails} falha(s)`:'');
+    setStatus(t); showOv(`🎞️ ${t}<br><small style="color:#444">mantenha esta aba visível</small>`);
+  };
+  painel();
+  await comLimite(alvos, lote, async(i)=>{
+    const f=frames[i];
+    emVoo++; setBadge(i,'b-gen','⏳ animando…'); painel();
+    try{
+      const v=await replicateVideo(f);
+      setFrameVideo(f,v);
+      f.lastError=null; setBadge(i,'b-done','🎞️ vídeo');
+      logLine('ok',`Cena ${i+1}: vídeo pronto.`);
+    }catch(e){
+      fails++; f.lastError='[Vídeo] '+e.message;
+      logLine('err',`Cena ${i+1}: animação falhou`,e.message);
+      setBadge(i,'b-err','✗ erro');
+    }
+    emVoo--; done++; painel(); saveState();
+  });
+  emLote=false;
+  setProg(100); hideOv();
+  document.getElementById('progBar').style.display='none';
+  btn.disabled=false; btn.textContent=rotulo;
+  renderCards(); checkDone(); updateTotals(); saveState();
+  setStatus(fails?`⚠️ ${fails} cena(s) não animaram.`:'✅ Cenas animadas.');
+}
+
 // ── GENERATE ALL ─────────────────────────────────────────
 async function generateAll(onlyMissing){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
@@ -2243,6 +3004,7 @@ async function renderVideo(){
   const off=document.createElement('canvas');
   off.width=cw; off.height=ch;
   const oc=off.getContext('2d');
+  if(timeline[0].f.video) await posicionarVideo(timeline[0].f.video,0);
   drawScene(oc,timeline[0].f,0,timeline[0].dur,cw,ch); // 1º frame antes de gravar
 
   let rec=null, dest=null;
@@ -2300,6 +3062,11 @@ async function renderVideo(){
         let idx=timeline.length-1;
         for(let k=0;k<timeline.length;k++){ if(t<timeline[k].start+timeline[k].dur){ idx=k; break; } }
         const seg=timeline[idx];
+        if(seg.f.video) sincronizarVideo(seg.f.video,t-seg.start);
+        const prox=timeline[idx+1];
+        // a cena que entra no cross-dissolve também precisa estar rodando,
+        // senão os últimos quadros da transição mostram o clipe congelado
+        if(prox && prox.f.video && misturaEm(timeline,idx,t)>0) sincronizarVideo(prox.f.video,0);
         drawSceneComTransicao(oc,seg.f,t-seg.start,seg.dur,
           timeline[idx+1]?timeline[idx+1].f:null, misturaEm(timeline,idx,t), cw,ch);
         ctx.drawImage(off,0,0,canvas.width,canvas.height); // espelha no preview
@@ -2389,6 +3156,9 @@ async function exportZIP(){
       if(f.audioBytes) audioDir.file(`cena_${String(si+1).padStart(2,'0')}.mp3`,f.audioBytes);
       for(let fn=0;fn<totalF;fn++){
         const tAbs=seg.start+(fn/fps);
+        if(f.video) await posicionarVideo(f.video,fn/fps);
+        const proxSeg=timeline[si+1];
+        if(proxSeg && proxSeg.f.video && misturaEm(timeline,si,tAbs)>0) await posicionarVideo(proxSeg.f.video,0);
         drawSceneComTransicao(oc,f,(fn/fps),seg.dur,
           timeline[si+1]?timeline[si+1].f:null, misturaEm(timeline,si,tAbs), cw,ch);
         // toBlob em vez de toDataURL: não infla 33% em string base64 na memória
@@ -2500,6 +3270,7 @@ async function fetchRetry(url,opts,cfg){
     try{
       const res=await fetch(url,Object.assign({},opts,{signal:ac.signal}));
       clearTimeout(timer);
+      if(cfg.onStatus) cfg.onStatus(res);
       if(res.ok || !retryOn.has(res.status) || a===tries) return res;
       const ra=parseFloat(res.headers.get('retry-after'));
       const wait=(ra>0?ra*1000:0)||backoffMs(a);
@@ -2704,13 +3475,14 @@ function firstOf(o,keys){
   for(const k of keys){ const v=o[k]; if(v!=null&&v!=='') return v; }
   return '';
 }
-const K_IMG =['imagem','image','prompt','descricao','descrição','imagem_prompt','imagePrompt'];
-const K_TXT =['texto','text','legenda','caption','tela'];
+const K_IMG =['imagem','image','prompt','descricao','descrição','imagem_prompt','imagePrompt','image_prompt','imagePrompt'];
+// narration_text entra aqui, e não numa chave de narração: desde que a fala é o
+// próprio texto da tela, os dois são a mesma coisa
+const K_TXT =['texto','text','legenda','caption','tela','narration_text','narrationText','narration','voiceover'];
 const K_NAR =['narracao','narração','narration','voz','fala','audio'];
 const K_STY =['estilo','style'];
 const K_ANI =['animacao','animação','animation','anim'];
 const K_POS =['posicao','posição','position','pos','alinhamento'];
-const K_FON =['fonte','font','familia','família','typeface'];
 
 function normAnim(v){
   const s=String(v||'').toLowerCase().trim();
@@ -2720,7 +3492,7 @@ function normAnim(v){
   return null;
 }
 
-function normScene(s,i,defStyle,defAnim,defPos,defFont){
+function normScene(s,i,defStyle,defAnim,defPos){
   if(typeof s==='string') s={texto:s};
   if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error(`Cena ${i+1}: item não é um objeto.`);
   const imagem=String(firstOf(s,K_IMG)||'').trim();
@@ -2728,13 +3500,10 @@ function normScene(s,i,defStyle,defAnim,defPos,defFont){
   const narr  =String(firstOf(s,K_NAR)||'').trim();
   if(!imagem&&!texto) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem" ou "texto".`);
   const est=String(firstOf(s,K_STY)||'').toLowerCase().trim();
-  const fon=String(firstOf(s,K_FON)||'').toLowerCase().trim();
   const rawPos=firstOf(s,K_POS);
   return {
     imagem, texto, narracao:narr,
     estilo: STYLES[est] ? est : defStyle,
-    // vazio = herda a fonte do estilo, que é como todo roteiro antigo se comporta
-    fonte: FONTES[fon] ? fon : defFont,
     animacao: normAnim(firstOf(s,K_ANI)) || defAnim,
     posicao: rawPos===''||rawPos==null ? defPos : normPos(rawPos,defPos)
   };
@@ -2754,8 +3523,10 @@ function applyConfig(c){
   if(tr>=0&&!isNaN(tr)) document.getElementById('transition').value=Math.min(1.5,Math.max(0,tr));
   const par=parseInt(c.paralelo!=null?c.paralelo:c.parallel);
   if(par>0) document.getElementById('parallel').value=Math.min(8,Math.max(1,par));
-  const fp=String(c.fontePadrao||'').toLowerCase().trim();
-  if(FONTES[fp]) frames.forEach(f=>{ if(!f.font) f.font=fp; });
+  // "fonte" numa cena solta também vale: a escolha é única, então a primeira
+  // que aparecer no roteiro define a fonte do vídeo inteiro
+  const fp=String(c.fontePadrao||c.fonte||c.font||'').toLowerCase().trim();
+  if(FONTES[fp]) document.getElementById('globalFont').value=fp;
   const voz=c.voiceId||c.vozId||c.voice_id;
   if(voz) document.getElementById('voiceManual').value=String(voz);
 }
@@ -2766,8 +3537,10 @@ function applyConfig(c){
 // hora — ou ver a aba recarregar sozinha no meio.
 function avisarVolume(n){
   if(n<=CENAS_PESADO) return;
+  const comVideo=animacaoLigada();
   logLine('warn',`Roteiro com ${n} cenas — vai pesar na memória.`,
-    `As imagens ficam todas na memória da aba (~${Math.round(n*4)} MB). `+
+    `As imagens ficam todas na memória da aba (~${Math.round(n*4)} MB)`+
+    (comVideo?`, e com a animação ligada somam-se os clipes (~${Math.round(n*3)} MB de arquivo, mais o que o navegador usa para decodificar). `:'. ')+
     `Se a aba recarregar sozinha, gere em duas levas com "↻ Gerar só as cenas que faltaram", `+
     `ou baixe o ZIP e monte no CapCut em vez de renderizar aqui.`);
   setStatus(`⚠️ ${n} cenas: geração longa. Veja o aviso na aba Diagnóstico.`);
@@ -2796,13 +3569,11 @@ function importJSON(){
 
   const cfg=data.config||data.configuracao||data.configuração||{};
   const defStyle = STYLES[String(cfg.estiloPadrao||cfg.estilo||'').toLowerCase()] ? String(cfg.estiloPadrao||cfg.estilo).toLowerCase() : 'viral';
-  const fp = String(cfg.fontePadrao||cfg.fonte||cfg.font||'').toLowerCase().trim();
-  const defFont = FONTES[fp] ? fp : '';
   const defAnim  = normAnim(cfg.animacaoPadrao||cfg.animacao) || 'word';
   const defPos   = normPos(cfg.posicaoPadrao||cfg.posicao, TEXT_POS.legenda);
 
   let scenes;
-  try{ scenes=list.map((s,i)=>normScene(s,i,defStyle,defAnim,defPos,defFont)); }
+  try{ scenes=list.map((s,i)=>normScene(s,i,defStyle,defAnim,defPos)); }
   catch(e){ setJsonMsg('❌ '+e.message,'var(--accent)'); return; }
 
   const hasWork=frames.some(f=>f.image||f.audioBuffer);
@@ -2812,8 +3583,8 @@ function importJSON(){
   const old=frames, keptIds=new Set();
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
-    f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao;
-    f.style=s.estilo; f.font=s.fonte||''; f.animType=s.animacao; f.textPos=s.posicao;
+    f.prompt=s.imagem; f.text=s.texto;
+    f.style=s.estilo; f.animType=s.animacao; f.textPos=s.posicao;
     if(o){
       if(o.image && o.prompt===f.prompt){
         f.image=o.image; f.imageUrl=o.imageUrl; f.imageBytes=o.imageBytes; f.enhanced=o.enhanced;
@@ -2837,6 +3608,14 @@ function importJSON(){
   stopPreview(); pvIndex=-1; drawBlank(ctx,canvas.width,canvas.height);
   renderCards(); checkDone(); updateTotals(); saveState();
 
+  // Roteiro feito antes desta mudança pode trazer "narracao" diferente do
+  // texto. Ignorar calado faria a voz sair diferente do que a pessoa escreveu
+  // no JSON e ninguém entenderia por quê.
+  const comNarracaoPropria=scenes.filter(x=>x.narracao && x.narracao.trim() && x.narracao.trim()!==x.texto.trim()).length;
+  if(comNarracaoPropria) logLine('warn',
+    `${comNarracaoPropria} cena(s) traziam "narracao" diferente do texto — o campo não existe mais.`,
+    'A narração agora é sempre o texto da tela, e é isso que garante a legenda acender sincronizada com a voz. Ajuste o "texto" se quiser mudar a fala.');
+
   const reImg=next.filter(f=>f.image).length, reAud=next.filter(f=>f.audioBuffer).length;
   setJsonMsg(`✅ ${next.length} cenas importadas.`+((reImg||reAud)?` Reaproveitado: ${reImg} imagem(ns), ${reAud} narração(ões).`:''),'var(--green)');
   avisarVolume(next.length);
@@ -2850,13 +3629,12 @@ function exportJSON(){
       fps: parseInt(document.getElementById('fps').value),
       resolucao: document.getElementById('resolution').value,
       duracaoSemAudio: parseFloat(document.getElementById('frameDuration').value),
-      pausaAposFala: parseFloat(document.getElementById('tailPause').value)
+      pausaAposFala: parseFloat(document.getElementById('tailPause').value),
+      fontePadrao: fonteAtual()
     },
     cenas: frames.map(f=>{
       const c={imagem:f.prompt, texto:f.text};
-      if(f.narration) c.narracao=f.narration;
       c.estilo=f.style;
-      if(f.font) c.fonte=f.font;   // omitido quando herda a fonte do estilo
       c.animacao=f.animType==='fixed'?'fixo':'palavra';
       c.posicao=(f.textPos===TEXT_POS.topo)?'topo':(f.textPos===TEXT_POS.centro)?'centro':(f.textPos===TEXT_POS.legenda)?'legenda':f.textPos;
       return c;
@@ -2869,19 +3647,16 @@ function exportJSON(){
 
 function fillExample(){
   document.getElementById('jsonIn').value=JSON.stringify({
-    config:{fps:30,resolucao:document.getElementById('resolution').value,duracaoSemAudio:3,pausaAposFala:0.4},
-    cenas:[
-      {imagem:'relógio antigo de bolso caindo em câmera lenta, fundo escuro, luz dourada lateral, cinematográfico',
-       texto:'Você perde 3 horas por dia sem perceber',estilo:'viral',animacao:'palavra',posicao:'legenda'},
-      {imagem:'pessoa exausta diante de dezenas de telas brilhantes num quarto escuro, vista de cima',
-       texto:'E o culpado não é o seu celular',estilo:'highlight',animacao:'palavra',posicao:'legenda'},
-      {imagem:'amanhecer sobre montanhas, silhueta de pessoa em pé, luz quente, épico',
-       texto:'É a decisão que você adia todo dia',
-       narracao:'É a decisão que você adia todo santo dia. Comece agora.',
-       estilo:'outline',animacao:'fixo',posicao:'topo'}
+    scenes:[
+      {narration_text:'Você perde 3 horas por dia sem perceber',
+       image_prompt:'antique pocket watch falling in slow motion, dark background, golden side light, cinematic'},
+      {narration_text:'E o culpado não é o seu celular',
+       image_prompt:'exhausted person facing dozens of glowing screens in a dark room, seen from above'},
+      {narration_text:'É a decisão que você adia todo dia',
+       image_prompt:'sunrise over mountains, silhouette of a person standing, warm light, epic'}
     ]
   },null,2);
-  setJsonMsg('Exemplo carregado. Clique em Importar roteiro.','var(--muted)');
+  setJsonMsg('Exemplo carregado. Clique em Importar.','var(--muted)');
 }
 
 function claudePrompt(){
@@ -2892,11 +3667,7 @@ function claudePrompt(){
   const cenas = f.horizontal ? 'Entre 6 e 12 cenas.' : 'Entre 4 e 7 cenas.';
   return CLAUDE_PROMPT
     .replace('{{PERFIL}}', perfil)
-    .replace('{{RESOLUCAO}}', document.getElementById('resolution').value)
     .replace('{{QTD_CENAS}}', cenas)
-    .replace('{{FONTE_ATUAL}}', (frames[0] && frames[0].font) || 'bebas')
-    .replace('{{ESTILOS}}', Object.keys(STYLES).join(', '))
-    .replace('{{FONTES}}', Object.keys(FONTES).join(', '))
     .replace('{{ENQUADRAMENTO}}', f.horizontal
       ? 'Enquadramento horizontal 16:9: pense em planos abertos, paisagem, espaço nas laterais.'
       : 'Enquadramento vertical 9:16: pense em close, sujeito centralizado, pouco espaço lateral.');
@@ -2907,51 +3678,47 @@ const CLAUDE_PROMPT=`Você é roteirista de {{PERFIL}}, em português do Brasil.
 Quando eu te der um tema, responda APENAS com um bloco JSON válido — sem texto antes, sem texto depois, sem comentários — exatamente neste formato:
 
 {
-  "config": {
-    "fps": 30,
-    "resolucao": "{{RESOLUCAO}}",
-    "duracaoSemAudio": 3,
-    "pausaAposFala": 0.25,
-    "transicao": 0.35,
-    "estiloPadrao": "viral",
-    "fontePadrao": "{{FONTE_ATUAL}}"
-  },
-  "cenas": [
-    { "imagem": "...", "texto": "...", "animacao": "palavra", "posicao": "legenda" }
+  "scenes": [
+    {
+      "narration_text": "A fala desta cena, em português.",
+      "image_prompt": "Detailed English image prompt matching the narration."
+    },
+    {
+      "narration_text": "O próximo trecho do roteiro.",
+      "image_prompt": "Another still that illustrates this line."
+    }
   ]
 }
 
-REGRAS DAS CENAS
+Só esses dois campos, e nada mais. Estilo da legenda, fonte, resolução e formato são escolhidos no aplicativo, não no JSON.
+
+OS DOIS CAMPOS
+- "narration_text": em PORTUGUÊS. É o que a voz fala E o que aparece escrito na tela — são a mesma coisa. De 6 a 12 palavras. Linguagem falada, direta, sem ponto final. Escreva pensando em como soa dito em voz alta, porque é exatamente isso que a narração vai dizer.
+- "image_prompt": em INGLÊS. Descrição visual do fundo: sujeito + ação + ambiente + luz + enquadramento. Concreta e cinematográfica, uma frase só. Sem texto, sem letras, sem logos e sem marcas na imagem — a legenda é desenhada por cima depois.
+
+QUANTIDADE E ENQUADRAMENTO
 - {{QTD_CENAS}}
 - {{ENQUADRAMENTO}}
-- "imagem": descrição visual do fundo. Concreta e cinematográfica: sujeito + ação + ambiente + luz + enquadramento. Sem texto, sem letras, sem logos na imagem. Uma frase só. Pode escrever em português (o app traduz) ou já em inglês, se a tradução estiver desligada no app.
-- "texto": o que aparece escrito na tela E é narrado em voz alta. De 6 a 12 palavras. Linguagem falada, direta, sem ponto final.
-- "narracao": use SOMENTE se a fala precisar ser diferente do texto na tela. Se omitir, a narração usa o texto — e as palavras acendem sincronizadas com a voz. Prefira omitir.
-- "estilo" (cor, sombra, contorno): um de {{ESTILOS}}.
-- "fonte" (família da letra): uma de {{FONTES}}.
-- Estilo e fonte: deixe em "config" (estiloPadrao, fontePadrao) e NÃO repita em cada cena. Só ponha numa cena específica quando quiser destacá-la de propósito — no máximo uma ou duas no roteiro inteiro.
-- "animacao": "palavra" (revela palavra a palavra) ou "fixo" (tudo de uma vez). Use a mesma em todas as cenas.
-- "posicao": "legenda" (embaixo, padrão), "centro" ou "topo". Também aceita um número de 0 a 100. Use a mesma em todas as cenas — legenda pulando de lugar a cada corte cansa quem assiste.
 
 CONSISTÊNCIA NA TROCA DE CENA
 Entre uma cena e a seguinte há uma pausa curta na narração e um cross-dissolve na imagem. Isso muda como o texto precisa ser escrito:
-- Cada "texto" é uma ideia COMPLETA, que se sustenta sozinha ao ser lida em voz alta. Nunca parta uma frase no meio entre duas cenas: "uma List guarda vários valores" / "do mesmo tipo numa variável só" soa quebrado, porque existe silêncio e uma troca de imagem entre as duas metades.
+- Cada "narration_text" é uma ideia COMPLETA, que se sustenta sozinha ao ser dita em voz alta. Nunca parta uma frase no meio entre duas cenas: "uma List guarda vários valores" / "do mesmo tipo numa variável só" soa quebrado, porque existe silêncio e troca de imagem entre as duas metades.
 - Sem conectivo pendurado no fim: não termine em "e", "mas", "porque", "que", "para", vírgula ou reticências.
-- Não repita o sujeito a cada cena. Depois de apresentá-lo uma vez, siga com pronome ou direto no verbo — o espectador não perdeu o fio.
-- Mantenha a mesma pessoa e o mesmo tempo verbal do começo ao fim (ou tudo em "você", ou tudo impessoal — não alterne).
+- Não repita o sujeito a cada cena. Depois de apresentá-lo uma vez, siga com pronome ou direto no verbo.
+- Mantenha a mesma pessoa e o mesmo tempo verbal do começo ao fim.
 - Uma cena puxa a seguinte pelo sentido, não por repetir palavras. Evite começar várias cenas com a mesma palavra.
-- Comprimento parecido entre as cenas: de 6 a 12 palavras. Uma cena de 3 palavras entre duas de 12 quebra o ritmo, porque a duração de cada cena vem do tamanho da narração.
+- Comprimento parecido entre as cenas. A duração de cada cena vem do tamanho da narração, então uma cena de 3 palavras entre duas de 12 quebra o ritmo.
+- Os "image_prompt" também acompanham: mesma paleta, mesma luz e mesmo tratamento do começo ao fim, senão o cross-dissolve liga dois mundos diferentes.
 
 ESTRUTURA
 - Cena 1: gancho. Uma afirmação que gera curiosidade ou contradiz o senso comum.
 - Cenas do meio: desenvolvem uma ideia por cena, sem repetir.
 - Última cena: fecho com chamada para ação curta.
-- As descrições de "imagem" também acompanham: mesma paleta, mesma luz e mesmo tratamento do começo ao fim, senão o cross-dissolve liga dois mundos diferentes.
 
 FORMATO
 - Aspas retas ("), nunca curvas.
 - Sem emojis, sem markdown, sem crases em volta do JSON.
-- Sem quebras de linha dentro dos valores de texto.`;
+- Sem quebras de linha dentro dos valores.`;
 
 async function copyText(t){
   try{ await navigator.clipboard.writeText(t); return true; }
