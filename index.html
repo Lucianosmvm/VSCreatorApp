@@ -673,9 +673,10 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
       </div>
       <div>
         <label>Transição entre cenas (s)</label>
-        <input type="number" id="transition" value="0.35" min="0" max="1.5" step="0.05" inputmode="decimal" oninput="saveStateSoon()">
+        <input type="number" id="transition" value="0.25" min="0" max="1.5" step="0.05" inputmode="decimal" oninput="onDurChange()">
       </div>
     </div>
+    <div class="hint" id="avisoTransicao"></div>
     <div class="row2">
       <div>
         <label>Trilha total</label>
@@ -1035,6 +1036,7 @@ function loadState(){
   if(FONTES[d.globalFont]) document.getElementById('globalFont').value=d.globalFont;
   if(STYLES[d.globalStyle]) document.getElementById('globalStyle').value=d.globalStyle;
   if(ANIMS.includes(d.globalAnim)) document.getElementById('globalAnim').value=d.globalAnim;
+  avisarTransicao();
   if(d.globalPos!=null){
     document.getElementById('globalPos').value=normPos(d.globalPos);
     document.getElementById('globalPosLbl').textContent=posLabel(normPos(d.globalPos));
@@ -1216,7 +1218,25 @@ function fmtTime(s){
   const m=Math.floor(s/60), r=s-m*60;
   return m ? `${m}:${r.toFixed(1).padStart(4,'0')}` : `${r.toFixed(1)} s`;
 }
-function onDurChange(){ updateTotals(); saveStateSoon(); }
+function onDurChange(){ updateTotals(); avisarTransicao(); saveStateSoon(); }
+
+// A transição só cabe dentro da pausa. Dizer isso aqui evita você configurar
+// 1,2s de dissolve e ver 0,25s no vídeo sem entender por quê.
+function avisarTransicao(){
+  const el=document.getElementById('avisoTransicao');
+  if(!el) return;
+  const t=transDur(), p=tailPause();
+  if(!t){ el.textContent='Corte seco entre as cenas.'; el.style.color=''; return; }
+  if(t>p){
+    el.textContent=`A transição roda dentro da pausa, para não trocar a imagem com a fala ainda no ar: `+
+      `com pausa de ${p.toFixed(2)}s, o dissolve fica em ${p.toFixed(2)}s e não ${t.toFixed(2)}s. `+
+      `Aumente a pausa se quiser uma transição mais longa.`;
+    el.style.color='var(--accent)';
+  }else{
+    el.textContent=`Dissolve de ${t.toFixed(2)}s dentro da pausa de ${p.toFixed(2)}s — a fala nunca é atropelada.`;
+    el.style.color='';
+  }
+}
 
 // ── RENDER CARDS ─────────────────────────────────────────
 function esc(s){
@@ -1568,16 +1588,34 @@ function drawSceneComTransicao(c,saindo,tIn,dur,entrando,mistura,cw,ch){
 }
 
 // Quanto da próxima cena já deve aparecer em `t` (0 = nada, 1 = totalmente).
-function misturaEm(timeline,idx,t){
+// Quanto da próxima cena já aparece em `t` (0 = nada, 1 = totalmente).
+//
+// A transição fica DENTRO da pausa, nunca por cima da fala. Antes a conta era
+// "fim da cena menos a transição", e com transição (0,35s) maior que a pausa
+// (0,25s) ela começava 0,10s ANTES da última palavra terminar — medido. A
+// imagem trocava com a frase ainda no ar, e era isso que soava desencontrado.
+//
+// Agora: a fala acaba, a imagem dissolve durante o silêncio, e a próxima fala
+// começa já na imagem nova.
+function janelaDeTransicao(seg){
   const trans=transDur();
+  if(!trans) return 0;
+  // sem áudio não há fala para atropelar: a cena inteira está disponível
+  const pausa = seg.f.audioBuffer
+    ? Math.max(0, seg.dur - seg.f.audioBuffer.duration)
+    : seg.dur;
+  return Math.min(trans, pausa, seg.dur*0.5);
+}
+
+function misturaEm(timeline,idx,t){
   const prox=timeline[idx+1];
-  if(!trans||!prox) return 0;
+  if(!prox) return 0;
   const seg=timeline[idx];
-  const restante=(seg.start+seg.dur)-t;
-  // uma cena curta não pode ser engolida pela transição
-  const janela=Math.min(trans,seg.dur*0.5);
-  if(restante>=janela) return 0;
-  return 1-(restante/janela);
+  const janela=janelaDeTransicao(seg);
+  if(janela<=0) return 0;
+  const inicio=(seg.start+seg.dur)-janela;
+  if(t<inicio) return 0;
+  return Math.min(1,(t-inicio)/janela);
 }
 
 function drawScene(c,f,tIn,dur,cw,ch){
