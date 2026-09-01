@@ -482,6 +482,9 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
       <option value="eleven_turbo_v2_5">Turbo v2.5 · mais barato</option>
       <option value="eleven_flash_v2_5">Flash v2.5 · mais rápido</option>
     </select>
+
+    <label class="chk"><input type="checkbox" id="elCont" checked onchange="saveState()"> Narrar em sequência — cada cena continua a anterior</label>
+    <div class="hint">Sem isso, cada cena vira um pedido isolado e a ElevenLabs lê o texto como frase solta: entonação caindo e uma respirada de encerramento no fim de cada uma. Ligado, o app manda o texto vizinho como contexto e emenda o áudio na cena anterior, então a fala corre como uma leitura só. O contexto não é sintetizado nem cobrado. A emenda exige a mesma voz e o mesmo modelo, e vale por ~2 h — depois disso a cena refeita ainda usa o contexto de texto.</div>
   </div>
 
   <!-- REPLICATE -->
@@ -877,7 +880,8 @@ function posLabel(v){
 function newFrame(){
   return {id:newId(),prompt:'',text:'',narration:'',
           image:null,imageUrl:null,imageBytes:null,video:null,videoBytes:null,enhanced:'',
-          audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null};
+          audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null,
+          audioReqId:null,audioReqAt:0,audioVoice:null,audioModel:null};
 }
 
 // ── INDEXEDDB (áudio) ────────────────────────────────────
@@ -970,6 +974,8 @@ function saveState(){
         enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
+        audioReqId:f.audioReqId||null, audioReqAt:f.audioReqAt||0,
+        audioVoice:f.audioVoice||null, audioModel:f.audioModel||null,
         hasVideo: !!f.videoBytes,
         audioDur: f.audioBuffer ? f.audioBuffer.duration : null
       })),
@@ -988,6 +994,7 @@ function saveState(){
       fps: document.getElementById('fps').value,
       resolution: document.getElementById('resolution').value,
       elModel: document.getElementById('elModel').value,
+      elCont: document.getElementById('elCont').checked,
       gmModel: document.getElementById('gmModel').value,
       textModel25: true,
       useTranslate: document.getElementById('useTranslate').checked,
@@ -1026,7 +1033,9 @@ function loadState(){
       video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
       wordTimes:Array.isArray(f.wordTimes)?f.wordTimes:null,
-      _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null, audioText:f.audioText!=null?f.audioText:null
+      _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null, audioText:f.audioText!=null?f.audioText:null,
+      audioReqId:f.audioReqId||null, audioReqAt:f.audioReqAt||0,
+      audioVoice:f.audioVoice||null, audioModel:f.audioModel||null
     }));
     document.getElementById('frameCount').value = frames.length;
   }
@@ -1054,6 +1063,7 @@ function loadState(){
     gs.value=d.gmModel;
   }
   if(d.useTranslate!==undefined) document.getElementById('useTranslate').checked=!!d.useTranslate;
+  if(d.elCont!==undefined) document.getElementById('elCont').checked=!!d.elCont;
   if(d.imgSource) document.getElementById('imgSource').value=d.imgSource;
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
@@ -2734,7 +2744,62 @@ async function attachAudio(f,bytes,wordTimes){
   return buf;
 }
 
-async function ttsScene(f){
+// ── CONTINUIDADE ENTRE AS CENAS ──────────────────────────
+// Cada cena era um POST isolado. A ElevenLabs, sem saber que existe um vizinho,
+// lê o texto como frase solta: entonação caindo no fim e uma respirada de
+// encerramento. Ouvido em sequência, o vídeo soa picotado — a queixa era essa.
+// A API tem dois mecanismos e o app usa os dois:
+//   previous_text / next_text  contexto de prosódia. Não é sintetizado nem
+//     cobrado, e funciona sempre — inclusive ao refazer uma cena isolada.
+//   previous_request_ids       costura real: continua o áudio anterior em vez
+//     de recomeçar. Exige a mesma voz e o mesmo modelo, e vale ~2 h.
+const CTX_MAX=300;               // quanto do texto vizinho vai como contexto
+const COSTURA_TTL=100*60*1000;   // margem sobre as 2 h da ElevenLabs
+
+function continuidadeLigada(){
+  const c=document.getElementById('elCont');
+  return !c || c.checked;
+}
+
+// Os ids só podem ser encadeados sem buraco: costurar pulando uma cena emenda
+// em cima do áudio errado. Por isso para na primeira quebra da cadeia.
+function idsAnteriores(i){
+  const vid=voiceId(), model=document.getElementById('elModel').value, agora=Date.now();
+  const ids=[];
+  for(let k=i-1;k>=0&&ids.length<3;k--){
+    const f=frames[k];
+    if(!f||!f.audioReqId) break;
+    if(f.audioVoice!==vid||f.audioModel!==model) break;
+    if(!f.audioReqAt||agora-f.audioReqAt>COSTURA_TTL) break;
+    if(narracaoVelha(f)) break;   // o áudio anterior já não é o texto atual
+    ids.unshift(f.audioReqId);
+  }
+  return ids;
+}
+
+function ctxDaCena(i){
+  if(!continuidadeLigada()) return null;
+  const ant=i>0 ? narrationOf(frames[i-1]) : '';
+  const pos=i<frames.length-1 ? narrationOf(frames[i+1]) : '';
+  return {
+    prevText: ant ? ant.slice(-CTX_MAX) : '',
+    nextText: pos ? pos.slice(0,CTX_MAX) : '',
+    prevIds : idsAnteriores(i)
+  };
+}
+
+// O request-id chega por header, e header só é legível no navegador se a
+// ElevenLabs o expuser via CORS. Se não vier, a costura fica fora e sobra o
+// contexto de texto — que já resolve a maior parte da entonação. Avisa uma vez.
+let avisouSemId=false;
+function avisarSemId(){
+  if(avisouSemId) return;
+  avisouSemId=true;
+  logLine('info','A ElevenLabs não expôs o request-id a esta página.',
+    'A continuidade fica só pelo contexto de texto (previous_text/next_text): a entonação já não fecha em cada cena, mas o áudio não é emendado.');
+}
+
+async function ttsScene(f, ctx){
   const key=elKey(), vid=voiceId(), model=document.getElementById('elModel').value;
   const text=narrationOf(f);
   if(!key) throw new Error('Cole a key da ElevenLabs na aba Chaves.');
@@ -2742,22 +2807,47 @@ async function ttsScene(f){
   if(!text) throw new Error('Cena sem texto para narrar.');
 
   const qs='?output_format=mp3_44100_128';
-  const opts={
-    method:'POST',
-    headers:{'xi-api-key':key,'Content-Type':'application/json','Accept':'application/json'},
-    body:JSON.stringify({text, model_id:model})
-  };
   const base=`${EL_API}/text-to-speech/${encodeURIComponent(vid)}`;
 
+  const corpo={text, model_id:model};
+  if(ctx&&ctx.prevText) corpo.previous_text=ctx.prevText;
+  if(ctx&&ctx.nextText) corpo.next_text=ctx.nextText;
+  const ids=(ctx&&ctx.prevIds)||[];
+
+  async function pedir(comCostura){
+    const body=Object.assign({},corpo);
+    if(comCostura&&ids.length) body.previous_request_ids=ids.slice(-3);
+    const opts={
+      method:'POST',
+      headers:{'xi-api-key':key,'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(body)
+    };
+    let res=await fetchRetry(base+'/with-timestamps'+qs,opts,{label:'ElevenLabs',tries:3,timeoutMs:120000});
+    if(res.status===404||res.status===405){
+      // conta/plano sem o endpoint de timestamps: cai no TTS simples
+      res=await fetchRetry(base+qs,{...opts,headers:Object.assign({},opts.headers,{'Accept':'audio/mpeg'})},
+                           {label:'ElevenLabs',tries:3,timeoutMs:120000});
+      return {res, semTimestamps:true};
+    }
+    return {res, semTimestamps:false};
+  }
+
+  let costurada=ids.length>0;
+  let {res,semTimestamps}=await pedir(true);
+  // id vencido, de outra voz ou de outro modelo derruba a requisição inteira.
+  // Sem a emenda a narração ainda sai — repetir é melhor que falhar a cena.
+  if(!res.ok && costurada && (res.status===400||res.status===422)){
+    logLine('warn','ElevenLabs recusou a emenda com a cena anterior; refazendo sem ela.');
+    costurada=false;
+    ({res,semTimestamps}=await pedir(false));
+  }
+  if(!res.ok) throw await elError(res,'Erro no TTS');
+
+  const reqId=res.headers.get('request-id')||res.headers.get('x-request-id');
   let bytes=null, alignment=null;
-  let res=await fetchRetry(base+'/with-timestamps'+qs,opts,{label:'ElevenLabs',tries:3,timeoutMs:120000});
-  if(res.status===404||res.status===405){
-    // conta/plano sem o endpoint de timestamps: cai no TTS simples
-    res=await fetchRetry(base+qs,{...opts,headers:{...opts.headers,'Accept':'audio/mpeg'}},{label:'ElevenLabs',tries:3,timeoutMs:120000});
-    if(!res.ok) throw await elError(res,'Erro no TTS');
+  if(semTimestamps){
     bytes=new Uint8Array(await res.arrayBuffer());
   }else{
-    if(!res.ok) throw await elError(res,'Erro no TTS');
     const d=await res.json();
     if(!d.audio_base64) throw new Error('ElevenLabs não devolveu áudio.');
     bytes=b64ToBytes(d.audio_base64);
@@ -2779,8 +2869,14 @@ async function ttsScene(f){
   await attachAudio(f,bytes,usable);
   // marca de qual texto este áudio é: editar a cena depois torna o áudio velho
   f.audioText=text;
+  // guarda o que a próxima cena precisa para emendar nesta
+  f.audioReqId=reqId||null;
+  f.audioReqAt=reqId?Date.now():0;
+  f.audioVoice=vid;
+  f.audioModel=model;
+  if(continuidadeLigada()&&!reqId) avisarSemId();
   await idbPut(f.id,{bytes:bytes.buffer.slice(0),wordTimes:usable,text});
-  return {synced:!!usable, dur:f.audioBuffer.duration};
+  return {synced:!!usable, dur:f.audioBuffer.duration, costurada};
 }
 
 async function narrateSingle(i){
@@ -2792,9 +2888,9 @@ async function narrateSingle(i){
   setStatus(`Cena ${i+1}: chamando ElevenLabs…`);
   logLine('info',`Cena ${i+1}: pedindo narração à ElevenLabs…`,narrationOf(f).slice(0,160));
   try{
-    const r=await ttsScene(f);
+    const r=await ttsScene(f, ctxDaCena(i));
     f.lastError=null;
-    logLine('ok',`Cena ${i+1}: áudio ${r.dur.toFixed(1)}s${r.synced?' (com timestamps)':' (sem timestamps)'}`);
+    logLine('ok',`Cena ${i+1}: áudio ${r.dur.toFixed(1)}s${r.synced?' (com timestamps)':' (sem timestamps)'}${r.costurada?' · emendada na cena anterior':''}`);
     hideOv();
     renderCards(); checkDone(); updateTotals(); saveState();
     setStatus(`✅ Cena ${i+1}: ${r.dur.toFixed(1)}s${r.synced?' com sync palavra a palavra':' (sem sync — narração difere do texto na tela)'}`);
@@ -2815,17 +2911,18 @@ async function narrateAll(){
   const btn=document.getElementById('ttsAllBtn');
   btn.disabled=true; btn.textContent='Gerando narrações…';
   document.getElementById('progBar').style.display='block';
-  let fails=0, synced=0;
+  let fails=0, synced=0, costuradas=0;
   for(let i=0;i<frames.length;i++){
     setABadge(i,'b-gen','⏳ voz…');
     showOv(`🎤 Cena ${i+1}/${frames.length}: ElevenLabs…`);
     setStatus(`Cena ${i+1}/${frames.length}: gerando narração…`);
     setProg(Math.round((i/frames.length)*100));
     try{
-      const r=await ttsScene(frames[i]);
+      const r=await ttsScene(frames[i], ctxDaCena(i));
       frames[i].lastError=null;
-      logLine('ok',`Cena ${i+1}: áudio ${r.dur.toFixed(1)}s${r.synced?' (com timestamps)':' (sem timestamps)'}`);
+      logLine('ok',`Cena ${i+1}: áudio ${r.dur.toFixed(1)}s${r.synced?' (com timestamps)':' (sem timestamps)'}${r.costurada?' · emendada na cena anterior':''}`);
       if(r.synced) synced++;
+      if(r.costurada) costuradas++;
       setABadge(i,'b-aud','🔊 '+r.dur.toFixed(1)+'s');
     }catch(e){
       fails++;
@@ -2839,7 +2936,8 @@ async function narrateAll(){
   btn.disabled=false; btn.textContent='🎤 Gerar todas as narrações';
   document.getElementById('progBar').style.display='none';
   renderCards(); checkDone(); updateTotals(); saveState();
-  if(!fails) setStatus(`✅ Narrações prontas (${synced}/${frames.length} com sync palavra a palavra).`);
+  if(!fails) setStatus(`✅ Narrações prontas (${synced}/${frames.length} com sync palavra a palavra`
+    + (continuidadeLigada() ? `, ${costuradas} emendada(s) na cena anterior).` : ').'));
 }
 
 
