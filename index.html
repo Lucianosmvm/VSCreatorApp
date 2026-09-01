@@ -507,6 +507,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
         <option value="black-forest-labs/flux-kontext-pro">FLUX.1 Kontext Pro · igual, mais caro e melhor</option>
         <option value="google/nano-banana">Nano Banana (Google) · aceita várias referências</option>
         <option value="bytedance/seedream-4">Seedream 4 · até 10 referências</option>
+        <option value="black-forest-labs/flux-2-klein-9b">FLUX.2 klein 9B · 4 passos, até 5 referências</option>
         <option value="luma/photon-flash">Photon Flash (Luma) · rápido, com referência</option>
       </optgroup>
       <optgroup label="Só texto → imagem (ignora referência)">
@@ -2409,7 +2410,15 @@ async function entradaDeImagemDoModelo(model){
         // herda a proporção da foto, o que estouraria o 9:16. A descrição do
         // próprio modelo é o que separa os dois casos.
         const desc=(v.description||'')+' '+k;
-        const ehRef = /refer/i.test(desc);
+        // Entrada em LISTA aceita várias imagens de uma vez, e isso só faz
+        // sentido como referência/composição: img2img clássico parte de UMA
+        // base — o "image" do flux-dev e do qwen-image é string, não lista.
+        // O flux-2-klein-9b descreve o campo "images" como image-to-image e
+        // mesmo assim aceita até 5: é multi-referência, igual ao nano-banana e
+        // ao seedream-4. Sem esta regra a heurística abaixo o descartaria pela
+        // palavra "image-to-image" e a referência sumiria calada.
+        const ehLista = v.type==='array';
+        const ehRef = /refer/i.test(desc) || ehLista;
         const ehI2I = /image[\s._-]?to[\s._-]?image|img2img|inpaint/i.test(desc);
         // Só img2img e nada de "reference" (flux-dev, qwen-image): a foto viraria
         // a base do desenho, não o personagem da cena. Descarta.
