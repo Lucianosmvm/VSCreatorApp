@@ -161,7 +161,7 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 .barra{display:flex;flex-wrap:wrap;align-items:center;gap:7px;padding:8px 9px;margin-bottom:10px;
   background:var(--surface2);border:1px solid var(--border2);border-radius:10px}
 .barra .btn{width:auto;margin-top:0;padding:8px 13px;font-size:11px;white-space:nowrap}
-.barra select{width:auto;min-width:168px;font-size:11px;padding:6px 9px}
+.barra select{width:auto;min-width:0;flex:0 1 150px;font-size:11px;padding:6px 9px}
 /* As duas colunas do topo têm a MESMA altura, dada pela caixa do preview.
    A caixa é quadrada de propósito: assim trocar 9:16 por 16:9 não muda a
    altura da linha inteira e o canvas dos cartões não fica pulando. */
@@ -1026,26 +1026,53 @@ function restoreTab(){
   let d=null;
   try{ d=localStorage.getItem(PAINEL_KEY); }catch(e){}
   if(d==='off') document.body.classList.add('painel-off');
+  sincronizarPreviewComPainel();
 }
 
 // Recolher o painel entrega a janela inteira ao canvas. A largura útil muda,
 // então a vista precisa ser remedida — depois da transição, não durante.
 function dobrarPainel(){
-  const off=document.body.classList.toggle('painel-off');
-  try{ localStorage.setItem(PAINEL_KEY, off?'off':'on'); }catch(e){}
-  remedirCanvas();
+  comLarguraCompensada(()=>{
+    const off=document.body.classList.toggle('painel-off');
+    try{ localStorage.setItem(PAINEL_KEY, off?'off':'on'); }catch(e){}
+  });
+  sincronizarPreviewComPainel();
 }
 function abrirPainel(){
   if(!document.body.classList.contains('painel-off')) return;
-  document.body.classList.remove('painel-off');
-  try{ localStorage.setItem(PAINEL_KEY,'on'); }catch(e){}
-  remedirCanvas();
+  comLarguraCompensada(()=>{
+    document.body.classList.remove('painel-off');
+    try{ localStorage.setItem(PAINEL_KEY,'on'); }catch(e){}
+  });
+  sincronizarPreviewComPainel();
 }
 // A troca de largura é instantânea: animar flex-basis obrigava o navegador a
 // refazer o layout de todos os cartões a cada quadro, e a animação congelava
 // junto com a janela quando ela ficava em segundo plano.
-function remedirCanvas(){
-  requestAnimationFrame(()=>{ medirLarguraCanvas(); aplicarVista(); });
+//
+// Recolher o painel move a borda ESQUERDA do canvas 308px para a esquerda, e
+// o conteúdo, que é posicionado a partir dela, saltava esses 308px na tela.
+// A versão anterior chamava medirLarguraCanvas()+aplicarVista() aqui achando
+// que resolvia — as duas só olham a largura do CONTEÚDO (n cartões + vãos),
+// nunca a do visor, então não compensavam nada. Aqui a largura é medida antes
+// e depois, e o pan anda pela diferença: o que estava sob os olhos fica.
+function comLarguraCompensada(mudar){
+  const wrap=document.getElementById('canvasWrap');
+  const antes=wrap?wrap.getBoundingClientRect().width:0;
+  mudar();
+  if(!wrap) return;
+  const delta=wrap.getBoundingClientRect().width-antes;
+  if(delta){ panX+=delta; aplicarVista(); }
+}
+
+// Recolhido, o preview fica visibility:hidden — mas o intervalo de 120 ms do
+// previewFrame continuava repintando 1080x1920 para ninguém ver. Mesmo motivo
+// do handler de visibilitychange logo abaixo do previewFrame.
+function sincronizarPreviewComPainel(){
+  const escondido = modoLateral() && document.body.classList.contains('painel-off');
+  if(escondido){ stopPreview(); return; }
+  if(!rendering && pvIndex>=0 && frames[pvIndex] && (frames[pvIndex].image||frames[pvIndex].video))
+    previewFrame(pvIndex);
 }
 
 // ── LINHAS DE CHAVE DO GOOGLE ────────────────────────────
