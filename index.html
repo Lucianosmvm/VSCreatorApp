@@ -23,21 +23,42 @@ header{display:flex;align-items:center;gap:14px;padding:7px 14px}
 .logo em{color:var(--accent);font-style:normal}
 .hbadge{font-size:9px;padding:3px 8px;border-radius:20px;background:rgba(255,68,68,.1);color:var(--accent);border:1px solid rgba(255,68,68,.2);font-weight:500}
 
-/* ── ABAS ──────────────────────────────────────────────── */
-/* abas em linha, do lado do logo: empilhar ícone sobre rótulo custava ~34px
-   de altura, e o topo inteiro precisa caber junto com o resto sem rolagem */
-.tabs{display:flex;gap:2px;flex-shrink:0}
-.tab{position:relative;padding:6px 10px;border:none;background:none;color:var(--dim);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;display:flex;flex-direction:row;align-items:center;gap:5px;transition:color .15s;white-space:nowrap}
-.tab i{font-style:normal;font-size:13px;line-height:1;opacity:.75}
-.tab.on{color:var(--text);border-bottom-color:var(--accent)}
-.tab.on i{opacity:1}
-.tab .pip{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--accent);display:none}
-.tab .pip.on{display:block}
+/* ── RAIL DE NAVEGACAO ─────────────────────────────────────────────────
+   As abas do topo viraram um rail lateral, e "Cenas" saiu da navegação: o
+   canvas passou a ser a tela em si, não mais uma aba entre outras.
+   Aqui está a forma ESTREITA (faixa horizontal no topo). A partir de 1000px
+   ele vira a coluna de ícones — é lá que este layout foi desenhado para valer. */
+.rail{display:flex;flex-wrap:wrap;align-items:center;gap:3px;padding:6px 10px;
+  background:#0c0c0c;border-bottom:1px solid var(--border)}
+.rail-mark{display:none}
+.rail-sp{display:none}
+.ri-dobra{display:none}
+.ri{position:relative;display:flex;align-items:center;gap:5px;padding:6px 10px;
+  border:none;border-radius:8px;background:none;color:var(--dim);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;white-space:nowrap;
+  transition:color .14s,background .14s}
+.ri span{font-size:13px;line-height:1;opacity:.75}
+.ri b{font-weight:500}
+.ri:hover{color:var(--muted);background:#141414}
+.ri.on{color:var(--text);background:rgba(255,68,68,.09)}
+.ri.on span{opacity:1}
+.ri .pip{display:none;position:absolute;top:3px;right:3px;width:6px;height:6px;
+  border-radius:50%;background:var(--accent)}
+.ri .pip.on{display:block}
+
+/* ── PAINEL LATERAL ─────────────────────────────────────────────────── */
+.painel{padding:14px 14px 0}
+/* O preview mora no pé do painel, e não mais na aba Cenas: antes ele sumia
+   sempre que se abria Chaves ou Config — justo quando se quer ver o efeito
+   do que está sendo mexido. */
+.pv-pin{display:flex;gap:12px;align-items:center;padding:11px 0}
+.pv-pin .phone-frame{margin:0}
+.pv-meta{min-width:0}
+.pv-lbl{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin-top:3px}
 
 /* ── PREVIEW (na coluna, ao lado do roteiro) ───────────── */
-.sec-preview{flex:0 0 auto !important}
-.phone-frame.wide{width:132px;height:74px}
-.phone-frame{position:relative;width:74px;height:132px;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0;margin:0 auto}
+.phone-frame.wide{width:142px;height:80px}
+.phone-frame{position:relative;width:80px;height:142px;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 4px 18px rgba(0,0,0,.6),0 0 0 1px var(--border2);flex-shrink:0;margin:0 auto}
 #previewCanvas{width:100%;height:100%;display:block}
 .status{flex:1;min-width:0;font-size:11px;color:var(--muted);line-height:1.35;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -56,6 +77,9 @@ header{display:flex;align-items:center;gap:14px;padding:7px 14px}
 .wrap{padding:14px 14px 0}
 .pane{display:none}
 .pane.on{display:block}
+/* as cenas não são uma aba entre outras — são a tela. O rail troca só o que
+   aparece no painel; o canvas nunca sai de vista. */
+.pane[data-tab="cenas"]{display:block}
 
 .sec{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
 .sec-hd{display:flex;align-items:center;gap:9px;margin-bottom:13px}
@@ -141,11 +165,8 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 /* As duas colunas do topo têm a MESMA altura, dada pela caixa do preview.
    A caixa é quadrada de propósito: assim trocar 9:16 por 16:9 não muda a
    altura da linha inteira e o canvas dos cartões não fica pulando. */
-.sec-preview{padding:9px !important}
-.sec-preview .sec-hd{margin-bottom:7px}
-.pv-tempo{font-size:12px;color:var(--text);margin-bottom:6px;text-align:center;min-height:16px}
+.pv-tempo{font-size:13px;color:var(--text);line-height:1.3}
 .pv-tempo .pv-est{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em}
-.pv-box{width:132px;height:132px;display:flex;align-items:center;justify-content:center}
 
 .sec-import{display:flex;flex-direction:column;padding:9px !important;min-width:0}
 .sec-import .sec-hd{margin-bottom:6px;flex:0 0 auto}
@@ -274,75 +295,97 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 .lg-warn{color:#d9a441}
 .lg-d{color:#585858;display:block;padding-left:10px}
 
-@media(min-width:620px){
-  .wrap{max-width:600px;margin:0 auto}
-  .tabs{max-width:600px;margin:0 auto}
-  header{max-width:600px;margin:0 auto}
+@media(max-width:999px){
+  body{display:flex;flex-direction:column}
+  .rail{order:1}
+  .principal{order:2}
+  .painel{order:3;padding-bottom:14px}
+}
+@media(min-width:620px) and (max-width:999px){
+  .wrap,.painel,header,.rail{max-width:600px;margin-left:auto;margin-right:auto}
 }
 
-/* Em tela grande, só o fluxo de cenas ganha a largura toda. Formulário
-   esticado a 1300px fica ilegível, então as outras abas seguem estreitas. */
+/* ── LAYOUT LATERAL ───────────────────────────────────────────────────
+   Rail (56px) + painel (308px) + o resto para o canvas. A janela inteira é o
+   app: nada rola fora do canvas, então o visor de cenas recebe toda a altura
+   que sobra, em vez dos ~420px que sobravam no layout empilhado.
+   Vale de 1000px para cima; abaixo disso a página segue empilhada. */
 @media(min-width:1000px){
-  .wrap,header,.prog-bar{max-width:1320px;margin-left:auto;margin-right:auto}
-  .pane:not([data-tab="cenas"]){max-width:620px}
-  /* o rodapé de 48px do body existe para o polegar não tapar o último botão no
-     celular; em tela grande é só espaço perdido */
-  body{padding-bottom:12px}
-  .wrap{padding-top:10px}
-  /* a seção das cenas é só a moldura do canvas: o título e as sobras de padding
+  body{display:flex;height:100vh;overflow:hidden;padding-bottom:0}
+
+  .rail{flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;
+    width:56px;flex:0 0 56px;padding:9px 0;
+    border-bottom:none;border-right:1px solid var(--border)}
+  .rail-mark{display:block;font-family:'Bebas Neue',sans-serif;font-size:17px;
+    color:var(--accent);line-height:1;letter-spacing:.5px;margin-bottom:11px}
+  .rail-sp{display:block;flex:1}
+  .ri-dobra{display:flex;font-size:13px;color:var(--dim)}
+  .ri{width:42px;height:42px;padding:0;border-radius:9px;
+    flex-direction:column;justify-content:center;gap:2px}
+  .ri span{font-size:15px}
+  .ri b{font-size:7px;letter-spacing:.03em}
+  /* o traço do item ativo encosta na borda do rail */
+  .ri.on::before{content:'';position:absolute;left:-7px;top:9px;bottom:9px;width:2px;
+    background:var(--accent);border-radius:0 2px 2px 0}
+  .ri .pip{top:5px;right:7px}
+
+  .painel{display:flex;flex-direction:column;width:308px;flex:0 0 308px;min-width:0;
+    padding:12px;background:var(--surface);border-right:1px solid var(--border);
+    overflow-y:auto;overflow-x:hidden}
+  /* Recolher ENCOLHE a faixa. Deslocar com margin negativa deixava o conteúdo
+     do painel continuar desenhado por cima do rail. */
+  body.painel-off .painel{width:0;flex-basis:0;padding-left:0;padding-right:0;border-right:none}
+  body.painel-off .painel *{visibility:hidden}
+  .painel-corpo{flex:1}
+  .painel .pane{max-width:none}
+  /* no painel o cartão vira grupo separado por filete: moldura sobre moldura
+     numa coluna de 308px só come largura útil */
+  .painel .sec{background:none;border:none;border-radius:0;padding:0;margin:0;
+    border-top:1px solid var(--border);margin-top:13px;padding-top:13px}
+  .painel .pane > .sec:first-of-type{border-top:none;margin-top:0;padding-top:0}
+  .painel .sec-import{display:block}
+  .painel .sec-import #jsonIn{flex:none;height:132px;resize:vertical}
+  .painel .logbox{max-height:200px}
+  .pv-pin{position:sticky;bottom:-12px;flex:0 0 auto;
+    margin:14px -12px -12px;padding:11px 12px;background:#101010;
+    border-top:1px solid var(--border)}
+
+  .principal{flex:1;min-width:0;display:flex;flex-direction:column}
+  .principal .top{position:static}
+  .principal header,.principal .prog-bar{max-width:none;margin:0}
+  .principal .wrap{flex:1;min-height:0;max-width:none;margin:0;padding:0;
+    display:flex;flex-direction:column}
+  .pane[data-tab="cenas"]{display:flex;flex-direction:column;flex:1;min-height:0}
+  /* a seção das cenas é só a moldura do canvas: título e sobras de padding
      saem para o visor ficar com o que sobra da janela */
-  .pane[data-tab="cenas"] .sec:has(.canvas-wrap){padding:0;border:none;background:none;margin-bottom:0}
-  .pane[data-tab="cenas"] .sec:has(.canvas-wrap) > .sec-hd{display:none}
-  .cenas-topo{display:flex;gap:14px;align-items:stretch;margin-bottom:10px}
-  .cenas-topo>.sec{flex:1 1 0;min-width:0;margin-bottom:0;padding:10px}
-  /* a dica de campos é referência, não leitura corrida: some no recolhido */
-  .cenas-topo .tip{margin-top:7px;padding:7px 9px;line-height:1.4}
+  .pane[data-tab="cenas"] > .sec{display:flex;flex-direction:column;flex:1;min-height:0;
+    background:none;border:none;border-radius:0;margin:0;padding:10px 12px 8px}
+  .pane[data-tab="cenas"] > .sec > .sec-hd{display:none}
+  /* quem dá a altura aqui é o flex, não o cálculo de ajustarAlturaCanvas */
+  .canvas-wrap{flex:1;min-height:0;height:auto !important}
 }
 </style>
 </head>
 <body>
 
-<div class="top">
-  <header>
-    <div class="logo">SHORTS <em>CREATOR</em></div>
-    <nav class="tabs">
-      <button class="tab on" data-tab="cenas" onclick="showTab('cenas')"><i>🎬</i>Cenas</button>
-      <button class="tab" data-tab="chaves" onclick="showTab('chaves')"><i>🔑</i>Chaves<span class="pip" id="pipChaves"></span></button>
-      <button class="tab" data-tab="config" onclick="showTab('config')"><i>⚙️</i>Config</button>
-      <button class="tab" data-tab="diag" onclick="showTab('diag')"><i>🩺</i>Diagnóstico<span class="pip" id="pipDiag"></span></button>
-    </nav>
-    <!-- o status fica no topo, e não junto do preview, porque as outras abas
-         também falam por ele (vozes carregadas, teste de ambiente, erros) -->
-    <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
-    <div class="hbadge">IMAGEM + VOZ</div>
-  </header>
-  <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
-</div>
+<!-- ══════════ RAIL LATERAL ══════════
+     Substitui as abas do topo. "Cenas" não é mais um item: o canvas é a tela,
+     e o que era aba virou painel ao lado dele. -->
+<nav class="rail">
+  <div class="rail-mark">SC</div>
+  <button class="ri" data-tab="roteiro" onclick="showTab('roteiro')" title="Importar roteiro"><span>📋</span><b>Roteiro</b></button>
+  <button class="ri" data-tab="chaves"  onclick="showTab('chaves')"  title="Chaves e modelos"><span>🔑</span><b>Chaves</b><i class="pip" id="pipChaves"></i></button>
+  <button class="ri" data-tab="config"  onclick="showTab('config')"  title="Configurações"><span>⚙️</span><b>Config</b></button>
+  <button class="ri" data-tab="diag"    onclick="showTab('diag')"    title="Diagnóstico"><span>🩺</span><b>Diag</b><i class="pip" id="pipDiag"></i></button>
+  <div class="rail-sp"></div>
+  <button class="ri ri-dobra" onclick="dobrarPainel()" title="Recolher/abrir o painel">⟨</button>
+</nav>
 
-<div class="wrap">
+<aside class="painel" id="painel">
+  <div class="painel-corpo">
 
-<!-- ══════════ ABA: CENAS ══════════ -->
-<div class="pane on" data-tab="cenas">
-
-  <div class="cenas-topo">
-  <div class="sec sec-preview">
-    <div class="sec-hd">
-      <div class="sec-ic">👁️</div>
-      <div class="sec-t" id="pvLabel">Preview · 9:16</div>
-    </div>
-    <div class="pv-tempo" id="pvTempo"></div>
-    <div class="pv-box">
-    <div class="phone-frame">
-      <canvas id="previewCanvas" width="1080" height="1920"></canvas>
-      <div class="rec-dot" id="recDot"></div>
-      <div class="gen-ov" id="genOv">
-        <div class="spinner"></div>
-        <div class="gen-txt" id="genTxt">Gerando…</div>
-      </div>
-    </div>
-    </div>
-  </div>
-
+<!-- ══════════ PAINEL: ROTEIRO ══════════ -->
+<div class="pane" data-tab="roteiro">
   <div class="sec sec-import" id="secImport">
     <div class="sec-hd">
       <div class="sec-ic">📋</div>
@@ -362,57 +405,9 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
   </div>
 
 
-  </div><!-- /cenas-topo -->
-
-  <div class="sec">
-    <div class="sec-hd">
-      <div class="sec-ic">🎞️</div>
-      <div class="sec-t">Cenas</div>
-    </div>
-    <div class="barra">
-      <button class="btn btn-red"    id="genAllBtn"     onclick="generateAll()">✨ Gerar imagens</button>
-      <button class="btn btn-ghost"  id="genMissingBtn" onclick="generateAll(true)">↻ Só as que faltam</button>
-      <button class="btn btn-violet" id="ttsAllBtn"     onclick="narrateAll()">🎤 Narrações</button>
-      <button class="btn btn-ghost"  id="vidAllBtn"     onclick="animarTodas()" style="display:none">🎞️ Animar</button>
-      <span class="barra-sep"></span>
-      <button class="btn btn-red"   id="videoBtn"   onclick="renderVideo()" disabled>🎬 Gerar vídeo</button>
-      <button class="btn btn-ghost" id="exportBtn"  onclick="exportZIP()" disabled>⬇ Peças soltas</button>
-      <button class="btn btn-ghost" id="cancelBtn"  onclick="cancelRender()" style="display:none">⏹ Cancelar</button>
-      <span class="barra-sep"></span>
-      <label class="barra-lbl" for="globalFont">Fonte</label>
-      <select id="globalFont" onchange="onFontChange()"></select>
-      <span class="barra-dir">
-        <button class="btn btn-ghost" onclick="addFrame()">+ Cena</button>
-        <button class="btn btn-ghost" onclick="resetAll()">↺ Limpar tudo</button>
-      </span>
-    </div>
-    <div class="tip warn" id="avisoNarracao" style="display:none"></div>
-
-    <div class="canvas-wrap" id="canvasWrap">
-      <div class="canvas-pan" id="canvasPan">
-        <div id="framesList" class="frames-flow"></div>
-      </div>
-      <div class="canvas-ctl">
-        <button class="canvas-btn" onclick="zoomPasso(1)" title="Aproximar">+</button>
-        <button class="canvas-btn" onclick="zoomPasso(-1)" title="Afastar">−</button>
-        <button class="canvas-btn" onclick="resetarVista()" title="Enquadrar tudo">⤢</button>
-        <span class="canvas-zoom" id="canvasZoom">100%</span>
-      </div>
-      <div class="canvas-dica">rolar = aproximar/afastar · arrastar o fundo = mover</div>
-    </div>
-    <details class="tip ajuda">
-      <summary>Como funciona cada botão</summary>
-      <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
-      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, na aba Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a aba precisa ficar visível.<br><br>
-      <b style="color:#666">Gerar imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, na aba Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
-      <b style="color:#666">Animar</b> (ligado na aba Chaves) troca a imagem parada por um clipe gerado a partir dela. É cobrado por cena, à parte da imagem — anime só depois de aprovar a imagem. A duração de cada clipe acompanha a narração da cena.<br><br>
-      <b style="color:#666">Peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
-    </details>
-  </div>
-
 </div>
 
-<!-- ══════════ ABA: CHAVES ══════════ -->
+<!-- ══════════ PAINEL: CHAVES ══════════ -->
 <div class="pane" data-tab="chaves">
 
   <div class="pickbox">
@@ -575,7 +570,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
     <div class="tip">
       Vem com <code>flux-schnell</code>: <b>$3 por mil imagens</b>, barato o bastante para refazer o roteiro à vontade. Para o corte final, <code>bytedance/seedream-5-lite</code> (US$ 0,035/imagem) sai mais cinematográfico — troque o modelo e use <b>🎲 Outra variação</b> em cada cena.<br>
-      O <code>aspect_ratio</code> acompanha sozinho a resolução da aba Config — trocar para 16:9 lá muda este campo. É ele que evita recorte: sem ele a maioria dos modelos gera em 1:1 e o app corta as laterais.
+      O <code>aspect_ratio</code> acompanha sozinho a resolução do painel Config — trocar para 16:9 lá muda este campo. É ele que evita recorte: sem ele a maioria dos modelos gera em 1:1 e o app corta as laterais.
     </div>
   </div>
 
@@ -604,7 +599,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 
 </div>
 
-<!-- ══════════ ABA: CONFIG ══════════ -->
+<!-- ══════════ PAINEL: CONFIG ══════════ -->
 <div class="pane" data-tab="config">
 
   <div class="sec">
@@ -699,7 +694,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 
 </div>
 
-<!-- ══════════ ABA: DIAGNOSTICO ══════════ -->
+<!-- ══════════ PAINEL: DIAGNOSTICO ══════════ -->
 <div class="pane" data-tab="diag">
 
   <div class="sec">
@@ -722,7 +717,97 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 
 </div>
 
+  </div><!-- /painel-corpo -->
+
+
+  <!-- O preview fica fixo no pé do painel: antes ele vivia na aba Cenas e
+       sumia sempre que se abria Chaves ou Config, justo quando se quer ver o
+       efeito do que está sendo mexido. -->
+  <div class="pv-pin">
+    <div class="phone-frame">
+      <canvas id="previewCanvas" width="1080" height="1920"></canvas>
+      <div class="rec-dot" id="recDot"></div>
+      <div class="gen-ov" id="genOv">
+        <div class="spinner"></div>
+        <div class="gen-txt" id="genTxt">Gerando…</div>
+      </div>
+    </div>
+    <div class="pv-meta">
+      <div class="pv-tempo" id="pvTempo"></div>
+      <div class="pv-lbl" id="pvLabel">Preview · 9:16</div>
+    </div>
+  </div>
+</aside>
+
+<main class="principal">
+
+<div class="top">
+  <header>
+    <div class="logo">SHORTS <em>CREATOR</em></div>
+    <!-- o status fica no topo, e não junto do preview, porque as outras abas
+         também falam por ele (vozes carregadas, teste de ambiente, erros) -->
+    <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
+    <div class="hbadge">IMAGEM + VOZ</div>
+  </header>
+  <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════ CENAS (a tela toda) ══════════ -->
+<div class="pane on" data-tab="cenas">
+
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">🎞️</div>
+      <div class="sec-t">Cenas</div>
+    </div>
+    <div class="barra">
+      <button class="btn btn-red"    id="genAllBtn"     onclick="generateAll()">✨ Gerar imagens</button>
+      <button class="btn btn-ghost"  id="genMissingBtn" onclick="generateAll(true)">↻ Só as que faltam</button>
+      <button class="btn btn-violet" id="ttsAllBtn"     onclick="narrateAll()">🎤 Narrações</button>
+      <button class="btn btn-ghost"  id="vidAllBtn"     onclick="animarTodas()" style="display:none">🎞️ Animar</button>
+      <span class="barra-sep"></span>
+      <button class="btn btn-red"   id="videoBtn"   onclick="renderVideo()" disabled>🎬 Gerar vídeo</button>
+      <button class="btn btn-ghost" id="exportBtn"  onclick="exportZIP()" disabled>⬇ Peças soltas</button>
+      <button class="btn btn-ghost" id="cancelBtn"  onclick="cancelRender()" style="display:none">⏹ Cancelar</button>
+      <span class="barra-sep"></span>
+      <label class="barra-lbl" for="globalFont">Fonte</label>
+      <select id="globalFont" onchange="onFontChange()"></select>
+      <span class="barra-dir">
+        <button class="btn btn-ghost" onclick="addFrame()">+ Cena</button>
+        <button class="btn btn-ghost" onclick="resetAll()">↺ Limpar tudo</button>
+      </span>
+    </div>
+    <div class="tip warn" id="avisoNarracao" style="display:none"></div>
+
+    <div class="canvas-wrap" id="canvasWrap">
+      <div class="canvas-pan" id="canvasPan">
+        <div id="framesList" class="frames-flow"></div>
+      </div>
+      <div class="canvas-ctl">
+        <button class="canvas-btn" onclick="zoomPasso(1)" title="Aproximar">+</button>
+        <button class="canvas-btn" onclick="zoomPasso(-1)" title="Afastar">−</button>
+        <button class="canvas-btn" onclick="resetarVista()" title="Enquadrar tudo">⤢</button>
+        <span class="canvas-zoom" id="canvasZoom">100%</span>
+      </div>
+      <div class="canvas-dica">rolar = aproximar/afastar · arrastar o fundo = mover</div>
+    </div>
+    <details class="tip ajuda">
+      <summary>Como funciona cada botão</summary>
+      <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
+      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, no painel Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a janela precisa ficar visível.<br><br>
+      <b style="color:#666">Gerar imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, no painel Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
+      <b style="color:#666">Animar</b> (ligado no painel Chaves) troca a imagem parada por um clipe gerado a partir dela. É cobrado por cena, à parte da imagem — anime só depois de aprovar a imagem. A duração de cada clipe acompanha a narração da cena.<br><br>
+      <b style="color:#666">Peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
+    </details>
+  </div>
+
+</div>
+
 </div><!-- /wrap -->
+</main>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
@@ -915,18 +1000,54 @@ const idbGet = (k)=>idbTx('readonly', s=>s.get(k));
 const idbDel = (k)=>idbTx('readwrite',s=>s.delete(k));
 const idbClear = ()=>idbTx('readwrite',s=>s.clear());
 
-// ── ABAS ─────────────────────────────────────────────────
+// ── NAVEGACAO: RAIL + PAINEL ─────────────────────────────
+// "Cenas" deixou de ser uma aba. O canvas passou a ser a tela em si, e o rail
+// decide apenas o que aparece no painel lateral — assim as cenas nunca somem
+// para se mexer numa chave ou numa configuração.
 const TAB_KEY='shortsCreator.tab';
+const PAINEL_KEY='shortsCreator.painel';
+const ABAS_PAINEL=['roteiro','chaves','config','diag'];
+
+function modoLateral(){ return matchMedia('(min-width:1000px)').matches; }
+
 function showTab(name){
+  // sessão antiga pode ter gravado 'cenas', que não é mais seção do painel
+  if(!ABAS_PAINEL.includes(name)) name=ABAS_PAINEL[0];
   document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.dataset.tab===name));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===name));
+  document.querySelectorAll('.ri[data-tab]').forEach(t=>t.classList.toggle('on',t.dataset.tab===name));
+  // com o painel recolhido, clicar num item do rail não mostraria nada e
+  // pareceria que o botão quebrou
+  abrirPainel();
   try{ localStorage.setItem(TAB_KEY,name); }catch(e){}
-  window.scrollTo(0,0);
+  if(!modoLateral()) window.scrollTo(0,0);
 }
 function restoreTab(){
   let t=null;
   try{ t=localStorage.getItem(TAB_KEY); }catch(e){}
-  if(t && document.querySelector(`.pane[data-tab="${t}"]`)) showTab(t);
+  showTab(ABAS_PAINEL.includes(t)?t:'roteiro');
+  let d=null;
+  try{ d=localStorage.getItem(PAINEL_KEY); }catch(e){}
+  if(d==='off') document.body.classList.add('painel-off');
+}
+
+// Recolher o painel entrega a janela inteira ao canvas. A largura útil muda,
+// então a vista precisa ser remedida — depois da transição, não durante.
+function dobrarPainel(){
+  const off=document.body.classList.toggle('painel-off');
+  try{ localStorage.setItem(PAINEL_KEY, off?'off':'on'); }catch(e){}
+  remedirCanvas();
+}
+function abrirPainel(){
+  if(!document.body.classList.contains('painel-off')) return;
+  document.body.classList.remove('painel-off');
+  try{ localStorage.setItem(PAINEL_KEY,'on'); }catch(e){}
+  remedirCanvas();
+}
+// A troca de largura é instantânea: animar flex-basis obrigava o navegador a
+// refazer o layout de todos os cartões a cada quadro, e a animação congelava
+// junto com a janela quando ela ficava em segundo plano.
+function remedirCanvas(){
+  requestAnimationFrame(()=>{ medirLarguraCanvas(); aplicarVista(); });
 }
 
 // ── LINHAS DE CHAVE DO GOOGLE ────────────────────────────
@@ -1344,8 +1465,14 @@ function resetarVista(){
 // pixels.
 function ajustarAlturaCanvas(){
   const wrap=document.getElementById('canvasWrap');
-  const pane=document.querySelector('.pane.on');
-  if(!wrap||!pane) return;
+  if(!wrap) return;
+  // No layout lateral a altura vem do flex da coluna principal: o canvas é o
+  // que sobra da janela. Medir à mão aqui só brigaria com o CSS.
+  if(modoLateral()){ wrap.style.height=''; return; }
+  // fora dele, o pane das cenas é sempre este — antes buscava '.pane.on', que
+  // agora é uma seção do painel, e não as cenas
+  const pane=document.querySelector('.pane[data-tab="cenas"]');
+  if(!pane) return;
   const PISO=Math.max(320,Math.round(innerHeight*0.60));
   wrap.style.height=PISO+'px';
   const r=wrap.getBoundingClientRect();
@@ -1789,7 +1916,7 @@ function erroForaDoPlano(model,qual){
     .map(o=>o.value).filter(v=>v&&v!==model);
   return `"${model}" não está disponível no nível gratuito (a API respondeu "limit: 0"). `+
     `Isso não é cota gasta: nenhuma chave grátis vai gerar com ele. `+
-    `Ative o faturamento no Google Cloud para essa chave, ou escolha outro modelo de ${qual} na aba Chaves.`+
+    `Ative o faturamento no Google Cloud para essa chave, ou escolha outro modelo de ${qual} no painel Chaves.`+
     (outros.length?` Outros na lista: ${outros.slice(0,4).join(', ')}.`:'');
 }
 
@@ -1806,7 +1933,7 @@ function isKeyDead(status,msg){
 // Executa run(key) e, se a key morrer, marca e tenta a próxima.
 async function withKeyRotation(label,run){
   const keys=gmKeys();
-  if(!keys.length) throw new Error('Cole ao menos uma API key do Google na aba Chaves.');
+  if(!keys.length) throw new Error('Cole ao menos uma API key do Google no painel Chaves.');
   let last=null, tried=0;
   for(let n=0;n<keys.length;n++){
     const i=(gmKeyIdx+n)%keys.length;
@@ -1824,15 +1951,15 @@ async function withKeyRotation(label,run){
       setStatus(`🔑 Key ${i+1} sem cota. Trocando… (${restantes} restante(s))`);
     }
   }
-  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra na aba Chaves ou clique em "Liberar todas de novo".`);
-  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key na aba Chaves ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
+  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra no painel Chaves ou clique em "Liberar todas de novo".`);
+  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key no painel Chaves ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
 }
 
 // O Google aposenta modelos e o ID varia por key/região, então não vale
 // cravar um no código: pergunta à própria API quais existem.
 async function loadGeminiModels(){
   const key=gmLiveKeys()[0]||gmKeys()[0]||'';
-  if(!key){ setStatus('⚠️ Cole a API key do Google na aba Chaves.'); return; }
+  if(!key){ setStatus('⚠️ Cole a API key do Google no painel Chaves.'); return; }
   setStatus('↻ Buscando modelos disponíveis…');
   try{
     let models=[], pageToken='';
@@ -1918,7 +2045,7 @@ async function enhancePrompt(desc){
   // Antes qualquer tropeço aqui matava a cena inteira antes de chamar a imagem.
   if(!gmLiveKeys().length){
     logLine('warn','Sem chave do Google com cota — gerando a imagem com a descrição original.',
-      'Cole uma key na aba Chaves para traduzir o prompt para inglês, ou desligue a tradução para não ver mais este aviso.');
+      'Cole uma key no painel Chaves para traduzir o prompt para inglês, ou desligue a tradução para não ver mais este aviso.');
     return desc;
   }
   try{
@@ -1988,11 +2115,11 @@ async function enhancePromptWithKey(desc,key,jaTrocou){
     }
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
-      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" na aba Chaves e escolha outro. Google disse: ${msg}`;
+      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no painel Chaves e escolha outro. Google disse: ${msg}`;
     else if(res.status===400&&/api key/i.test(msg)) msg='API key do Google inválida. '+msg;
     else if(res.status===403) msg='Key sem permissão para este modelo. '+msg;
     else if(res.status===429) msg='Cota do Gemini estourada (429). Aguarde e tente de novo. '+msg;
-    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto na aba Chaves ou espere alguns minutos. ${msg}`;
+    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto no painel Chaves ou espere alguns minutos. ${msg}`;
     throw new Error('[Gemini] '+msg);
   }
   const d=await res.json();
@@ -2066,7 +2193,7 @@ async function loadImageFromUrl(url,timeoutMs=60000,quiet,label){
       try{ body=(await res.text()).slice(0,300); }catch(_){}
       logLine('err',`${SRC} HTTP ${res.status} (${ms}ms)`,body);
       if(SRC==='Pollinations' && (res.status===403||/turnstile|captcha/i.test(body)))
-        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations na aba Chaves, ou troque a "Fonte da imagem" para Gemini.');
+        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations no painel Chaves, ou troque a "Fonte da imagem" para Gemini.');
       throw new Error(`${SRC} respondeu HTTP ${res.status}${res.status===429?' (limite de requisições — espere alguns segundos)':''}${body?': '+body:''}`);
     }
     const blob=await res.blob();
@@ -2210,7 +2337,7 @@ function anotarLimiteDeTaxa(res){
     repIntervalo=novo;
     logLine('warn',`Replicate limitou a taxa — espaçando as chamadas em ${(novo/1000).toFixed(0)}s.`,
       'A conta está com pouco crédito: abaixo de US$5 o limite cai para 6 por minuto, uma de cada vez. '+
-      'Ponha "Cenas em paralelo" em 1 na aba Config, ou adicione crédito para voltar ao normal.');
+      'Ponha "Cenas em paralelo" em 1 no painel Config, ou adicione crédito para voltar ao normal.');
   }
 }
 
@@ -2251,15 +2378,15 @@ async function repError(res){
   if(res.status===422) return new Error(`Replicate recusou o input: ${msg} — ajuste o campo "Input extra" para os parâmetros deste modelo.`);
   if(res.status===429) return new Error(
     'Replicate limitou a taxa (429). Abaixo de US$5 de crédito ela cai para 6 chamadas por minuto, '+
-    'uma de cada vez. Ponha "Cenas em paralelo" em 1 na aba Config, ou adicione crédito. Resposta: '+msg);
+    'uma de cada vez. Ponha "Cenas em paralelo" em 1 no painel Config, ou adicione crédito. Resposta: '+msg);
   return new Error('Replicate: '+msg);
 }
 
 // Roda uma predição na Replicate e devolve a URL de saída. Imagem e vídeo
 // compartilham tudo daqui: mesma rota, mesmo polling, mesmo tratamento de erro.
 async function replicatePredict(model,input,rotulo){
-  if(!repToken()) throw new Error('Cole o token da Replicate na aba Chaves.');
-  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) na aba Chaves.');
+  if(!repToken()) throw new Error('Cole o token da Replicate no painel Chaves.');
+  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) no painel Chaves.');
 
   // hash de versão vai no corpo; owner/nome vai na rota
   const isVersion=/^[0-9a-f]{40,}$/i.test(model);
@@ -2528,7 +2655,7 @@ async function replicateImage(prompt){
       input[ent.chave]= ent.lista ? [uri] : uri;
     }else if(ent===null){
       logLine('warn',`"${repModel()}" não aceita imagem de entrada — a referência foi ignorada nesta cena.`,
-        'Troque para flux-kontext-dev, nano-banana ou seedream-4 na aba Chaves.');
+        'Troque para flux-kontext-dev, nano-banana ou seedream-4 no painel Chaves.');
     }else{
       logLine('warn','Não consegui checar se o modelo aceita a referência; gerando sem ela.',
         'A consulta ao schema falhou. Confira o token da Replicate e o proxy local.');
@@ -2655,7 +2782,7 @@ async function elError(res,fallback){
 
 async function loadVoices(){
   const key=elKey();
-  if(!key){ setStatus('⚠️ Cole a key da ElevenLabs na aba Chaves.'); return; }
+  if(!key){ setStatus('⚠️ Cole a key da ElevenLabs no painel Chaves.'); return; }
   setStatus('↻ Buscando vozes…');
   try{
     const res=await fetch(EL_API+'/voices',{headers:{'xi-api-key':key}});
@@ -2811,7 +2938,7 @@ function avisarSemId(){
 async function ttsScene(f, ctx){
   const key=elKey(), vid=voiceId(), model=document.getElementById('elModel').value;
   const text=narrationOf(f);
-  if(!key) throw new Error('Cole a key da ElevenLabs na aba Chaves.');
+  if(!key) throw new Error('Cole a key da ElevenLabs no painel Chaves.');
   if(!vid) throw new Error('Escolha uma voz (ou cole o Voice ID).');
   if(!text) throw new Error('Cena sem texto para narrar.');
 
@@ -3605,7 +3732,7 @@ function envProblems(e){
     p.push(['warn','No celular a renderização é frágil',
       'A gravação é em tempo real e o desenho congela se a tela apagar, o app sair de foco ou chegar uma ligação — o vídeo sai com quadros perdidos. Mantenha a tela ligada e o app aberto, ou renderize no computador.']);
     p.push(['warn','Memória: resolução cheia pesa no celular',
-      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque para a resolução menor do mesmo formato (720×1280 ou 1280×720) na aba Config.`]);
+      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque para a resolução menor do mesmo formato (720×1280 ou 1280×720) no painel Config.`]);
   }
   if(e.ios)
     p.push(['warn','iPhone/iPad: baixar o arquivo costuma falhar',
