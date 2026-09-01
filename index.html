@@ -231,8 +231,6 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 .fc-del:hover{color:var(--accent);background:rgba(255,68,68,.1)}
 .fc-n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);min-width:28px;line-height:1}
 .fc-info{flex:1;min-width:0}
-.fc-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fc-sub{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fc-badges{display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex-shrink:0}
 .fc-badge{font-size:9px;padding:2px 7px;border-radius:8px;white-space:nowrap}
 .b-pending{background:rgba(122,122,122,.1);color:var(--muted)}
@@ -1608,6 +1606,22 @@ function renderCards(){
   aplicarVista();   // aplica a largura das 10 colunas e remarca as pontas
 }
 
+// Só o renderCards() desenhava as miniaturas, e ele redesenha a lista inteira.
+// Digitar não passava por ele: a miniatura seguia com o texto antigo até algo
+// forçar um redesenho geral — trocar a fonte, por exemplo. Daí a impressão de
+// que o texto "só muda quando troco a fonte".
+function redesenharCena(i){
+  const f=frames[i];
+  if(!f) return;
+  const dur=sceneDur(f);
+  const mini=document.getElementById('mini-'+i);
+  if(mini) drawScene(mini.getContext('2d'),f,dur,dur,mini.width,mini.height);
+  // O preview grande só precisa de empurrão no modo fixo: com animação de
+  // legenda, o intervalo aberto por previewFrame já repinta a cada 120 ms.
+  if(pvIndex===i && (f.image||f.video) && animAtual()==='fixed')
+    drawScene(ctx,f,dur,dur,canvas.width,canvas.height);
+}
+
 function syncFrame(i){
   const p=document.getElementById('fp-'+i);
   const t=document.getElementById('ft-'+i);
@@ -1616,10 +1630,10 @@ function syncFrame(i){
   if(p) frames[i].prompt=p.value;
   if(t) frames[i].text=t.value;
   if(n) frames[i].narration=n.value;
-  const title=document.getElementById('fc-title-'+i);
-  const sub=document.getElementById('fc-sub-'+i);
-  if(title) title.textContent=frames[i].prompt||'Sem descrição';
-  if(sub) sub.textContent=textoNaTela(frames[i])||'Sem texto';
+  // "Texto na tela" vazio herda a narração, e o placeholder mostra o que vai
+  // aparecer — então ele acompanha o que está sendo digitado na narração
+  if(t) t.placeholder=narrationOf(frames[i])||'igual à narração';
+  redesenharCena(i);
   // editar o texto pode ter acabado de invalidar a narração desta cena
   const velha=narracaoVelha(frames[i]);
   setABadge(i, velha?'b-err':(frames[i].audioBuffer?'b-aud':'b-pending'),
