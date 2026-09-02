@@ -569,6 +569,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 
         <label>Movimento da câmera</label>
         <select id="dfEfeito" onchange="saveState()">
+          <option value="aleatorio">🎲 Aleatório · um movimento diferente a cada cena</option>
           <option value="horizontal" selected>Horizontal · deslize lateral</option>
           <option value="vertical">Vertical · deslize de cima a baixo</option>
           <option value="zoom">Zoom · aproxima devagar</option>
@@ -576,6 +577,15 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
           <option value="circle">Circle · giro suave em círculo</option>
           <option value="orbital">Orbital · órbita ao redor do assunto</option>
         </select>
+        <div class="hint">No aleatório, cenas seguidas nunca repetem o mesmo movimento — evita o roteiro inteiro balançando para o mesmo lado.</div>
+
+        <label>Ciclo do movimento</label>
+        <select id="dfVoltas" onchange="saveState()">
+          <option value="1" selected>Ciclo completo · percorre os dois lados</option>
+          <option value="0.5">Vaivém único · vai até um lado e volta</option>
+        </select>
+        <div class="hint">O movimento <b>já dura exatamente o tempo da cena</b> — nunca se repete dentro dela (medido em clipes de 3 s e 9 s: a mesma curva, só esticada). O que esta opção muda é o trajeto: no ciclo completo o <i>Horizontal</i> faz centro→direita→centro→esquerda→centro, e é isso que pode parecer que repetiu. O vaivém único faz só centro→direita→centro.<br>
+        Vale para <i>Horizontal</i> e <i>Vertical</i>. <i>Dolly</i> e <i>Zoom</i> já são um vaivém só, e <i>Circle</i>/<i>Orbital</i> precisam do ciclo inteiro para a volta fechar.</div>
 
         <label>Qualidade do render (0–100)</label>
         <input type="number" id="dfQualidade" value="70" min="0" max="100" step="5" oninput="saveStateSoon()">
@@ -1174,6 +1184,7 @@ function saveState(){
       vidMotion: document.getElementById('vidMotion').value,
       vidEngine: vidEngine(),
       dfEfeito: dfEfeito(),
+      dfVoltas: String(dfVoltas()),
       dfQualidade: String(dfQualidade()),
       parallel: document.getElementById('parallel').value,
       fps: document.getElementById('fps').value,
@@ -1236,7 +1247,8 @@ function loadState(){
     document.getElementById('globalPosLbl').textContent=posLabel(normPos(d.globalPos));
   }
   set('vidModel', d.vidModel); set('vidRes', d.vidRes); set('vidMotion', d.vidMotion);
-  set('vidEngine', d.vidEngine); set('dfEfeito', d.dfEfeito); set('dfQualidade', d.dfQualidade);
+  set('vidEngine', d.vidEngine); set('dfEfeito', d.dfEfeito);
+  set('dfVoltas', d.dfVoltas); set('dfQualidade', d.dfQualidade);
   set('repStyle', d.repStyle);
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
@@ -1289,7 +1301,10 @@ async function restoreAssets(){
     if(!f.video && f._hasVideo){
       const rec=await idbGet('vid:'+f.id);
       if(rec&&rec.bytes){
-        try{ f.video=await videoDeBytes(new Uint8Array(rec.bytes),rec.mime); f.videoBytes=f.video._bytes; }
+        // a duração vem do próprio arquivo restaurado, não do estado salvo:
+        // é o número real, e sobrevive a um roteiro importado sem esse campo
+        try{ f.video=await videoDeBytes(new Uint8Array(rec.bytes),rec.mime);
+             f.videoBytes=f.video._bytes; f.videoDur=f.video.duration||null; }
         catch(e){ f._hasVideo=false; }
       }
     }
@@ -1655,6 +1670,7 @@ function renderCards(){
 
         ${f.audioUrl?`<audio controls preload="none" src="${esc(f.audioUrl)}"></audio>`:''}
         ${f.audioBuffer&&f.wordTimes?`<div class="fc-sync">⏱ ${f.wordTimes.length} palavras sincronizadas</div>`:''}
+        ${videoCurtoDemais(f)?`<div class="tip warn" style="margin:6px 0 0">⚠️ A cena tem ${sceneDur(f).toFixed(1)}s e o clipe só ${f.videoDur.toFixed(1)}s — a animação vai recomeçar no meio. Clique em <b>🎞️ Reanimar</b> para refazer o clipe com a duração nova.</div>`:''}
         ${f.lastError?`<div class="err-box">⚠ ${esc(f.lastError)}</div>`:''}
       </div>
     `;
@@ -2537,6 +2553,27 @@ function vidMovimento(){ return ((document.getElementById('vidMotion')||{}).valu
 function animacaoLigada(){ return !!(document.getElementById('vidOn')||{}).checked; }
 function vidEngine(){ return (document.getElementById('vidEngine')||{}).value||'replicate'; }
 function dfEfeito(){ return (document.getElementById('dfEfeito')||{}).value||'horizontal'; }
+function dfVoltas(){
+  const v=parseFloat((document.getElementById('dfVoltas')||{}).value);
+  return isNaN(v)?1:Math.min(4,Math.max(0.1,v));
+}
+
+// Os seis que o serve.py aceita. A lista fica aqui só para o sorteio: quem
+// valida é o servidor, que recusa qualquer nome fora dela.
+const DF_EFEITOS=['horizontal','vertical','zoom','dolly','circle','orbital'];
+let _dfUltimoEfeito=null;
+
+// "Aleatório" é por CENA, não por roteiro: sorteia na hora de animar cada uma.
+// Nunca repete o movimento da cena anterior — duas cenas seguidas deslizando
+// para o mesmo lado leem como erro de render, não como escolha.
+function dfEfeitoDaCena(){
+  const escolhido=dfEfeito();
+  if(escolhido!=='aleatorio'){ _dfUltimoEfeito=escolhido; return escolhido; }
+  const opcoes=DF_EFEITOS.filter(e=>e!==_dfUltimoEfeito);
+  const e=opcoes[Math.floor(Math.random()*opcoes.length)];
+  _dfUltimoEfeito=e;
+  return e;
+}
 function dfQualidade(){
   const v=parseInt((document.getElementById('dfQualidade')||{}).value,10);
   return isNaN(v)?70:Math.min(100,Math.max(0,v));
@@ -2643,15 +2680,22 @@ function dfMime(f){
 async function depthflowVideo(f){
   if(!f.image || !f.imageBytes) throw new Error('Gere a imagem desta cena antes de animar.');
 
+  // O clipe é gerado com a duração EXATA da cena, e o DepthFlow estica um ciclo
+  // do movimento sobre essa duração — é assim que a animação nunca se repete
+  // dentro da cena. Se a narração mudar depois, a cena estica e aí sim o app
+  // passa a repetir o clipe; por isso a duração usada fica registrada em
+  // f.videoDur e o cartão avisa quando as duas se separam.
   const tempo=Math.min(120,Math.max(1, Math.round((sceneDur(f)||5)*100)/100));
   const {w,h}=dfTamanhoDoClipe(f.image);
   const fps=parseInt(document.getElementById('fps').value,10)||30;
+  const efeito=dfEfeitoDaCena();
+  const voltas=dfVoltas();
   const params=new URLSearchParams({
-    tempo:String(tempo), efeito:dfEfeito(), largura:String(w), altura:String(h),
-    fps:String(fps), qualidade:String(dfQualidade())
+    tempo:String(tempo), efeito, largura:String(w), altura:String(h),
+    fps:String(fps), qualidade:String(dfQualidade()), voltas:String(voltas)
   });
 
-  logLine('info',`DepthFlow: ${tempo}s, ${dfEfeito()}, ${w}x${h}, ${fps} fps`,
+  logLine('info',`DepthFlow: ${tempo}s, ${efeito}${dfEfeito()==='aleatorio'?' (sorteado)':''}, ${voltas===1?'ciclo completo':'vaivém único'}, ${w}x${h}, ${fps} fps`,
     'Primeira cena da sessão demora mais: baixa o modelo de profundidade.');
 
   const ctl=new AbortController();
@@ -3373,7 +3417,23 @@ function setFrameVideo(f,v){
   }
   f.video=v;
   f.videoBytes=v._bytes||null;
+  // Quanto durava a cena quando o clipe foi gerado. Serve para saber depois se
+  // a cena esticou: o desenho toca o vídeo em `t % duration`, então cena mais
+  // longa que o clipe faz a animação recomeçar no meio — que é exatamente o
+  // "repetindo a animação na mesma cena" que se quer evitar.
+  f.videoDur=v.duration||null;
   if(f.videoBytes) idbPut('vid:'+f.id,{bytes:f.videoBytes.buffer.slice(0),mime:v._mime||'video/mp4'});
+}
+
+// Sobra de cena que o clipe não cobre. > 0 significa que o vídeo vai dar a
+// volta e recomeçar antes de a cena acabar.
+function videoCurtoDemais(f){
+  if(!f.video || !f.videoDur) return 0;
+  // 0,35s de folga para arredondamento de fps e para a pausa no fim da cena,
+  // onde já não há fala. O piso de 0,05 é contra ruído de ponto flutuante:
+  // 4.25 - 3.9 - 0.35 dá 4e-16 em vez de zero, e isso acendia o aviso sozinho.
+  const sobra = sceneDur(f) - f.videoDur - 0.35;
+  return sobra > 0.05 ? sobra : 0;
 }
 
 function removerVideo(i){

@@ -10,6 +10,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import math
 import os
 import re
 import shutil
@@ -51,6 +52,20 @@ def setup_utf8() -> None:
     os.environ["PYTHONIOENCODING"] = "utf-8"
     if sys.platform == "win32":
         os.system("chcp 65001 >nul 2>&1")
+
+    # As variaveis acima so valem para processos FILHOS: o sys.stdout deste
+    # processo ja foi criado com o cp1252 do console. Sem reconfigurar, a barra
+    # de progresso do DepthFlow (desenhada com `rich`) derrubava o render
+    # inteiro no primeiro '|' de moldura:
+    #   ERRO: Falha ao renderizar: 'charmap' codec can't encode character
+    #   '│' in position 0
+    # Acontecia so rodando o parallax.py direto no terminal; pelo serve.py nao,
+    # porque la o PYTHONUTF8 e posto no env ANTES do processo nascer.
+    for fluxo in (sys.stdout, sys.stderr):
+        try:
+            fluxo.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
 
 
 def configure_opengl_cpu() -> bool:
@@ -225,12 +240,44 @@ def get_scene_class(efeito: str) -> type[DepthScene]:
     return mapping[efeito]
 
 
+def escalar_ciclo(base: type[DepthScene], voltas: float) -> type[DepthScene]:
+    """Quantas voltas do movimento cabem no video inteiro.
+
+    Os presets leem `self.cycle`, que o ShaderFlow define como
+    `(time/runtime) % 1 * 2pi`: um ciclo completo ja se estica sobre a duracao
+    pedida, entao o movimento NUNCA se repete dentro do clipe. Medido com um
+    clipe de 3 s e um de 9 s: os dois desenham a mesma curva, so mais esticada.
+
+    O que muda com `voltas` e o quanto desse ciclo e percorrido:
+
+      1.0  ciclo inteiro. No Horizontal/Vertical o sin passa pelos DOIS lados
+           (centro, direita, centro, esquerda, centro) — e isso que da a
+           impressao de que a animacao "foi e voltou duas vezes".
+      0.5  meio ciclo: centro, direita, centro. Um vaivem so.
+
+    Dolly e Zoom ja fazem um vaivem unico em 1.0 (as formulas deles usam
+    1-cos e sin^2), e Circle/Orbital precisam do ciclo inteiro para a volta
+    fechar — por isso 1.0 continua o padrao.
+    """
+    if voltas == 1.0:
+        return base
+
+    class CicloEscalado(base):  # type: ignore[misc, valid-type]
+        @property
+        def cycle(self) -> float:
+            return self.tau * math.tau * voltas
+
+    CicloEscalado.__name__ = base.__name__
+    CicloEscalado.__qualname__ = base.__qualname__
+    return CicloEscalado
+
+
 def render(args: argparse.Namespace, image: Path, output: Path) -> dict[str, float | str]:
     from shaderflow.scene import WindowBackend
 
     timings: dict[str, float | str] = {}
 
-    scene_class = get_scene_class(args.efeito)
+    scene_class = escalar_ciclo(get_scene_class(args.efeito), args.voltas)
     scene = scene_class(backend=WindowBackend.Headless)
 
     if args.nvenc and not args.cpu_only:
@@ -319,6 +366,14 @@ Exemplos:
         help="Altura do video em pixels (padrao: 1080)",
     )
     parser.add_argument(
+        "--voltas",
+        "-v",
+        type=float,
+        default=1.0,
+        help="Quantas voltas do movimento cabem no video (padrao: 1.0 = ciclo "
+             "inteiro). 0.5 faz um vaivem so, sem passar pelos dois lados",
+    )
+    parser.add_argument(
         "--largura",
         "-W",
         type=int,
@@ -371,12 +426,16 @@ def main() -> int:
         err("Tempo deve estar entre 1 e 120 segundos.")
         return 1
 
+    if not 0.1 <= args.voltas <= 4.0:
+        err("Voltas deve estar entre 0.1 e 4.0.")
+        return 1
+
     image = resolve_image(args.foto)
     output = resolve_output(image, args.saida)
 
     info(f"Foto   : {image}")
     info(f"Saida  : {output}")
-    info(f"Tempo  : {args.tempo}s | Efeito: {args.efeito} | FPS: {args.fps}")
+    info(f"Tempo  : {args.tempo}s | Efeito: {args.efeito} | Voltas: {args.voltas} | FPS: {args.fps}")
     info("Renderizando...")
 
     started = time.perf_counter()
