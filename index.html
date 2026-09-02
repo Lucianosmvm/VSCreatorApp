@@ -566,8 +566,23 @@ body.preview-off .pv-flut{display:none}
       <option value="eleven_flash_v2_5">Flash v2.5 · mais rápido</option>
     </select>
 
-    <label class="chk"><input type="checkbox" id="elCont" checked onchange="saveState()"> Narrar em sequência — cada cena continua a anterior</label>
-    <div class="hint">Sem isso, cada cena vira um pedido isolado e a ElevenLabs lê o texto como frase solta: entonação caindo e uma respirada de encerramento no fim de cada uma. Ligado, o app manda o texto vizinho como contexto e emenda o áudio na cena anterior, então a fala corre como uma leitura só. O contexto não é sintetizado nem cobrado. A emenda exige a mesma voz e o mesmo modelo, e vale por ~2 h — depois disso a cena refeita ainda usa o contexto de texto.</div>
+    <label>Como gerar a narração</label>
+    <select id="elModo" onchange="onElModoChange()">
+      <option value="faixa" selected>Faixa única · uma locução para o vídeo todo</option>
+      <option value="cena">Por cena · uma geração para cada cena</option>
+    </select>
+
+    <div id="elFaixaBox">
+      <div class="hint"><b>Uma geração só</b> para o roteiro inteiro, recortada depois em cenas. A voz não recomeça entre elas, então não há emenda nem deriva de timbre do começo para o fim — que é o limite do modo por cena, mesmo com a continuidade ligada.<br>
+      O recorte usa o alinhamento <b>por caractere</b> que a ElevenLabs devolve junto com o áudio, então cada cena cai no segundo exato onde a frase dela começa.<br>
+      As fatias se encaixam sem buraco: a pausa entre cenas passa a ser a <b>respiração da própria locução</b>, e não um silêncio somado depois. Por isso o campo <b>Pausa após a fala</b> não se aplica neste modo — somar silêncio aqui picotaria de volta o take único.<br>
+      Em troca: editar o texto de <b>uma</b> cena pede a faixa inteira de novo. O app <b>avisa e não regera sozinho</b> — quem decide é você.</div>
+    </div>
+
+    <div id="elCenaBox" style="display:none">
+      <label class="chk" style="margin-top:0"><input type="checkbox" id="elCont" checked onchange="saveState()"> Narrar em sequência — cada cena continua a anterior</label>
+      <div class="hint">Sem isso, cada cena vira um pedido isolado e a ElevenLabs lê o texto como frase solta: entonação caindo e uma respirada de encerramento no fim de cada uma. Ligado, o app manda o texto vizinho como contexto e emenda o áudio na cena anterior, então a fala corre como uma leitura só. O contexto não é sintetizado nem cobrado. A emenda exige a mesma voz e o mesmo modelo, e vale por ~2 h — depois disso a cena refeita ainda usa o contexto de texto.</div>
+    </div>
   </div>
 
   <!-- REPLICATE -->
@@ -1487,7 +1502,7 @@ function saveState(){
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
         audioReqId:f.audioReqId||null, audioReqAt:f.audioReqAt||0,
-        audioVoice:f.audioVoice||null, audioModel:f.audioModel||null,
+        audioVoice:f.audioVoice||null, audioModel:f.audioModel||null, audioFaixa:f.audioFaixa||null,
         hasVideo: !!f.videoBytes,
         audioDur: f.audioBuffer ? f.audioBuffer.duration : null
       })),
@@ -1510,6 +1525,7 @@ function saveState(){
       fps: document.getElementById('fps').value,
       resolution: document.getElementById('resolution').value,
       elModel: document.getElementById('elModel').value,
+      elModo: elModo(),
       elCont: document.getElementById('elCont').checked,
       gmModel: document.getElementById('gmModel').value,
       textModel25: true,
@@ -1554,7 +1570,7 @@ function loadState(){
       wordTimes:Array.isArray(f.wordTimes)?f.wordTimes:null,
       _hasAudio:!!f.hasAudio, _audioDur:f.audioDur||null, audioText:f.audioText!=null?f.audioText:null,
       audioReqId:f.audioReqId||null, audioReqAt:f.audioReqAt||0,
-      audioVoice:f.audioVoice||null, audioModel:f.audioModel||null
+      audioVoice:f.audioVoice||null, audioModel:f.audioModel||null, audioFaixa:f.audioFaixa||null
     }));
     document.getElementById('frameCount').value = frames.length;
   }
@@ -1575,6 +1591,7 @@ function loadState(){
   set('repStyle', d.repStyle);
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
+  set('elModo', d.elModo);
   set('voiceManual', d.voiceManual);
   // o modelo salvo pode não estar na lista curta inicial; insere para não perder
   if(d.gmModel){
@@ -1738,6 +1755,10 @@ function tailPause(){ return Math.min(3, Math.max(0, parseFloat(document.getElem
 
 // A duração da cena vem do áudio quando existe; senão do campo manual.
 function sceneDur(f){
+  // Fatia de faixa unica ja termina onde a proxima comeca: a respiracao entre
+  // as cenas esta DENTRO dela. Somar tailPause aqui inseriria um silencio que
+  // a locucao nao tem, e o "take unico" viraria take picotado de novo.
+  if(f.audioBuffer && f.audioFaixa) return f.audioBuffer.duration;
   return f.audioBuffer ? f.audioBuffer.duration + tailPause() : fallbackDur();
 }
 function buildTimeline(){
@@ -2029,6 +2050,9 @@ function renderCards(){
         ${f.audioUrl?`<audio controls preload="none" src="${esc(f.audioUrl)}"></audio>`:''}
         ${f.audioBuffer&&f.wordTimes?`<div class="fc-sync">⏱ ${f.wordTimes.length} palavras sincronizadas</div>`:''}
         ${videoCurtoDemais(f)?`<div class="tip warn" style="margin:6px 0 0">⚠️ A cena tem ${sceneDur(f).toFixed(1)}s e o clipe só ${f.videoDur.toFixed(1)}s — a animação vai recomeçar no meio. Clique em <b>🎞️ Reanimar</b> para refazer o clipe com a duração nova.</div>`:''}
+        ${(elModo()==='faixa'&&(foraDaFaixa(f)||narracaoVelha(f)))?`<div class="tip warn" style="margin:6px 0 0">⚠️ Esta cena está <b>fora da faixa</b>${narracaoVelha(f)?' (o texto mudou depois de gerada)':' (foi narrada sozinha)'} — a voz dela pode destoar do resto.<br>
+          <button class="btn-sm btn-del" style="margin-top:7px" onclick="narrateSingle(${i})">🎤 Só esta cena</button>
+          <button class="btn-sm btn-mic" style="margin-top:7px" onclick="narrateAll()">🎤 Refazer a faixa</button></div>`:''}
         ${f.lastError?`<div class="err-box">⚠ ${esc(f.lastError)}</div>`:''}
       </div>
     `;
@@ -2193,7 +2217,11 @@ function janelaDeTransicao(seg){
   const trans=transDur();
   if(!trans) return 0;
   // sem áudio não há fala para atropelar: a cena inteira está disponível
-  const pausa = seg.f.audioBuffer
+  // Numa fatia de faixa nao existe "sobra de cena sem fala" para medir: a
+  // duracao da cena E a do audio. Mas o corte foi feito exatamente onde a voz
+  // pausa entre as cenas, entao a dissolvencia ja cai em cima de silencio —
+  // a restricao aqui seria zero e mataria a transicao por engano.
+  const pausa = (seg.f.audioBuffer && !seg.f.audioFaixa)
     ? Math.max(0, seg.dur - seg.f.audioBuffer.duration)
     : seg.dur;
   return Math.min(trans, pausa, seg.dur*0.5);
@@ -3448,10 +3476,18 @@ function cortarSilencio(ac,buf,limiar=0.006,margem=0.03){
   return {buffer:out, cortadoInicio:ini/buf.sampleRate, cortadoFim:(n-1-fim)/buf.sampleRate};
 }
 
-async function attachAudio(f,bytes,wordTimes){
+// opts.semCorte: não apara o silêncio das pontas. Vale para as fatias da faixa
+// única — lá o silêncio entre as frases é a respiração real da locução, e é o
+// que faz a emenda sumir. Aparar reintroduziria o corte seco que se quer evitar,
+// e ainda desencontraria as fatias dos tempos do alinhamento.
+// opts.mime: as fatias saem em WAV, e não no MP3 que a ElevenLabs devolveu.
+async function attachAudio(f,bytes,wordTimes,opts){
+  const o=opts||{};
   const ac=getAudioCtx();
   const bruto=await ac.decodeAudioData(bytes.slice().buffer);
-  const {buffer:buf,cortadoInicio,cortadoFim}=cortarSilencio(ac,bruto);
+  const {buffer:buf,cortadoInicio,cortadoFim} = o.semCorte
+    ? {buffer:bruto,cortadoInicio:0,cortadoFim:0}
+    : cortarSilencio(ac,bruto);
   if(f.audioUrl) URL.revokeObjectURL(f.audioUrl);
   f.audioBytes=bytes;
   // os wordTimes ficam como vieram e o desconto é aplicado na hora de ler:
@@ -3459,10 +3495,191 @@ async function attachAudio(f,bytes,wordTimes){
   f.audioTrimStart=cortadoInicio;
   f.audioTrimEnd=cortadoFim;
   f.audioBuffer=buf;
-  f.audioUrl=URL.createObjectURL(new Blob([bytes],{type:'audio/mpeg'}));
+  f.audioUrl=URL.createObjectURL(new Blob([bytes],{type:o.mime||'audio/mpeg'}));
   f.wordTimes=wordTimes||null;
   f._hasAudio=true;
   return buf;
+}
+
+// ── FAIXA ÚNICA ──────────────────────────────────────────
+// Uma geração de voz para o roteiro INTEIRO, fatiada depois por cena.
+//
+// Gerando cena a cena, a ElevenLabs recomeça do zero em cada POST: timbre e
+// ritmo derivam ao longo do vídeo, e cada troca de cena é uma emenda. Os
+// campos previous_text/next_text e previous_request_ids reduzem isso, mas são
+// remendo — a voz ainda muda do começo para o fim.
+//
+// O que torna a fatia possível é o alinhamento em nível de CARACTERE que o
+// endpoint /with-timestamps devolve. Sabendo em que caractere cada cena começa
+// no texto que eu mandei, sei em que segundo ela começa no áudio. Aí é só
+// recortar o AudioBuffer nesses pontos: cada cena recebe o pedaço dela e o
+// resto do app (timeline, transições, legenda por palavra) segue igual.
+//
+// Uso alignment, não normalized_alignment: o primeiro é sobre o texto ORIGINAL,
+// então os offsets que calculo aqui valem direto. O normalizado é sobre o texto
+// expandido pela ElevenLabs ("2024" -> "dois mil e vinte e quatro") e não teria
+// como ser mapeado de volta sem adivinhação.
+const FAIXA_SEP='\n\n';        // separador entre cenas: vira pausa natural na locução
+
+// Recorta [t0,t1) de um AudioBuffer. Sem Web Audio offline: é cópia de amostras.
+function fatiarBuffer(ac,buf,t0,t1){
+  const a=Math.max(0,Math.min(buf.length,Math.floor(t0*buf.sampleRate)));
+  const b=Math.max(a+1,Math.min(buf.length,Math.ceil(t1*buf.sampleRate)));
+  const out=ac.createBuffer(buf.numberOfChannels,b-a,buf.sampleRate);
+  for(let c=0;c<buf.numberOfChannels;c++)
+    out.getChannelData(c).set(buf.getChannelData(c).subarray(a,b));
+  return out;
+}
+
+// A fatia precisa virar arquivo: o player do cartão, o ZIP, o IndexedDB e a
+// pasta do projeto trabalham todos com bytes, não com AudioBuffer. Codificar
+// MP3 no navegador exigiria uma biblioteca; WAV é meia dúzia de linhas e o
+// serve.py já aceita audio/wav. Ocupa mais espaço, e por cena são segundos.
+function bufferParaWav(buf){
+  const canais=buf.numberOfChannels, n=buf.length, taxa=buf.sampleRate;
+  const bytes=new ArrayBuffer(44+n*canais*2), dv=new DataView(bytes);
+  const txt=(off,s)=>{ for(let i=0;i<s.length;i++) dv.setUint8(off+i,s.charCodeAt(i)); };
+  txt(0,'RIFF'); dv.setUint32(4,36+n*canais*2,true); txt(8,'WAVE');
+  txt(12,'fmt '); dv.setUint32(16,16,true); dv.setUint16(20,1,true);
+  dv.setUint16(22,canais,true); dv.setUint32(24,taxa,true);
+  dv.setUint32(28,taxa*canais*2,true); dv.setUint16(32,canais*2,true); dv.setUint16(34,16,true);
+  txt(36,'data'); dv.setUint32(40,n*canais*2,true);
+  const dados=[]; for(let c=0;c<canais;c++) dados.push(buf.getChannelData(c));
+  let p=44;
+  for(let i=0;i<n;i++) for(let c=0;c<canais;c++){
+    const v=Math.max(-1,Math.min(1,dados[c][i]));
+    dv.setInt16(p,v<0?v*0x8000:v*0x7fff,true); p+=2;
+  }
+  return new Uint8Array(bytes);
+}
+
+// Converte "posição de caractere no meu texto" em "índice no array do
+// alinhamento". No caminho feliz é a identidade. Quando não é — a ElevenLabs
+// pode devolver espaços em branco diferentes dos que mandei —, o casamento é
+// feito só pelos caracteres NÃO-BRANCOS, que são os que ela nunca inventa nem
+// descarta. Se nem assim as contagens baterem, devolve null e quem chamou cai
+// na divisão proporcional.
+function indiceDoAlinhamento(chars,textoCombinado){
+  if(chars.join('')===textoCombinado) return i=>i;
+  const densoTxt=[], densoAl=[];
+  for(let i=0;i<textoCombinado.length;i++) if(!/\s/.test(textoCombinado[i])) densoTxt.push(i);
+  for(let i=0;i<chars.length;i++) if(!/\s/.test(chars[i])) densoAl.push(i);
+  if(densoTxt.length!==densoAl.length || !densoTxt.length) return null;
+  // posicao no texto -> k (quantos nao-brancos vieram antes), com busca binaria
+  return pos=>{
+    let lo=0,hi=densoTxt.length-1,k=densoTxt.length-1;
+    while(lo<=hi){ const m=(lo+hi)>>1; if(densoTxt[m]>=pos){ k=m; hi=m-1; } else lo=m+1; }
+    return densoAl[Math.min(k,densoAl.length-1)];
+  };
+}
+
+async function narrarFaixa(){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  frames.forEach((_,i)=>syncFrame(i));
+
+  const key=elKey(), vid=voiceId(), model=document.getElementById('elModel').value;
+  if(!key) throw new Error('Cole a key da ElevenLabs na janela Chaves.');
+  if(!vid) throw new Error('Escolha uma voz (ou cole o Voice ID).');
+
+  const alvos=frames.map((f,i)=>({f,i,texto:narrationOf(f)})).filter(x=>x.texto);
+  if(!alvos.length) throw new Error('Nenhuma cena tem texto para narrar.');
+  const semTexto=frames.findIndex(f=>!narrationOf(f));
+  if(semTexto>=0) logLine('warn',`Cena ${semTexto+1} está sem texto e fica fora da faixa.`);
+
+  // monta o texto e guarda onde cada cena começa e acaba dentro dele
+  let combinado='';
+  for(const x of alvos){
+    if(combinado) combinado+=FAIXA_SEP;
+    x.ini=combinado.length;
+    combinado+=x.texto;
+    x.fim=combinado.length;
+  }
+  logLine('info',`Faixa única: ${alvos.length} cena(s), ${combinado.length} caracteres numa geração só.`,
+    'A voz não recomeça entre as cenas — é isso que tira a emenda e a deriva de timbre.');
+
+  const base=`${EL_API}/text-to-speech/${encodeURIComponent(vid)}`;
+  const res=await fetchRetry(base+'/with-timestamps?output_format=mp3_44100_128',{
+    method:'POST',
+    headers:{'xi-api-key':key,'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({text:combinado,model_id:model})
+  },{label:'ElevenLabs (faixa)',tries:3,timeoutMs:300000});
+  if(!res.ok) throw await elError(res,'Erro no TTS da faixa');
+
+  const d=await res.json();
+  if(!d.audio_base64) throw new Error('ElevenLabs não devolveu áudio.');
+  const bytesFaixa=b64ToBytes(d.audio_base64);
+  const al=d.alignment||d.normalized_alignment||null;
+  if(!al || !Array.isArray(al.characters))
+    throw new Error('A ElevenLabs não devolveu o alinhamento; sem ele não dá para dividir a faixa em cenas. Use o modo por cena.');
+
+  const ac=getAudioCtx();
+  const faixaBuf=await ac.decodeAudioData(bytesFaixa.slice().buffer);
+  const st=al.character_start_times_seconds, en=al.character_end_times_seconds||st;
+  const idx=indiceDoAlinhamento(al.characters,combinado);
+  if(!idx) logLine('warn','O alinhamento não bateu com o texto enviado; dividindo as cenas proporcionalmente.',
+    'A locução continua contínua — só os cortes entre cenas ficam aproximados.');
+
+  const faixaId='fx'+Date.now().toString(36);
+  const tempoDe=(pos,fim)=>{
+    if(idx){ const k=Math.max(0,Math.min(st.length-1,idx(pos))); return fim?(en[k]??st[k]):st[k]; }
+    return (pos/combinado.length)*faixaBuf.duration;      // degradado, mas nunca quebrado
+  };
+
+  // As fatias se ENCAIXAM: cada uma termina onde a próxima começa, e a última
+  // vai até o fim do arquivo. Cortando no fim da última palavra sobrava de
+  // fora o tempo do separador — que é justamente a respiração entre as cenas.
+  // Descartá-la devolveria o corte seco que a faixa única existe para evitar.
+  const inicios=alvos.map((x,k)=>k===0 ? 0 : tempoDe(x.ini,false));
+
+  let ok=0;
+  for(let k=0;k<alvos.length;k++){
+    const x=alvos[k];
+    const t0=inicios[k];
+    const t1=(k===alvos.length-1) ? faixaBuf.duration : inicios[k+1];
+    const fatia=fatiarBuffer(ac,faixaBuf,t0,Math.max(t0+0.05,t1));
+    const wav=bufferParaWav(fatia);
+
+    // tempos de palavra relativos ao início da FATIA, que é o que o
+    // visibleWordCount espera
+    let tempos=null;
+    if(idx){
+      tempos=[]; let dentro=false;
+      const cIni=idx(x.ini), cFim=idx(x.fim);
+      for(let c=cIni;c<Math.min(cFim,al.characters.length);c++){   // c, nao k: o k e do laco das cenas
+        if(/\s/.test(al.characters[c])) dentro=false;
+        else if(!dentro){ tempos.push(Math.max(0,st[c]-t0)); dentro=true; }
+      }
+      if(tempos.length!==x.texto.split(/\s+/).filter(Boolean).length) tempos=null;
+    }
+
+    await attachAudio(x.f,wav,tempos,{semCorte:true,mime:'audio/wav'});
+    x.f.audioText=x.texto;
+    x.f.audioVoice=vid; x.f.audioModel=model;
+    x.f.audioFaixa=faixaId;          // marca de qual faixa esta cena saiu
+    x.f.audioReqId=null; x.f.audioReqAt=0;
+    x.f.lastError=null;
+    idbPut(x.f.id,{bytes:wav.buffer.slice(0),wordTimes:tempos,text:x.texto});
+    projSubirAsset('audio',x.f.id,wav,'audio/wav');
+    setABadge(x.i,'b-aud','🔊 '+fatia.duration.toFixed(1)+'s');
+    ok++;
+  }
+
+  logLine('ok',`Faixa pronta: ${faixaBuf.duration.toFixed(1)}s divididos em ${ok} cena(s).`,
+    idx?'Cortes tirados do alinhamento por caractere da ElevenLabs.':'Cortes proporcionais (alinhamento não bateu).');
+  return {dur:faixaBuf.duration,cenas:ok,exato:!!idx};
+}
+
+// Cena narrada por fora da faixa (ou editada depois dela) volta a ser uma
+// emenda. Não regero nada sozinho — o cartão avisa e a decisão é sua.
+function faixaAtual(){
+  const ids=frames.map(f=>f.audioFaixa).filter(Boolean);
+  return ids.length?ids[ids.length-1]:null;
+}
+function foraDaFaixa(f){
+  if(!f || !f.audioBuffer || !narrationOf(f)) return false;
+  const atual=faixaAtual();
+  if(!atual) return false;                 // ninguém está em modo faixa
+  return f.audioFaixa!==atual;
 }
 
 // ── CONTINUIDADE ENTRE AS CENAS ──────────────────────────
@@ -3590,6 +3807,8 @@ async function ttsScene(f, ctx){
   await attachAudio(f,bytes,usable);
   // marca de qual texto este áudio é: editar a cena depois torna o áudio velho
   f.audioText=text;
+  // gerada sozinha: sai da faixa, e o cartão passa a avisar que a voz pode destoar
+  f.audioFaixa=null;
   // guarda o que a próxima cena precisa para emendar nesta
   f.audioReqId=reqId||null;
   f.audioReqAt=reqId?Date.now():0;
@@ -3626,11 +3845,50 @@ async function narrateSingle(i){
   }
 }
 
+function elModo(){ return (document.getElementById('elModo')||{}).value||'faixa'; }
+
+// so o que e visual: o init chama isto antes de os quadros existirem, e
+// renderCards/saveState ali seriam cedo demais
+function aplicarModoNarracao(){
+  const faixa=elModo()==='faixa';
+  const a=document.getElementById('elFaixaBox'); if(a) a.style.display=faixa?'block':'none';
+  const b=document.getElementById('elCenaBox');  if(b) b.style.display=faixa?'none':'block';
+  const bt=document.getElementById('ttsAllBtn');
+  if(bt) bt.textContent = faixa ? '🎤 Narrar (faixa única)' : '🎤 Narrações';
+}
+function onElModoChange(){
+  aplicarModoNarracao();
+  renderCards();
+  saveState();
+}
+
 async function narrateAll(){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   frames.forEach((_,i)=>syncFrame(i));
   const missing=frames.findIndex(f=>!narrationOf(f));
   if(missing>=0){ setStatus(`⚠️ Cena ${missing+1} sem texto para narrar.`); return; }
+
+  // Faixa única: uma chamada só, e o progresso não tem como ser por cena — o
+  // trabalho todo acontece dentro de um POST. A barra fica indeterminada.
+  if(elModo()==='faixa'){
+    const btn=document.getElementById('ttsAllBtn');
+    btn.disabled=true; btn.textContent='Gerando a faixa…';
+    showOv('🎤 Gerando a narração do vídeo inteiro…<br><small style="color:#444">uma geração só; roteiro longo demora mais</small>');
+    setStatus('Gerando a faixa de narração…');
+    try{
+      const r=await narrarFaixa();
+      setStatus(`✅ Faixa pronta: ${r.dur.toFixed(1)}s em ${r.cenas} cena(s)`
+        + (r.exato?' — cortes exatos pelo alinhamento.':' — cortes aproximados.'));
+    }catch(e){
+      logLine('err','Faixa única falhou',e.message);
+      setStatus('❌ '+e.message);
+    }
+    hideOv();
+    btn.disabled=false; onElModoChange();
+    renderCards(); checkDone(); updateTotals(); saveState();
+    return;
+  }
+
   const btn=document.getElementById('ttsAllBtn');
   btn.disabled=true; btn.textContent='Gerando narrações…';
   document.getElementById('progBar').style.display='block';
@@ -3656,7 +3914,7 @@ async function narrateAll(){
     }
   }
   setProg(100); hideOv();
-  btn.disabled=false; btn.textContent='🎤 Gerar todas as narrações';
+  btn.disabled=false; onElModoChange();
   document.getElementById('progBar').style.display='none';
   renderCards(); checkDone(); updateTotals(); saveState();
   if(!fails) setStatus(`✅ Narrações prontas (${synced}/${frames.length} com sync palavra a palavra`
@@ -4859,6 +5117,7 @@ preencherSeletorDeFonte();
 preencherSeletorDeEstilo();
 loadState();
 aplicarToggleVideo();
+aplicarModoNarracao();
 // antes do restoreAssets: é o projeto aberto que diz de onde os arquivos vêm
 projRestaurarAberto();
 ligarCanvas();
