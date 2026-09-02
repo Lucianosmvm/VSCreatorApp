@@ -94,7 +94,27 @@ input:disabled,select:disabled{opacity:.45}
 input[readonly]{color:var(--muted)}
 textarea{resize:vertical;line-height:1.5;min-height:64px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-input[type=checkbox]{width:auto;margin:0;accent-color:var(--accent)}
+/* O reset da regra acima vale para TODO input, e levava junto o desenho nativo
+   do checkbox: sobrava um retângulo escuro de 9px de padding que não mudava ao
+   ser marcado. O clique sempre alternou o estado — só não aparecia nada, e a
+   impressão era de que o checkbox não funcionava. O accent-color que estava
+   aqui também não ajudava: ele só pinta o desenho nativo, que já não existia.
+   Então o desenho volta feito à mão, no tema do app em vez do checkbox branco
+   do sistema. */
+input[type=checkbox]{
+  appearance:none;-webkit-appearance:none;
+  width:16px;height:16px;flex:0 0 16px;   /* flex-shrink:0: dentro do .chk (flex) a caixa era espremida */
+  padding:0;margin:0;position:relative;cursor:pointer;
+  background:#0c0c0c;border:1px solid var(--border2);border-radius:5px;
+  transition:background .15s,border-color .15s}
+input[type=checkbox]:hover:not(:disabled){border-color:var(--accent)}
+input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent)}
+/* o "v" é uma borda em L girada 45° — sem fonte, sem SVG, sem asset externo */
+input[type=checkbox]:checked::after{
+  content:'';position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;
+  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input[type=checkbox]:disabled{cursor:default}
 .chk{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);margin-top:12px;cursor:pointer}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.45}
 textarea.masked{-webkit-text-security:disc;text-security:disc}
