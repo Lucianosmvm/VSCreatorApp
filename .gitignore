@@ -1,0 +1,52 @@
+# ── Ambiente do DepthFlow ────────────────────────────────────────────
+# 1,2 GB, quase tudo torch. Recriável com: python AIImage/setup.py
+# O venv do Python já cria um .gitignore com "*" dentro de si mesmo, mas isso
+# some se a pasta for recriada por um Python mais velho — a regra fica aqui.
+AIImage/.venv/
+
+# OpenGL por software, baixado à mão do MSYS2 quando não há GPU (ver o
+# configure_opengl_cpu() do parallax.py). Binário, e de outra origem.
+AIImage/mesa/
+
+# ── Saída do parallax ────────────────────────────────────────────────
+# Tudo aqui é regenerável a partir de input/ + parallax.py. O clipe de exemplo
+# que já está commitado continua versionado: .gitignore não afeta o que o git
+# já rastreia.
+AIImage/output/
+
+# Cópias que o /parallax do serve.py escreve enquanto renderiza. O servidor
+# apaga as suas no fim e limpa as sobras ao subir, mas um render interrompido
+# entre as duas coisas deixa uma para trás.
+AIImage/input/cena-*
+
+# ── Projetos ─────────────────────────────────────────────────────────
+# O roteiro (projeto.json) É versionado de propósito: é texto, diffa bem, e o
+# histórico de como o roteiro evoluiu vale a pena.
+#
+# A mídia gerada, não: são dezenas de MB por projeto, mudam a cada "refazer" e
+# saem inteiras no diff. Elas já estão a salvo — é para isso que a pasta do
+# projeto existe. Faça backup de projetos/ com a mesma ferramenta que você usa
+# para o resto do disco, não com o git.
+#
+# Para versionar a mídia também, apague as três linhas abaixo.
+projetos/*/imagens/
+projetos/*/audios/
+projetos/*/videos/
+
+# Projetos removidos pelo botão de lixeira. Ficam no disco para dar para
+# recuperar, mas não são o estado atual de nada.
+projetos/.lixeira/
+
+# ── Python ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# ── Máquina e editor ─────────────────────────────────────────────────
+# Preferências locais do Claude Code. O launch.json ao lado é versionado: ele
+# descreve como subir o app, e vale para quem clonar.
+.claude/settings.local.json
+
+Thumbs.db
+desktop.ini
+.DS_Store

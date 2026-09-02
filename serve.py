@@ -26,6 +26,7 @@ Uso:  python serve.py [porta]
 import ipaddress
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -83,6 +84,99 @@ PARALLAX_TIMEOUT = 900          # 15 min: primeira rodada baixa o modelo de prof
 # DepthFlow renderiza em OpenGL. Dois renders ao mesmo tempo disputam a mesma
 # placa e o segundo morre com erro de contexto — uma cena por vez.
 parallax_lock = threading.Lock()
+
+# ── PROJETOS ─────────────────────────────────────────────────────────────
+#
+# Um diretorio por video. Ate aqui o app guardava tudo no navegador
+# (localStorage + IndexedDB): limpar os dados do site levava junto todas as
+# imagens ja pagas, e nao dava para abrir o mesmo roteiro em outro navegador.
+#
+#   projetos/<id>/projeto.json     roteiro + configuracao
+#   projetos/<id>/imagens/<cena>.webp
+#   projetos/<id>/audios/<cena>.mp3
+#   projetos/<id>/videos/<cena>.mp4
+#
+# Isto grava arquivos a partir de requisicao HTTP, entao NENHUM nome vem do
+# cliente: o id do projeto e o id da cena passam por uma regex fechada, a
+# extensao sai do Content-Type contra uma tabela fixa, e o caminho final ainda
+# e conferido com realpath para ter certeza de que caiu dentro de projetos/.
+PROJETOS_PREFIX = "/projetos"
+PROJETOS_DIR = os.path.join(APP_DIR, "projetos")
+PROJETOS_LIXEIRA = os.path.join(PROJETOS_DIR, ".lixeira")
+PROJETO_JSON = "projeto.json"
+PROJETO_MAX_JSON = 16 * 1024 * 1024
+PROJETO_MAX_ASSET = 200 * 1024 * 1024
+PROJETO_ID_OK = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
+
+# tipo -> (subpasta, {content-type: extensao})
+PROJETO_TIPOS = {
+    "imagem": ("imagens", {"image/webp": ".webp", "image/png": ".png",
+                           "image/jpeg": ".jpg", "image/gif": ".gif"}),
+    "audio":  ("audios",  {"audio/mpeg": ".mp3", "audio/mp3": ".mp3",
+                           "audio/wav": ".wav", "audio/ogg": ".ogg"}),
+    "video":  ("videos",  {"video/mp4": ".mp4", "video/webm": ".webm"}),
+}
+
+
+def projeto_dir(pid):
+    """Caminho da pasta do projeto, ou None se o id nao for aceitavel.
+
+    O realpath no fim nao e paranoia repetida: a regex ja barra '..' e barras,
+    mas um link simbolico dentro de projetos/ apontando para fora passaria pela
+    regex e nao pelo prefixo. Melhor conferir onde o caminho REALMENTE cai.
+    """
+    if not pid or not PROJETO_ID_OK.match(pid):
+        return None
+    destino = os.path.realpath(os.path.join(PROJETOS_DIR, pid))
+    raiz = os.path.realpath(PROJETOS_DIR)
+    if destino != raiz and not destino.startswith(raiz + os.sep):
+        return None
+    return destino
+
+
+def projeto_meta(pid):
+    """Resumo para a lista: nome, datas, quantas cenas, quanto ocupa."""
+    pasta = projeto_dir(pid)
+    if not pasta or not os.path.isdir(pasta):
+        return None
+    caminho = os.path.join(pasta, PROJETO_JSON)
+    nome, cenas, modificado = pid, 0, 0
+    if os.path.isfile(caminho):
+        modificado = os.path.getmtime(caminho)
+        try:
+            with open(caminho, encoding="utf-8") as fh:
+                dados = json.load(fh)
+            nome = dados.get("nome") or pid
+            cenas = len(dados.get("frames") or [])
+        except (OSError, ValueError):
+            pass
+    bytes_totais = 0
+    for raiz, _, arquivos in os.walk(pasta):
+        for a in arquivos:
+            try:
+                bytes_totais += os.path.getsize(os.path.join(raiz, a))
+            except OSError:
+                pass
+    return {
+        "id": pid, "nome": nome, "cenas": cenas,
+        "modificado": modificado,
+        "criado": os.path.getctime(pasta),
+        "bytes": bytes_totais,
+    }
+
+
+def projetos_listar():
+    if not os.path.isdir(PROJETOS_DIR):
+        return []
+    saida = []
+    for nome in os.listdir(PROJETOS_DIR):
+        if nome.startswith("."):          # .lixeira e afins ficam de fora
+            continue
+        meta = projeto_meta(nome)
+        if meta:
+            saida.append(meta)
+    saida.sort(key=lambda m: m["modificado"], reverse=True)
+    return saida
 
 
 def parallax_python():
@@ -185,7 +279,8 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_OPTIONS(self):
         rota = self.path.split("?")[0]
-        if self.path.startswith(PREFIX) or rota == FETCH_PREFIX or rota.startswith(PARALLAX_PREFIX):
+        if (self.path.startswith(PREFIX) or rota == FETCH_PREFIX
+                or rota.startswith(PARALLAX_PREFIX) or rota.startswith(PROJETOS_PREFIX)):
             self.send_response(204)
             self._cors()
             self.send_header("Content-Length", "0")
@@ -202,13 +297,24 @@ class Handler(SimpleHTTPRequestHandler):
             return self._fetch()
         if rota == PARALLAX_PREFIX + "/status":
             return self._parallax_status()
+        if rota.startswith(PROJETOS_PREFIX):
+            return self._projetos("GET", rota)
         return SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
         if self.path.startswith(PREFIX):
             return self._proxy("POST")
-        if self.path.split("?")[0] == PARALLAX_PREFIX:
+        rota = self.path.split("?")[0]
+        if rota == PARALLAX_PREFIX:
             return self._parallax()
+        if rota.startswith(PROJETOS_PREFIX):
+            return self._projetos("POST", rota)
+        self.send_error(404)
+
+    def do_DELETE(self):
+        rota = self.path.split("?")[0]
+        if rota.startswith(PROJETOS_PREFIX):
+            return self._projetos("DELETE", rota)
         self.send_error(404)
 
     # ---- proxy ---------------------------------------------------------
@@ -389,6 +495,151 @@ class Handler(SimpleHTTPRequestHandler):
                 pass
             parallax_lock.release()
 
+    # ---- projetos --------------------------------------------------------
+    def _json(self, status, obj):
+        self._responder(status, json.dumps(obj, ensure_ascii=False).encode("utf-8"),
+                        "application/json; charset=utf-8")
+
+    def _ler_corpo(self, limite):
+        """Tira o corpo do socket ou devolve None (e ja respondeu o erro).
+
+        Mesmo cuidado do /parallax: recusar antes de drenar deixaria os bytes na
+        conexao, e o keep-alive leria o restante como se fosse a proxima
+        requisicao.
+        """
+        tamanho = int(self.headers.get("Content-Length") or 0)
+        if tamanho > limite:
+            self.close_connection = True
+            self._json(413, {"detail": "corpo maior que %d MB" % (limite // 1048576)})
+            return None
+        return self.rfile.read(tamanho) if tamanho > 0 else b""
+
+    def _projetos(self, metodo, rota):
+        partes = [p for p in rota[len(PROJETOS_PREFIX):].split("/") if p]
+
+        # O corpo sai do socket ANTES de qualquer validacao — mesma armadilha do
+        # /parallax. Recusar cedo ("tipo invalido", "id invalido") deixava os
+        # bytes na conexao, e o keep-alive do HTTP/1.1 lia o proximo pedaco do
+        # arquivo como se fosse a requisicao seguinte: a chamada seguinte
+        # voltava com uma pagina de erro 400 em HTML, sem relacao com o que se
+        # tinha pedido. Foi assim que apareceu no teste.
+        corpo = None
+        if metodo == "POST":
+            limite = PROJETO_MAX_JSON if partes[-1:] == [PROJETO_JSON] else PROJETO_MAX_ASSET
+            corpo = self._ler_corpo(limite)
+            if corpo is None:
+                return
+
+        # GET /projetos  -> lista
+        if not partes:
+            if metodo != "GET":
+                return self._json(405, {"detail": "use GET para listar projetos"})
+            return self._json(200, {"projetos": projetos_listar()})
+
+        pid = partes[0]
+        pasta = projeto_dir(pid)
+        if pasta is None:
+            return self._json(400, {"detail": "id de projeto invalido"})
+        resto = partes[1:]
+
+        # DELETE /projetos/<id>  -> vai para a lixeira, nao some
+        if metodo == "DELETE" and not resto:
+            if not os.path.isdir(pasta):
+                return self._json(404, {"detail": "projeto nao encontrado"})
+            # Mover em vez de apagar: aqui dentro tem imagem que custou dinheiro
+            # para gerar, e um clique errado nao pode ser definitivo.
+            os.makedirs(PROJETOS_LIXEIRA, exist_ok=True)
+            destino = os.path.join(PROJETOS_LIXEIRA, "%s-%d" % (pid, int(time.time())))
+            try:
+                shutil.move(pasta, destino)
+            except OSError as e:
+                return self._json(500, {"detail": "nao consegui mover para a lixeira: %s" % e})
+            print("[projeto] %s -> lixeira (%s)" % (pid, os.path.basename(destino)))
+            return self._json(200, {"ok": True, "lixeira": os.path.basename(destino)})
+
+        # /projetos/<id>/projeto.json
+        if resto == [PROJETO_JSON]:
+            caminho = os.path.join(pasta, PROJETO_JSON)
+            if metodo == "GET":
+                if not os.path.isfile(caminho):
+                    return self._json(404, {"detail": "projeto nao encontrado"})
+                with open(caminho, "rb") as fh:
+                    return self._responder(200, fh.read(), "application/json; charset=utf-8")
+            if metodo == "POST":
+                try:
+                    json.loads(corpo.decode("utf-8"))     # so grava JSON valido
+                except (ValueError, UnicodeDecodeError) as e:
+                    return self._json(400, {"detail": "corpo nao e JSON valido: %s" % e})
+                os.makedirs(pasta, exist_ok=True)
+                # grava num temporario e troca: interromper no meio da escrita
+                # deixaria o projeto.json truncado, e com ele o roteiro inteiro
+                tmp = caminho + ".tmp"
+                with open(tmp, "wb") as fh:
+                    fh.write(corpo)
+                os.replace(tmp, caminho)
+                return self._json(200, {"ok": True, "bytes": len(corpo)})
+            return self._json(405, {"detail": "use GET ou POST"})
+
+        # /projetos/<id>/asset?tipo=&cena=
+        if resto == ["asset"]:
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            tipo = q.get("tipo", [""])[0]
+            cena = q.get("cena", [""])[0]
+            if tipo not in PROJETO_TIPOS:
+                return self._json(400, {"detail": "tipo deve ser imagem, audio ou video"})
+            if not PROJETO_ID_OK.match(cena or ""):
+                return self._json(400, {"detail": "id de cena invalido"})
+            sub, tabela = PROJETO_TIPOS[tipo]
+            destino = os.path.join(pasta, sub)
+
+            if metodo == "GET":
+                if not os.path.isdir(destino):
+                    return self._json(404, {"detail": "sem %s neste projeto" % tipo})
+                for ext in dict.fromkeys(tabela.values()):
+                    caminho = os.path.join(destino, cena + ext)
+                    if os.path.isfile(caminho):
+                        ctype = next(c for c, e in tabela.items() if e == ext)
+                        with open(caminho, "rb") as fh:
+                            return self._responder(200, fh.read(), ctype)
+                return self._json(404, {"detail": "cena %s nao tem %s" % (cena, tipo)})
+
+            if metodo == "POST":
+                ctype = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+                ext = tabela.get(ctype)
+                if ext is None:
+                    return self._json(415, {"detail": "Content-Type %r nao vale para %s" % (ctype[:40], tipo)})
+                if not corpo:
+                    return self._json(400, {"detail": "corpo vazio"})
+                os.makedirs(destino, exist_ok=True)
+                # a mesma cena pode trocar de formato ao ser refeita; sem isto
+                # sobraria a versao antiga em outra extensao e o GET acharia ela
+                for velha in dict.fromkeys(tabela.values()):
+                    if velha != ext:
+                        try:
+                            os.remove(os.path.join(destino, cena + velha))
+                        except OSError:
+                            pass
+                caminho = os.path.join(destino, cena + ext)
+                tmp = caminho + ".tmp"
+                with open(tmp, "wb") as fh:
+                    fh.write(corpo)
+                os.replace(tmp, caminho)
+                return self._json(200, {"ok": True, "arquivo": sub + "/" + cena + ext, "bytes": len(corpo)})
+
+            if metodo == "DELETE":
+                sumiram = []
+                for ext in dict.fromkeys(tabela.values()):
+                    caminho = os.path.join(destino, cena + ext)
+                    if os.path.isfile(caminho):
+                        try:
+                            os.remove(caminho)
+                            sumiram.append(os.path.basename(caminho))
+                        except OSError:
+                            pass
+                return self._json(200, {"ok": True, "apagados": sumiram})
+
+        return self._json(404, {"detail": "rota de projeto desconhecida"})
+
     # ---- resposta --------------------------------------------------------
     def _responder(self, status, data, ctype):
         self.send_response(status)
@@ -450,6 +701,9 @@ if __name__ == "__main__":
     sobras = parallax_limpar_entradas()
     if sobras:
         print("  (limpei %d imagem(ns) de render interrompido em AIImage/input)" % sobras)
+    os.makedirs(PROJETOS_DIR, exist_ok=True)
+    print("Projetos em  %s  ->  %s (%d salvos)" % (
+        PROJETOS_PREFIX, PROJETOS_DIR, len(projetos_listar())))
     print("Servindo os arquivos de  %s" % APP_DIR)
     print("Ctrl+C para parar.")
     try:

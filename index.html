@@ -371,6 +371,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
      e o que era aba virou painel ao lado dele. -->
 <nav class="rail">
   <div class="rail-mark">SC</div>
+  <button class="ri" data-tab="projetos" onclick="showTab('projetos')" title="Projetos salvos em disco"><span>📁</span><b>Projetos</b></button>
   <button class="ri" data-tab="roteiro" onclick="showTab('roteiro')" title="Importar roteiro"><span>📋</span><b>Roteiro</b></button>
   <button class="ri" data-tab="chaves"  onclick="showTab('chaves')"  title="Chaves e modelos"><span>🔑</span><b>Chaves</b><i class="pip" id="pipChaves"></i></button>
   <button class="ri" data-tab="config"  onclick="showTab('config')"  title="Configurações"><span>⚙️</span><b>Config</b></button>
@@ -383,6 +384,32 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
   <div class="painel-corpo">
 
 <!-- ══════════ PAINEL: ROTEIRO ══════════ -->
+<!-- ══════════ PAINEL: PROJETOS ══════════ -->
+<div class="pane" data-tab="projetos">
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">📁</div>
+      <div class="sec-t">Projetos</div>
+    </div>
+
+    <div id="projAtualBox"></div>
+
+    <div class="btnrow" style="margin-top:9px">
+      <button class="btn-sm btn-add" onclick="projNovo()">+ Novo projeto</button>
+      <button class="btn-sm btn-del" onclick="projSalvar()" id="projSalvarBtn">💾 Salvar agora</button>
+      <button class="btn-sm btn-del" onclick="projPintarLista(true)">↻ Atualizar lista</button>
+    </div>
+
+    <div class="tip">
+      Cada projeto é uma pasta em <code>projetos/</code>, ao lado do <code>serve.py</code>: o roteiro em <code>projeto.json</code> e as imagens, narrações e clipes em subpastas. Tudo é gravado <b>na hora em que fica pronto</b> — não existe "esqueci de salvar".<br>
+      As chaves de API <b>não</b> entram no arquivo do projeto: elas ficam só neste navegador, para a pasta poder ser copiada ou versionada sem vazar nada.
+    </div>
+
+    <div class="sec-t" style="margin:14px 0 6px;font-size:11px;opacity:.75">SALVOS</div>
+    <div id="projLista"></div>
+  </div>
+</div>
+
 <div class="pane" data-tab="roteiro">
   <div class="sec sec-import" id="secImport">
     <div class="sec-hd">
@@ -1049,7 +1076,7 @@ const idbClear = ()=>idbTx('readwrite',s=>s.clear());
 // para se mexer numa chave ou numa configuração.
 const TAB_KEY='shortsCreator.tab';
 const PAINEL_KEY='shortsCreator.painel';
-const ABAS_PAINEL=['roteiro','chaves','config','diag'];
+const ABAS_PAINEL=['projetos','roteiro','chaves','config','diag'];
 
 function modoLateral(){ return matchMedia('(min-width:1000px)').matches; }
 
@@ -1062,6 +1089,9 @@ function showTab(name){
   // pareceria que o botão quebrou
   abrirPainel();
   try{ localStorage.setItem(TAB_KEY,name); }catch(e){}
+  // a lista vem do disco: relê ao abrir a aba, senao mostra o estado de quando
+  // a pagina carregou e um projeto criado em outra aba nao aparece
+  if(name==='projetos'){ projPintarBarra(); projPintarLista(); }
   if(!modoLateral()) window.scrollTo(0,0);
 }
 function restoreTab(){
@@ -1153,6 +1183,243 @@ function toggleRowMask(btn){
   inp.type = inp.type==='password' ? 'text' : 'password';
 }
 
+// ── PROJETOS EM DISCO ────────────────────────────────────
+// Até aqui tudo vivia no navegador: localStorage para o roteiro, IndexedDB para
+// os bytes. Limpar os dados do site levava junto todas as imagens já pagas, e
+// não havia como abrir o mesmo roteiro em outra máquina.
+//
+// Um projeto é uma pasta que o serve.py administra:
+//   projetos/<id>/projeto.json + imagens/ + audios/ + videos/
+//
+// A gravação é write-through, não "salvar no fim": cada imagem, narração e
+// clipe vai para o disco no instante em que fica pronto. Quem gera imagem paga
+// por ela — fechar a aba sem salvar não pode custar o roteiro inteiro.
+//
+// As chaves de API NÃO entram no arquivo do projeto. Elas continuam só no
+// navegador: a pasta do projeto é feita para ser copiada, versionada e mandada
+// para outra máquina, e uma chave da ElevenLabs junto viraria vazamento.
+const PROJ_KEY   = 'shortsCreator.projetoAberto';
+const PROJ_SEGREDOS = ['apiKeys','apiKey','elKey','repToken','pollToken','rememberKey'];
+let projetoAtual = null;      // {id, nome} ou null = só no navegador
+let projSaveT = null;
+let projOcupado = false;      // durante o carregamento, não grava por cima
+let projDentroDoSnapshot = false;
+
+function projAtivo(){ return !!(projetoAtual && projetoAtual.id); }
+function projRotulo(){ return projAtivo() ? projetoAtual.nome : 'Sem projeto'; }
+
+// id de pasta: sem acento, sem espaço, sem nada que o servidor recuse. O sufixo
+// de tempo evita que dois roteiros com o mesmo título briguem pela mesma pasta.
+function projNovoId(nome){
+  const base=(nome||'projeto').normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'projeto';
+  return `${base}-${Date.now().toString(36)}`;
+}
+
+async function projApi(caminho,opts){
+  const r=await fetch('/projetos'+caminho,opts);
+  if(!r.ok){
+    let d='';
+    try{ d=(await r.json()).detail||''; }catch(_){}
+    throw new Error(d||`servidor respondeu ${r.status}`);
+  }
+  return r;
+}
+
+async function projListar(){
+  try{ return (await (await projApi('',{})).json()).projetos||[]; }
+  catch(e){ logLine('warn','Não consegui listar os projetos',e.message); return []; }
+}
+
+// Snapshot do roteiro = exatamente o que o localStorage guarda, menos segredos.
+// Reaproveitar o formato faz o loadState() existente abrir um projeto sem
+// nenhuma tradução no meio — e um campo novo no app aparece nos dois de graça.
+function projSnapshot(){
+  // guarda contra recursão: o saveState avisa o projeto a cada mudança, e sem
+  // esta trava o par saveState → projSalvarSoon → projSnapshot → saveState
+  // ficaria se reagendando para sempre
+  projDentroDoSnapshot=true;
+  try{ saveState(); } finally { projDentroDoSnapshot=false; }
+  let d={};
+  try{ d=JSON.parse(localStorage.getItem(LS_KEY)||'{}'); }catch(e){}
+  PROJ_SEGREDOS.forEach(k=>delete d[k]);
+  d.nome=projetoAtual?projetoAtual.nome:'';
+  d.salvoEm=new Date().toISOString();
+  d.appVersao=2;
+  return d;
+}
+
+async function projSalvar(silencioso){
+  if(!projAtivo()||projOcupado) return;
+  try{
+    await projApi(`/${projetoAtual.id}/projeto.json`,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(projSnapshot())
+    });
+    projPintarBarra();
+    if(!silencioso) setStatus(`💾 Projeto "${projetoAtual.nome}" salvo.`);
+  }catch(e){
+    logLine('err','Falha ao salvar o projeto',e.message);
+    if(!silencioso) setStatus('❌ Não salvei o projeto: '+e.message);
+  }
+}
+function projSalvarSoon(){ clearTimeout(projSaveT); projSaveT=setTimeout(()=>projSalvar(true),1200); }
+
+// Write-through de um arquivo. Chamado de dentro do setFrameImage/attachAudio/
+// setFrameVideo, então uma falha aqui não pode derrubar a geração que acabou de
+// dar certo: registra no log e segue — os bytes continuam no IndexedDB.
+async function projSubirAsset(tipo,frameId,bytes,mime){
+  if(!projAtivo()||projOcupado||!bytes||!bytes.length) return;
+  try{
+    await projApi(`/${projetoAtual.id}/asset?tipo=${tipo}&cena=${encodeURIComponent(frameId)}`,{
+      method:'POST', headers:{'Content-Type':mime}, body:bytes
+    });
+    projSalvarSoon();
+  }catch(e){
+    logLine('warn',`Projeto: não gravei ${tipo} da cena ${frameId} em disco`,e.message);
+  }
+}
+
+async function projBaixarAsset(tipo,frameId){
+  if(!projAtivo()) return null;
+  try{
+    const r=await fetch(`/projetos/${projetoAtual.id}/asset?tipo=${tipo}&cena=${encodeURIComponent(frameId)}`);
+    if(!r.ok) return null;
+    const b=await r.blob();
+    return {bytes:new Uint8Array(await b.arrayBuffer()), mime:b.type};
+  }catch(e){ return null; }
+}
+
+async function projNovo(){
+  const nome=(prompt('Nome do projeto:','')||'').trim();
+  if(!nome) return;
+  projetoAtual={id:projNovoId(nome),nome};
+  try{ localStorage.setItem(PROJ_KEY,JSON.stringify(projetoAtual)); }catch(e){}
+  await projSalvar();
+  projPintarBarra();
+  logLine('ok',`Projeto "${nome}" criado`,`pasta projetos/${projetoAtual.id}`);
+  setStatus(`📁 Projeto "${nome}" criado. Daqui em diante tudo é gravado em disco.`);
+}
+
+// Trocar de projeto recarrega a página de propósito: o app tem estado espalhado
+// (canvas, preview, pool de geração, timers) e reconstruir isso à mão sempre
+// esquece um pedaço. O roteiro vai para o localStorage e o restoreAssets busca
+// os arquivos na pasta — o mesmo caminho de uma sessão restaurada.
+async function projAbrir(id){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  let d;
+  try{ d=await (await projApi(`/${id}/projeto.json`,{})).json(); }
+  catch(e){ setStatus('❌ Não abri o projeto: '+e.message); return; }
+
+  let atual={};
+  try{ atual=JSON.parse(localStorage.getItem(LS_KEY)||'{}'); }catch(e){}
+  PROJ_SEGREDOS.forEach(k=>{ if(atual[k]!==undefined) d[k]=atual[k]; });  // chaves ficam no navegador
+
+  try{
+    localStorage.setItem(LS_KEY,JSON.stringify(d));
+    localStorage.setItem(PROJ_KEY,JSON.stringify({id,nome:d.nome||id}));
+  }catch(e){ setStatus('❌ Sem espaço no navegador para abrir o projeto.'); return; }
+  await idbClear();          // os bytes vêm da pasta agora, não da sessão velha
+  location.reload();
+}
+
+async function projExcluir(id){
+  const nome=projNomeDe(id);
+  if(!confirm(`Mandar o projeto "${nome}" para a lixeira?\n\n`+
+              `A pasta vai para projetos/.lixeira e continua no disco — nada é apagado de vez.`)) return;
+  try{
+    const r=await (await projApi(`/${id}`,{method:'DELETE'})).json();
+    logLine('ok',`Projeto "${nome}" foi para a lixeira`,r.lixeira||'');
+    if(projAtivo()&&projetoAtual.id===id){
+      projetoAtual=null;
+      try{ localStorage.removeItem(PROJ_KEY); }catch(e){}
+    }
+    projPintarBarra(); projPintarLista();
+    setStatus(`🗑 "${nome}" foi para projetos/.lixeira`);
+  }catch(e){ setStatus('❌ Não removi: '+e.message); }
+}
+
+// Qual projeto estava aberto vive no localStorage, não no projeto.json: é uma
+// preferência DESTE navegador, e duas abas podem estar em projetos diferentes.
+function projRestaurarAberto(){
+  try{
+    const d=JSON.parse(localStorage.getItem(PROJ_KEY)||'null');
+    if(d&&d.id) projetoAtual={id:d.id,nome:d.nome||d.id};
+  }catch(e){}
+  projPintarBarra();
+  projPintarLista();
+}
+
+function projTamanho(b){
+  if(!b) return '0 KB';
+  return b>=1048576 ? (b/1048576).toFixed(1)+' MB' : Math.max(1,Math.round(b/1024))+' KB';
+}
+function projQuando(seg){
+  if(!seg) return '';
+  const d=new Date(seg*1000), agora=Date.now()-d.getTime();
+  if(agora<60000) return 'agora';
+  if(agora<3600000) return Math.round(agora/60000)+' min atrás';
+  if(agora<86400000) return Math.round(agora/3600000)+' h atrás';
+  return d.toLocaleDateString();
+}
+
+function projPintarBarra(){
+  const box=document.getElementById('projAtualBox');
+  if(!box) return;
+  box.innerHTML = projAtivo()
+    ? `<div class="tip" style="border-color:#2c7a4b">
+         <b style="color:#4ade80">📁 ${esc(projetoAtual.nome)}</b> — gravando em <code>projetos/${esc(projetoAtual.id)}</code><br>
+         <button class="btn-sm btn-del" style="margin-top:7px" onclick="projDesligar()">Fechar projeto</button>
+       </div>`
+    : `<div class="tip warn">
+         <b style="color:#a78bfa">Nenhum projeto aberto.</b> O roteiro está só neste navegador — limpar os dados do site apaga as imagens já geradas. Crie um projeto para gravar tudo em disco.
+       </div>`;
+  const b=document.getElementById('projSalvarBtn');
+  if(b) b.disabled=!projAtivo();
+}
+
+// A última lista lida fica aqui para os botões passarem só o id.
+//
+// Interpolar o NOME no onclick seria furado: o esc() troca ' por &#39;, mas o
+// navegador decodifica a entidade antes de o JS ver o atributo — um projeto
+// chamado "João's" voltaria a ter a aspa e quebraria a chamada. O id passa
+// pela regex do servidor ([A-Za-z0-9_-]), então nele não cabe aspa nenhuma.
+let projUltimaLista=[];
+
+async function projPintarLista(avisar){
+  const box=document.getElementById('projLista');
+  if(!box) return;
+  box.innerHTML='<div class="hint">carregando…</div>';
+  projUltimaLista=await projListar();
+  if(!projUltimaLista.length){
+    box.innerHTML='<div class="hint">Nenhum projeto salvo ainda.</div>';
+    if(avisar) setStatus('Nenhum projeto em projetos/.');
+    return;
+  }
+  box.innerHTML=projUltimaLista.map(p=>{
+    const aberto = projAtivo() && p.id===projetoAtual.id;
+    return `<div class="tip" style="margin-bottom:7px${aberto?';border-color:#2c7a4b':''}">
+      <b>${aberto?'▶ ':''}${esc(p.nome)}</b>
+      <div class="hint" style="margin:3px 0 6px">${p.cenas} cena(s) · ${projTamanho(p.bytes)} · ${projQuando(p.modificado)}</div>
+      <button class="btn-sm btn-add" onclick="projAbrir('${p.id}')" ${aberto?'disabled':''}>${aberto?'aberto':'📂 Abrir'}</button>
+      <button class="btn-sm btn-del" onclick="projExcluir('${p.id}')">🗑 Lixeira</button>
+    </div>`;
+  }).join('');
+  if(avisar) setStatus(`${projUltimaLista.length} projeto(s) em projetos/.`);
+}
+
+function projNomeDe(id){
+  const p=projUltimaLista.find(x=>x.id===id);
+  return p ? p.nome : id;
+}
+
+function projDesligar(){
+  projetoAtual=null;
+  try{ localStorage.removeItem(PROJ_KEY); }catch(e){}
+  projPintarBarra();
+  setStatus('Projeto fechado. As mudanças voltam a ficar só neste navegador.');
+}
+
 // ── PERSISTÊNCIA ─────────────────────────────────────────
 let saveT = null;
 function saveStateSoon(){clearTimeout(saveT);saveT=setTimeout(saveState,400);}
@@ -1208,6 +1475,9 @@ function saveState(){
       elKey:  remember ? document.getElementById('elKey').value  : ''
     }));
   }catch(e){ /* cota cheia ou modo privado: segue sem persistir */ }
+  // com projeto aberto, a mesma mudança que foi para o localStorage vai para o
+  // disco — atrasada, para não gravar um arquivo por tecla digitada
+  if(!projDentroDoSnapshot) projSalvarSoon();
 }
 
 function loadState(){
@@ -1281,15 +1551,28 @@ function loadState(){
 }
 
 // Recarrega imagens (pela URL com seed) e áudios (do IndexedDB).
+//
+// Com um projeto aberto há uma segunda fonte: a pasta em disco. Ela entra como
+// PLANO B, não como preferência — o IndexedDB é local e instantâneo, e ir ao
+// disco só faz sentido quando o navegador não tem os bytes: projeto aberto em
+// outra máquina, outro navegador, ou dados do site limpos.
+//
+// Quando vem do disco, os bytes voltam para o IndexedDB: a próxima carga já não
+// precisa da rede.
 async function restoreAssets(){
   const needVid = frames.some(f=>f._hasVideo&&!f.video);
   const needImg = frames.some(f=>(f.imageUrl||f._hasImageBytes)&&!f.image);
   const needAud = frames.some(f=>f._hasAudio&&!f.audioBytes);
   if(!needImg&&!needAud&&!needVid) { updateTotals(); return; }
-  setStatus('↻ Recarregando a sessão anterior…');
+  setStatus(projAtivo()?`↻ Carregando "${projetoAtual.nome}"…`:'↻ Recarregando a sessão anterior…');
+  let doDisco=0;
   await Promise.all(frames.map(async f=>{
     if(!f.image && f._hasImageBytes){
-      const rec=await idbGet('img:'+f.id);
+      let rec=await idbGet('img:'+f.id);
+      if(!rec||!rec.bytes){
+        const disco=await projBaixarAsset('imagem',f.id);
+        if(disco){ rec=disco; doDisco++; idbPut('img:'+f.id,{bytes:disco.bytes.buffer.slice(0),mime:disco.mime}); }
+      }
       if(rec&&rec.bytes){
         try{ f.image=await imageFromBytes(new Uint8Array(rec.bytes),rec.mime); f.imageBytes=f.image._bytes; }
         catch(e){ f._hasImageBytes=false; }
@@ -1299,7 +1582,11 @@ async function restoreAssets(){
       try{ f.image = await loadImageFromUrl(f.imageUrl); }catch(e){ f.imageUrl=null; }
     }
     if(!f.video && f._hasVideo){
-      const rec=await idbGet('vid:'+f.id);
+      let rec=await idbGet('vid:'+f.id);
+      if(!rec||!rec.bytes){
+        const disco=await projBaixarAsset('video',f.id);
+        if(disco){ rec=disco; doDisco++; idbPut('vid:'+f.id,{bytes:disco.bytes.buffer.slice(0),mime:disco.mime}); }
+      }
       if(rec&&rec.bytes){
         // a duração vem do próprio arquivo restaurado, não do estado salvo:
         // é o número real, e sobrevive a um roteiro importado sem esse campo
@@ -1309,7 +1596,13 @@ async function restoreAssets(){
       }
     }
     if(f._hasAudio&&!f.audioBytes){
-      const rec = await idbGet(f.id);
+      let rec = await idbGet(f.id);
+      if(!rec||!rec.bytes){
+        const disco=await projBaixarAsset('audio',f.id);
+        // do disco vem só o mp3; o texto e os timestamps estão no projeto.json
+        if(disco){ rec={bytes:disco.bytes.buffer,wordTimes:f.wordTimes||null,text:f.audioText}; doDisco++;
+                   idbPut(f.id,{bytes:disco.bytes.buffer.slice(0),wordTimes:f.wordTimes||null,text:f.audioText||''}); }
+      }
       if(rec&&rec.bytes){
         try{ await attachAudio(f, new Uint8Array(rec.bytes), rec.wordTimes||f.wordTimes||null);
              f.audioText = rec.text!=null ? rec.text : (f.audioText||''); }
@@ -1318,12 +1611,24 @@ async function restoreAssets(){
     }
   }));
   renderCards(); checkDone(); updateTotals(); saveState();
-  setStatus('✅ Sessão restaurada.');
+  if(doDisco) logLine('ok',`Projeto: ${doDisco} arquivo(s) vieram da pasta em disco.`,
+    'Foram copiados para o navegador — a próxima abertura já não precisa deles.');
+  setStatus(projAtivo()?`✅ Projeto "${projetoAtual.nome}" carregado.`:'✅ Sessão restaurada.');
 }
 
 async function resetAll(){
   if(rendering){ setStatus('⚠️ Cancele a renderização primeiro.'); return; }
-  if(!confirm('Apagar todas as cenas, imagens, narrações e configurações salvas?')) return;
+  // "Limpar tudo" zera o navegador, e com um projeto aberto o write-through
+  // gravaria o roteiro VAZIO por cima do projeto.json logo em seguida — o
+  // arquivo em disco perderia as cenas sem ninguém ter pedido isso. Fechar o
+  // projeto antes deixa a pasta intacta; ela continua na lista para reabrir.
+  const aviso = projAtivo()
+    ? `Limpar tudo esvazia este navegador e FECHA o projeto "${projetoAtual.nome}".\n\n`+
+      `A pasta em disco não é apagada — o projeto continua na lista para você reabrir.\n\nContinuar?`
+    : 'Apagar todas as cenas, imagens, narrações e configurações salvas?';
+  if(!confirm(aviso)) return;
+  clearTimeout(projSaveT);          // cancela uma gravação já agendada
+  if(projAtivo()) projDesligar();
   stopPreview();
   frames.forEach(freeFrameAssets);
   try{ localStorage.removeItem(LS_KEY); }catch(e){}
@@ -2331,7 +2636,11 @@ function setFrameImage(f,img,url){
   if(f.image&&f.image._blobUrl&&f.image._blobUrl!==img._blobUrl) URL.revokeObjectURL(f.image._blobUrl);
   f.image=img; f.imageUrl=url||null;
   f.imageBytes=img._bytes||null;
-  if(f.imageBytes) idbPut('img:'+f.id,{bytes:f.imageBytes.buffer.slice(0),mime:img._mime||'image/png'});
+  if(f.imageBytes){
+    const mime=img._mime||'image/png';
+    idbPut('img:'+f.id,{bytes:f.imageBytes.buffer.slice(0),mime});
+    projSubirAsset('imagem',f.id,f.imageBytes,mime);   // write-through: imagem paga vai para o disco na hora
+  }
 }
 
 // Constrói um <img> a partir de bytes já em memória (Gemini devolve base64,
@@ -3235,6 +3544,8 @@ async function ttsScene(f, ctx){
   f.audioModel=model;
   if(continuidadeLigada()&&!reqId) avisarSemId();
   await idbPut(f.id,{bytes:bytes.buffer.slice(0),wordTimes:usable,text});
+  // os wordTimes viajam no projeto.json (f.wordTimes), então o .mp3 sozinho basta
+  projSubirAsset('audio',f.id,bytes,'audio/mpeg');
   return {synced:!!usable, dur:f.audioBuffer.duration, costurada};
 }
 
@@ -3422,7 +3733,11 @@ function setFrameVideo(f,v){
   // longa que o clipe faz a animação recomeçar no meio — que é exatamente o
   // "repetindo a animação na mesma cena" que se quer evitar.
   f.videoDur=v.duration||null;
-  if(f.videoBytes) idbPut('vid:'+f.id,{bytes:f.videoBytes.buffer.slice(0),mime:v._mime||'video/mp4'});
+  if(f.videoBytes){
+    const mime=v._mime||'video/mp4';
+    idbPut('vid:'+f.id,{bytes:f.videoBytes.buffer.slice(0),mime});
+    projSubirAsset('video',f.id,f.videoBytes,mime);
+  }
 }
 
 // Sobra de cena que o clipe não cobre. > 0 significa que o vídeo vai dar a
@@ -4491,6 +4806,8 @@ preencherSeletorDeFonte();
 preencherSeletorDeEstilo();
 loadState();
 aplicarToggleVideo();
+// antes do restoreAssets: é o projeto aberto que diz de onde os arquivos vêm
+projRestaurarAberto();
 ligarCanvas();
 restoreTab();
 syncSourceRows();
