@@ -542,22 +542,57 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     <textarea id="repExtra" class="mono" placeholder='{"aspect_ratio":"9:16"}' spellcheck="false" style="min-height:58px" oninput="saveStateSoon()">{"aspect_ratio":"9:16"}</textarea>
 
     <label class="chk"><input type="checkbox" id="vidOn" onchange="onVidChange()"> Animar as cenas — transforma cada imagem num clipe de vídeo</label>
-    <div class="hint">Cobrança à parte da imagem, por cena. Medi ~24 s por clipe no seedance-1-lite a 480p; modelo ou resolução maior demora e custa mais. A imagem continua sendo gerada primeiro — o clipe parte dela, então você só anima o que já aprovou. A duração do clipe acompanha a narração da cena (o modelo aceita de 4 a 12 s).</div>
+    <div class="hint">A imagem continua sendo gerada primeiro — o clipe parte dela, então você só anima o que já aprovou. A duração acompanha a narração da cena.</div>
 
     <div id="vidBox" style="display:none">
-      <label>Modelo de vídeo (imagem → vídeo)</label>
-      <input type="text" id="vidModel" value="bytedance/seedance-1-lite" oninput="saveStateSoon()">
+      <label>Motor da animação</label>
+      <select id="vidEngine" onchange="onVidEngineChange()">
+        <option value="replicate" selected>Replicate · IA na nuvem, pago</option>
+        <option value="depthflow">DepthFlow · parallax 3D nesta máquina, grátis</option>
+      </select>
+
+      <!-- Replicate ------------------------------------------------------ -->
+      <div id="vidRepBox">
+        <div class="hint">Cobrança à parte da imagem, por cena. Medi ~24 s por clipe no seedance-1-lite a 480p; modelo ou resolução maior demora e custa mais. O modelo aceita clipes de 4 a 12 s — narração mais longa que isso repete o vídeo.</div>
+
+        <label>Modelo de vídeo (imagem → vídeo)</label>
+        <input type="text" id="vidModel" value="bytedance/seedance-1-lite" oninput="saveStateSoon()">
+
+        <label>Movimento (em inglês, somado à descrição da cena)</label>
+        <input type="text" id="vidMotion" value="subtle cinematic camera movement, natural motion" oninput="saveStateSoon()">
+      </div>
+
+      <!-- DepthFlow ------------------------------------------------------ -->
+      <div id="vidDfBox" style="display:none">
+        <div class="hint">Roda o DepthFlow da pasta <code>AIImage</code> pelo <code>serve.py</code>: a IA estima a profundidade da imagem e a câmera passeia por ela. <b>Sai de graça e sem internet</b>, e o clipe cobre a cena inteira, sem o teto de 12 s.<br>
+        Em troca, o movimento é só da <b>câmera</b>: ninguém pisca, o fogo não queima, a água não corre. Bom para produto, paisagem e retrato parado; fraco para cena com ação.</div>
+
+        <label>Movimento da câmera</label>
+        <select id="dfEfeito" onchange="saveState()">
+          <option value="horizontal" selected>Horizontal · deslize lateral</option>
+          <option value="vertical">Vertical · deslize de cima a baixo</option>
+          <option value="zoom">Zoom · aproxima devagar</option>
+          <option value="dolly">Dolly · avança para dentro da cena</option>
+          <option value="circle">Circle · giro suave em círculo</option>
+          <option value="orbital">Orbital · órbita ao redor do assunto</option>
+        </select>
+
+        <label>Qualidade do render (0–100)</label>
+        <input type="number" id="dfQualidade" value="70" min="0" max="100" step="5" oninput="saveStateSoon()">
+        <div class="hint">70 é o padrão do <code>parallax.py</code>. Acima de 90 o render demora bem mais sem diferença visível depois do escurecimento.</div>
+
+        <div class="tip warn" id="dfAviso">
+          <b style="color:#a78bfa">Precisa de instalação separada.</b> Uma vez só: <code>python AIImage/setup.py</code> (~500 MB) e <code>winget install Gyan.FFmpeg</code>. O render 3D usa OpenGL — <b>sem placa de vídeo decente ele falha</b>. Clique em <b>Testar conexões</b> no Diagnóstico para conferir.
+        </div>
+      </div>
 
       <label>Resolução do clipe</label>
       <select id="vidRes" onchange="saveState()">
-        <option value="480p" selected>480p · mais barato</option>
+        <option value="480p" selected>480p · mais barato / mais rápido</option>
         <option value="720p">720p</option>
-        <option value="1080p">1080p · mais caro</option>
+        <option value="1080p">1080p · mais caro / mais lento</option>
       </select>
       <div class="hint">O clipe é o fundo: o app redimensiona para a resolução do vídeo final. 480p já segura bem em 1080×1920 com o escurecimento por cima.</div>
-
-      <label>Movimento (em inglês, somado à descrição da cena)</label>
-      <input type="text" id="vidMotion" value="subtle cinematic camera movement, natural motion" oninput="saveStateSoon()">
     </div>
 
     <label>Endereço do proxy local</label>
@@ -1137,6 +1172,9 @@ function saveState(){
       vidModel: document.getElementById('vidModel').value,
       vidRes: document.getElementById('vidRes').value,
       vidMotion: document.getElementById('vidMotion').value,
+      vidEngine: vidEngine(),
+      dfEfeito: dfEfeito(),
+      dfQualidade: String(dfQualidade()),
       parallel: document.getElementById('parallel').value,
       fps: document.getElementById('fps').value,
       resolution: document.getElementById('resolution').value,
@@ -1198,6 +1236,7 @@ function loadState(){
     document.getElementById('globalPosLbl').textContent=posLabel(normPos(d.globalPos));
   }
   set('vidModel', d.vidModel); set('vidRes', d.vidRes); set('vidMotion', d.vidMotion);
+  set('vidEngine', d.vidEngine); set('dfEfeito', d.dfEfeito); set('dfQualidade', d.dfQualidade);
   set('repStyle', d.repStyle);
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
@@ -2301,10 +2340,15 @@ function imgSource(){ return document.getElementById('imgSource').value; }
 // só o que é visual: o init chama isto antes de os quadros existirem, e
 // renderCards/saveState ali seriam cedo demais
 function aplicarToggleVideo(){
+  const on=animacaoLigada();
   const b=document.getElementById('vidBox');
-  if(b) b.style.display = animacaoLigada() ? 'block' : 'none';
+  if(b) b.style.display = on ? 'block' : 'none';
   const bt=document.getElementById('vidAllBtn');
-  if(bt) bt.style.display = animacaoLigada() ? 'flex' : 'none';
+  if(bt) bt.style.display = on ? 'flex' : 'none';
+  // e, dentro da caixa, só os campos do motor escolhido
+  const df = vidEngine()==='depthflow';
+  const rep=document.getElementById('vidRepBox'); if(rep) rep.style.display = df ? 'none' : 'block';
+  const dfb=document.getElementById('vidDfBox');  if(dfb) dfb.style.display = df ? 'block' : 'none';
 }
 
 function onVidChange(){
@@ -2491,6 +2535,18 @@ function vidModel(){ return (document.getElementById('vidModel')||{}).value?.tri
 function vidRes(){ return (document.getElementById('vidRes')||{}).value||'480p'; }
 function vidMovimento(){ return ((document.getElementById('vidMotion')||{}).value||'').trim(); }
 function animacaoLigada(){ return !!(document.getElementById('vidOn')||{}).checked; }
+function vidEngine(){ return (document.getElementById('vidEngine')||{}).value||'replicate'; }
+function dfEfeito(){ return (document.getElementById('dfEfeito')||{}).value||'horizontal'; }
+function dfQualidade(){
+  const v=parseInt((document.getElementById('dfQualidade')||{}).value,10);
+  return isNaN(v)?70:Math.min(100,Math.max(0,v));
+}
+
+function onVidEngineChange(){
+  aplicarToggleVideo();
+  renderCards();
+  saveState();
+}
 
 // A Replicate aceita data: URI em entrada de arquivo, então a imagem que você
 // já aprovou vai direto do navegador — sem precisar hospedar em lugar nenhum.
@@ -2549,6 +2605,82 @@ function videoDeBytes(bytes,mime){
     v.onerror=()=>{ URL.revokeObjectURL(url); bad(new Error('Arquivo de vídeo inválido.')); };
     v.src=url;
   });
+}
+
+// ── DEPTHFLOW LOCAL (parallax 3D) ─────────────────────────
+// Segunda fonte de clipe, ao lado da Replicate. O serve.py roda o
+// AIImage/parallax.py e devolve o MP4; daqui para baixo o caminho é o mesmo do
+// clipe pago — videoDeBytes → setFrameVideo → o canvas desenha o <video>.
+//
+// A diferença não é só o preço: a Replicate anima o CONTEÚDO (a pessoa pisca),
+// o DepthFlow anima a CÂMERA sobre um mapa de profundidade. Um clipe de 40 s
+// aqui é normal; lá o teto é 12 s.
+const DF_TIMEOUT = 16*60*1000;   // o serve.py corta em 15 min; aqui um pouco depois
+
+// A altura do clipe sai do lado CURTO: "480p" em 9:16 significa 480 de largura,
+// não de altura — pedir altura 480 num vertical daria um clipe de 270 de largura,
+// borrado depois que o app estica para preencher o fundo.
+function dfAlturaDoClipe(img){
+  const iw=img.naturalWidth||img.width||1, ih=img.naturalHeight||img.height||1;
+  const curto=parseInt(vidRes(),10)||480;
+  let h=Math.round(ih>=iw ? curto*ih/iw : curto);
+  h=Math.max(240,Math.min(2160,h));
+  return h-(h%2);                // h264 recusa altura ímpar
+}
+
+// O serve.py só aceita jpeg/png/webp; o resto é recusado lá com mensagem clara.
+function dfMime(f){
+  const m=(f._mime||f.image._mime||'image/webp').split(';')[0].trim().toLowerCase();
+  return m==='image/jpg' ? 'image/jpeg' : m;
+}
+
+async function depthflowVideo(f){
+  if(!f.image || !f.imageBytes) throw new Error('Gere a imagem desta cena antes de animar.');
+
+  const tempo=Math.min(120,Math.max(1, Math.round((sceneDur(f)||5)*100)/100));
+  const altura=dfAlturaDoClipe(f.image);
+  const fps=parseInt(document.getElementById('fps').value,10)||30;
+  const params=new URLSearchParams({
+    tempo:String(tempo), efeito:dfEfeito(), altura:String(altura),
+    fps:String(fps), qualidade:String(dfQualidade())
+  });
+
+  logLine('info',`DepthFlow: ${tempo}s, ${dfEfeito()}, altura ${altura}, ${fps} fps`,
+    'Primeira cena da sessão demora mais: baixa o modelo de profundidade.');
+
+  const ctl=new AbortController();
+  const alarme=setTimeout(()=>ctl.abort(),DF_TIMEOUT);
+  let r;
+  try{
+    r=await fetch('/parallax?'+params,{
+      method:'POST',
+      headers:{'Content-Type':dfMime(f)},
+      body:f.imageBytes,
+      signal:ctl.signal
+    });
+  }catch(e){
+    if(e.name==='AbortError') throw new Error(`DepthFlow passou de ${DF_TIMEOUT/60000} min sem responder.`);
+    throw new Error('Não alcancei o serve.py. Rode `python serve.py` e abra por http://localhost:8777.');
+  }finally{ clearTimeout(alarme); }
+
+  if(!r.ok){
+    let d='';
+    try{ const j=await r.json(); d=j.detail||''; if(j.stderr) logLine('err','DepthFlow — saída do processo',j.stderr); }
+    catch(_){ d=(await r.text()).slice(0,300); }
+    throw new Error(d||`DepthFlow falhou (HTTP ${r.status}).`);
+  }
+
+  const blob=await r.blob();
+  if(!/^video\//.test(blob.type)) throw new Error(`Esperava vídeo e veio "${blob.type||'?'}".`);
+  const bytes=new Uint8Array(await blob.arrayBuffer());
+  const v=await videoDeBytes(bytes,blob.type);
+  logLine('ok',`DepthFlow pronto (${(blob.size/1048576).toFixed(1)} MB, ${v.videoWidth}x${v.videoHeight}, ${v.duration.toFixed(1)}s)`);
+  return v;
+}
+
+// Ponto único de escolha do motor: animarCena e animarTodas chamam só isto.
+function gerarClipe(f){
+  return vidEngine()==='depthflow' ? depthflowVideo(f) : replicateVideo(f);
 }
 
 // ── ESTILO FORÇADO E REFERÊNCIA DE PERSONAGEM ────────────────────────
@@ -3255,10 +3387,11 @@ async function animarCena(i){
   const f=frames[i];
   if(!f.image){ setStatus(`⚠️ Cena ${i+1}: gere a imagem antes de animar.`); return; }
   setBadge(i,'b-gen','⏳ animando…');
-  showOv(`🎞️ Cena ${i+1}: gerando vídeo…<br><small style="color:#444">~25 s</small>`);
+  const espera = vidEngine()==='depthflow' ? 'DepthFlow local — a primeira cena demora mais' : '~25 s';
+  showOv(`🎞️ Cena ${i+1}: gerando vídeo…<br><small style="color:#444">${espera}</small>`);
   setStatus(`Cena ${i+1}: gerando vídeo…`);
   try{
-    const v=await replicateVideo(f);
+    const v=await gerarClipe(f);
     setFrameVideo(f,v);
     f.lastError=null;
     setBadge(i,'b-done','🎞️ vídeo');
@@ -3285,9 +3418,13 @@ async function animarTodas(){
   document.getElementById('progBar').style.display='block';
   emLote=true;
   let fails=0, done=0, emVoo=0;
-  const lote=Math.max(1,Math.min(2,paralelo()));
-  logLine('info',`Animando ${alvos.length} cena(s), ${lote} por vez.`,
-    `Cada clipe é uma geração paga. Com ~25 s por clipe, estimo ${Math.max(1,Math.round(alvos.length*25/lote/60))} min.`);
+  // DepthFlow renderiza em OpenGL: dois ao mesmo tempo disputam a placa e o
+  // serve.py recusa o segundo com 409. Uma cena por vez, sempre.
+  const df = vidEngine()==='depthflow';
+  const lote = df ? 1 : Math.max(1,Math.min(2,paralelo()));
+  logLine('info',`Animando ${alvos.length} cena(s), ${lote} por vez${df?' (DepthFlow local)':''}.`,
+    df ? 'Grátis e offline, mas em fila: o render 3D não roda em paralelo.'
+       : `Cada clipe é uma geração paga. Com ~25 s por clipe, estimo ${Math.max(1,Math.round(alvos.length*25/lote/60))} min.`);
   const painel=()=>{
     setProg(Math.round((done/alvos.length)*100));
     const t=`${done}/${alvos.length} animadas`+(emVoo?` · ${emVoo} gerando`:'')+(fails?` · ${fails} falha(s)`:'');
@@ -3298,7 +3435,7 @@ async function animarTodas(){
     const f=frames[i];
     emVoo++; setBadge(i,'b-gen','⏳ animando…'); painel();
     try{
-      const v=await replicateVideo(f);
+      const v=await gerarClipe(f);
       setFrameVideo(f,v);
       f.lastError=null; setBadge(i,'b-done','🎞️ vídeo');
       logLine('ok',`Cena ${i+1}: vídeo pronto.`);
@@ -3899,6 +4036,26 @@ async function testConnections(){
         logLine('err',`ElevenLabs falhou (HTTP ${r.status}, ${ms}ms)`,m);
       }
     }catch(e){ logLine('err','ElevenLabs: erro de rede',describeNetErr(e,'api.elevenlabs.io')); }
+  }
+
+  // 4) DepthFlow local — só quando é o motor de animação escolhido
+  if(!animacaoLigada() || vidEngine()!=='depthflow') logLine('info','DepthFlow: não é o motor ativo, pulando.');
+  else{
+    try{
+      const r=await fetch('/parallax/status');
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const s=await r.json();
+      const faltando=[];
+      if(!s.script)  faltando.push('AIImage/parallax.py');
+      if(!s.venv)    faltando.push('a venv (rode: python AIImage/setup.py)');
+      if(!s.ffmpeg)  faltando.push('FFmpeg (winget install Gyan.FFmpeg)');
+      if(faltando.length) logLine('err','DepthFlow incompleto — falta '+faltando.join(', '));
+      else logLine('ok',`DepthFlow OK — efeito: ${dfEfeito()}, qualidade ${dfQualidade()}`+(s.ocupado?' (renderizando agora)':''));
+      logLine('info','DepthFlow: o render 3D é OpenGL.','Se falhar em notebook híbrido, force a GPU dedicada no painel da NVIDIA.');
+    }catch(e){
+      logLine('err','DepthFlow: o serve.py não respondeu em /parallax/status',
+        'Você está abrindo pelo http://localhost:8777 com o serve.py rodando? Pelo file:// ou GitHub Pages não existe endpoint local.');
+    }
   }
 
   logLine('info','── Fim do teste ──');

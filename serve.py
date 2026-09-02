@@ -2,10 +2,11 @@
 """
 Servidor local do Shorts Creator.
 
-Faz tres coisas:
+Faz quatro coisas:
   1. serve o index.html em http://localhost:8777
   2. repassa /replicate/* para https://api.replicate.com/v1/*
   3. baixa a imagem de saida em /fetch?url=...
+  4. roda o DepthFlow local em /parallax (imagem -> MP4 com parallax 3D)
 
 Os itens 2 e 3 existem pelo mesmo motivo: nem a API da Replicate nem o CDN onde
 ela publica a imagem mandam cabecalhos CORS, entao o navegador recusa as duas
@@ -25,8 +26,12 @@ Uso:  python serve.py [porta]
 import ipaddress
 import json
 import os
+import shutil
 import socket
+import subprocess
 import sys
+import threading
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -55,6 +60,62 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 # (nada de usar isto para varrer a rede local) e so repassa imagem ou video.
 FETCH_PREFIX = "/fetch"
 FETCH_TYPES = ("image/", "video/", "application/octet-stream")
+
+# /parallax roda o DepthFlow desta maquina: recebe os bytes da imagem de uma
+# cena e devolve o MP4 com o movimento 3D. Existe para animar sem pagar clipe
+# na Replicate — e sem internet.
+#
+# Isto executa um processo, entao nada do que chega vira comando: os parametros
+# entram pela querystring, cada um e validado contra faixa ou lista fixa, e o
+# subprocess recebe uma LISTA de argumentos (nunca shell=True). O corpo da
+# requisicao e tratado como bytes de imagem e so isso — vai para um arquivo com
+# nome gerado aqui, nunca com nome vindo do cliente.
+PARALLAX_PREFIX = "/parallax"
+AIIMAGE_DIR = os.path.join(APP_DIR, "AIImage")
+PARALLAX_SCRIPT = os.path.join(AIIMAGE_DIR, "parallax.py")
+PARALLAX_INPUT = os.path.join(AIIMAGE_DIR, "input")
+PARALLAX_OUTPUT = os.path.join(AIIMAGE_DIR, "output")
+PARALLAX_EFFECTS = ("horizontal", "zoom", "circle", "vertical", "dolly", "orbital")
+PARALLAX_EXT = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}
+PARALLAX_MAX_BODY = 40 * 1024 * 1024
+PARALLAX_TIMEOUT = 900          # 15 min: primeira rodada baixa o modelo de profundidade
+
+# DepthFlow renderiza em OpenGL. Dois renders ao mesmo tempo disputam a mesma
+# placa e o segundo morre com erro de contexto — uma cena por vez.
+parallax_lock = threading.Lock()
+
+
+def parallax_python():
+    """Interpretador da venv do AIImage, ou None se o setup.py ainda nao rodou."""
+    partes = ("Scripts", "python.exe") if sys.platform == "win32" else ("bin", "python")
+    caminho = os.path.join(AIIMAGE_DIR, ".venv", *partes)
+    return caminho if os.path.isfile(caminho) else None
+
+
+def parallax_ffmpeg():
+    """Mesma busca do parallax.py: PATH primeiro, depois o link que o winget cria."""
+    achado = shutil.which("ffmpeg")
+    if achado:
+        return achado
+    if sys.platform == "win32":
+        candidatos = (
+            os.path.join(os.environ.get("LOCALAPPDATA", ""), "Microsoft", "WinGet", "Links", "ffmpeg.exe"),
+            os.path.join(os.environ.get("ProgramFiles", ""), "ffmpeg", "bin", "ffmpeg.exe"),
+        )
+        for c in candidatos:
+            if c and os.path.isfile(c):
+                return c
+    return None
+
+
+def parallax_status():
+    return {
+        "script": os.path.isfile(PARALLAX_SCRIPT),
+        "venv": bool(parallax_python()),
+        "ffmpeg": bool(parallax_ffmpeg()),
+        "efeitos": list(PARALLAX_EFFECTS),
+        "ocupado": parallax_lock.locked(),
+    }
 
 
 def endereco_publico(host):
@@ -93,7 +154,8 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Max-Age", "86400")
 
     def do_OPTIONS(self):
-        if self.path.startswith(PREFIX) or self.path.split("?")[0] == FETCH_PREFIX:
+        rota = self.path.split("?")[0]
+        if self.path.startswith(PREFIX) or rota == FETCH_PREFIX or rota.startswith(PARALLAX_PREFIX):
             self.send_response(204)
             self._cors()
             self.send_header("Content-Length", "0")
@@ -105,13 +167,18 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.startswith(PREFIX):
             return self._proxy("GET")
-        if self.path.split("?")[0] == FETCH_PREFIX:
+        rota = self.path.split("?")[0]
+        if rota == FETCH_PREFIX:
             return self._fetch()
+        if rota == PARALLAX_PREFIX + "/status":
+            return self._parallax_status()
         return SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
         if self.path.startswith(PREFIX):
             return self._proxy("POST")
+        if self.path.split("?")[0] == PARALLAX_PREFIX:
+            return self._parallax()
         self.send_error(404)
 
     # ---- proxy ---------------------------------------------------------
@@ -177,6 +244,115 @@ class Handler(SimpleHTTPRequestHandler):
             return recusa("%s devolveu %s, e /fetch so repassa imagem ou video" % (parts.hostname, ctype))
         self._responder(status, data, ctype)
 
+    # ---- DepthFlow local -------------------------------------------------
+    def _parallax_status(self):
+        self._responder(200, json.dumps(parallax_status()).encode("utf-8"), "application/json")
+
+    def _parallax_erro(self, status, motivo, detalhe=""):
+        corpo = json.dumps({"detail": motivo, "stderr": detalhe}).encode("utf-8")
+        self._responder(status, corpo, "application/json")
+
+    def _parallax(self):
+        # O corpo sai do socket ANTES de qualquer validacao, de proposito.
+        # Recusando cedo (sem venv, efeito invalido) os bytes da imagem ficavam
+        # na conexao, e o keep-alive do HTTP/1.1 lia o PNG como se fosse a
+        # requisicao seguinte: "Bad request syntax ('\x89PNG')" e a proxima
+        # chamada do app morria sem explicacao. Medido no /parallax/status.
+        tamanho = int(self.headers.get("Content-Length") or 0)
+        if tamanho > PARALLAX_MAX_BODY:
+            # drenar 100 MB so para preservar o keep-alive nao vale; fecha
+            self.close_connection = True
+            return self._parallax_erro(413, "imagem maior que %d MB" % (PARALLAX_MAX_BODY // 1048576))
+        imagem = self.rfile.read(tamanho) if tamanho > 0 else b""
+
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+
+        def num(nome, padrao, minimo, maximo, tipo):
+            try:
+                v = tipo(q.get(nome, [padrao])[0])
+            except (TypeError, ValueError):
+                return None
+            return v if minimo <= v <= maximo else None
+
+        tempo = num("tempo", 8, 1, 120, float)
+        altura = num("altura", 1080, 240, 2160, int)
+        fps = num("fps", 30, 1, 60, int)
+        qualidade = num("qualidade", 70, 0, 100, int)
+        efeito = q.get("efeito", ["horizontal"])[0]
+
+        if tempo is None or altura is None or fps is None or qualidade is None:
+            return self._parallax_erro(400, "tempo/altura/fps/qualidade fora da faixa aceita")
+        if efeito not in PARALLAX_EFFECTS:
+            return self._parallax_erro(400, "efeito invalido: %r" % efeito[:40])
+
+        if not imagem:
+            return self._parallax_erro(400, "corpo vazio: mande os bytes da imagem")
+
+        ctype = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+        ext = PARALLAX_EXT.get(ctype)
+        if ext is None:
+            return self._parallax_erro(415, "Content-Type %r nao e imagem que eu aceite" % ctype[:40])
+
+        python = parallax_python()
+        if not python:
+            return self._parallax_erro(503, "DepthFlow nao instalado. Rode: python AIImage/setup.py")
+        if not os.path.isfile(PARALLAX_SCRIPT):
+            return self._parallax_erro(503, "AIImage/parallax.py nao encontrado")
+        if not parallax_ffmpeg():
+            return self._parallax_erro(503, "FFmpeg nao encontrado. Rode: winget install Gyan.FFmpeg")
+
+        # nao enfileira: o app pede uma cena por vez, e uma fila aqui so
+        # esconderia o gargalo atras de um timeout de 15 min por cena parada
+        if not parallax_lock.acquire(blocking=False):
+            return self._parallax_erro(409, "ja tem uma cena renderizando; espere ela terminar")
+
+        os.makedirs(PARALLAX_INPUT, exist_ok=True)
+        os.makedirs(PARALLAX_OUTPUT, exist_ok=True)
+        marca = "cena-%d" % int(time.time() * 1000)
+        entrada = os.path.join(PARALLAX_INPUT, marca + ext)
+        saida = os.path.join(PARALLAX_OUTPUT, marca + "-parallax.mp4")
+
+        try:
+            with open(entrada, "wb") as fh:
+                fh.write(imagem)
+
+            cmd = [
+                python, PARALLAX_SCRIPT, entrada, str(tempo),
+                "--efeito", efeito,
+                "--fps", str(fps),
+                "--altura", str(altura),
+                "--qualidade", str(qualidade),
+                "--saida", saida,
+            ]
+            env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+            print("[parallax] %s %ss efeito=%s altura=%d" % (os.path.basename(entrada), tempo, efeito, altura))
+            try:
+                proc = subprocess.run(
+                    cmd, cwd=AIIMAGE_DIR, env=env, timeout=PARALLAX_TIMEOUT,
+                    capture_output=True, text=True, encoding="utf-8", errors="replace",
+                )
+            except subprocess.TimeoutExpired:
+                return self._parallax_erro(504, "DepthFlow passou de %d s e foi encerrado" % PARALLAX_TIMEOUT)
+
+            log = ((proc.stdout or "") + (proc.stderr or "")).strip()
+            if proc.returncode != 0:
+                return self._parallax_erro(500, "DepthFlow falhou (codigo %d)" % proc.returncode, log[-1500:])
+            if not os.path.isfile(saida):
+                return self._parallax_erro(500, "DepthFlow terminou sem gravar o MP4", log[-1500:])
+
+            with open(saida, "rb") as fh:
+                video = fh.read()
+            print("[parallax] pronto: %s (%.1f MB)" % (os.path.basename(saida), len(video) / 1048576))
+            self._responder(200, video, "video/mp4")
+        finally:
+            # a imagem foi copia do que o app ja tem; o MP4 fica em output/ para
+            # quem quiser o arquivo solto (o app guarda a copia dele no IndexedDB)
+            try:
+                os.remove(entrada)
+            except OSError:
+                pass
+            parallax_lock.release()
+
     # ---- resposta --------------------------------------------------------
     def _responder(self, status, data, ctype):
         self.send_response(status)
@@ -219,6 +395,11 @@ if __name__ == "__main__":
     print("Shorts Creator em  http://%s:%d" % (HOST, PORT))
     print("Proxy da Replicate em  %s%s  ->  %s" % (PREFIX, "*", UPSTREAM))
     print("Download de imagem em  %s?url=...  (https publico, so imagem/video)" % FETCH_PREFIX)
+    st = parallax_status()
+    print("DepthFlow local em  %s  ->  venv:%s ffmpeg:%s" % (
+        PARALLAX_PREFIX, "ok" if st["venv"] else "FALTA", "ok" if st["ffmpeg"] else "FALTA"))
+    if not st["venv"]:
+        print("  (para animar sem pagar clipe:  python AIImage\\setup.py)")
     print("Servindo os arquivos de  %s" % APP_DIR)
     print("Ctrl+C para parar.")
     try:
