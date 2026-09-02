@@ -11,7 +11,27 @@
   --border:#242424;--border2:#323232;
   --text:#f0f0f0;--muted:#7a7a7a;--dim:#4a4a4a;
   --accent:#ff4444;--green:#3dba6f;--blue:#4a9eff;--violet:#a78bfa;
+
+  /* É isto que apaga a faixa branca ao lado do conteúdo: sem declarar o
+     esquema, o navegador assume claro e desenha a barra de rolagem do sistema
+     nessa cor, num app inteiro escuro.
+
+     De quebra escurece o resto do que o navegador desenha sozinho — a lista
+     suspensa dos <select> e as setas do <input type=number>, que também abriam
+     claras. As regras ::-webkit-scrollbar abaixo só afinam o resultado. */
+  color-scheme:dark;
 }
+
+/* ── BARRAS DE ROLAGEM ─────────────────────────────────────────────────
+   A borda transparente com background-clip:padding-box afina a alça sem mudar
+   a área de clique: a faixa continua com 10px para o ponteiro, e só o desenho
+   fica com 6px. */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#2e2e2e;border:2px solid transparent;
+  background-clip:padding-box;border-radius:7px}
+::-webkit-scrollbar-thumb:hover{background:#3d3d3d;background-clip:padding-box}
+::-webkit-scrollbar-corner{background:transparent}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;overflow-x:hidden}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:48px;-webkit-font-smoothing:antialiased}
