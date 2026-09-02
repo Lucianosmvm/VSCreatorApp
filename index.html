@@ -32,7 +32,7 @@ header{display:flex;align-items:center;gap:14px;padding:7px 14px}
   background:#0c0c0c;border-bottom:1px solid var(--border)}
 .rail-mark{display:none}
 .rail-sp{display:none}
-.ri-dobra{display:none}
+.ri-olho{display:none}
 .ri{position:relative;display:flex;align-items:center;gap:5px;padding:6px 10px;
   border:none;border-radius:8px;background:none;color:var(--dim);cursor:pointer;
   font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;white-space:nowrap;
@@ -46,12 +46,7 @@ header{display:flex;align-items:center;gap:14px;padding:7px 14px}
   border-radius:50%;background:var(--accent)}
 .ri .pip.on{display:block}
 
-/* ── PAINEL LATERAL ─────────────────────────────────────────────────── */
-.painel{padding:14px 14px 0}
-/* O preview mora no pé do painel, e não mais na aba Cenas: antes ele sumia
-   sempre que se abria Chaves ou Config — justo quando se quer ver o efeito
-   do que está sendo mexido. */
-.pv-pin{display:flex;gap:12px;align-items:center;padding:11px 0}
+/* ── PREVIEW ─────────────────────────────────────────────────────────── */
 .pv-pin .phone-frame{margin:0}
 .pv-meta{min-width:0}
 .pv-lbl{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin-top:3px}
@@ -78,7 +73,7 @@ header{display:flex;align-items:center;gap:14px;padding:7px 14px}
 .pane{display:none}
 .pane.on{display:block}
 /* as cenas não são uma aba entre outras — são a tela. O rail troca só o que
-   aparece no painel; o canvas nunca sai de vista. */
+   aparece na janela de configuracao; o canvas nunca sai de vista. */
 .pane[data-tab="cenas"]{display:block}
 
 .sec{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
@@ -293,20 +288,60 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 .lg-warn{color:#d9a441}
 .lg-d{color:#585858;display:block;padding-left:10px}
 
+/* ── JANELA DE CONFIGURAÇÃO ───────────────────────────────────────────
+   O que era painel fixo ao lado do canvas virou janela por cima. O rail abre,
+   o ✕ (ou Esc, ou clique no fundo) fecha. A tela das cenas fica inteira o
+   tempo todo, e a configuração só ocupa espaço enquanto está sendo mexida.
+
+   Vale em qualquer largura: a janela é a mesma no desktop e no celular, o que
+   apagou os dois layouts diferentes que o painel exigia. */
+.modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;
+  padding:22px;background:rgba(0,0,0,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.modal[hidden]{display:none}
+/* no layout empilhado a pagina rola; sem isto o fundo rolava por tras da janela */
+body.modal-on{overflow:hidden}
+.modal-caixa{display:flex;flex-direction:column;width:min(740px,100%);max-height:100%;
+  background:var(--surface);border:1px solid var(--border2);border-radius:14px;
+  box-shadow:0 24px 70px rgba(0,0,0,.75);overflow:hidden}
+.modal-hd{display:flex;align-items:center;gap:10px;flex:0 0 auto;
+  padding:12px 14px;border-bottom:1px solid var(--border);background:#101010}
+.modal-t{font-size:12px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text)}
+.modal-x{margin-left:auto;width:30px;height:30px;flex-shrink:0;border:none;border-radius:8px;
+  background:#1c1c1c;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;transition:all .15s}
+.modal-x:hover{background:var(--accent);color:#fff}
+.modal-corpo{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:15px}
+/* dentro da janela o .sec já é o cartão: uma segunda moldura em volta do
+   conteúdo só empilharia borda sobre borda */
+.modal-corpo .sec{background:none;border:none;border-radius:0;padding:0;margin:0}
+.modal-corpo .pane > .sec + .sec{border-top:1px solid var(--border);margin-top:15px;padding-top:15px}
+.modal-corpo .logbox{max-height:300px}
+/* a barra de titulo da janela ja diz o nome; onde o cabecalho da secao
+   repetia a mesma palavra, ele sai (Projetos, Diagnostico) */
+.modal-corpo .sec-hd-eco{display:none}
+
+/* Preview flutuante sobre o canvas. Ele morava no pé do painel; com o painel
+   virando janela fechável, ficaria invisível justo enquanto se mexe no que ele
+   deveria mostrar. Aqui fica sempre à vista, e o botão do rail some com ele
+   quando atrapalha. */
+.pv-flut{position:absolute;top:10px;right:10px;z-index:20;display:flex;gap:10px;align-items:center;
+  padding:9px 11px;border-radius:12px;background:rgba(14,14,14,.9);border:1px solid var(--border2);
+  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);box-shadow:0 8px 26px rgba(0,0,0,.5)}
+body.preview-off .pv-flut{display:none}
+
 @media(max-width:999px){
   body{display:flex;flex-direction:column}
   .rail{order:1}
   .principal{order:2}
-  .painel{order:3;padding-bottom:14px}
 }
 @media(min-width:620px) and (max-width:999px){
-  .wrap,.painel,header,.rail{max-width:600px;margin-left:auto;margin-right:auto}
+  .wrap,header,.rail{max-width:600px;margin-left:auto;margin-right:auto}
 }
 
 /* ── LAYOUT LATERAL ───────────────────────────────────────────────────
-   Rail (56px) + painel (308px) + o resto para o canvas. A janela inteira é o
-   app: nada rola fora do canvas, então o visor de cenas recebe toda a altura
-   que sobra, em vez dos ~420px que sobravam no layout empilhado.
+   Rail (56px) + todo o resto para o canvas. A janela inteira e o app: nada
+   rola fora do canvas, entao o visor de cenas recebe toda a altura que sobra,
+   em vez dos ~420px que sobravam no layout empilhado. A configuracao nao ocupa
+   coluna nenhuma — ela abre por cima, e some ao fechar.
    Vale de 1000px para cima; abaixo disso a página segue empilhada. */
 @media(min-width:1000px){
   body{display:flex;height:100vh;overflow:hidden;padding-bottom:0}
@@ -317,7 +352,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
   .rail-mark{display:block;font-family:'Bebas Neue',sans-serif;font-size:17px;
     color:var(--accent);line-height:1;letter-spacing:.5px;margin-bottom:11px}
   .rail-sp{display:block;flex:1}
-  .ri-dobra{display:flex;font-size:13px;color:var(--dim)}
+  .ri-olho{display:flex;font-size:13px;color:var(--dim)}
   .ri{width:42px;height:42px;padding:0;border-radius:9px;
     flex-direction:column;justify-content:center;gap:2px}
   .ri span{font-size:15px}
@@ -326,27 +361,6 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
   .ri.on::before{content:'';position:absolute;left:-7px;top:9px;bottom:9px;width:2px;
     background:var(--accent);border-radius:0 2px 2px 0}
   .ri .pip{top:5px;right:7px}
-
-  .painel{display:flex;flex-direction:column;width:308px;flex:0 0 308px;min-width:0;
-    padding:12px;background:var(--surface);border-right:1px solid var(--border);
-    overflow-y:auto;overflow-x:hidden}
-  /* Recolher ENCOLHE a faixa. Deslocar com margin negativa deixava o conteúdo
-     do painel continuar desenhado por cima do rail. */
-  body.painel-off .painel{width:0;flex-basis:0;padding-left:0;padding-right:0;border-right:none}
-  body.painel-off .painel *{visibility:hidden}
-  .painel-corpo{flex:1}
-  .painel .pane{max-width:none}
-  /* no painel o cartão vira grupo separado por filete: moldura sobre moldura
-     numa coluna de 308px só come largura útil */
-  .painel .sec{background:none;border:none;border-radius:0;padding:0;margin:0;
-    border-top:1px solid var(--border);margin-top:13px;padding-top:13px}
-  .painel .pane > .sec:first-of-type{border-top:none;margin-top:0;padding-top:0}
-  .painel .sec-import{display:block}
-  .painel .sec-import #jsonIn{flex:none;height:132px;resize:vertical}
-  .painel .logbox{max-height:200px}
-  .pv-pin{position:sticky;bottom:-12px;flex:0 0 auto;
-    margin:14px -12px -12px;padding:11px 12px;background:#101010;
-    border-top:1px solid var(--border)}
 
   .principal{flex:1;min-width:0;display:flex;flex-direction:column}
   .principal .top{position:static}
@@ -367,27 +381,36 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 <body>
 
 <!-- ══════════ RAIL LATERAL ══════════
-     Substitui as abas do topo. "Cenas" não é mais um item: o canvas é a tela,
-     e o que era aba virou painel ao lado dele. -->
+     Substitui as abas do topo. "Cenas" nao e um item: o canvas e a tela, e
+     cada botao daqui abre a janela de configuracao por cima dele. -->
 <nav class="rail">
   <div class="rail-mark">SC</div>
-  <button class="ri" data-tab="projetos" onclick="showTab('projetos')" title="Projetos salvos em disco"><span>📁</span><b>Projetos</b></button>
-  <button class="ri" data-tab="roteiro" onclick="showTab('roteiro')" title="Importar roteiro"><span>📋</span><b>Roteiro</b></button>
-  <button class="ri" data-tab="chaves"  onclick="showTab('chaves')"  title="Chaves e modelos"><span>🔑</span><b>Chaves</b><i class="pip" id="pipChaves"></i></button>
-  <button class="ri" data-tab="config"  onclick="showTab('config')"  title="Configurações"><span>⚙️</span><b>Config</b></button>
-  <button class="ri" data-tab="diag"    onclick="showTab('diag')"    title="Diagnóstico"><span>🩺</span><b>Diag</b><i class="pip" id="pipDiag"></i></button>
+  <button class="ri" data-tab="projetos" onclick="abrirModal('projetos')" title="Projetos salvos em disco"><span>📁</span><b>Projetos</b></button>
+  <button class="ri" data-tab="roteiro" onclick="abrirModal('roteiro')" title="Importar roteiro"><span>📋</span><b>Roteiro</b></button>
+  <button class="ri" data-tab="chaves"  onclick="abrirModal('chaves')"  title="Chaves e modelos"><span>🔑</span><b>Chaves</b><i class="pip" id="pipChaves"></i></button>
+  <button class="ri" data-tab="config"  onclick="abrirModal('config')"  title="Configurações"><span>⚙️</span><b>Config</b></button>
+  <button class="ri" data-tab="diag"    onclick="abrirModal('diag')"    title="Diagnóstico"><span>🩺</span><b>Diag</b><i class="pip" id="pipDiag"></i></button>
   <div class="rail-sp"></div>
-  <button class="ri ri-dobra" onclick="dobrarPainel()" title="Recolher/abrir o painel">⟨</button>
+  <button class="ri ri-olho" onclick="alternarPreview()" title="Mostrar/ocultar o preview" id="btnPreview">👁</button>
 </nav>
 
-<aside class="painel" id="painel">
-  <div class="painel-corpo">
+<!-- ══════════ JANELA DE CONFIGURAÇÃO ══════════
+     Cada item do rail abre esta janela por cima da tela de cenas. Fecha no ✕,
+     no Esc ou clicando no fundo. Os painéis abaixo são os mesmos de antes —
+     mudou só onde eles aparecem. -->
+<div class="modal" id="modal" hidden onclick="if(event.target===this) fecharModal()">
+  <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <div class="modal-hd">
+      <div class="modal-t" id="modalTitulo">Configuração</div>
+      <button class="modal-x" onclick="fecharModal()" title="Fechar (Esc)">✕</button>
+    </div>
+    <div class="modal-corpo" id="modalCorpo">
 
 <!-- ══════════ PAINEL: ROTEIRO ══════════ -->
 <!-- ══════════ PAINEL: PROJETOS ══════════ -->
 <div class="pane" data-tab="projetos">
   <div class="sec">
-    <div class="sec-hd">
+    <div class="sec-hd sec-hd-eco">
       <div class="sec-ic">📁</div>
       <div class="sec-t">Projetos</div>
     </div>
@@ -640,7 +663,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
     </div>
     <div class="tip">
       Vem com <code>flux-schnell</code>: <b>$3 por mil imagens</b>, barato o bastante para refazer o roteiro à vontade. Para o corte final, <code>bytedance/seedream-5-lite</code> (US$ 0,035/imagem) sai mais cinematográfico — troque o modelo e use <b>🎲 Outra variação</b> em cada cena.<br>
-      O <code>aspect_ratio</code> acompanha sozinho a resolução do painel Config — trocar para 16:9 lá muda este campo. É ele que evita recorte: sem ele a maioria dos modelos gera em 1:1 e o app corta as laterais.
+      O <code>aspect_ratio</code> acompanha sozinho a resolução do janela Config — trocar para 16:9 lá muda este campo. É ele que evita recorte: sem ele a maioria dos modelos gera em 1:1 e o app corta as laterais.
     </div>
   </div>
 
@@ -768,7 +791,7 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 <div class="pane" data-tab="diag">
 
   <div class="sec">
-    <div class="sec-hd">
+    <div class="sec-hd sec-hd-eco">
       <div class="sec-ic">🩺</div>
       <div class="sec-t">Diagnóstico</div>
     </div>
@@ -787,27 +810,9 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
 
 </div>
 
-  </div><!-- /painel-corpo -->
-
-
-  <!-- O preview fica fixo no pé do painel: antes ele vivia na aba Cenas e
-       sumia sempre que se abria Chaves ou Config, justo quando se quer ver o
-       efeito do que está sendo mexido. -->
-  <div class="pv-pin">
-    <div class="phone-frame">
-      <canvas id="previewCanvas" width="1080" height="1920"></canvas>
-      <div class="rec-dot" id="recDot"></div>
-      <div class="gen-ov" id="genOv">
-        <div class="spinner"></div>
-        <div class="gen-txt" id="genTxt">Gerando…</div>
-      </div>
-    </div>
-    <div class="pv-meta">
-      <div class="pv-tempo" id="pvTempo"></div>
-      <div class="pv-lbl" id="pvLabel">Preview · 9:16</div>
-    </div>
+    </div><!-- /modal-corpo -->
   </div>
-</aside>
+</div>
 
 <main class="principal">
 
@@ -862,13 +867,31 @@ audio{width:100%;height:32px;margin-top:9px;display:block}
         <span class="canvas-zoom" id="canvasZoom">100%</span>
       </div>
       <div class="canvas-dica">rolar = aproximar/afastar · arrastar o fundo = mover</div>
+
+      <!-- Preview flutuante. Saiu do painel quando ele virou janela fechável:
+           lá dentro ficaria escondido justo enquanto se mexe no que ele mostra.
+           O botão 👁 do rail some com ele quando atrapalha o enquadramento. -->
+      <div class="pv-pin pv-flut">
+        <div class="phone-frame">
+          <canvas id="previewCanvas" width="1080" height="1920"></canvas>
+          <div class="rec-dot" id="recDot"></div>
+          <div class="gen-ov" id="genOv">
+            <div class="spinner"></div>
+            <div class="gen-txt" id="genTxt">Gerando…</div>
+          </div>
+        </div>
+        <div class="pv-meta">
+          <div class="pv-tempo" id="pvTempo"></div>
+          <div class="pv-lbl" id="pvLabel">Preview · 9:16</div>
+        </div>
+      </div>
     </div>
     <details class="tip ajuda">
       <summary>Como funciona cada botão</summary>
       <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
-      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, no painel Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a janela precisa ficar visível.<br><br>
-      <b style="color:#666">Gerar imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, no painel Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
-      <b style="color:#666">Animar</b> (ligado no painel Chaves) troca a imagem parada por um clipe gerado a partir dela. É cobrado por cena, à parte da imagem — anime só depois de aprovar a imagem. A duração de cada clipe acompanha a narração da cena.<br><br>
+      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, no janela Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a janela precisa ficar visível.<br><br>
+      <b style="color:#666">Gerar imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, no janela Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
+      <b style="color:#666">Animar</b> (ligado no janela Chaves) troca a imagem parada por um clipe gerado a partir dela. É cobrado por cena, à parte da imagem — anime só depois de aprovar a imagem. A duração de cada clipe acompanha a narração da cena.<br><br>
       <b style="color:#666">Peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
     </details>
   </div>
@@ -1070,82 +1093,72 @@ const idbGet = (k)=>idbTx('readonly', s=>s.get(k));
 const idbDel = (k)=>idbTx('readwrite',s=>s.delete(k));
 const idbClear = ()=>idbTx('readwrite',s=>s.clear());
 
-// ── NAVEGACAO: RAIL + PAINEL ─────────────────────────────
-// "Cenas" deixou de ser uma aba. O canvas passou a ser a tela em si, e o rail
-// decide apenas o que aparece no painel lateral — assim as cenas nunca somem
-// para se mexer numa chave ou numa configuração.
-const TAB_KEY='shortsCreator.tab';
-const PAINEL_KEY='shortsCreator.painel';
+// ── NAVEGAÇÃO: RAIL + JANELA ─────────────────────────────
+// "Cenas" não é uma aba: o canvas é a tela em si, o tempo todo. O rail abre
+// cada grupo de configuração numa janela por cima, que se fecha quando acaba.
+//
+// Não há mais TAB_KEY: qual aba estava aberta era estado que fazia sentido
+// para um painel sempre visível. Uma janela que se fecha começa fechada — abrir
+// o app já mostrando uma caixa de diálogo por cima seria o contrário do pedido.
+const PREVIEW_KEY='shortsCreator.preview';
 const ABAS_PAINEL=['projetos','roteiro','chaves','config','diag'];
+const TITULO_ABA={projetos:'📁 Projetos',roteiro:'📋 Roteiro',chaves:'🔑 Chaves e modelos',
+  config:'⚙️ Configurações',diag:'🩺 Diagnóstico'};
 
 function modoLateral(){ return matchMedia('(min-width:1000px)').matches; }
 
-function showTab(name){
-  // sessão antiga pode ter gravado 'cenas', que não é mais seção do painel
-  if(!ABAS_PAINEL.includes(name)) name=ABAS_PAINEL[0];
-  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.dataset.tab===name));
+// -- JANELA DE CONFIGURACAO -------------------------------
+// Antes cada item do rail trocava o conteudo de um painel fixo de 308px, que
+// roubava largura do canvas o tempo todo e obrigava o roteiro a caber numa
+// coluna estreita. Agora abre uma janela por cima: a tela das cenas fica
+// inteira, e a configuracao so ocupa espaco enquanto esta aberta.
+let modalAberto=null;
+
+function abrirModal(name){
+  if(!ABAS_PAINEL.includes(name)) return;
+  modalAberto=name;
+  document.querySelectorAll('.modal-corpo .pane').forEach(p=>p.classList.toggle('on',p.dataset.tab===name));
   document.querySelectorAll('.ri[data-tab]').forEach(t=>t.classList.toggle('on',t.dataset.tab===name));
-  // com o painel recolhido, clicar num item do rail não mostraria nada e
-  // pareceria que o botão quebrou
-  abrirPainel();
-  try{ localStorage.setItem(TAB_KEY,name); }catch(e){}
-  // a lista vem do disco: relê ao abrir a aba, senao mostra o estado de quando
-  // a pagina carregou e um projeto criado em outra aba nao aparece
+  document.getElementById('modalTitulo').textContent=TITULO_ABA[name]||'CONFIGURACAO';
+  const m=document.getElementById('modal');
+  m.hidden=false;
+  m.querySelector('.modal-corpo').scrollTop=0;   // cada aba abre no comeco, nao onde a anterior parou
+  document.body.classList.add('modal-on');
+  // a lista vem do disco: rele ao abrir, senao mostra o estado de quando a
+  // pagina carregou e um projeto criado em outra aba nao aparece
   if(name==='projetos'){ projPintarBarra(); projPintarLista(); }
-  if(!modoLateral()) window.scrollTo(0,0);
+  const x=m.querySelector('.modal-x'); if(x) x.focus();
 }
+
+function fecharModal(){
+  modalAberto=null;
+  document.getElementById('modal').hidden=true;
+  document.body.classList.remove('modal-on');
+  document.querySelectorAll('.ri[data-tab]').forEach(t=>t.classList.remove('on'));
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && modalAberto && !e.defaultPrevented) fecharModal();
+});
+
+// -- PREVIEW FLUTUANTE ------------------------------------
+// Ocultar nao e so estetica: o previewFrame repinta 1080x1920 a cada 120 ms, e
+// isso continua custando mesmo com o quadro fora de vista.
+function alternarPreview(){
+  const off=document.body.classList.toggle('preview-off');
+  try{ localStorage.setItem(PREVIEW_KEY, off?'off':'on'); }catch(e){}
+  sincronizarPreview();
+}
+
 function restoreTab(){
-  let t=null;
-  try{ t=localStorage.getItem(TAB_KEY); }catch(e){}
-  showTab(ABAS_PAINEL.includes(t)?t:'roteiro');
   let d=null;
-  try{ d=localStorage.getItem(PAINEL_KEY); }catch(e){}
-  if(d==='off') document.body.classList.add('painel-off');
-  sincronizarPreviewComPainel();
+  try{ d=localStorage.getItem(PREVIEW_KEY); }catch(e){}
+  if(d==='off') document.body.classList.add('preview-off');
+  sincronizarPreview();
 }
 
-// Recolher o painel entrega a janela inteira ao canvas. A largura útil muda,
-// então a vista precisa ser remedida — depois da transição, não durante.
-function dobrarPainel(){
-  comLarguraCompensada(()=>{
-    const off=document.body.classList.toggle('painel-off');
-    try{ localStorage.setItem(PAINEL_KEY, off?'off':'on'); }catch(e){}
-  });
-  sincronizarPreviewComPainel();
-}
-function abrirPainel(){
-  if(!document.body.classList.contains('painel-off')) return;
-  comLarguraCompensada(()=>{
-    document.body.classList.remove('painel-off');
-    try{ localStorage.setItem(PAINEL_KEY,'on'); }catch(e){}
-  });
-  sincronizarPreviewComPainel();
-}
-// A troca de largura é instantânea: animar flex-basis obrigava o navegador a
-// refazer o layout de todos os cartões a cada quadro, e a animação congelava
-// junto com a janela quando ela ficava em segundo plano.
-//
-// Recolher o painel move a borda ESQUERDA do canvas 308px para a esquerda, e
-// o conteúdo, que é posicionado a partir dela, saltava esses 308px na tela.
-// A versão anterior chamava medirLarguraCanvas()+aplicarVista() aqui achando
-// que resolvia — as duas só olham a largura do CONTEÚDO (n cartões + vãos),
-// nunca a do visor, então não compensavam nada. Aqui a largura é medida antes
-// e depois, e o pan anda pela diferença: o que estava sob os olhos fica.
-function comLarguraCompensada(mudar){
-  const wrap=document.getElementById('canvasWrap');
-  const antes=wrap?wrap.getBoundingClientRect().width:0;
-  mudar();
-  if(!wrap) return;
-  const delta=wrap.getBoundingClientRect().width-antes;
-  if(delta){ panX+=delta; aplicarVista(); }
-}
-
-// Recolhido, o preview fica visibility:hidden — mas o intervalo de 120 ms do
-// previewFrame continuava repintando 1080x1920 para ninguém ver. Mesmo motivo
-// do handler de visibilitychange logo abaixo do previewFrame.
-function sincronizarPreviewComPainel(){
-  const escondido = modoLateral() && document.body.classList.contains('painel-off');
-  if(escondido){ stopPreview(); return; }
+function sincronizarPreview(){
+  if(document.body.classList.contains('preview-off')){ stopPreview(); return; }
   if(!rendering && pvIndex>=0 && frames[pvIndex] && (frames[pvIndex].image||frames[pvIndex].video))
     previewFrame(pvIndex);
 }
@@ -1854,7 +1867,7 @@ function ajustarAlturaCanvas(){
   // que sobra da janela. Medir à mão aqui só brigaria com o CSS.
   if(modoLateral()){ wrap.style.height=''; return; }
   // fora dele, o pane das cenas é sempre este — antes buscava '.pane.on', que
-  // agora é uma seção do painel, e não as cenas
+  // agora vive dentro da janela de configuração, e não é as cenas
   const pane=document.querySelector('.pane[data-tab="cenas"]');
   if(!pane) return;
   const PISO=Math.max(320,Math.round(innerHeight*0.60));
@@ -2317,7 +2330,7 @@ function erroForaDoPlano(model,qual){
     .map(o=>o.value).filter(v=>v&&v!==model);
   return `"${model}" não está disponível no nível gratuito (a API respondeu "limit: 0"). `+
     `Isso não é cota gasta: nenhuma chave grátis vai gerar com ele. `+
-    `Ative o faturamento no Google Cloud para essa chave, ou escolha outro modelo de ${qual} no painel Chaves.`+
+    `Ative o faturamento no Google Cloud para essa chave, ou escolha outro modelo de ${qual} no janela Chaves.`+
     (outros.length?` Outros na lista: ${outros.slice(0,4).join(', ')}.`:'');
 }
 
@@ -2334,7 +2347,7 @@ function isKeyDead(status,msg){
 // Executa run(key) e, se a key morrer, marca e tenta a próxima.
 async function withKeyRotation(label,run){
   const keys=gmKeys();
-  if(!keys.length) throw new Error('Cole ao menos uma API key do Google no painel Chaves.');
+  if(!keys.length) throw new Error('Cole ao menos uma API key do Google no janela Chaves.');
   let last=null, tried=0;
   for(let n=0;n<keys.length;n++){
     const i=(gmKeyIdx+n)%keys.length;
@@ -2352,15 +2365,15 @@ async function withKeyRotation(label,run){
       setStatus(`🔑 Key ${i+1} sem cota. Trocando… (${restantes} restante(s))`);
     }
   }
-  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra no painel Chaves ou clique em "Liberar todas de novo".`);
-  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key no painel Chaves ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
+  if(!tried) throw new Error(`Todas as ${keys.length} key(s) já estão marcadas sem cota. Adicione outra no janela Chaves ou clique em "Liberar todas de novo".`);
+  throw new Error(`Todas as ${keys.length} key(s) do Google estouraram a cota. Adicione outra key no janela Chaves ou espere o reset diário. Último erro: ${last?last.message:'?'}`);
 }
 
 // O Google aposenta modelos e o ID varia por key/região, então não vale
 // cravar um no código: pergunta à própria API quais existem.
 async function loadGeminiModels(){
   const key=gmLiveKeys()[0]||gmKeys()[0]||'';
-  if(!key){ setStatus('⚠️ Cole a API key do Google no painel Chaves.'); return; }
+  if(!key){ setStatus('⚠️ Cole a API key do Google no janela Chaves.'); return; }
   setStatus('↻ Buscando modelos disponíveis…');
   try{
     let models=[], pageToken='';
@@ -2446,7 +2459,7 @@ async function enhancePrompt(desc){
   // Antes qualquer tropeço aqui matava a cena inteira antes de chamar a imagem.
   if(!gmLiveKeys().length){
     logLine('warn','Sem chave do Google com cota — gerando a imagem com a descrição original.',
-      'Cole uma key no painel Chaves para traduzir o prompt para inglês, ou desligue a tradução para não ver mais este aviso.');
+      'Cole uma key no janela Chaves para traduzir o prompt para inglês, ou desligue a tradução para não ver mais este aviso.');
     return desc;
   }
   try{
@@ -2516,11 +2529,11 @@ async function enhancePromptWithKey(desc,key,jaTrocou){
     }
     // modelo aposentado/inexistente é o erro mais comum aqui — dizer o que fazer
     if(res.status===404||/not found|not supported|deprecat|retire/i.test(msg))
-      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no painel Chaves e escolha outro. Google disse: ${msg}`;
+      msg=`Modelo "${model}" não disponível para esta key. Clique em "↻ Carregar modelos da minha key" no janela Chaves e escolha outro. Google disse: ${msg}`;
     else if(res.status===400&&/api key/i.test(msg)) msg='API key do Google inválida. '+msg;
     else if(res.status===403) msg='Key sem permissão para este modelo. '+msg;
     else if(res.status===429) msg='Cota do Gemini estourada (429). Aguarde e tente de novo. '+msg;
-    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto no painel Chaves ou espere alguns minutos. ${msg}`;
+    else if(res.status>=500) msg=`Modelo "${model}" sobrecarregado (HTTP ${res.status}) mesmo após 4 tentativas. Escolha outro modelo de texto no janela Chaves ou espere alguns minutos. ${msg}`;
     throw new Error('[Gemini] '+msg);
   }
   const d=await res.json();
@@ -2594,7 +2607,7 @@ async function loadImageFromUrl(url,timeoutMs=60000,quiet,label){
       try{ body=(await res.text()).slice(0,300); }catch(_){}
       logLine('err',`${SRC} HTTP ${res.status} (${ms}ms)`,body);
       if(SRC==='Pollinations' && (res.status===403||/turnstile|captcha/i.test(body)))
-        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations no painel Chaves, ou troque a "Fonte da imagem" para Gemini.');
+        throw new Error('Pollinations exige verificação anti-bot (Turnstile) e recusou a chamada. Cole um token da Pollinations no janela Chaves, ou troque a "Fonte da imagem" para Gemini.');
       throw new Error(`${SRC} respondeu HTTP ${res.status}${res.status===429?' (limite de requisições — espere alguns segundos)':''}${body?': '+body:''}`);
     }
     const blob=await res.blob();
@@ -2747,7 +2760,7 @@ function anotarLimiteDeTaxa(res){
     repIntervalo=novo;
     logLine('warn',`Replicate limitou a taxa — espaçando as chamadas em ${(novo/1000).toFixed(0)}s.`,
       'A conta está com pouco crédito: abaixo de US$5 o limite cai para 6 por minuto, uma de cada vez. '+
-      'Ponha "Cenas em paralelo" em 1 no painel Config, ou adicione crédito para voltar ao normal.');
+      'Ponha "Cenas em paralelo" em 1 no janela Config, ou adicione crédito para voltar ao normal.');
   }
 }
 
@@ -2788,15 +2801,15 @@ async function repError(res){
   if(res.status===422) return new Error(`Replicate recusou o input: ${msg} — ajuste o campo "Input extra" para os parâmetros deste modelo.`);
   if(res.status===429) return new Error(
     'Replicate limitou a taxa (429). Abaixo de US$5 de crédito ela cai para 6 chamadas por minuto, '+
-    'uma de cada vez. Ponha "Cenas em paralelo" em 1 no painel Config, ou adicione crédito. Resposta: '+msg);
+    'uma de cada vez. Ponha "Cenas em paralelo" em 1 no janela Config, ou adicione crédito. Resposta: '+msg);
   return new Error('Replicate: '+msg);
 }
 
 // Roda uma predição na Replicate e devolve a URL de saída. Imagem e vídeo
 // compartilham tudo daqui: mesma rota, mesmo polling, mesmo tratamento de erro.
 async function replicatePredict(model,input,rotulo){
-  if(!repToken()) throw new Error('Cole o token da Replicate no painel Chaves.');
-  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) no painel Chaves.');
+  if(!repToken()) throw new Error('Cole o token da Replicate no janela Chaves.');
+  if(!model)      throw new Error('Informe o modelo da Replicate (owner/nome) no janela Chaves.');
 
   // hash de versão vai no corpo; owner/nome vai na rota
   const isVersion=/^[0-9a-f]{40,}$/i.test(model);
@@ -3187,7 +3200,7 @@ async function replicateImage(prompt){
       input[ent.chave]= ent.lista ? [uri] : uri;
     }else if(ent===null){
       logLine('warn',`"${repModel()}" não aceita imagem de entrada — a referência foi ignorada nesta cena.`,
-        'Troque para flux-kontext-dev, nano-banana ou seedream-4 no painel Chaves.');
+        'Troque para flux-kontext-dev, nano-banana ou seedream-4 no janela Chaves.');
     }else{
       logLine('warn','Não consegui checar se o modelo aceita a referência; gerando sem ela.',
         'A consulta ao schema falhou. Confira o token da Replicate e o proxy local.');
@@ -3314,7 +3327,7 @@ async function elError(res,fallback){
 
 async function loadVoices(){
   const key=elKey();
-  if(!key){ setStatus('⚠️ Cole a key da ElevenLabs no painel Chaves.'); return; }
+  if(!key){ setStatus('⚠️ Cole a key da ElevenLabs no janela Chaves.'); return; }
   setStatus('↻ Buscando vozes…');
   try{
     const res=await fetch(EL_API+'/voices',{headers:{'xi-api-key':key}});
@@ -3470,7 +3483,7 @@ function avisarSemId(){
 async function ttsScene(f, ctx){
   const key=elKey(), vid=voiceId(), model=document.getElementById('elModel').value;
   const text=narrationOf(f);
-  if(!key) throw new Error('Cole a key da ElevenLabs no painel Chaves.');
+  if(!key) throw new Error('Cole a key da ElevenLabs no janela Chaves.');
   if(!vid) throw new Error('Escolha uma voz (ou cole o Voice ID).');
   if(!text) throw new Error('Cena sem texto para narrar.');
 
@@ -4291,7 +4304,7 @@ function envProblems(e){
     p.push(['warn','No celular a renderização é frágil',
       'A gravação é em tempo real e o desenho congela se a tela apagar, o app sair de foco ou chegar uma ligação — o vídeo sai com quadros perdidos. Mantenha a tela ligada e o app aberto, ou renderize no computador.']);
     p.push(['warn','Memória: resolução cheia pesa no celular',
-      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque para a resolução menor do mesmo formato (720×1280 ou 1280×720) no painel Config.`]);
+      `Aparelho relata ${e.memoriaGB?e.memoriaGB+' GB':'memória desconhecida'}. Se a aba recarregar sozinha durante a geração, troque para a resolução menor do mesmo formato (720×1280 ou 1280×720) no janela Config.`]);
   }
   if(e.ios)
     p.push(['warn','iPhone/iPad: baixar o arquivo costuma falhar',
