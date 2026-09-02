@@ -146,10 +146,13 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 /* ── LINHAS DE KEY ─────────────────────────────────────── */
 .keyrow{display:flex;gap:6px;align-items:center;margin-bottom:7px}
 .ref-vazio{font-size:10px;color:var(--dim);line-height:1.45;padding:9px 10px;border:1px dashed var(--border2);border-radius:8px}
-.ref-tem{display:flex;gap:10px;align-items:flex-start}
-.ref-tem img{width:86px;height:86px;object-fit:cover;border-radius:8px;border:1px solid var(--border2);flex-shrink:0}
-.ref-acts{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
-.ref-info{font-size:9px;color:var(--dim)}
+.ref-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.ref-item{position:relative}
+.ref-item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:1px solid var(--border2);display:block}
+.ref-item .ref-x{position:absolute;top:4px;right:4px;width:20px;height:20px;border:none;border-radius:6px;
+  background:rgba(0,0,0,.72);color:#ddd;font-size:11px;line-height:1;cursor:pointer}
+.ref-item .ref-x:hover{background:var(--accent);color:#fff}
+.ref-info{font-size:9px;color:var(--dim);margin-top:3px;text-align:center}
 .kdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .kdot.ok{background:var(--green)}
 .kdot.dead{background:var(--accent)}
@@ -625,21 +628,24 @@ body.preview-off .pv-flut{display:none}
     <textarea id="repStyle" placeholder="Ex: dark atmospheric horror illustration, cel-shaded, thick black outlines, desaturated palette" spellcheck="false" style="min-height:52px" oninput="saveStateSoon()"></textarea>
     <div class="hint">Entra na frente do prompt de toda cena, para o traço não mudar de uma para a outra. Deixe vazio para usar só o que está escrito no cartão.</div>
 
-    <label>Referência de personagem (opcional)</label>
+    <label>Descrição do personagem (opcional)</label>
+    <textarea id="repPersonagem" placeholder="Ex: woman in her 30s, short red hair, brown leather jacket, green eyes, small scar on left cheek" spellcheck="false" style="min-height:52px" oninput="saveStateSoon()"></textarea>
+    <div class="hint">Entra em <b>toda</b> cena, junto com as vistas abaixo. Âncora de texto e âncora de imagem juntas erram bem menos que qualquer uma sozinha: a imagem diz o rosto, o texto diz o que não dá para ver numa foto — idade, cor dos olhos, a roupa que não pode mudar.<br>
+    Escreva em <b>inglês</b>: este campo entra depois da tradução, então o Gemini não passa por ele. Diferente das vistas, funciona também na Pollinations.<br>
+    <b>Cuidado:</b> vai em toda cena mesmo nas que não têm gente — numa cena só de paisagem, o modelo pode inserir o personagem. Deixe vazio se o roteiro tiver muitas cenas sem ele.</div>
+
+    <label>Vistas do personagem (opcional)</label>
     <div id="refBox">
       <div class="ref-vazio" id="refVazio">
-        Nenhuma imagem. Envie uma e ela vai como referência em toda cena — só funciona em modelo que aceita imagem de entrada.
+        Nenhuma imagem. Envie de 1 a 4 vistas do <b>mesmo</b> personagem — rosto de frente, corpo inteiro, perfil. Todas vão juntas em cada cena, e quanto mais ângulos, menos o modelo precisa inventar numa pose que ele nunca viu.<br>
+        Só vale em modelo que aceita imagem de entrada.
       </div>
-      <div class="ref-tem" id="refTem" style="display:none">
-        <img id="refThumb" alt="referência">
-        <div class="ref-acts">
-          <div class="ref-info" id="refInfo"></div>
-          <button class="btn-sm btn-del" onclick="document.getElementById('refUp').click()">⬆ Trocar imagem</button>
-          <button class="btn-sm btn-del" onclick="removerReferencia()">✕ Remover</button>
-        </div>
+      <div class="ref-grade" id="refGrade" style="display:none"></div>
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn-sm btn-add" id="refBtn" onclick="document.getElementById('refUp').click()">⬆ Enviar vistas</button>
+        <button class="btn-sm btn-del" id="refLimpar" style="display:none" onclick="removerReferencia()">✕ Remover todas</button>
       </div>
-      <button class="btn-sm btn-add" id="refBtn" onclick="document.getElementById('refUp').click()">⬆ Enviar referência</button>
-      <input type="file" id="refUp" accept="image/*" style="display:none" onchange="enviarReferencia(this)">
+      <input type="file" id="refUp" accept="image/*" multiple style="display:none" onchange="enviarReferencia(this)">
     </div>
     <div class="hint" id="refAviso"></div>
 
@@ -986,7 +992,9 @@ let emLote = false;   // lote paralelo em andamento: cenas não escrevem status 
 // deixá-las lá embaixo derrubava a página inteira no carregamento.
 let zoom = 1, panX = 0, panY = 0;
 let larguraCanvas = 0;   // largura de layout do canvas, independente do zoom
-let refImagem = null;   // {bytes, mime, w, h} — referência de personagem
+let refImagens = [];   // [{bytes, mime, w, h}] — vistas do MESMO personagem
+const REF_MAX = 4;     // teto do app; o do modelo pode ser menor (Kontext aceita 1)
+const REF_LADO = 1024; // lado maior depois da reducao (ver reduzirReferencia)
 // Mínimo folgado porque a largura de layout deixou de encolher com o zoom:
 // afastar é agora a única forma de ver um roteiro longo inteiro, e em 0.3 o
 // "enquadrar tudo" batia no limite sem conseguir enquadrar.
@@ -1536,6 +1544,7 @@ function saveState(){
       repModel: document.getElementById('repModel').value,
       repExtra: document.getElementById('repExtra').value,
       repStyle: document.getElementById('repStyle').value,
+      repPersonagem: personagemDesc(),
       repProxy: document.getElementById('repProxy').value,
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
@@ -1588,7 +1597,7 @@ function loadState(){
   set('vidModel', d.vidModel); set('vidRes', d.vidRes); set('vidMotion', d.vidMotion);
   set('vidEngine', d.vidEngine); set('dfEfeito', d.dfEfeito);
   set('dfVoltas', d.dfVoltas); set('dfQualidade', d.dfQualidade);
-  set('repStyle', d.repStyle);
+  set('repStyle', d.repStyle); set('repPersonagem', d.repPersonagem);
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('elModo', d.elModo);
@@ -3179,19 +3188,27 @@ async function entradaDeImagemDoModelo(model){
   if(leu) _schemaCache[model]=achado;
   return leu ? achado : undefined;
 }
+let refUrls=[];   // objectURLs das miniaturas; revogados a cada repintura
+
 function atualizarRefUI(){
-  const tem=!!refImagem;
-  const vazio=document.getElementById('refVazio'), box=document.getElementById('refTem'),
-        btn=document.getElementById('refBtn');
+  const vazio=document.getElementById('refVazio'), grade=document.getElementById('refGrade'),
+        btn=document.getElementById('refBtn'), limpar=document.getElementById('refLimpar');
   if(!vazio) return;
-  vazio.style.display = tem?'none':'block';
-  box.style.display   = tem?'flex':'none';
-  btn.style.display   = tem?'none':'inline-flex';
-  if(tem){
-    document.getElementById('refThumb').src=URL.createObjectURL(new Blob([refImagem.bytes],{type:refImagem.mime}));
-    document.getElementById('refInfo').textContent=
-      `${refImagem.w}×${refImagem.h} · ${(refImagem.bytes.length/1024).toFixed(0)} KB`;
-  }
+  const tem=refImagens.length>0;
+  vazio.style.display  = tem?'none':'block';
+  grade.style.display  = tem?'grid':'none';
+  limpar.style.display = refImagens.length>1?'inline-flex':'none';
+  btn.textContent = tem ? `⬆ Mais vistas (${refImagens.length}/${REF_MAX})` : '⬆ Enviar vistas';
+  btn.disabled = refImagens.length>=REF_MAX;
+
+  refUrls.forEach(u=>URL.revokeObjectURL(u));   // sem isto cada repintura vaza um blob
+  refUrls=refImagens.map(r=>URL.createObjectURL(new Blob([r.bytes],{type:r.mime})));
+  grade.innerHTML=refImagens.map((r,i)=>`
+    <div class="ref-item">
+      <img src="${refUrls[i]}" alt="vista ${i+1}">
+      <button class="ref-x" onclick="removerReferencia(${i})" title="Remover esta vista">✕</button>
+      <div class="ref-info">${r.w}×${r.h} · ${(r.bytes.length/1024).toFixed(0)} KB</div>
+    </div>`).join('');
   avisarSobreReferencia();
 }
 
@@ -3200,10 +3217,15 @@ function atualizarRefUI(){
 async function avisarSobreReferencia(){
   const el=document.getElementById('refAviso');
   if(!el) return;
-  if(!refImagem){ el.textContent=''; el.style.color=''; return; }
+  if(!refImagens.length){ el.textContent=''; el.style.color=''; return; }
   const ent=await entradaDeImagemDoModelo(repModel());
   if(ent && !ent.img2img){
-    el.textContent=`OK: "${repModel()}" recebe a referência em "${ent.chave}".`; el.style.color='var(--green)';
+    const n=refImagens.length;
+    el.textContent = ent.lista
+      ? `OK: "${repModel()}" recebe as ${n} vista(s) em "${ent.chave}", cada uma no seu slot.`
+      : `OK: "${repModel()}" aceita uma imagem só ("${ent.chave}")`
+        + (n>1 ? ` — as ${n} vistas vão juntas numa folha lado a lado.` : '.');
+    el.style.color='var(--green)';
   }else if(ent && ent.img2img){
     el.textContent=`⚠ "${repModel()}" trata a imagem como base de img2img ("${ent.chave}"), não como referência de personagem: a saída vira uma variação da própria foto. Prefira flux-kontext-dev, nano-banana ou seedream-4.`;
     el.style.color='var(--accent)';
@@ -3218,36 +3240,124 @@ async function avisarSobreReferencia(){
   }
 }
 
-async function enviarReferencia(input){
-  const file=input.files&&input.files[0];
-  input.value='';
-  if(!file) return;
-  if(!file.type.startsWith('image/')){ setStatus('⚠️ Selecione um arquivo de imagem.'); return; }
-  if(file.size>8*1024*1024){ setStatus('⚠️ Referência acima de 8 MB — ela viaja em base64 a cada cena.'); return; }
+// ── REFERÊNCIA DE PERSONAGEM ─────────────────────────────
+// Várias vistas do MESMO personagem — rosto de frente, corpo inteiro, perfil.
+// Todas viajam em toda cena: quanto mais ângulos, menos o modelo precisa
+// inventar quando a cena pede uma pose que ele nunca viu.
+//
+// Não é para personagens diferentes. Duas pessoas distintas aqui fazem o modelo
+// misturar os traços das duas num rosto só, ou colocar as duas em toda cena.
+
+// A referência viaja em base64 dentro de CADA cena. Uma foto de celular de 4 MB
+// vira ~5,5 MB de texto por cena; com 3 delas e 6 cenas são quase 100 MB subindo
+// só de referência, e cada geração fica mais lenta por causa disso.
+//
+// 1024px no lado maior é de sobra para o modelo fixar um rosto — o que ele lê é
+// a identidade, não a textura da pele. Imagem menor que isso passa intacta.
+async function reduzirReferencia(bytes,mime){
+  const img=await imageFromBytes(bytes,mime);
+  const maior=Math.max(img.width,img.height);
   try{
-    const bytes=new Uint8Array(await file.arrayBuffer());
-    const img=await imageFromBytes(bytes,file.type);
-    refImagem={bytes, mime:file.type, w:img.width, h:img.height};
+    if(maior<=REF_LADO) return {bytes, mime, w:img.width, h:img.height};
+    const esc=REF_LADO/maior;
+    const c=document.createElement('canvas');
+    c.width=Math.round(img.width*esc); c.height=Math.round(img.height*esc);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    const blob=await new Promise(r=>c.toBlob(r,'image/webp',0.92));
+    if(!blob) return {bytes, mime, w:img.width, h:img.height};   // navegador sem webp: manda como veio
+    return {bytes:new Uint8Array(await blob.arrayBuffer()), mime:'image/webp', w:c.width, h:c.height};
+  } finally {
     if(img._blobUrl) URL.revokeObjectURL(img._blobUrl);
-    await idbPut('refPersonagem',{bytes:bytes.buffer.slice(0),mime:file.type,w:img.width,h:img.height});
-    atualizarRefUI();
-    setStatus('✅ Referência salva. Vai junto em toda cena.');
-  }catch(e){ setStatus('❌ Não consegui ler essa imagem: '+e.message); }
+  }
 }
 
-function removerReferencia(){
-  refImagem=null;
-  idbDel('refPersonagem');
+async function enviarReferencia(input){
+  const arquivos=[...(input.files||[])];
+  input.value='';
+  if(!arquivos.length) return;
+  const vagas=REF_MAX-refImagens.length;
+  if(vagas<=0){ setStatus(`⚠️ Máximo de ${REF_MAX} referências. Remova uma para trocar.`); return; }
+  if(arquivos.length>vagas) setStatus(`⚠️ Só cabiam mais ${vagas}; o resto foi ignorado.`);
+
+  let entraram=0, poupado=0;
+  for(const file of arquivos.slice(0,vagas)){
+    if(!file.type.startsWith('image/')){ logLine('warn',`"${file.name}" não é imagem; pulei.`); continue; }
+    if(file.size>20*1024*1024){ logLine('warn',`"${file.name}" passa de 20 MB; pulei.`); continue; }
+    try{
+      const bruto=new Uint8Array(await file.arrayBuffer());
+      const ref=await reduzirReferencia(bruto,file.type);
+      poupado += bruto.length-ref.bytes.length;
+      refImagens.push(ref);
+      entraram++;
+    }catch(e){ logLine('err',`Não consegui ler "${file.name}"`,e.message); }
+  }
+  if(!entraram){ setStatus('❌ Nenhuma imagem foi aceita.'); return; }
+
+  await salvarReferencias();
   atualizarRefUI();
-  setStatus('Referência removida.');
+  setStatus(`✅ ${refImagens.length} referência(s) do personagem — vão juntas em toda cena.`
+    + (poupado>50000 ? ` (${(poupado/1048576).toFixed(1)} MB economizados por cena)` : ''));
+}
+
+async function salvarReferencias(){
+  try{
+    await idbPut('refPersonagens', refImagens.map(r=>({bytes:r.bytes.buffer.slice(0),mime:r.mime,w:r.w,h:r.h})));
+  }catch(e){ logLine('warn','Não consegui guardar as referências no navegador',e.message); }
+}
+
+function removerReferencia(i){
+  if(i===undefined) refImagens=[];
+  else refImagens.splice(i,1);
+  if(refImagens.length) salvarReferencias(); else idbDel('refPersonagens');
+  atualizarRefUI();
+  setStatus(refImagens.length?`${refImagens.length} referência(s) restante(s).`:'Referências removidas.');
 }
 
 async function restaurarReferencia(){
   try{
-    const rec=await idbGet('refPersonagem');
-    if(rec&&rec.bytes){ refImagem={bytes:new Uint8Array(rec.bytes),mime:rec.mime,w:rec.w,h:rec.h}; atualizarRefUI(); }
-    else atualizarRefUI();
-  }catch(e){ atualizarRefUI(); }
+    const rec=await idbGet('refPersonagens');
+    if(Array.isArray(rec)&&rec.length){
+      refImagens=rec.filter(r=>r&&r.bytes).map(r=>({bytes:new Uint8Array(r.bytes),mime:r.mime,w:r.w,h:r.h}));
+    }else{
+      // sessão anterior à multi-referência guardava uma imagem só, noutra chave
+      const velho=await idbGet('refPersonagem');
+      if(velho&&velho.bytes){
+        refImagens=[{bytes:new Uint8Array(velho.bytes),mime:velho.mime,w:velho.w,h:velho.h}];
+        await salvarReferencias();
+        idbDel('refPersonagem');
+        logLine('info','Referência da sessão anterior migrada para a lista de vistas do personagem.');
+      }
+    }
+  }catch(e){ /* sem referência guardada não é erro */ }
+  atualizarRefUI();
+}
+
+// Modelo de campo string (FLUX Kontext) aceita UMA imagem. Em vez de descartar
+// as outras em silêncio, as vistas viram uma folha só, lado a lado: o modelo lê
+// a folha como "este é o personagem, nestes ângulos". Perde resolução por vista,
+// mas mantém a informação que importa — que é a identidade, não o detalhe.
+async function folhaDeReferencias(){
+  if(refImagens.length===1) return refImagens[0];
+  const imgs=[];
+  try{
+    for(const r of refImagens) imgs.push(await imageFromBytes(r.bytes,r.mime));
+    const cols=Math.min(2,imgs.length), linhas=Math.ceil(imgs.length/cols);
+    const CEL=512, c=document.createElement('canvas');
+    c.width=CEL*cols; c.height=CEL*linhas;
+    const g=c.getContext('2d');
+    g.fillStyle='#ffffff'; g.fillRect(0,0,c.width,c.height);   // fundo neutro; preto vira "cena noturna" para alguns modelos
+    imgs.forEach((im,i)=>{
+      const cx=(i%cols)*CEL, cy=Math.floor(i/cols)*CEL;
+      const sc=Math.min(CEL/im.width, CEL/im.height);          // contain: recortar cortaria justo o rosto
+      const w=im.width*sc, h=im.height*sc;
+      g.drawImage(im, cx+(CEL-w)/2, cy+(CEL-h)/2, w, h);
+    });
+    const blob=await new Promise(r=>c.toBlob(r,'image/webp',0.92));
+    if(!blob) return refImagens[0];
+    return {bytes:new Uint8Array(await blob.arrayBuffer()), mime:'image/webp', w:c.width, h:c.height};
+  } finally {
+    imgs.forEach(im=>{ if(im._blobUrl) URL.revokeObjectURL(im._blobUrl); });
+  }
 }
 
 async function replicateImage(prompt){
@@ -3261,11 +3371,20 @@ async function replicateImage(prompt){
   const input={prompt:promptFinal, aspect_ratio: formato().ratio};
 
   // referência de personagem, quando existe E o modelo aceita
-  if(refImagem){
+  if(refImagens.length){
     const ent=await entradaDeImagemDoModelo(repModel());
     if(ent){
-      const uri=bytesParaDataURI(refImagem.bytes,refImagem.mime);
-      input[ent.chave]= ent.lista ? [uri] : uri;
+      if(ent.lista){
+        // campo em lista: todas as vistas vão inteiras, cada uma no seu slot
+        input[ent.chave]=refImagens.map(r=>bytesParaDataURI(r.bytes,r.mime));
+      }else{
+        // campo string: cabe uma só, então as vistas viram uma folha única
+        const folha=await folhaDeReferencias();
+        input[ent.chave]=bytesParaDataURI(folha.bytes,folha.mime);
+        if(refImagens.length>1) logLine('info',
+          `"${repModel()}" aceita uma imagem só: as ${refImagens.length} vistas foram juntadas numa folha.`,
+          'Para mandar cada vista separada, use nano-banana, seedream-4 ou flux-2-klein-9b.');
+      }
     }else if(ent===null){
       logLine('warn',`"${repModel()}" não aceita imagem de entrada — a referência foi ignorada nesta cena.`,
         'Troque para flux-kontext-dev, nano-banana ou seedream-4 no janela Chaves.');
@@ -3287,12 +3406,29 @@ async function replicateImage(prompt){
   return loadImageFromUrl(out,120000,false,'Replicate');
 }
 
+function personagemDesc(){ return ((document.getElementById('repPersonagem')||{}).value||'').trim(); }
+
+// A descricao do personagem entra AQUI, e nao dentro do replicateImage, porque
+// este e o ponto por onde as duas fontes passam. As vistas em imagem so
+// funcionam na Replicate; a descricao em texto e a unica ancora de personagem
+// que tambem vale na Pollinations.
+//
+// Vem depois do enhancePrompt de proposito: o Gemini reescreve o prompt da
+// cena, e deixar a descricao passar por ele significaria o cabelo ruivo virar
+// "auburn" numa cena e "copper" na outra. O texto que ancora o personagem tem
+// de chegar ao modelo identico em todas.
+function comPersonagem(prompt){
+  const p=personagemDesc();
+  return p ? p.replace(/[.,\s]+$/,'')+'. '+prompt : prompt;
+}
+
 // Roteia entre as fontes e devolve {img, url} — url só existe na Pollinations.
 async function makeImage(enhanced,cw,ch){
+  const comAncora=comPersonagem(enhanced);
   if(imgSource()==='replicate'){
-    return {img:await replicateImage(enhanced), url:null};
+    return {img:await replicateImage(comAncora), url:null};
   }
-  const url=buildImageUrl(enhanced,cw,ch,Math.floor(Math.random()*99999));
+  const url=buildImageUrl(comAncora,cw,ch,Math.floor(Math.random()*99999));
   return {img:await loadImageFromUrl(url), url};
 }
 
