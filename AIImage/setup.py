@@ -8,6 +8,7 @@ Uso:
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -25,7 +26,13 @@ def info(msg: str) -> None:
 
 def run(cmd: list[str], **kwargs) -> None:
     info(f"Executando: {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, **kwargs)
+    # UTF-8 nos filhos, igual ao parallax.py. Sem isto a verificacao final morria
+    # com UnicodeEncodeError: o `depthflow --help` desenha a ajuda com `rich`, e
+    # o '|' de moldura (U+2502) nao existe no cp1252 do console do Windows.
+    # A instalacao ja tinha terminado; so a checagem estourava, e o setup saia
+    # dizendo "ERRO" para um ambiente que estava pronto.
+    env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    subprocess.run(cmd, check=True, env=env, **kwargs)
 
 
 def find_python() -> str:

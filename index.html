@@ -2617,15 +2617,21 @@ function videoDeBytes(bytes,mime){
 // aqui é normal; lá o teto é 12 s.
 const DF_TIMEOUT = 16*60*1000;   // o serve.py corta em 15 min; aqui um pouco depois
 
-// A altura do clipe sai do lado CURTO: "480p" em 9:16 significa 480 de largura,
-// não de altura — pedir altura 480 num vertical daria um clipe de 270 de largura,
-// borrado depois que o app estica para preencher o fundo.
-function dfAlturaDoClipe(img){
+// Os DOIS lados vão explícitos. O scene.main() do DepthFlow tem width=1920 fixo
+// por padrão: mandando só a altura, uma cena 1080×1920 voltava como vídeo
+// 1920×840 — retrato entrava, paisagem saía. Medido.
+//
+// A conta parte do lado CURTO: "480p" em 9:16 quer dizer 480 de largura, não de
+// altura. Pedir 480 de altura num vertical daria 270 de largura, borrado depois
+// que o app estica o clipe para preencher o fundo.
+function dfTamanhoDoClipe(img){
   const iw=img.naturalWidth||img.width||1, ih=img.naturalHeight||img.height||1;
   const curto=parseInt(vidRes(),10)||480;
-  let h=Math.round(ih>=iw ? curto*ih/iw : curto);
-  h=Math.max(240,Math.min(2160,h));
-  return h-(h%2);                // h264 recusa altura ímpar
+  let w,h;
+  if(ih>=iw){ w=curto;                    h=Math.round(curto*ih/iw); }
+  else      { w=Math.round(curto*iw/ih);  h=curto; }
+  const par=n=>{ n=Math.max(240,Math.min(3840,Math.round(n))); return n-(n%2); };  // h264 recusa lado ímpar
+  return {w:par(w), h:par(h)};
 }
 
 // O serve.py só aceita jpeg/png/webp; o resto é recusado lá com mensagem clara.
@@ -2638,14 +2644,14 @@ async function depthflowVideo(f){
   if(!f.image || !f.imageBytes) throw new Error('Gere a imagem desta cena antes de animar.');
 
   const tempo=Math.min(120,Math.max(1, Math.round((sceneDur(f)||5)*100)/100));
-  const altura=dfAlturaDoClipe(f.image);
+  const {w,h}=dfTamanhoDoClipe(f.image);
   const fps=parseInt(document.getElementById('fps').value,10)||30;
   const params=new URLSearchParams({
-    tempo:String(tempo), efeito:dfEfeito(), altura:String(altura),
+    tempo:String(tempo), efeito:dfEfeito(), largura:String(w), altura:String(h),
     fps:String(fps), qualidade:String(dfQualidade())
   });
 
-  logLine('info',`DepthFlow: ${tempo}s, ${dfEfeito()}, altura ${altura}, ${fps} fps`,
+  logLine('info',`DepthFlow: ${tempo}s, ${dfEfeito()}, ${w}x${h}, ${fps} fps`,
     'Primeira cena da sessão demora mais: baixa o modelo de profundidade.');
 
   const ctl=new AbortController();

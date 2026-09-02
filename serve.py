@@ -92,6 +92,15 @@ def parallax_python():
     return caminho if os.path.isfile(caminho) else None
 
 
+def parallax_depthflow():
+    """O pacote em si. O interpretador existir nao basta: o setup.py cria a venv
+    em segundos e passa vinte minutos instalando o torch, e nessa janela um
+    status so por python.exe dizia 'pronto' para algo que ainda falharia."""
+    partes = ("Scripts", "depthflow.exe") if sys.platform == "win32" else ("bin", "depthflow")
+    caminho = os.path.join(AIIMAGE_DIR, ".venv", *partes)
+    return caminho if os.path.isfile(caminho) else None
+
+
 def parallax_ffmpeg():
     """Mesma busca do parallax.py: PATH primeiro, depois o link que o winget cria."""
     achado = shutil.which("ffmpeg")
@@ -108,10 +117,31 @@ def parallax_ffmpeg():
     return None
 
 
+def parallax_limpar_entradas():
+    """Apaga as copias que o /parallax deixou para tras.
+
+    O render normal remove a sua no `finally`, mas matar o serve.py no meio de
+    uma cena pula esse caminho e a imagem fica em input/ — que e tambem onde o
+    usuario guarda as fotos dele. Por isso o filtro e pelo prefixo 'cena-', que
+    so este arquivo escreve: nada que voce colocou ali e tocado.
+    """
+    if not os.path.isdir(PARALLAX_INPUT):
+        return 0
+    n = 0
+    for nome in os.listdir(PARALLAX_INPUT):
+        if nome.startswith("cena-") and os.path.splitext(nome)[1] in PARALLAX_EXT.values():
+            try:
+                os.remove(os.path.join(PARALLAX_INPUT, nome))
+                n += 1
+            except OSError:
+                pass
+    return n
+
+
 def parallax_status():
     return {
         "script": os.path.isfile(PARALLAX_SCRIPT),
-        "venv": bool(parallax_python()),
+        "venv": bool(parallax_python() and parallax_depthflow()),
         "ffmpeg": bool(parallax_ffmpeg()),
         "efeitos": list(PARALLAX_EFFECTS),
         "ocupado": parallax_lock.locked(),
@@ -275,13 +305,14 @@ class Handler(SimpleHTTPRequestHandler):
             return v if minimo <= v <= maximo else None
 
         tempo = num("tempo", 8, 1, 120, float)
-        altura = num("altura", 1080, 240, 2160, int)
+        altura = num("altura", 1080, 240, 3840, int)
+        largura = num("largura", 1920, 240, 3840, int)
         fps = num("fps", 30, 1, 60, int)
         qualidade = num("qualidade", 70, 0, 100, int)
         efeito = q.get("efeito", ["horizontal"])[0]
 
-        if tempo is None or altura is None or fps is None or qualidade is None:
-            return self._parallax_erro(400, "tempo/altura/fps/qualidade fora da faixa aceita")
+        if None in (tempo, altura, largura, fps, qualidade):
+            return self._parallax_erro(400, "tempo/altura/largura/fps/qualidade fora da faixa aceita")
         if efeito not in PARALLAX_EFFECTS:
             return self._parallax_erro(400, "efeito invalido: %r" % efeito[:40])
 
@@ -296,6 +327,8 @@ class Handler(SimpleHTTPRequestHandler):
         python = parallax_python()
         if not python:
             return self._parallax_erro(503, "DepthFlow nao instalado. Rode: python AIImage/setup.py")
+        if not parallax_depthflow():
+            return self._parallax_erro(503, "A venv existe mas o DepthFlow ainda nao. O setup.py terminou? Rode de novo: python AIImage/setup.py")
         if not os.path.isfile(PARALLAX_SCRIPT):
             return self._parallax_erro(503, "AIImage/parallax.py nao encontrado")
         if not parallax_ffmpeg():
@@ -321,11 +354,12 @@ class Handler(SimpleHTTPRequestHandler):
                 "--efeito", efeito,
                 "--fps", str(fps),
                 "--altura", str(altura),
+                "--largura", str(largura),
                 "--qualidade", str(qualidade),
                 "--saida", saida,
             ]
             env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
-            print("[parallax] %s %ss efeito=%s altura=%d" % (os.path.basename(entrada), tempo, efeito, altura))
+            print("[parallax] %s %ss efeito=%s %dx%d" % (os.path.basename(entrada), tempo, efeito, largura, altura))
             try:
                 proc = subprocess.run(
                     cmd, cwd=AIIMAGE_DIR, env=env, timeout=PARALLAX_TIMEOUT,
@@ -376,11 +410,22 @@ class Handler(SimpleHTTPRequestHandler):
             self.close_connection = True
 
     # nao registrar querystring (as keys do Gemini viajam ali)
+    @staticmethod
+    def _sem_query(texto):
+        if "?" not in texto:
+            return texto
+        inicio, _, resto = texto.partition("?")
+        fim = resto.find(" ")                       # onde acaba a query e volta o " HTTP/1.1"
+        return inicio + " [query omitida]" + (resto[fim:] if fim >= 0 else "")
+
     def log_message(self, fmt, *args):
-        msg = fmt % args
-        if "?" in msg:
-            msg = msg.split("?")[0] + " [query omitida]"
-        sys.stderr.write("%s - %s\n" % (self.log_date_time_string(), msg))
+        # Redige so a QUERY, nao a linha inteira. A versao antiga cortava tudo a
+        # partir do primeiro "?", e junto ia o codigo de status: todo POST em
+        # /parallax aparecia como '"POST /parallax [query omitida]', sem dizer se
+        # tinha dado 200, 409 ou 503 — foi assim que um render duplicado passou
+        # despercebido. So argumento de texto e higienizado: o log_error usa %d.
+        limpos = tuple(self._sem_query(a) if isinstance(a, str) else a for a in args)
+        sys.stderr.write("%s - %s\n" % (self.log_date_time_string(), fmt % limpos))
 
 
 if __name__ == "__main__":
@@ -400,6 +445,9 @@ if __name__ == "__main__":
         PARALLAX_PREFIX, "ok" if st["venv"] else "FALTA", "ok" if st["ffmpeg"] else "FALTA"))
     if not st["venv"]:
         print("  (para animar sem pagar clipe:  python AIImage\\setup.py)")
+    sobras = parallax_limpar_entradas()
+    if sobras:
+        print("  (limpei %d imagem(ns) de render interrompido em AIImage/input)" % sobras)
     print("Servindo os arquivos de  %s" % APP_DIR)
     print("Ctrl+C para parar.")
     try:

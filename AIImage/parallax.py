@@ -257,12 +257,17 @@ def render(args: argparse.Namespace, image: Path, output: Path) -> dict[str, flo
 
     info("Gerando frames do video...")
     t1 = time.perf_counter()
+    # scene.main() tem width=1920 fixo por padrao. Passando so a altura, uma foto
+    # 1080x1920 saia como video 1920x840: a largura ficava no padrao e o
+    # enquadramento virava paisagem. Com --largura os dois lados sao explicitos.
+    extra = {} if args.largura is None else {"width": args.largura}
     scene.main(
         output=output,
         time=args.tempo,
         fps=args.fps,
         height=args.altura,
         quality=args.qualidade,
+        **extra,
     )
     timings["render_s"] = time.perf_counter() - t1
     return timings
@@ -312,6 +317,14 @@ Exemplos:
         type=int,
         default=1080,
         help="Altura do video em pixels (padrao: 1080)",
+    )
+    parser.add_argument(
+        "--largura",
+        "-W",
+        type=int,
+        default=None,
+        help="Largura do video em pixels (padrao do DepthFlow: 1920). "
+             "Sem isto, uma foto em pe sai enquadrada como paisagem",
     )
     parser.add_argument(
         "--qualidade",
