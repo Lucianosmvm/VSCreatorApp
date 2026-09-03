@@ -416,10 +416,12 @@ class Handler(SimpleHTTPRequestHandler):
         fps = num("fps", 30, 1, 60, int)
         qualidade = num("qualidade", 70, 0, 100, int)
         voltas = num("voltas", 1.0, 0.1, 4.0, float)
+        intensidade = num("intensidade", 1.0, 0.05, 1.0, float)
         efeito = q.get("efeito", ["horizontal"])[0]
+        ida = q.get("ida", ["0"])[0] == "1"
 
-        if None in (tempo, altura, largura, fps, qualidade, voltas):
-            return self._parallax_erro(400, "tempo/altura/largura/fps/qualidade/voltas fora da faixa aceita")
+        if None in (tempo, altura, largura, fps, qualidade, voltas, intensidade):
+            return self._parallax_erro(400, "tempo/altura/largura/fps/qualidade/voltas/intensidade fora da faixa aceita")
         if efeito not in PARALLAX_EFFECTS:
             return self._parallax_erro(400, "efeito invalido: %r" % efeito[:40])
 
@@ -463,11 +465,16 @@ class Handler(SimpleHTTPRequestHandler):
                 "--altura", str(altura),
                 "--largura", str(largura),
                 "--voltas", str(voltas),
+                "--intensidade", str(intensidade),
                 "--qualidade", str(qualidade),
                 "--saida", saida,
             ]
+            if ida:
+                cmd.append("--ida")
             env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
-            print("[parallax] %s %ss efeito=%s voltas=%s %dx%d" % (os.path.basename(entrada), tempo, efeito, voltas, largura, altura))
+            print("[parallax] %s %ss efeito=%s voltas=%s%s intensidade=%s %dx%d" % (
+                os.path.basename(entrada), tempo, efeito, voltas,
+                " (so ida)" if ida else "", intensidade, largura, altura))
             try:
                 proc = subprocess.run(
                     cmd, cwd=AIIMAGE_DIR, env=env, timeout=PARALLAX_TIMEOUT,

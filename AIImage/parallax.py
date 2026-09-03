@@ -240,36 +240,102 @@ def get_scene_class(efeito: str) -> type[DepthScene]:
     return mapping[efeito]
 
 
-def escalar_ciclo(base: type[DepthScene], voltas: float) -> type[DepthScene]:
-    """Quantas voltas do movimento cabem no video inteiro.
+# Efeitos em que "so ida" faz sentido: os que deslocam a camera com sin().
+# O deslocamento de fase de -pi/2 faz o sin sair de -1 e chegar em +1, ou seja,
+# a camera atravessa a cena de uma borda a outra UMA vez e para la. Dolly e
+# Zoom nao entram: as formulas deles (1-cos, sin^2) ja partem do zero, entao
+# meia volta neles ja e uma ida so, sem fase nenhuma.
+FASE_IDA = ("horizontal", "vertical", "circle", "orbital")
+
+
+def aplicar_movimento(scene, efeito: str, c: float, amp: float) -> None:
+    """As formulas dos presets do DepthFlow, com a amplitude sob nosso controle.
+
+    Copiadas de depthflow/examples/presets.py, com um `amp` multiplicando so a
+    parte que se MEXE — os valores parados (isometric, steady, focus, zoom)
+    ficam como estao, senao o enquadramento muda junto com a intensidade.
+
+    Como a duracao do clipe e sempre a da cena, amplitude menor = camera
+    andando menos no mesmo tempo, que e exatamente "mais devagar".
+    """
+    st = scene.state
+    if efeito == "horizontal":
+        st.offset = (0.80 * amp * math.sin(c), 0.0)
+        st.isometric = 0.60
+        st.steady = 0.30
+    elif efeito == "vertical":
+        st.offset = (0.0, 0.80 * amp * math.sin(c))
+        st.isometric = 0.60
+        st.steady = 0.30
+    elif efeito == "circle":
+        st.isometric = 0.60
+        st.steady = 0.30
+        st.offset = (
+            0.50 * amp * math.sin(c + math.pi / 2.0),
+            0.50 * amp * math.sin(c),
+        )
+    elif efeito == "dolly":
+        st.height = 0.30
+        st.steady = 0.35
+        st.focus = 0.35
+        st.zoom = 0.95
+        st.isometric = 0.50 * amp * (1.0 - math.cos(c))
+    elif efeito == "orbital":
+        st.steady = 0.30
+        st.focus = 0.30
+        st.zoom = 0.98
+        # o 0.75 e a posicao de repouso da orbita; so o balanco leva amplitude
+        st.isometric = 0.50 * amp * math.cos(c) + 0.75
+        st.offset = (0.50 * amp * math.sin(c), 0.0)
+    elif efeito == "zoom":
+        st.height = 0.80 * amp * (math.sin(c / 2.0) ** 2.0)
+    else:  # pragma: no cover - get_scene_class ja recusa nome fora da lista
+        raise ValueError(f"efeito desconhecido: {efeito}")
+
+
+def montar_cena(
+    efeito: str,
+    voltas: float,
+    intensidade: float,
+    ida: bool,
+) -> type[DepthScene]:
+    """Monta a classe de cena com o trajeto e a amplitude pedidos.
 
     Os presets leem `self.cycle`, que o ShaderFlow define como
     `(time/runtime) % 1 * 2pi`: um ciclo completo ja se estica sobre a duracao
     pedida, entao o movimento NUNCA se repete dentro do clipe. Medido com um
     clipe de 3 s e um de 9 s: os dois desenham a mesma curva, so mais esticada.
 
-    O que muda com `voltas` e o quanto desse ciclo e percorrido:
+    O que muda aqui e QUANTO desse ciclo e percorrido e COM QUE amplitude:
 
-      1.0  ciclo inteiro. No Horizontal/Vertical o sin passa pelos DOIS lados
-           (centro, direita, centro, esquerda, centro) — e isso que da a
-           impressao de que a animacao "foi e voltou duas vezes".
-      0.5  meio ciclo: centro, direita, centro. Um vaivem so.
+      voltas 1.0  ciclo inteiro. No Horizontal/Vertical o sin passa pelos DOIS
+                  lados (centro, direita, centro, esquerda, centro) — e isso
+                  que da a impressao de que a animacao "foi e voltou duas
+                  vezes".
+      voltas 0.5  meio ciclo: centro, direita, centro. Um vaivem so.
+      ida         desloca a fase em -pi/2: com meio ciclo a camera vai de uma
+                  borda a outra e PARA — nenhuma volta, o trajeto mais lento
+                  para o mesmo tempo de cena.
+      intensidade encolhe o quanto a camera anda (1.0 = o preset original).
 
     Dolly e Zoom ja fazem um vaivem unico em 1.0 (as formulas deles usam
     1-cos e sin^2), e Circle/Orbital precisam do ciclo inteiro para a volta
     fechar — por isso 1.0 continua o padrao.
     """
-    if voltas == 1.0:
-        return base
+    base = get_scene_class(efeito)
+    fase = -math.pi / 2.0 if (ida and efeito in FASE_IDA) else 0.0
 
-    class CicloEscalado(base):  # type: ignore[misc, valid-type]
+    class Ajustada(base):  # type: ignore[misc, valid-type]
         @property
         def cycle(self) -> float:
-            return self.tau * math.tau * voltas
+            return self.tau * math.tau * voltas + fase
 
-    CicloEscalado.__name__ = base.__name__
-    CicloEscalado.__qualname__ = base.__qualname__
-    return CicloEscalado
+        def update(self) -> None:
+            aplicar_movimento(self, efeito, self.cycle, intensidade)
+
+    Ajustada.__name__ = base.__name__
+    Ajustada.__qualname__ = base.__qualname__
+    return Ajustada
 
 
 def render(args: argparse.Namespace, image: Path, output: Path) -> dict[str, float | str]:
@@ -277,7 +343,7 @@ def render(args: argparse.Namespace, image: Path, output: Path) -> dict[str, flo
 
     timings: dict[str, float | str] = {}
 
-    scene_class = escalar_ciclo(get_scene_class(args.efeito), args.voltas)
+    scene_class = montar_cena(args.efeito, args.voltas, args.intensidade, args.ida)
     scene = scene_class(backend=WindowBackend.Headless)
 
     if args.nvenc and not args.cpu_only:
@@ -328,6 +394,7 @@ def parse_args() -> argparse.Namespace:
 Exemplos:
   python parallax.py input/prato.jpg 15
   python parallax.py foto.png 20 --efeito zoom
+  python parallax.py foto.jpg 12 --ida --intensidade 0.4
   python parallax.py foto.jpg 10 --cpu-only
   python parallax.py foto.jpg 10 --device gpu --nvenc
         """,
@@ -372,6 +439,21 @@ Exemplos:
         default=1.0,
         help="Quantas voltas do movimento cabem no video (padrao: 1.0 = ciclo "
              "inteiro). 0.5 faz um vaivem so, sem passar pelos dois lados",
+    )
+    parser.add_argument(
+        "--intensidade",
+        "-i",
+        type=float,
+        default=1.0,
+        help="Amplitude do movimento, 0.05 a 1.0 (padrao: 1.0 = o preset "
+             "original). Menor = camera anda menos no mesmo tempo, ou seja, "
+             "mais devagar e mais sutil",
+    )
+    parser.add_argument(
+        "--ida",
+        action="store_true",
+        help="So ida: a camera atravessa de uma borda a outra e para, sem "
+             "voltar. Vale para horizontal, vertical, circle e orbital",
     )
     parser.add_argument(
         "--largura",
@@ -430,12 +512,17 @@ def main() -> int:
         err("Voltas deve estar entre 0.1 e 4.0.")
         return 1
 
+    if not 0.05 <= args.intensidade <= 1.0:
+        err("Intensidade deve estar entre 0.05 e 1.0.")
+        return 1
+
     image = resolve_image(args.foto)
     output = resolve_output(image, args.saida)
 
     info(f"Foto   : {image}")
     info(f"Saida  : {output}")
-    info(f"Tempo  : {args.tempo}s | Efeito: {args.efeito} | Voltas: {args.voltas} | FPS: {args.fps}")
+    info(f"Tempo  : {args.tempo}s | Efeito: {args.efeito} | Voltas: {args.voltas}"
+         f"{' (so ida)' if args.ida else ''} | Intensidade: {args.intensidade} | FPS: {args.fps}")
     info("Renderizando...")
 
     started = time.perf_counter()
