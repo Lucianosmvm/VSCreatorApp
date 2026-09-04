@@ -804,6 +804,12 @@ body.preview-off .pv-flut{display:none}
         </select>
       </div>
     </div>
+    <label class="chk" style="margin-top:10px"><input type="checkbox" id="renderServidor" checked onchange="saveState()"> Montar o vídeo no servidor (FFmpeg)</label>
+    <div class="hint">Ligado, o navegador só <b>desenha</b> os quadros e manda para o <code>serve.py</code>, que codifica com FFmpeg. Isso muda três coisas:<br>
+    • <b>não é mais em tempo real</b> — nada de aba visível, pode minimizar, trocar de janela e usar o computador;<br>
+    • terminado o envio dos quadros, <b>a aba pode fechar</b>: quem termina é o FFmpeg, no terminal;<br>
+    • sai H.264 com <b>taxa de quadros constante</b> e duração exata, em vez do arquivo de taxa variável que o gravador do navegador entrega.<br>
+    Precisa do <code>serve.py</code> rodando e do FFmpeg instalado (<code>winget install Gyan.FFmpeg</code>) — sem os dois, o app avisa e grava pelo navegador como antes. O MP4 fica em <code>render/&lt;job&gt;/saida.mp4</code> e também baixa sozinho quando fica pronto.</div>
     <div class="sec-hd" style="margin-top:4px">
       <div class="sec-ic">🔤</div>
       <div class="sec-t">Legenda — vale para todas as cenas</div>
@@ -871,6 +877,7 @@ body.preview-off .pv-flut{display:none}
     <div class="btnrow" style="margin-bottom:11px">
       <button class="btn-sm btn-add" onclick="testConnections()">🔌 Testar conexões</button>
       <button class="btn-sm btn-add" onclick="checkEnvironment(true)">📱 Checar aparelho</button>
+      <button class="btn-sm btn-add" onclick="listarRenders()">🎬 Renders no servidor</button>
       <button class="btn-sm btn-del" onclick="copyLog()">📋 Copiar log</button>
       <button class="btn-sm btn-del" onclick="clearLog()">Limpar</button>
     </div>
@@ -1532,6 +1539,7 @@ function saveState(){
       globalStyle: estiloAtual(),
       globalAnim: animAtual(),
       globalPos: posAtual(),
+      renderServidor: renderNoServidor(),
       vidOn: animacaoLigada(),
       vidModel: document.getElementById('vidModel').value,
       vidRes: document.getElementById('vidRes').value,
@@ -1613,6 +1621,10 @@ function loadState(){
   set('dfTrajeto', d.dfTrajeto || (d.dfVoltas==null ? null : (parseFloat(d.dfVoltas)===1?'completo':'vaivem')));
   set('dfIntensidade', d.dfIntensidade); set('dfRef', d.dfRef); set('dfQualidade', d.dfQualidade);
   set('repStyle', d.repStyle); set('repPersonagem', d.repPersonagem);
+  // ausente no estado antigo = ligado: quem salvou antes desta versao nao
+  // escolheu 'nao', so nao tinha a opcao
+  const rs=document.getElementById('renderServidor');
+  if(rs && d.renderServidor!==undefined) rs.checked = !!d.renderServidor;
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('elModo', d.elModo);
@@ -1698,7 +1710,14 @@ async function restoreAssets(){
                    idbPut(f.id,{bytes:disco.bytes.buffer.slice(0),wordTimes:f.wordTimes||null,text:f.audioText||''}); }
       }
       if(rec&&rec.bytes){
-        try{ await attachAudio(f, new Uint8Array(rec.bytes), rec.wordTimes||f.wordTimes||null);
+        // A fatia de faixa única volta com semCorte, igual a quando foi criada.
+        // Sem isto, cada recarga da página aparava de novo o silêncio das
+        // pontas — que ali não é sobra da ElevenLabs, é a respiração real da
+        // locução. Medido ao reabrir um projeto: as 22 cenas encolheram de 50 a
+        // 480 ms cada, a emenda seca voltou, e os wordTimes passaram a ser
+        // descontados por um audioTrimStart que não existia na geração.
+        try{ await attachAudio(f, new Uint8Array(rec.bytes), rec.wordTimes||f.wordTimes||null,
+                               f.audioFaixa?{semCorte:true,mime:'audio/wav'}:null);
              f.audioText = rec.text!=null ? rec.text : (f.audioText||''); }
         catch(e){ f._hasAudio=false; }
       } else f._hasAudio=false;
@@ -2296,34 +2315,61 @@ function posicionarVideo(v,t){
   const alvo=t % v.duration;
   if(Math.abs(v.currentTime-alvo)<0.002) return Promise.resolve();
   return new Promise(ok=>{
-    let pronto=false, timer=null;
+    let feito=false, guarda=null, teto=null;
     const fim=()=>{
-      if(pronto) return;
-      pronto=true; clearTimeout(timer);
-      v.removeEventListener('seeked',fim);
+      if(feito) return;
+      feito=true;
+      clearTimeout(guarda); clearTimeout(teto);
+      v.removeEventListener('seeked',aposSeek);
       ok();
     };
-    // Dois sinais possíveis, e a escolha importa:
+    // Dois sinais, nesta ordem, e é a ordem que importa.
     //
-    // requestVideoFrameCallback dispara quando o quadro foi APRESENTADO, que é
-    // o que drawImage precisa. Sem ele, o mesmo instante devolvia quadros
-    // diferentes a cada passada. É o certo — mas não dispara em aba oculta,
-    // porque está preso ao ciclo de render.
+    // "seeked" avisa que a BUSCA terminou — chega sempre, inclusive com a
+    // janela minimizada, e custa ~40 ms. Mas ele não garante o QUADRO: medi
+    // hashes do canvas buscando 0,5 s e 1,5 s duas vezes seguidas, e a primeira
+    // passada devolveu valores diferentes da segunda. O quadro apresentado
+    // ainda era o anterior.
     //
-    // "seeked" avisa só que a busca terminou; o quadro pode não estar pronto.
-    // Em compensação dispara com a aba oculta. Usar ele ali evita que cada
-    // busca caia no timeout — medi 1 s por quadro assim, o que inviabiliza
-    // exportar um roteiro inteiro.
+    // requestVideoFrameCallback avisa quando o quadro novo foi APRESENTADO, que
+    // é o que o drawImage precisa — mas está preso ao ciclo de render da
+    // página. Com a aba em segundo plano ele não vem, e esperar só por ele
+    // custava 808 ms POR QUADRO (medido): meia hora para um roteiro de 100 s.
     //
-    // Aba visível: precisão. Aba oculta: velocidade. A renderização já pede
-    // aba visível de qualquer forma.
-    if(typeof v.requestVideoFrameCallback==='function' && !document.hidden)
+    // Então: espera o "seeked" e dá ao rVFC uma janela curta para confirmar.
+    // Página desenhando, ele chega em ~16 ms e o quadro sai exato. Minimizada,
+    // o teto vence e segue com o que há — um quadro de atraso, invisível, no
+    // lugar de meia hora de espera.
+    const aposSeek=()=>{
+      v.removeEventListener('seeked',aposSeek);
+      // Aba oculta: nem tentar. O rVFC não dispara, e o teto em setTimeout
+      // seria pior — timer de aba oculta é limitado a 1 s pelo navegador, então
+      // o "teto de 80 ms" virava 1000 ms por quadro. Medido: 998 ms com o teto,
+      // 21 ms sem ele.
+      if(document.hidden || typeof v.requestVideoFrameCallback!=='function') return fim();
       v.requestVideoFrameCallback(fim);
-    else
-      v.addEventListener('seeked',fim);
+      teto=setTimeout(fim,80);
+    };
+    v.addEventListener('seeked',aposSeek);
+    guarda=setTimeout(fim,600);   // rede de segurança: nunca travar a exportação
     v.currentTime=alvo;
-    timer=setTimeout(fim,800);   // rede de segurança: nunca travar a exportação
   });
+}
+
+// O JPEG do quadro, em bytes.
+//
+// toBlob entrega por callback, e esse callback também depende do ciclo de
+// render: com a aba em segundo plano medi 1022 ms por quadro. toDataURL é
+// síncrono, custou 24 ms no mesmo quadro 1080x1920 e não depende de a página
+// estar sendo desenhada. O base64 infla 33% em memória, mas morre na linha
+// seguinte — e 25 ms contra 1 s por quadro paga isso com folga.
+function quadroJpegBytes(cv,qualidade){
+  const url=cv.toDataURL('image/jpeg', qualidade==null?0.92:qualidade);
+  const b64=url.slice(url.indexOf(',')+1);
+  const bin=atob(b64);
+  const out=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) out[i]=bin.charCodeAt(i);
+  return out;
 }
 
 function pausarVideos(exceto){
@@ -4406,6 +4452,198 @@ async function generateAll(onlyMissing){
     : (missing?`✅ Lote pronto. Faltam ${missing} cena(s).`:'✅ Imagens prontas! Agora gere as narrações.'));
 }
 
+// ── RENDER NO SERVIDOR (FFmpeg) ──────────────────────────
+// O gravador do navegador filma o canvas em tempo real: 100 s de vídeo custam
+// 100 s de aba ABERTA E VISÍVEL, porque o requestAnimationFrame congela quando
+// a aba some. Medi 98 quadros desenhados de 2371 esperados com a aba oculta —
+// o arquivo sai travado e não há aviso que conserte isso depois.
+//
+// Aqui o navegador continua desenhando (só ele sabe compor legenda, transição e
+// clipe do jeito que o preview mostrou), mas desenha QUADRO A QUADRO, sem
+// relógio: cada JPEG vai para o serve.py e o FFmpeg monta o MP4. Sem tempo
+// real, aba oculta deixa de ser problema, e a codificação roda numa thread do
+// servidor — terminado o envio, a aba pode fechar.
+//
+// O laço de desenho é o mesmo do "Peças soltas", que já era passo a passo e já
+// esperava o quadro do vídeo com posicionarVideo(). A diferença é o destino.
+const RENDER_ENVIO_PARALELO = 3;   // esconde a latência do POST sem estourar memória
+
+function renderNoServidor(){
+  const el=document.getElementById('renderServidor');
+  return el ? el.checked : false;
+}
+
+async function servidorTemFFmpeg(){
+  try{
+    const r=await fetch('/render');
+    if(!r.ok) return false;
+    const d=await r.json();
+    return !!d.ffmpeg;
+  }catch(_){ return false; }
+}
+
+// Ponto único de escolha do motor, igual ao gerarClipe(): o botão continua um só.
+async function renderVideo(){
+  if(rendering) return;
+  if(renderNoServidor()){
+    if(await servidorTemFFmpeg()) return renderServidor();
+    logLine('warn','Render no servidor indisponível — usando o gravador do navegador.',
+      'Rode `python serve.py` e instale o FFmpeg (winget install Gyan.FFmpeg). Pelo navegador a aba precisa ficar visível.');
+    setStatus('⚠️ Sem FFmpeg no serve.py — gravando pelo navegador (mantenha a aba visível).');
+  }
+  return renderNavegador();
+}
+
+async function renderPost(url,corpo,tipo){
+  const r=await fetch(url,{method:'POST',headers:tipo?{'Content-Type':tipo}:{},body:corpo});
+  if(!r.ok){
+    let d='';
+    try{ d=(await r.json()).detail||''; }catch(_){ d=(await r.text()).slice(0,200); }
+    throw new Error(d||`HTTP ${r.status}`);
+  }
+  return r.json();
+}
+
+async function renderServidor(){
+  const fps=parseInt(document.getElementById('fps').value,10)||24;
+  const {cw,ch}=currentRes();
+  frames.forEach((_,i)=>syncFrame(i));
+  const timeline=buildTimeline();
+  if(!timeline.some(s=>s.f.image||s.f.video)){ setStatus('⚠️ Gere as imagens antes de renderizar.'); return; }
+  const totalDur=timeline.reduce((a,s)=>a+s.dur,0);
+  const totalFrames=timeline.reduce((a,s)=>a+Math.round(s.dur*fps),0);
+
+  stopPreview();
+  rendering=true; renderCancelled=false;
+  const vbtn=document.getElementById('videoBtn');
+  vbtn.disabled=true; vbtn.textContent='Renderizando…';
+  document.getElementById('cancelBtn').style.display='flex';
+  document.getElementById('progBar').style.display='block';
+  document.getElementById('recDot').classList.add('on');
+
+  let job=null;
+  try{
+    job=(await renderPost('/render',JSON.stringify({
+      fps, largura:cw, altura:ch, total_frames:totalFrames,
+      duracao:+totalDur.toFixed(3), nome:(projAtivo()?projetoAtual.nome:'sem projeto')
+    }),'application/json')).job;
+    logLine('info',`Render no servidor aberto: ${job}`,
+      `${totalFrames} quadros, ${cw}x${ch}, ${fps} fps, ${fmtTime(totalDur)}.`);
+
+    // Áudio primeiro: é pequeno, e mandar antes evita perder a locução se o
+    // envio dos quadros for interrompido no meio.
+    for(const seg of timeline){
+      if(!seg.f.audioBuffer) continue;
+      // o buffer já está cortado/fatiado como o app toca — mandar o MP3 original
+      // reintroduziria o silêncio das pontas e a fala andaria para a frente
+      await renderPost(`/render/${job}/audio?inicio=${seg.start.toFixed(3)}`,
+                       bufferParaWav(seg.f.audioBuffer),'audio/wav');
+    }
+
+    const off=document.createElement('canvas');
+    off.width=cw; off.height=ch;
+    const oc=off.getContext('2d');
+    const voando=new Set();
+    const enviar=(n,blob)=>{
+      const p=renderPost(`/render/${job}/quadro?n=${n}`,blob,'image/jpeg')
+        .finally(()=>voando.delete(p));
+      voando.add(p);
+      return voando.size>=RENDER_ENVIO_PARALELO ? Promise.race(voando) : Promise.resolve();
+    };
+
+    let gf=0;
+    for(let si=0;si<timeline.length;si++){
+      const seg=timeline[si], f=seg.f;
+      const quadros=Math.round(seg.dur*fps);
+      for(let fn=0;fn<quadros;fn++){
+        if(renderCancelled) throw new Error('cancelado');
+        const tAbs=seg.start+(fn/fps);
+        // esperar o quadro certo do clipe: sem isto todos os quadros da cena
+        // saem iguais, no ponto em que o vídeo por acaso estava
+        if(f.video) await posicionarVideo(f.video,fn/fps);
+        const prox=timeline[si+1];
+        if(prox && prox.f.video && misturaEm(timeline,si,tAbs)>0) await posicionarVideo(prox.f.video,0);
+        drawSceneComTransicao(oc,f,(fn/fps),seg.dur, prox?prox.f:null, misturaEm(timeline,si,tAbs), cw,ch);
+        await enviar(gf, quadroJpegBytes(off,0.92));
+        gf++;
+        if(gf%12===0){
+          setProg(Math.round((gf/totalFrames)*90));   // 90% do medidor é o desenho
+          setStatus(`🎬 Desenhando ${gf}/${totalFrames} — pode minimizar a janela`);
+          await new Promise(r=>setTimeout(r,0));      // devolve o fôlego à interface
+        }
+      }
+    }
+    await Promise.all(voando);
+
+    await renderPost(`/render/${job}/montar`,null,null);
+    setStatus('🎞️ Quadros enviados — o FFmpeg assumiu. Pode fechar esta aba.');
+    logLine('ok','Quadros enviados; FFmpeg montando.',
+      `Daqui para frente é o serve.py que trabalha: o MP4 sai em render/${job}/saida.mp4 mesmo se a aba fechar.`);
+
+    // A partir daqui a espera é só cortesia: o arquivo sai de qualquer jeito.
+    let st=null;
+    while(true){
+      await new Promise(r=>setTimeout(r,1500));
+      const r=await fetch(`/render/${job}`);
+      if(!r.ok) throw new Error(`não consegui ler o estado do render (HTTP ${r.status})`);
+      st=await r.json();
+      if(st.estado==='pronto'||st.estado==='erro') break;
+      setProg(90+Math.round(st.pct*0.1));
+      setStatus(`🎞️ FFmpeg montando… ${st.pct}% — pode fechar esta aba`);
+    }
+    if(st.estado==='erro') throw new Error(st.detalhe||'FFmpeg falhou');
+
+    setProg(100);
+    const blob=await (await fetch(`/render/${job}/mp4`)).blob();
+    const href=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=href; a.download=`shorts_${job}.mp4`; a.click();
+    setTimeout(()=>URL.revokeObjectURL(href),15000);
+    logLine('ok',`Vídeo pronto: ${(st.bytes/1048576).toFixed(1)} MB`,
+      `Também está salvo em render/${job}/saida.mp4.`);
+    setStatus(`✅ Vídeo pronto: MP4, ${fmtTime(totalDur)}, ${(st.bytes/1048576).toFixed(1)} MB — salvo em render/${job}/`);
+  }catch(e){
+    const cancelado = renderCancelled || /cancelad/i.test(e.message||'');
+    if(job && cancelado){ try{ await fetch(`/render/${job}`,{method:'DELETE'}); }catch(_){} }
+    if(cancelado){ setStatus('⏹ Renderização cancelada.'); logLine('warn','Render cancelado.'); }
+    else{
+      logLine('err','Render no servidor falhou',e.message);
+      setStatus('❌ Falha no render do servidor: '+(e.message||e));
+    }
+  }finally{
+    rendering=false; renderCancelled=false;
+    vbtn.disabled=false; vbtn.textContent='🎬 Gerar vídeo pronto para postar';
+    document.getElementById('cancelBtn').style.display='none';
+    document.getElementById('progBar').style.display='none';
+    document.getElementById('recDot').classList.remove('on');
+    checkDone();
+  }
+}
+
+// Renders que ficaram no servidor. Existe para o caso que o recurso inteiro
+// permite: fechar a aba no meio da montagem e voltar depois atrás do arquivo.
+async function listarRenders(){
+  try{
+    const r=await fetch('/render');
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d=await r.json();
+    if(!d.jobs.length){ logLine('info','Nenhum render no servidor.'); setStatus('Nenhum render guardado no servidor.'); return; }
+    d.jobs.forEach(j=>{
+      const quando=new Date(j.criado*1000).toLocaleString('pt-BR');
+      const tam=j.bytes?` · ${(j.bytes/1048576).toFixed(1)} MB`:'';
+      logLine(j.estado==='erro'?'err':(j.estado==='pronto'?'ok':'info'),
+        `${j.estado.toUpperCase()} · ${j.job}${tam}`,
+        `${j.nome||'sem projeto'} · ${j.largura}x${j.altura} · ${fmtTime(j.duracao)} · ${quando}`+
+        (j.estado==='pronto'?` · baixe em /render/${j.job}/mp4`:'')+
+        (j.detalhe?` · ${j.detalhe}`:''));
+    });
+    setStatus(`${d.jobs.length} render(s) no servidor — veja o log abaixo.`);
+  }catch(e){
+    logLine('err','Não consegui listar os renders',e.message);
+    setStatus('❌ Não alcancei o serve.py.');
+  }
+}
+
 // ── RENDER DE VÍDEO (MediaRecorder) ──────────────────────
 function pickMime(){
   const opts=[
@@ -4421,7 +4659,9 @@ function pickMime(){
 
 function cancelRender(){ renderCancelled=true; setStatus('⏹ Cancelando…'); }
 
-async function renderVideo(){
+// Gravador do navegador: tempo real, aba visivel. Fallback quando o serve.py
+// nao esta la ou o FFmpeg falta.
+async function renderNavegador(){
   if(rendering) return;
   const vb0=document.getElementById('videoBtn');
   if(vb0.dataset.unsupported){
@@ -4608,12 +4848,7 @@ async function exportZIP(){
         if(proxSeg && proxSeg.f.video && misturaEm(timeline,si,tAbs)>0) await posicionarVideo(proxSeg.f.video,0);
         drawSceneComTransicao(oc,f,(fn/fps),seg.dur,
           timeline[si+1]?timeline[si+1].f:null, misturaEm(timeline,si,tAbs), cw,ch);
-        // toBlob em vez de toDataURL: não infla 33% em string base64 na memória
-        const blob=await new Promise((ok,bad)=>{
-          try{ off.toBlob(b=>b?ok(b):bad(new Error('Falha ao codificar o frame')),'image/jpeg',.88); }
-          catch(err){ bad(err); }
-        });
-        folder.file(`frame_${String(gf).padStart(5,'0')}.jpg`,blob);
+        folder.file(`frame_${String(gf).padStart(5,'0')}.jpg`, quadroJpegBytes(off,0.88));
         gf++;done++;
         if(fn%10===0){
           setProg(Math.round((done/total)*100));

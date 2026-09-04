@@ -50,3 +50,8 @@ __pycache__/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# ── Render com FFmpeg ────────────────────────────────────────────────
+# Quadros enviados pelo navegador e o MP4 que o serve.py monta a partir deles.
+# Dezenas de MB por render, e tudo regenerável a partir do projeto.
+render/

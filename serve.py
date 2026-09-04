@@ -242,6 +242,216 @@ def parallax_status():
     }
 
 
+# -- RENDER NO SERVIDOR (FFmpeg) ------------------------------------------
+#
+# O render do navegador grava em TEMPO REAL (MediaRecorder sobre
+# captureStream): 100 s de video custam 100 s de aba aberta e VISIVEL, porque o
+# requestAnimationFrame congela quando a aba some — medido, 98 quadros
+# desenhados de 2371 esperados numa aba oculta, e o video sai travado.
+#
+# Aqui a conta muda de lugar. O navegador continua desenhando (e o unico que
+# sabe compor legenda, transicao e clipe exatamente como o preview mostrou),
+# mas desenha QUADRO A QUADRO, sem relogio: manda cada JPEG para ca e este
+# processo monta o MP4 com FFmpeg. Sem tempo real, aba oculta nao atrapalha, e
+# a codificacao roda numa thread que sobrevive ao fechamento da aba.
+#
+# Mesma regra de sempre: nada que chega vira comando. O id do job nasce aqui, o
+# numero do quadro passa por faixa fechada, e o FFmpeg recebe lista de
+# argumentos.
+RENDER_PREFIX = "/render"
+RENDER_DIR = os.path.join(APP_DIR, "render")
+RENDER_ID_OK = re.compile(r"^render-[0-9]{6,20}$")
+RENDER_MAX_QUADRO = 12 * 1024 * 1024      # um JPEG 1080x1920 fica em ~0,2 MB
+RENDER_MAX_AUDIO = 200 * 1024 * 1024
+RENDER_MAX_QUADROS = 20000                # 20000 / 24 fps = 13 min de video
+RENDER_VALIDADE = 3 * 24 * 3600           # jobs mais velhos que isto somem no boot
+
+# estado dos jobs em memoria; o disco guarda uma copia para a lista sobreviver
+# a um restart do servidor
+render_jobs = {}
+render_lock = threading.Lock()
+
+
+def render_dir(jid):
+    """Pasta do job, ou None se o id nao for aceitavel."""
+    if not RENDER_ID_OK.match(jid or ""):
+        return None
+    caminho = os.path.join(RENDER_DIR, jid)
+    try:
+        raiz = os.path.realpath(RENDER_DIR)
+        alvo = os.path.realpath(caminho)
+    except OSError:
+        return None
+    if alvo != raiz and not alvo.startswith(raiz + os.sep):
+        return None
+    return caminho
+
+
+def render_publico(job):
+    """A parte do job que o app pode ver (sem caminho absoluto do disco)."""
+    return {
+        "job": job["id"],
+        "nome": job["nome"],
+        "estado": job["estado"],
+        "pct": job["pct"],
+        "detalhe": job["detalhe"],
+        "quadros": job["quadros"],
+        "total_frames": job["total_frames"],
+        "fps": job["fps"],
+        "largura": job["largura"],
+        "altura": job["altura"],
+        "duracao": job["duracao"],
+        "audios": len(job["audios"]),
+        "criado": job["criado"],
+        "arquivo": "saida.mp4" if job["estado"] == "pronto" else None,
+        "bytes": job.get("bytes", 0),
+    }
+
+
+def render_gravar_estado(job):
+    try:
+        with open(os.path.join(job["pasta"], "estado.json"), "w", encoding="utf-8") as fh:
+            json.dump(render_publico(job), fh, ensure_ascii=False)
+    except OSError:
+        pass
+
+
+def render_carregar_jobs():
+    """Le os jobs que sobraram no disco e apaga os vencidos.
+
+    Sem isto, fechar o terminal perdia a lista e o MP4 pronto virava arquivo
+    orfao numa pasta que o app nao sabia mais nomear.
+    """
+    if not os.path.isdir(RENDER_DIR):
+        return
+    agora = time.time()
+    for nome in sorted(os.listdir(RENDER_DIR)):
+        pasta = os.path.join(RENDER_DIR, nome)
+        if not os.path.isdir(pasta) or not RENDER_ID_OK.match(nome):
+            continue
+        try:
+            idade = agora - os.path.getmtime(pasta)
+        except OSError:
+            continue
+        if idade > RENDER_VALIDADE:
+            shutil.rmtree(pasta, ignore_errors=True)
+            continue
+        try:
+            with open(os.path.join(pasta, "estado.json"), encoding="utf-8") as fh:
+                d = json.load(fh)
+        except (OSError, ValueError):
+            continue
+        saida = os.path.join(pasta, "saida.mp4")
+        # um job que ficou "montando" quando o servidor caiu nao esta montando
+        # coisa nenhuma; marcar erro e honesto e libera a interface
+        estado = d.get("estado", "erro")
+        detalhe = d.get("detalhe", "")
+        if estado in ("recebendo", "montando") and not os.path.isfile(saida):
+            estado = "erro"
+            detalhe = "o servidor foi encerrado no meio do render"
+        render_jobs[nome] = {
+            "id": nome, "pasta": pasta, "saida": saida,
+            "nome": d.get("nome", ""), "estado": estado, "pct": d.get("pct", 0),
+            "detalhe": detalhe, "quadros": d.get("quadros", 0),
+            "total_frames": d.get("total_frames", 0), "fps": d.get("fps", 24),
+            "largura": d.get("largura", 0), "altura": d.get("altura", 0),
+            "duracao": d.get("duracao", 0), "audios": [],
+            "criado": d.get("criado", 0), "bytes": d.get("bytes", 0),
+        }
+
+
+def render_montar(job):
+    """Roda o FFmpeg. Chamada numa thread: o POST /montar volta na hora.
+
+    Daqui para frente a aba pode fechar — e o ponto do recurso inteiro.
+    """
+    ff = parallax_ffmpeg()
+    quadros = os.path.join(job["pasta"], "quadros", "q_%06d.jpg")
+    cmd = [ff, "-y", "-hide_banner", "-loglevel", "error",
+           "-framerate", str(job["fps"]), "-start_number", "0", "-i", quadros]
+
+    # Cada cena entra como uma entrada separada e e atrasada ate o segundo em
+    # que comeca. Concatenar em sequencia nao serve: entre uma fala e outra
+    # existe a pausa da cena, e o audio andaria na frente da imagem.
+    audios = sorted(job["audios"], key=lambda a: a["inicio"])
+    for a in audios:
+        cmd += ["-i", os.path.join(job["pasta"], "audio", a["arquivo"])]
+
+    if audios:
+        partes = []
+        for i, a in enumerate(audios, start=1):
+            partes.append("[%d:a]adelay=%d:all=1[a%d]"
+                          % (i, int(round(a["inicio"] * 1000)), i))
+        rotulos = "".join("[a%d]" % i for i in range(1, len(audios) + 1))
+        # normalize=0: sem isto o amix divide o volume pelo numero de entradas e
+        # 22 cenas sairiam praticamente inaudiveis.
+        # dropout_transition=0: o padrao (2 s) faz o volume subir de novo cada
+        # vez que uma entrada acaba, e isso vira bombeamento entre as cenas.
+        partes.append("%samix=inputs=%d:normalize=0:dropout_transition=0[a]"
+                      % (rotulos, len(audios)))
+        cmd += ["-filter_complex", ";".join(partes), "-map", "0:v", "-map", "[a]",
+                "-c:a", "aac", "-b:a", "192000"]
+    else:
+        cmd += ["-map", "0:v"]
+
+    cmd += [
+        "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+        "-pix_fmt", "yuv420p",          # sem isto o QuickTime e o WhatsApp nao abrem
+        "-r", str(job["fps"]),          # taxa constante: o MediaRecorder entregava VFR
+        "-movflags", "+faststart",      # metadado na frente: upload le sem baixar tudo
+        "-t", "%.3f" % job["duracao"],
+        "-progress", "pipe:1", "-nostats",
+        job["saida"],
+    ]
+
+    job["estado"] = "montando"
+    job["pct"] = 0
+    job["detalhe"] = "FFmpeg codificando"
+    render_gravar_estado(job)
+    print("[render] %s: montando %d quadros + %d audio(s)"
+          % (job["id"], job["quadros"], len(audios)))
+
+    try:
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                text=True, encoding="utf-8", errors="replace")
+    except OSError as e:
+        job["estado"] = "erro"
+        job["detalhe"] = "nao consegui iniciar o FFmpeg: %s" % e
+        render_gravar_estado(job)
+        return
+
+    total = max(1, job["total_frames"])
+    for linha in proc.stdout:
+        linha = linha.strip()
+        if linha.startswith("frame="):
+            try:
+                n = int(linha.split("=", 1)[1])
+            except ValueError:
+                continue
+            job["pct"] = min(99, int(n * 100 / total))
+            render_gravar_estado(job)
+    proc.wait()
+    erro = (proc.stderr.read() or "").strip()
+
+    if proc.returncode != 0 or not os.path.isfile(job["saida"]):
+        job["estado"] = "erro"
+        job["pct"] = 0
+        job["detalhe"] = erro[-800:] or ("FFmpeg terminou com codigo %d" % proc.returncode)
+        render_gravar_estado(job)
+        print("[render] %s: FALHOU — %s" % (job["id"], job["detalhe"][:200]))
+        return
+
+    job["bytes"] = os.path.getsize(job["saida"])
+    job["estado"] = "pronto"
+    job["pct"] = 100
+    job["detalhe"] = ""
+    # os quadros ja viraram video e ocupam centenas de MB; o MP4 fica
+    shutil.rmtree(os.path.join(job["pasta"], "quadros"), ignore_errors=True)
+    render_gravar_estado(job)
+    print("[render] %s: pronto — %s (%.1f MB)"
+          % (job["id"], job["saida"], job["bytes"] / 1048576))
+
+
 def endereco_publico(host):
     """False para localhost, IP privado, link-local — evita virar scanner de rede."""
     try:
@@ -274,13 +484,14 @@ class Handler(SimpleHTTPRequestHandler):
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Headers", "Authorization, Content-Type, Prefer")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
         self.send_header("Access-Control-Max-Age", "86400")
 
     def do_OPTIONS(self):
         rota = self.path.split("?")[0]
         if (self.path.startswith(PREFIX) or rota == FETCH_PREFIX
-                or rota.startswith(PARALLAX_PREFIX) or rota.startswith(PROJETOS_PREFIX)):
+                or rota.startswith(PARALLAX_PREFIX) or rota.startswith(PROJETOS_PREFIX)
+                or rota.startswith(RENDER_PREFIX)):
             self.send_response(204)
             self._cors()
             self.send_header("Content-Length", "0")
@@ -299,6 +510,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._parallax_status()
         if rota.startswith(PROJETOS_PREFIX):
             return self._projetos("GET", rota)
+        if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
+            return self._render("GET", rota)
         return SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
@@ -309,12 +522,16 @@ class Handler(SimpleHTTPRequestHandler):
             return self._parallax()
         if rota.startswith(PROJETOS_PREFIX):
             return self._projetos("POST", rota)
+        if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
+            return self._render("POST", rota)
         self.send_error(404)
 
     def do_DELETE(self):
         rota = self.path.split("?")[0]
         if rota.startswith(PROJETOS_PREFIX):
             return self._projetos("DELETE", rota)
+        if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
+            return self._render("DELETE", rota)
         self.send_error(404)
 
     # ---- proxy ---------------------------------------------------------
@@ -521,6 +738,163 @@ class Handler(SimpleHTTPRequestHandler):
             return None
         return self.rfile.read(tamanho) if tamanho > 0 else b""
 
+    # ---- render no servidor ----------------------------------------------
+    def _render(self, metodo, rota):
+        partes = [p for p in rota[len(RENDER_PREFIX):].split("/") if p]
+
+        # o corpo sai do socket ANTES de qualquer validacao — mesma armadilha do
+        # /parallax e do /projetos: recusar cedo deixa os bytes na conexao e o
+        # keep-alive le o JPEG como se fosse a requisicao seguinte
+        corpo = None
+        if metodo == "POST":
+            limite = RENDER_MAX_AUDIO if partes[-1:] == ["audio"] else RENDER_MAX_QUADRO
+            if len(partes) <= 1:
+                limite = 1024 * 1024
+            corpo = self._ler_corpo(limite)
+            if corpo is None:
+                return
+
+        # GET /render -> lista os jobs (o app usa para reencontrar um render
+        # feito antes de a aba ser fechada)
+        if not partes:
+            if metodo == "GET":
+                with render_lock:
+                    jobs = [render_publico(j) for j in render_jobs.values()]
+                jobs.sort(key=lambda j: j["criado"], reverse=True)
+                return self._json(200, {"jobs": jobs, "ffmpeg": bool(parallax_ffmpeg())})
+            if metodo == "POST":
+                return self._render_novo(corpo)
+            return self._json(405, {"detail": "use GET ou POST em /render"})
+
+        jid = partes[0]
+        pasta = render_dir(jid)
+        if pasta is None:
+            return self._json(400, {"detail": "id de render invalido"})
+        with render_lock:
+            job = render_jobs.get(jid)
+        if job is None:
+            return self._json(404, {"detail": "render nao encontrado"})
+        resto = partes[1:]
+
+        if metodo == "DELETE" and not resto:
+            with render_lock:
+                render_jobs.pop(jid, None)
+            shutil.rmtree(pasta, ignore_errors=True)
+            return self._json(200, {"ok": True})
+
+        if metodo == "GET" and not resto:
+            return self._json(200, render_publico(job))
+
+        # GET /render/<job>/mp4 -> o arquivo pronto
+        if metodo == "GET" and resto == ["mp4"]:
+            if job["estado"] != "pronto" or not os.path.isfile(job["saida"]):
+                return self._json(409, {"detail": "este render ainda nao esta pronto"})
+            with open(job["saida"], "rb") as fh:
+                return self._responder(200, fh.read(), "video/mp4")
+
+        if metodo == "POST" and resto == ["quadro"]:
+            return self._render_quadro(job, corpo)
+
+        if metodo == "POST" and resto == ["audio"]:
+            return self._render_audio(job, corpo)
+
+        if metodo == "POST" and resto == ["montar"]:
+            return self._render_montar(job)
+
+        return self._json(404, {"detail": "rota de render desconhecida"})
+
+    def _render_novo(self, corpo):
+        if not parallax_ffmpeg():
+            return self._json(503, {"detail": "FFmpeg nao encontrado. Rode: winget install Gyan.FFmpeg"})
+        try:
+            d = json.loads((corpo or b"{}").decode("utf-8"))
+        except (ValueError, UnicodeDecodeError) as e:
+            return self._json(400, {"detail": "corpo nao e JSON valido: %s" % e})
+
+        def num(nome, minimo, maximo, tipo):
+            try:
+                v = tipo(d.get(nome))
+            except (TypeError, ValueError):
+                return None
+            return v if minimo <= v <= maximo else None
+
+        fps = num("fps", 1, 60, int)
+        largura = num("largura", 240, 3840, int)
+        altura = num("altura", 240, 3840, int)
+        total = num("total_frames", 1, RENDER_MAX_QUADROS, int)
+        duracao = num("duracao", 0.1, 3600.0, float)
+        if None in (fps, largura, altura, total, duracao):
+            return self._json(400, {"detail": "fps/largura/altura/total_frames/duracao fora da faixa aceita"})
+
+        jid = "render-%d" % int(time.time() * 1000)
+        pasta = render_dir(jid)
+        os.makedirs(os.path.join(pasta, "quadros"), exist_ok=True)
+        os.makedirs(os.path.join(pasta, "audio"), exist_ok=True)
+        job = {
+            "id": jid, "pasta": pasta, "saida": os.path.join(pasta, "saida.mp4"),
+            # o nome e so rotulo na lista; nao vira nome de arquivo em disco
+            "nome": str(d.get("nome") or "")[:80],
+            "estado": "recebendo", "pct": 0, "detalhe": "", "quadros": 0,
+            "total_frames": total, "fps": fps, "largura": largura, "altura": altura,
+            "duracao": duracao, "audios": [], "criado": int(time.time()), "bytes": 0,
+        }
+        with render_lock:
+            render_jobs[jid] = job
+        render_gravar_estado(job)
+        print("[render] %s: aberto (%dx%d, %d fps, %d quadros, %.1fs)"
+              % (jid, largura, altura, fps, total, duracao))
+        return self._json(200, render_publico(job))
+
+    def _render_quadro(self, job, corpo):
+        if job["estado"] != "recebendo":
+            return self._json(409, {"detail": "este render ja fechou a recepcao de quadros"})
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        try:
+            n = int(q.get("n", [""])[0])
+        except ValueError:
+            return self._json(400, {"detail": "n invalido"})
+        if not 0 <= n < job["total_frames"]:
+            return self._json(400, {"detail": "n fora da faixa declarada em /render"})
+        if not corpo:
+            return self._json(400, {"detail": "corpo vazio"})
+        if corpo[:2] != b"\xff\xd8":
+            return self._json(415, {"detail": "esperava JPEG"})
+        # o nome sai do inteiro ja validado, nunca de texto do cliente
+        caminho = os.path.join(job["pasta"], "quadros", "q_%06d.jpg" % n)
+        with open(caminho, "wb") as fh:
+            fh.write(corpo)
+        job["quadros"] += 1
+        return self._json(200, {"ok": True, "quadros": job["quadros"]})
+
+    def _render_audio(self, job, corpo):
+        if job["estado"] != "recebendo":
+            return self._json(409, {"detail": "este render ja fechou a recepcao"})
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        try:
+            inicio = float(q.get("inicio", ["0"])[0])
+        except ValueError:
+            return self._json(400, {"detail": "inicio invalido"})
+        if not 0 <= inicio <= 3600:
+            return self._json(400, {"detail": "inicio fora da faixa"})
+        if not corpo or corpo[:4] != b"RIFF":
+            return self._json(415, {"detail": "esperava WAV"})
+        nome = "a_%03d.wav" % len(job["audios"])
+        with open(os.path.join(job["pasta"], "audio", nome), "wb") as fh:
+            fh.write(corpo)
+        job["audios"].append({"arquivo": nome, "inicio": inicio})
+        return self._json(200, {"ok": True, "audios": len(job["audios"])})
+
+    def _render_montar(self, job):
+        if job["estado"] != "recebendo":
+            return self._json(409, {"detail": "este render ja foi montado"})
+        if job["quadros"] < job["total_frames"]:
+            return self._json(400, {"detail": "faltam quadros: recebi %d de %d"
+                                              % (job["quadros"], job["total_frames"])})
+        # thread solta de proposito: e ela que faz o render sobreviver ao
+        # fechamento da aba
+        threading.Thread(target=render_montar, args=(job,), daemon=True).start()
+        return self._json(202, render_publico(job))
+
     def _projetos(self, metodo, rota):
         partes = [p for p in rota[len(PROJETOS_PREFIX):].split("/") if p]
 
@@ -711,6 +1085,13 @@ if __name__ == "__main__":
     os.makedirs(PROJETOS_DIR, exist_ok=True)
     print("Projetos em  %s  ->  %s (%d salvos)" % (
         PROJETOS_PREFIX, PROJETOS_DIR, len(projetos_listar())))
+    os.makedirs(RENDER_DIR, exist_ok=True)
+    render_carregar_jobs()
+    prontos = sum(1 for j in render_jobs.values() if j["estado"] == "pronto")
+    print("Render com FFmpeg em  %s  ->  %s (%d na pasta, %d prontos)" % (
+        RENDER_PREFIX, "ok" if st["ffmpeg"] else "FALTA ffmpeg",
+        len(render_jobs), prontos))
+    print("  MP4 montado aqui roda fora do navegador: depois de enviar os quadros da para fechar a aba.")
     print("Servindo os arquivos de  %s" % APP_DIR)
     print("Ctrl+C para parar.")
     try:
