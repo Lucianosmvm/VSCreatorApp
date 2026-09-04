@@ -477,6 +477,41 @@ body.preview-off .pv-flut{display:none}
 </div>
 
 <div class="pane" data-tab="roteiro">
+
+  <!-- PLANEJAR COM O VIMAX -->
+  <div class="sec" id="secViMax">
+    <div class="sec-hd">
+      <div class="sec-ic">🎬</div>
+      <div class="sec-t">Planejar com o ViMax</div>
+      <div class="sec-pill" id="vmPill">local</div>
+    </div>
+
+    <label>Tema</label>
+    <textarea id="vmTema" placeholder="Ex: uma restauradora de relógios descobre que um deles adianta o tempo" spellcheck="false" style="min-height:52px" oninput="saveStateSoon()"></textarea>
+    <div class="hint">Uma frase basta. Se você já tem o roteiro escrito, cole no <b>Importar roteiro</b> aqui embaixo em vez de usar isto.</div>
+
+    <label>Cenas</label>
+    <input type="number" id="vmCenas" min="2" max="40" step="1" value="6" oninput="saveStateSoon()">
+
+    <label>Estilo visual (opcional)</label>
+    <input type="text" id="vmEstilo" placeholder="Ex: cinematic photograph, warm evening light" spellcheck="false" oninput="saveStateSoon()">
+    <div class="hint">Vai para <b>todas</b> as cenas de uma vez, ainda no texto. É diferente do "Estilo forçado" das Chaves, que é colado na frente de cada prompt depois de pronto — os dois podem conviver, mas repetir o mesmo estilo nos dois só gasta palavra.</div>
+
+    <div class="btnrow" style="margin-top:11px">
+      <button class="btn-sm btn-add" id="vmBtn" onclick="planejarComViMax(this)">🎬 Planejar roteiro</button>
+    </div>
+    <div class="jmsg" id="vmMsg"></div>
+
+    <div class="tip">
+      Usa a <b>chave e o modelo do Gemini</b> que já estão no janela Chaves — o mesmo par que traduz os prompts. São 4 chamadas de texto por roteiro, e nenhuma imagem é gerada aqui.<br><br>
+      O que muda em relação ao "Prompt p/ Claude": lá cada cena nasce isolada, e o personagem só se mantém pela descrição que você escreveu à mão. Aqui o <b>ViMax</b> extrai os personagens uma vez e desenha o storyboard inteiro com essa ficha na mão, então a cena 5 descreve a mesma pessoa da cena 1 com as mesmas palavras.<br><br>
+      O resultado cai no campo abaixo — <b>confira e clique em Importar</b>.
+    </div>
+    <div class="tip warn" id="vmFalta" style="display:none">
+      O ViMax ainda não está instalado nesta máquina. Rode <code>python vimax_setup.py</code> na pasta do app e recarregue a página.
+    </div>
+  </div>
+
   <div class="sec sec-import" id="secImport">
     <div class="sec-hd">
       <div class="sec-ic">📋</div>
@@ -1567,6 +1602,9 @@ function saveState(){
       repStyle: document.getElementById('repStyle').value,
       repPersonagem: personagemDesc(),
       repProxy: document.getElementById('repProxy').value,
+      vmTema: document.getElementById('vmTema').value,
+      vmCenas: document.getElementById('vmCenas').value,
+      vmEstilo: document.getElementById('vmEstilo').value,
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
@@ -1642,6 +1680,7 @@ function loadState(){
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
   set('repModel',d.repModel); set('repExtra',d.repExtra); set('repProxy',d.repProxy);
+  set('vmTema',d.vmTema); set('vmCenas',d.vmCenas); set('vmEstilo',d.vmEstilo);
   // depois de repModel: a lista espelha o campo, e o campo é quem manda
   sincronizarSeletorDeModelo();
   if(d.voiceSel){
@@ -5461,6 +5500,99 @@ function copyClaudePrompt(){
   });
 }
 
+// ── PLANEJAR COM O VIMAX ─────────────────────────────────
+// Fala com o /plano do serve.py, que roda o vimax_plan.py na venv do ViMax.
+// Aqui não há chamada de imagem: o que volta é texto, e vai para o mesmo campo
+// que o "Importar roteiro" já lê. A importação continua sendo um clique seu, de
+// propósito — planejar é barato, e trocar as cenas por engano não é.
+function setVmMsg(m,color){
+  const el=document.getElementById('vmMsg');
+  el.textContent=m||''; el.style.color=color||'var(--muted)';
+}
+
+// O /plano só existe no serve.py. Pelo GitHub Pages ou pelo http.server a rota
+// devolve 404, e o botão precisa dizer isso antes de a pessoa clicar — o mesmo
+// motivo do aviso da Replicate.
+async function conferirViMax(){
+  const pill=document.getElementById('vmPill');
+  const falta=document.getElementById('vmFalta');
+  if(!pill) return;
+  try{
+    const r=await fetch('/plano/status',{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const s=await r.json();
+    const pronto = s.script && s.repo && s.venv;
+    pill.textContent = pronto ? 'pronto' : 'falta instalar';
+    pill.className = 'sec-pill' + (pronto ? '' : ' paid');
+    falta.style.display = pronto ? 'none' : 'block';
+  }catch(e){
+    pill.textContent='sem serve.py';
+    pill.className='sec-pill paid';
+    falta.style.display='block';
+  }
+}
+
+async function planejarComViMax(btn){
+  const tema=document.getElementById('vmTema').value.trim();
+  if(!tema) return setVmMsg('Escreva o tema primeiro.','var(--accent)');
+
+  // a chave é a mesma da tradução. Se houver várias, vai a primeira viva: o
+  // rodízio do withKeyRotation não serve aqui, porque quem chama o Gemini é o
+  // processo do outro lado e ele recebe uma chave só.
+  const chaves=gmLiveKeys().length ? gmLiveKeys() : gmKeys();
+  if(!chaves.length) return setVmMsg('Cole uma chave do Gemini no janela Chaves.','var(--accent)');
+
+  const cenas=Math.max(2,Math.min(40,parseInt(document.getElementById('vmCenas').value)||6));
+  const job={
+    tema, cenas,
+    estilo: document.getElementById('vmEstilo').value.trim(),
+    formato: formato().horizontal ? '16:9' : '9:16',
+    llm:{ model:gmModel(), api_key:chaves[0] }
+  };
+
+  if(btn) btn.disabled=true;
+  showOv('🎬 ViMax planejando o roteiro…<br><small>personagens → storyboard → cenas. Leva 1 a 3 min.</small>');
+  setVmMsg('Planejando…','var(--muted)');
+  logLine('info',`ViMax: planejando ${cenas} cena(s) com ${gmModel()}`,tema.slice(0,120));
+
+  const t0=Date.now();
+  try{
+    // sem fetchRetry: cada tentativa custa 4 chamadas de LLM e alguns minutos,
+    // e o serve.py já recusa a segunda enquanto a primeira roda (409)
+    const r=await fetch('/plano',{method:'POST',headers:{'Content-Type':'application/json'},
+                                  body:JSON.stringify(job)});
+    const dados=await r.json().catch(()=>({detail:'resposta ilegível do /plano'}));
+    if(!r.ok) throw new Error(dados.detail || ('HTTP '+r.status));
+
+    const n=(dados.scenes||[]).length;
+    document.getElementById('jsonIn').value=JSON.stringify({scenes:dados.scenes},null,2);
+    const ms=Date.now()-t0;
+    logLine('ok',`ViMax OK (${(ms/1000).toFixed(0)}s, ${n} cenas)`,dados.ficha_personagens||'');
+    setVmMsg(`✅ ${n} cena(s) prontas no campo abaixo. Confira e clique em Importar.`,'var(--green)');
+    setJsonMsg('Roteiro do ViMax carregado. Clique em Importar.','var(--muted)');
+
+    // a ficha de personagem é o subproduto que o campo "Personagem" das Chaves
+    // pede em inglês — oferece, mas não sobrescreve o que já está escrito lá
+    const alvo=document.getElementById('repPersonagem');
+    if(dados.ficha_personagens && alvo && !alvo.value.trim()){
+      alvo.value=dados.ficha_personagens.replace(/^- /gm,'').split('\n').join('; ');
+      saveStateSoon();
+      logLine('info','Ficha de personagem copiada para o campo "Personagem" das Chaves.',
+        'Confira antes de gerar: ela entra em toda cena, inclusive nas que não têm gente.');
+    }
+  }catch(e){
+    const msg=String(e.message||e);
+    logLine('err','ViMax falhou',msg);
+    setVmMsg(/Failed to fetch|NetworkError/.test(msg)
+      ? 'O /plano não respondeu. Rode "python serve.py" na pasta do app.'
+      : '❌ '+msg, 'var(--accent)');
+  }finally{
+    hideOv();
+    if(btn) btn.disabled=false;
+    conferirViMax();
+  }
+}
+
 // ── UTILS ────────────────────────────────────────────────
 function toggleKey(id){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';}
 function setStatus(m){document.getElementById('statusMsg').textContent=m;}
@@ -5549,6 +5681,8 @@ restoreAssets();
 // depois do loadState, senão a consulta do schema sai sem token e não dá para
 // dizer se o modelo aceita referência
 restaurarReferencia();
+// diz no cabeçalho do painel se o ViMax está instalado, antes de alguém clicar
+conferirViMax();
 
 </script>
 </body>

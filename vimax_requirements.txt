@@ -1,0 +1,32 @@
+# Dependencias do vimax_plan.py -- NAO e o pyproject.toml do ViMax.
+#
+# O ViMax completo pede moviepy, faiss-cpu, scenedetect, google-genai e mais,
+# porque ele tambem gera imagem, gera clipe e concatena o filme. Daqui so sai
+# texto, entao o que entra aqui e o minimo para a cadeia
+# Screenwriter -> CharacterExtractor -> StoryboardArtist rodar.
+#
+# O bloco de baixo nao e usado pelo planejamento. Entra porque o ViMax importa
+# por pacote, e o __init__.py do pacote roda inteiro antes do modulo que a gente
+# quer: "from agents.screenwriter import ..." executa agents/__init__.py, que
+# importa CameraImageGenerator (scenedetect, moviepy, cv2), e "from interfaces
+# import ..." executa interfaces/__init__.py, que importa image_output (cv2,
+# PIL) e video_output (moviepy). Sao imports de topo de modulo; nenhuma funcao
+# desses pacotes e chamada por este caminho.
+#
+# Da para furar isso carregando o modulo por caminho de arquivo e pulando o
+# __init__, mas ai qualquer reorganizacao do ViMax quebra em silencio. Preferi
+# pagar 60 MB de disco a manter um truque que so eu entendo.
+#
+# opencv-python-headless, e nao opencv-python: e o mesmo cv2 sem as libs de
+# janela, que nada aqui abre.
+
+langchain>=0.3.26
+langchain-openai>=0.3.27
+pydantic>=2.7
+tenacity>=9.1.2
+requests>=2.32.4
+
+pillow>=11.3.0
+opencv-python-headless>=4.10
+moviepy>=2.2.1
+scenedetect>=0.6.7

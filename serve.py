@@ -242,6 +242,49 @@ def parallax_status():
     }
 
 
+# -- PLANEJAMENTO DE ROTEIRO (ViMax) --------------------------------------
+#
+# /plano roda o vimax_plan.py, que usa a camada de TEXTO do ViMax para montar
+# um roteiro com personagem consistente. Devolve o mesmo JSON que o botao
+# "Importar roteiro" ja aceita: {"scenes":[{narration_text, image_prompt}]}.
+#
+# Existe pelo mesmo motivo do /parallax: e um processo Python com dependencia
+# pesada, que nao cabe no serve.py (stdlib puro) nem no navegador. E, como o
+# /parallax, roda numa venv propria — ViMax/.venv, criada por vimax_setup.py.
+#
+# Aqui tem uma diferenca que importa: o job carrega a CHAVE do modelo de texto.
+# Por isso ele entra e sai por STDIN/STDOUT do subprocesso, nunca por argv (que
+# qualquer processo da maquina le no Gerenciador de Tarefas) e nunca por
+# querystring (que o _log_message deste arquivo teria que aprender a limpar).
+# O corpo recebido nao e registrado em lugar nenhum.
+PLANO_PREFIX = "/plano"
+VIMAX_DIR = os.path.join(APP_DIR, "ViMax")
+PLANO_SCRIPT = os.path.join(APP_DIR, "vimax_plan.py")
+PLANO_MAX_BODY = 2 * 1024 * 1024          # o job e texto: tema, roteiro, chave
+PLANO_TIMEOUT = 600                       # 4 chamadas de LLM em serie
+
+# Uma de cada vez, igual ao DepthFlow. Nao por disputa de GPU: e que o nivel
+# gratuito do Gemini corta por minuto, e dois roteiros em paralelo viram dois
+# 429 em vez de um roteiro pronto.
+plano_lock = threading.Lock()
+
+
+def vimax_python():
+    """Interpretador da venv do ViMax, ou None se o vimax_setup.py nao rodou."""
+    partes = ("Scripts", "python.exe") if sys.platform == "win32" else ("bin", "python")
+    caminho = os.path.join(VIMAX_DIR, ".venv", *partes)
+    return caminho if os.path.isfile(caminho) else None
+
+
+def plano_status():
+    return {
+        "script": os.path.isfile(PLANO_SCRIPT),
+        "repo": os.path.isdir(os.path.join(VIMAX_DIR, "agents")),
+        "venv": bool(vimax_python()),
+        "ocupado": plano_lock.locked(),
+    }
+
+
 # -- RENDER NO SERVIDOR (FFmpeg) ------------------------------------------
 #
 # O render do navegador grava em TEMPO REAL (MediaRecorder sobre
@@ -491,7 +534,7 @@ class Handler(SimpleHTTPRequestHandler):
         rota = self.path.split("?")[0]
         if (self.path.startswith(PREFIX) or rota == FETCH_PREFIX
                 or rota.startswith(PARALLAX_PREFIX) or rota.startswith(PROJETOS_PREFIX)
-                or rota.startswith(RENDER_PREFIX)):
+                or rota.startswith(RENDER_PREFIX) or rota.startswith(PLANO_PREFIX)):
             self.send_response(204)
             self._cors()
             self.send_header("Content-Length", "0")
@@ -508,6 +551,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._fetch()
         if rota == PARALLAX_PREFIX + "/status":
             return self._parallax_status()
+        if rota == PLANO_PREFIX + "/status":
+            return self._json(200, plano_status())
         if rota.startswith(PROJETOS_PREFIX):
             return self._projetos("GET", rota)
         if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
@@ -520,6 +565,8 @@ class Handler(SimpleHTTPRequestHandler):
         rota = self.path.split("?")[0]
         if rota == PARALLAX_PREFIX:
             return self._parallax()
+        if rota == PLANO_PREFIX:
+            return self._plano()
         if rota.startswith(PROJETOS_PREFIX):
             return self._projetos("POST", rota)
         if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
@@ -718,6 +765,75 @@ class Handler(SimpleHTTPRequestHandler):
             except OSError:
                 pass
             parallax_lock.release()
+
+    # ---- planejamento de roteiro (ViMax) ---------------------------------
+    def _plano(self):
+        # O corpo sai do socket ANTES de qualquer validacao, pela mesma armadilha
+        # do /parallax: recusar cedo deixa os bytes na conexao e o keep-alive le
+        # o resto do JSON como se fosse a requisicao seguinte.
+        corpo = self._ler_corpo(PLANO_MAX_BODY)
+        if corpo is None:
+            return
+        if not corpo.strip():
+            return self._json(400, {"detail": "corpo vazio: mande o job em JSON"})
+
+        # so confere que e JSON; quem valida campo a campo e o vimax_plan.py, que
+        # e quem sabe o que cada um significa. Nada daqui vira comando: o
+        # subprocesso recebe LISTA de argumentos fixos e o job vai por stdin.
+        try:
+            json.loads(corpo.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as e:
+            return self._json(400, {"detail": "corpo nao e JSON valido: %s" % e})
+
+        if not os.path.isfile(PLANO_SCRIPT):
+            return self._json(503, {"detail": "vimax_plan.py nao encontrado na pasta do app"})
+        python = vimax_python()
+        if not python:
+            return self._json(503, {"detail": "ViMax nao instalado. Rode: python vimax_setup.py"})
+
+        if not plano_lock.acquire(blocking=False):
+            return self._json(409, {"detail": "ja tem um roteiro sendo planejado; espere terminar"})
+        try:
+            print("[plano] planejando roteiro (ate %d s)" % PLANO_TIMEOUT)
+            # UTF-8 nos dois lados do pipe. O vimax_plan.py ja escreve o
+            # resultado em bytes, mas sem isto qualquer print acentuado que o
+            # ViMax faca por conta propria morre com UnicodeEncodeError no
+            # cp1252 do Windows — e o roteiro em portugues tem acento em toda
+            # linha. Mesmo cuidado do AIImage/setup.py.
+            env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+            try:
+                proc = subprocess.run(
+                    [python, PLANO_SCRIPT], input=corpo, cwd=APP_DIR, env=env,
+                    capture_output=True, timeout=PLANO_TIMEOUT,
+                )
+            except subprocess.TimeoutExpired:
+                return self._json(504, {"detail": "o planejamento passou de %d s e foi encerrado. "
+                                                  "Modelo lento ou roteiro grande demais." % PLANO_TIMEOUT})
+
+            # o stderr e so andamento ("[vimax] extraindo personagens"); vai para
+            # o console de quem rodou o serve.py, e nunca para a resposta —
+            # traceback com a chave dentro nao pode voltar para o navegador
+            erro = (proc.stderr or b"").decode("utf-8", "replace").strip()
+            if erro:
+                print(erro)
+
+            saida = (proc.stdout or b"").decode("utf-8", "replace").strip()
+            if not saida:
+                return self._json(500, {"detail": "vimax_plan.py terminou sem resposta "
+                                                  "(codigo %d). Veja o console do serve.py." % proc.returncode})
+            try:
+                dados = json.loads(saida)
+            except json.JSONDecodeError:
+                return self._json(500, {"detail": "vimax_plan.py devolveu algo que nao e JSON: "
+                                                  + saida[:400]})
+
+            if proc.returncode != 0 or "scenes" not in dados:
+                return self._json(502, {"detail": dados.get("detail") or "o planejamento falhou"})
+
+            print("[plano] pronto: %d cena(s)" % len(dados.get("scenes") or []))
+            return self._json(200, dados)
+        finally:
+            plano_lock.release()
 
     # ---- projetos --------------------------------------------------------
     def _json(self, status, obj):

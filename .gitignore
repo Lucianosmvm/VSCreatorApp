@@ -55,3 +55,8 @@ desktop.ini
 # Quadros enviados pelo navegador e o MP4 que o serve.py monta a partir deles.
 # Dezenas de MB por render, e tudo regenerável a partir do projeto.
 render/
+
+# -- ViMax (planejamento de roteiro) ---------------------------------
+# Clone de outro repositorio (HKUDS/ViMax, MIT) com .git proprio dentro, mais
+# a venv de ~200 MB. Nada aqui e nosso e tudo volta com: python vimax_setup.py
+ViMax/
