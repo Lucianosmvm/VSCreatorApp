@@ -702,7 +702,12 @@ body.preview-off .pv-flut{display:none}
 
         <label>Intensidade do movimento (5–100%)</label>
         <input type="number" id="dfIntensidade" value="35" min="5" max="100" step="5" oninput="saveStateSoon()">
-        <div class="hint">O controle direto da velocidade. 100% é a amplitude cheia do DepthFlow — a câmera cruza a cena inteira e, em cena curta, isso vira um solavanco. Como o clipe sempre dura o tempo da cena, baixar a intensidade encolhe o caminho sem encolher o tempo: <b>35% é um deslize quase imperceptível</b>, 15% é praticamente uma foto respirando. O enquadramento não muda — só o tanto que a câmera anda.</div>
+        <div class="hint">100% é a amplitude cheia do DepthFlow — a câmera cruza a cena inteira. Baixar encolhe o caminho sem encolher o tempo: <b>35% é um deslize quase imperceptível</b>, 15% é praticamente uma foto respirando. O enquadramento não muda — só o tanto que a câmera anda. Esta é a intensidade da <b>cena de referência</b> abaixo.</div>
+
+        <label>Velocidade igual em todas as cenas — cena de referência (s)</label>
+        <input type="number" id="dfRef" value="5" min="0" max="30" step="0.5" oninput="saveStateSoon()">
+        <div class="hint">O clipe sempre dura o tempo da cena. Sem isto, o mesmo caminho é percorrido em 2 s numa cena curta e em 8 s numa longa — e a curta fica <b>quatro vezes mais rápida</b>. Com a referência ligada, a amplitude acompanha a duração: a intensidade acima vale para uma cena deste tamanho, uma cena com metade do tempo anda metade do caminho, e a velocidade sai igual no roteiro inteiro.<br>
+        Com <b>5 s e 35%</b>: cena de 2,5 s anda 17,5%, cena de 10 s anda 70%. O limite do DepthFlow é 5–100%, então cenas muito longas encostam no teto e voltam a acelerar de leve. <b>0 desliga</b> e volta ao comportamento antigo (amplitude cheia em qualquer cena).</div>
 
         <label>Qualidade do render (0–100)</label>
         <input type="number" id="dfQualidade" value="70" min="0" max="100" step="5" oninput="saveStateSoon()">
@@ -1535,6 +1540,7 @@ function saveState(){
       dfEfeito: dfEfeito(),
       dfTrajeto: dfTrajeto(),
       dfIntensidade: String(dfIntensidade()),
+      dfRef: String(dfRef()),
       dfQualidade: String(dfQualidade()),
       parallel: document.getElementById('parallel').value,
       fps: document.getElementById('fps').value,
@@ -1605,7 +1611,7 @@ function loadState(){
   set('vidEngine', d.vidEngine); set('dfEfeito', d.dfEfeito);
   // projeto salvo antes do trajeto ter nome guardava só o número de voltas
   set('dfTrajeto', d.dfTrajeto || (d.dfVoltas==null ? null : (parseFloat(d.dfVoltas)===1?'completo':'vaivem')));
-  set('dfIntensidade', d.dfIntensidade); set('dfQualidade', d.dfQualidade);
+  set('dfIntensidade', d.dfIntensidade); set('dfRef', d.dfRef); set('dfQualidade', d.dfQualidade);
   set('repStyle', d.repStyle); set('repPersonagem', d.repPersonagem);
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
@@ -2975,6 +2981,21 @@ function dfIntensidade(){
   const v=parseInt((document.getElementById('dfIntensidade')||{}).value,10);
   return isNaN(v)?35:Math.min(100,Math.max(5,v));
 }
+// Duração de cena para a qual a intensidade acima vale por inteiro. 0 desliga.
+function dfRef(){
+  const v=parseFloat((document.getElementById('dfRef')||{}).value);
+  return isNaN(v)?5:Math.min(30,Math.max(0,v));
+}
+// A velocidade da câmera é amplitude ÷ duração, e a duração do clipe é sempre a
+// da cena. Com amplitude fixa, cena curta = mesmo caminho em menos tempo = mais
+// rápida — é o que incomoda em roteiro com cenas de tamanhos diferentes.
+// Escalando a amplitude pela duração, a razão fica constante e todas as cenas
+// deslizam no mesmo ritmo. O clamp é a faixa que o serve.py aceita (5–100%).
+function dfIntensidadeDaCena(dur){
+  const base=dfIntensidade(), ref=dfRef();
+  if(!ref) return base;
+  return Math.min(100,Math.max(5,Math.round(base*(dur/ref))));
+}
 
 // Os seis que o serve.py aceita. A lista fica aqui só para o sorteio: quem
 // valida é o servidor, que recusa qualquer nome fora dela.
@@ -3109,7 +3130,7 @@ async function depthflowVideo(f){
   const efeito=dfEfeitoDaCena();
   const voltas=dfVoltas();
   const trajeto=dfTrajeto();
-  const intens=dfIntensidade();
+  const intens=dfIntensidadeDaCena(tempo);
   const params=new URLSearchParams({
     tempo:String(tempo), efeito, largura:String(w), altura:String(h),
     fps:String(fps), qualidade:String(dfQualidade()), voltas:String(voltas),
@@ -3117,8 +3138,9 @@ async function depthflowVideo(f){
   });
 
   const TRAJ_LBL={ida:'só ida',vaivem:'vaivém único',completo:'ciclo completo'};
+  const esc = dfRef() ? ` (intensidade ${dfIntensidade()}% ajustada para ${intens}% pela referência de ${dfRef()}s)` : '';
   logLine('info',`DepthFlow: ${tempo}s, ${efeito}${dfEfeito()==='aleatorio'?' (sorteado)':''}, ${TRAJ_LBL[trajeto]} a ${intens}%, ${w}x${h}, ${fps} fps`,
-    'Primeira cena da sessão demora mais: baixa o modelo de profundidade.');
+    `Primeira cena da sessão demora mais: baixa o modelo de profundidade.${esc}`);
 
   const ctl=new AbortController();
   const alarme=setTimeout(()=>ctl.abort(),DF_TIMEOUT);
