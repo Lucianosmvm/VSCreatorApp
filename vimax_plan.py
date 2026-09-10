@@ -65,9 +65,144 @@ LLM_PADRAO = {
 
 MAX_CENAS = 40
 
+# A adaptacao e a ULTIMA das 4 chamadas do planejamento: quando ela falha, as
+# tres anteriores ja foram pagas e a pessoa esperou minutos para receber um erro
+# seco. Por isso ela tem tentativa e prazo proprios; os outros passos ja vem com
+# @retry de dentro dos agentes do ViMax, este nao vinha de lugar nenhum.
+ADAPTACAO_TENTATIVAS = 3
+ADAPTACAO_TIMEOUT = 150   # o mesmo prazo por tentativa que os agentes do ViMax usam
+
 
 def log(msg):
     print("[vimax] " + msg, file=sys.stderr, flush=True)
+
+
+# -- RODIZIO DE CHAVES ----------------------------------------------------
+#
+# O app aceita varias chaves do Gemini e ja faz rodizio no que sai do navegador
+# (withKeyRotation, no index.html). O planejamento nao fazia: recebia UMA chave,
+# e um 429 no terceiro passo jogava fora as duas chamadas anteriores junto.
+#
+# Aqui a troca e POR PASSO. A chave estoura, a proxima refaz aquele passo, e o
+# que ja ficou pronto continua pronto -- refazer o planejamento inteiro a cada
+# chave seria justamente o desperdicio que o rodizio existe para evitar.
+
+# Cada provider embrulha o erro HTTP numa excecao diferente, e o langchain
+# reembrulha de novo, entao sobra olhar a mensagem. Errar para o lado do "nao e
+# chave" e o certo: no maximo se perde o rodizio, enquanto o contrario queimaria
+# as chaves boas repetindo um erro de prompt em todas elas.
+ERROS_DE_CHAVE = (
+    "429", "quota", "rate limit", "rate_limit", "too many requests",
+    "resource_exhausted", "resource exhausted",
+    # "valid api key" cobre de uma vez as tres redacoes que ja vieram do Gemini
+    # pela porta compativel: "API key not valid", "invalid API key" e
+    # "Please pass a valid API key" -- esta ultima chega como 400, nao 401
+    "valid api key", "api_key_invalid", "invalid_api_key",
+    "api key expired", "expired api key", "missing api key",
+    "permission_denied", "permission denied", "unauthenticated",
+)
+
+
+def cadeia_de_erros(e):
+    """O erro recebido mais tudo que estiver embrulhado dentro dele.
+
+    Precisa existir por causa da tenacity: os agentes do ViMax tem @retry, e o
+    que sobe deles nao e o erro da API, e um RetryError cujo str() mostra so o
+    endereco do Future ("RetryError[<Future at 0x... raised ...>]"). Sem abrir
+    esse embrulho, um 429 vindo de character_extractor, write_script ou
+    storyboard passava por "nao e erro de chave" e o rodizio nunca acontecia --
+    justamente nos tres passos que mais estouram cota.
+    """
+    # De fora para dentro (fila, nao pilha): quem embrulha costuma dizer mais do
+    # que quem foi embrulhado. O RetryError guarda o OpenAIInvalidRequestError
+    # ("Please pass a valid API key"), que por sua vez guarda um HTTPStatusError
+    # so com "400 Bad Request" -- ir ate o fundo entregaria a pior das tres.
+    vistos, fila, saida = set(), [e], []
+    while fila:
+        atual = fila.pop(0)
+        if atual is None or id(atual) in vistos:
+            continue
+        vistos.add(id(atual))
+        saida.append(atual)
+        fila.append(getattr(atual, "__cause__", None))
+        fila.append(getattr(atual, "__context__", None))
+        tentativa = getattr(atual, "last_attempt", None)   # tenacity.RetryError
+        if tentativa is not None:
+            try:
+                if tentativa.failed:
+                    fila.append(tentativa.exception())
+            except Exception:
+                pass
+    return saida
+
+
+def texto_do_erro(e):
+    """A mensagem mais funda da pilha; a de fora costuma ser o embrulho."""
+    for err in cadeia_de_erros(e):
+        texto = str(err).strip()
+        if texto and not texto.startswith("RetryError"):
+            return type(err).__name__ + ": " + texto
+    return type(e).__name__ + ": " + str(e)
+
+
+def eh_erro_de_chave(e):
+    """True quando o erro e da CHAVE (cota ou credencial), nao do texto."""
+    for err in cadeia_de_erros(e):
+        texto = str(err).lower()
+        if any(marca in texto for marca in ERROS_DE_CHAVE):
+            return True
+    return False
+
+
+class Rodizio:
+    """Uma chave por vez, com as seguintes esperando a fila."""
+
+    def __init__(self, chaves, cfg, fabrica):
+        self.chaves = chaves
+        self.cfg = cfg
+        self.fabrica = fabrica
+        self.i = 0
+        self.esgotadas = []
+        self._chat = None
+
+    def chat(self):
+        if self._chat is None:
+            self._chat = self.fabrica(
+                model=self.cfg["model"],
+                model_provider=self.cfg.get("provider") or "openai",
+                api_key=self.chaves[self.i],
+                base_url=self.cfg.get("base_url") or None,
+                temperature=self.cfg.get("temperature", 0.7),
+            )
+        return self._chat
+
+    def proxima(self):
+        """Marca a chave atual como gasta e avanca. False quando acabaram."""
+        if self.i not in self.esgotadas:
+            self.esgotadas.append(self.i)
+        if self.i + 1 >= len(self.chaves):
+            return False
+        self.i += 1
+        self._chat = None
+        return True
+
+
+async def com_rodizio(rod, rotulo, passo):
+    """Roda passo(chat). Se o erro for de chave, troca de chave e refaz o passo."""
+    while True:
+        try:
+            return await passo(rod.chat())
+        except Exception as e:
+            if not eh_erro_de_chave(e):
+                raise
+            atual, quantas = rod.i + 1, len(rod.chaves)
+            if not rod.proxima():
+                raise ValueError(
+                    "as " + str(quantas) + " chave(s) do Gemini falharam em \""
+                    + rotulo + "\". Ultimo erro -- " + texto_do_erro(e)
+                )
+            log("chave " + str(atual) + "/" + str(quantas) + " falhou em "
+                + rotulo + " (" + type(e).__name__ + "); indo para a proxima")
 
 
 def responder(obj):
@@ -101,7 +236,10 @@ PROMPT_ADAPTACAO_SISTEMA = """You convert a cinematic storyboard into scenes for
 
 The app draws ONE still image per scene and speaks ONE line over it. The line is also printed on screen as the caption. Between scenes there is a short pause in the voice and a cross-dissolve in the image.
 
-For every shot you receive, output one scene with exactly two fields.
+You receive {total} shots and must output exactly {alvo} scenes, each with exactly two fields.
+- More shots than scenes: merge neighbours that belong to the same beat, write one line for the pair and keep the image of the stronger of the two.
+- Fewer shots than scenes: split the richest shots into two scenes, same moment seen in two different framings.
+- Never reorder the story, never drop a beat, never invent one that is not in the storyboard.
 
 "narration_text" -- in {idioma}. It is what the voice says AND what is written on screen; they are the same string.
 - 6 to 12 words. Spoken register, direct, no final period.
@@ -111,6 +249,7 @@ For every shot you receive, output one scene with exactly two fields.
 - Keep the same person and tense from start to finish.
 - Similar length across scenes: scene duration comes from line length, so a 3-word line between two 12-word lines breaks the rhythm.
 - If the shot carries dialogue, turn it into narration -- this app has one narrator voice, characters do not speak.
+- One line pulls the next by meaning, not by repeating words. Do not start several scenes with the same word.
 
 "image_prompt" -- in ENGLISH, one sentence. Subject + action + setting + light + framing. Concrete and cinematic.
 - Carry over the character features exactly as given in the character sheet, every single time that character appears: same hair, same clothes, same build, in the same words. This is the only thing keeping the character consistent across scenes.
@@ -118,6 +257,12 @@ For every shot you receive, output one scene with exactly two fields.
 - No text, no letters, no logos and no watermarks in the image -- the caption is drawn on top afterwards.
 - {enquadramento}
 - Style, applied to every scene: {estilo}
+
+SHAPE OF THE WHOLE SET
+This is short-form video, not a film: nobody owes you the first ten seconds.
+- Scene 1 is the hook. Whatever that first shot happens to show, its line must create curiosity or contradict common sense -- never a neutral sentence that only sets up the place.
+- Middle scenes each carry ONE idea and move forward; no scene restates the one before it.
+- The last scene closes with a short call to action.
 
 {format_instructions}"""
 
@@ -127,7 +272,8 @@ PROMPT_ADAPTACAO_HUMANO = """Character sheet:
 Storyboard ({total} shots, in order):
 {planos}
 
-Output exactly {total} scenes, in the same order, keeping "idx" as given."""
+Output exactly {alvo} scenes, in the same order as the shots.
+In each scene, "idx" is the shot it came from -- the first one, when you merged."""
 
 
 def enquadramento_de(formato):
@@ -181,8 +327,15 @@ async def planejar(job):
     from typing import List
 
     from langchain.chat_models import init_chat_model
-    from langchain_core.output_parsers import PydanticOutputParser
     from pydantic import BaseModel, Field
+
+    # O parser tolerante e do proprio ViMax (utils/robust_json_parser.py), e
+    # existe porque o gemini-flash pela porta compativel com a OpenAI emite
+    # virgula pendente antes de "}" com frequencia. O PydanticOutputParser puro
+    # estoura nisso, e aqui estourar custa o planejamento inteiro.
+    from utils.robust_json_parser import (
+        TrailingCommaTolerantPydanticOutputParser as PydanticOutputParser,
+    )
 
     from agents.character_extractor import CharacterExtractor
     from agents.screenwriter import Screenwriter
@@ -190,16 +343,17 @@ async def planejar(job):
 
     llm_cfg = dict(LLM_PADRAO)
     llm_cfg.update(job.get("llm") or {})
-    if not llm_cfg.get("api_key"):
-        raise ValueError('faltou a chave da API em "llm.api_key"')
 
-    chat = init_chat_model(
-        model=llm_cfg["model"],
-        model_provider=llm_cfg.get("provider") or "openai",
-        api_key=llm_cfg["api_key"],
-        base_url=llm_cfg.get("base_url") or None,
-        temperature=llm_cfg.get("temperature", 0.7),
-    )
+    # "api_keys" e a lista inteira do janela Chaves; "api_key" continua valendo
+    # para quem chama este arquivo na mao com uma chave so.
+    chaves = [str(k).strip() for k in (llm_cfg.get("api_keys") or []) if str(k).strip()]
+    if not chaves and llm_cfg.get("api_key"):
+        chaves = [str(llm_cfg["api_key"]).strip()]
+    if not chaves:
+        raise ValueError('faltou a chave da API em "llm.api_key" ou "llm.api_keys"')
+
+    rod = Rodizio(chaves, llm_cfg, init_chat_model)
+    log(str(len(chaves)) + " chave(s) na fila")
 
     formato = job.get("formato") or "9:16"
     estilo = (job.get("estilo") or "cinematic photograph, natural light").strip()
@@ -223,16 +377,19 @@ async def planejar(job):
         tema = (job.get("tema") or "").strip()
         if not tema:
             raise ValueError('mande "tema" (uma ideia) ou "roteiro" (o texto pronto)')
-        sw = Screenwriter(chat_model=chat)
         log("escrevendo a historia a partir do tema")
-        historia = await sw.develop_story(idea=tema, user_requirement=requisito)
+        historia = await com_rodizio(rod, "historia", lambda c: Screenwriter(
+            chat_model=c).develop_story(idea=tema, user_requirement=requisito))
         log("quebrando a historia em cenas")
-        partes = await sw.write_script_based_on_story(story=historia, user_requirement=requisito)
+        partes = await com_rodizio(rod, "roteiro", lambda c: Screenwriter(
+            chat_model=c).write_script_based_on_story(
+                story=historia, user_requirement=requisito))
         roteiro = "\n\n".join(p.strip() for p in partes if p and p.strip())
 
     # 2) personagens. E a etapa que justifica o ViMax estar aqui.
     log("extraindo personagens")
-    personagens = await CharacterExtractor(chat_model=chat).extract_characters(script=roteiro)
+    personagens = await com_rodizio(rod, "personagens", lambda c: CharacterExtractor(
+        chat_model=c).extract_characters(script=roteiro))
     log(str(len(personagens)) + " personagem(ns): "
         + ", ".join(p.identifier_in_scene for p in personagens))
 
@@ -241,14 +398,19 @@ async def planejar(job):
     #    proposito: ele quebra o plano em primeiro/ultimo quadro para o modelo de
     #    VIDEO interpolar, e aqui cada cena e uma imagem parada.
     log("desenhando o storyboard")
-    storyboard = await StoryboardArtist(chat_model=chat).design_storyboard(
-        script=roteiro, characters=personagens, user_requirement=requisito,
-    )
+    storyboard = await com_rodizio(rod, "storyboard", lambda c: StoryboardArtist(
+        chat_model=c).design_storyboard(
+            script=roteiro, characters=personagens, user_requirement=requisito))
     log(str(len(storyboard)) + " plano(s)")
+    if not storyboard:
+        raise ValueError("o storyboard voltou vazio")
 
     # 4) adaptacao para o formato do app
+    avisos = []
+
     class CenaAdaptada(BaseModel):
-        idx: int = Field(description="The index of the shot this scene came from.")
+        idx: int = Field(description="The shot this scene came from; the first one, "
+                                     "when several shots were merged into one scene.")
         narration_text: str = Field(description="Spoken line, also the on-screen caption.")
         image_prompt: str = Field(description="English one-sentence image prompt.")
 
@@ -257,32 +419,99 @@ async def planejar(job):
 
     parser = PydanticOutputParser(pydantic_object=AdaptacaoResponse)
 
+    total = len(storyboard)
+
+    # O idx que o modelo escreveu no storyboard nao serve como identidade: ja
+    # voltou repetido e ja voltou comecando do 1. Como e ele que decide a ORDEM
+    # das cenas la embaixo, o plano vai numerado pela POSICAO na lista e o idx
+    # de origem e ignorado -- cena fora de ordem vira narracao sem sentido, e
+    # em silencio.
     planos = []
-    for s in storyboard:
+    for i, s in enumerate(storyboard):
         visual = resolver_marcadores(s.visual_desc, personagens)
         audio = resolver_marcadores(s.audio_desc or "", personagens)
-        bloco = "Shot " + str(s.idx) + ":\nVisual: " + visual
+        bloco = "Shot " + str(i) + ":\nVisual: " + visual
         if audio.strip():
             bloco += "\nAudio: " + audio
         planos.append(bloco)
 
-    log("adaptando os planos para cena do app")
-    cadeia = chat | parser
-    resposta = await cadeia.ainvoke([
+    if total != alvo:
+        # o storyboard nao obedeceu o "exactly N shots" do requisito. Nao e
+        # motivo para desistir: a adaptacao junta ou divide planos ate fechar em
+        # alvo, e e ela quem tem o roteiro inteiro na frente para escolher onde.
+        log("o storyboard veio com " + str(total) + " plano(s) para " + str(alvo)
+            + " cena(s); a adaptacao acerta a conta")
+
+    mensagens = [
         ("system", PROMPT_ADAPTACAO_SISTEMA.format(
             idioma=idioma,
             estilo=estilo,
             enquadramento=enquadramento_de(formato),
             format_instructions=parser.get_format_instructions(),
+            total=total,
+            alvo=alvo,
         )),
         ("human", PROMPT_ADAPTACAO_HUMANO.format(
             personagens=ficha_de_personagens(personagens),
             planos="\n\n".join(planos),
-            total=len(storyboard),
+            alvo=alvo,
+            total=total,
         )),
-    ])
+    ]
 
-    cenas = sorted(resposta.scenes, key=lambda c: c.idx)
+    async def uma_adaptacao(c):
+        return await asyncio.wait_for(
+            (c | parser).ainvoke(mensagens), timeout=ADAPTACAO_TIMEOUT,
+        )
+
+    resposta = None
+    for tentativa in range(1, ADAPTACAO_TENTATIVAS + 1):
+        log("adaptando os planos para cena do app (tentativa %d/%d)"
+            % (tentativa, ADAPTACAO_TENTATIVAS))
+        try:
+            # erro de CHAVE troca de chave la dentro e nao gasta tentativa; o que
+            # chega aqui e JSON torto, prazo estourado ou contagem errada
+            resposta = await com_rodizio(rod, "adaptacao", uma_adaptacao)
+            vieram = len(resposta.scenes)
+            if vieram == alvo:
+                break
+            erro = "voltaram " + str(vieram) + " cena(s) em vez de " + str(alvo)
+        except asyncio.TimeoutError:
+            resposta = None
+            erro = "passou de " + str(ADAPTACAO_TIMEOUT) + " s"
+        except Exception as e:
+            resposta = None
+            erro = type(e).__name__ + ": " + str(e)
+
+        log("adaptacao: " + erro)
+        if tentativa == ADAPTACAO_TENTATIVAS:
+            if resposta is None:
+                raise ValueError("a adaptacao falhou nas " + str(ADAPTACAO_TENTATIVAS)
+                                 + " tentativas. Ultimo erro -- " + erro)
+            # veio cena boa, so na quantidade errada: entregar e avisar e melhor
+            # do que jogar fora 4 chamadas ja pagas por causa da contagem
+            log("entregando as " + str(len(resposta.scenes)) + " cena(s) assim mesmo")
+            avisos.append("O modelo devolveu " + str(len(resposta.scenes))
+                          + " cena(s) em vez das " + str(alvo) + " pedidas.")
+            break
+        # a espera cresce porque, depois do JSON torto, o erro mais comum aqui e
+        # o 429 do nivel gratuito -- esse passa sozinho no minuto seguinte
+        await asyncio.sleep(2 * tentativa)
+
+    # Com o merge de planos o idx deixou de ser uma permutacao: virou de onde a
+    # cena veio. Entao a ordem que vale e a ordem em que o modelo respondeu, e o
+    # idx so serve para consertar quando ele escreveu fora de ordem mas numerou
+    # certo. Fora da faixa, nao da para consertar nada -- o sorted() de antes
+    # embaralhava as cenas nesse caso, e em silencio.
+    cenas = list(resposta.scenes)
+    idxs = [c.idx for c in cenas]
+    if all(0 <= n < total for n in idxs):
+        if idxs != sorted(idxs):
+            log("a adaptacao respondeu fora de ordem; reordenando pelo idx dos planos")
+            cenas = sorted(cenas, key=lambda c: c.idx)
+    else:
+        log("idx da adaptacao fora da faixa dos planos; mantendo a ordem da resposta")
+
     scenes = [{"narration_text": c.narration_text.strip(),
                "image_prompt": c.image_prompt.strip()}
               for c in cenas if c.narration_text.strip() or c.image_prompt.strip()]
@@ -292,8 +521,17 @@ async def planejar(job):
     # O app le "scenes" e ignora o resto. Os outros campos ficam para conferir de
     # onde a cena veio, e "ficha_personagens" da para colar direto no campo
     # "Personagem" do janela Chaves.
+    if rod.esgotadas:
+        avisos.append(str(len(rod.esgotadas)) + " chave(s) do Gemini estouraram durante o planejamento.")
+
     return {
         "scenes": scenes,
+        # o app usa os dois: "avisos" vira linha no Diagnostico e "chaves_esgotadas"
+        # apaga o pontinho da chave que morreu, do mesmo jeito que o rodizio do
+        # navegador ja faz
+        "avisos": avisos,
+        "chaves_esgotadas": list(rod.esgotadas),
+        "cenas_pedidas": alvo,
         "personagens": [p.model_dump() for p in personagens],
         "ficha_personagens": ficha_de_personagens(personagens),
         "roteiro": roteiro,
@@ -330,7 +568,10 @@ def main():
                              "Rode: python vimax_setup.py"})
         return 3
     except Exception as e:
-        responder({"detail": type(e).__name__ + ": " + str(e)})
+        # desembrulha antes de responder: o RetryError da tenacity so mostra o
+        # endereco de um Future, e era isso que chegava no app como "o que deu
+        # errado" quando qualquer agente do ViMax esgotava as tentativas
+        responder({"detail": texto_do_erro(e)})
         return 1
 
     responder(saida)

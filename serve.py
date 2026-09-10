@@ -261,7 +261,11 @@ PLANO_PREFIX = "/plano"
 VIMAX_DIR = os.path.join(APP_DIR, "ViMax")
 PLANO_SCRIPT = os.path.join(APP_DIR, "vimax_plan.py")
 PLANO_MAX_BODY = 2 * 1024 * 1024          # o job e texto: tema, roteiro, chave
-PLANO_TIMEOUT = 600                       # 4 chamadas de LLM em serie
+# 4 chamadas de LLM em serie, e a ultima delas (a adaptacao) agora tenta ate 3
+# vezes por conta propria, a 150 s cada. Com os 600 s de antes este processo
+# matava o planejamento no meio da segunda tentativa e a pessoa via "modelo
+# lento" em vez do retry funcionando -- o prazo de fora tem que caber o de dentro.
+PLANO_TIMEOUT = 900
 
 # Uma de cada vez, igual ao DepthFlow. Nao por disputa de GPU: e que o nivel
 # gratuito do Gemini corta por minuto, e dois roteiros em paralelo viram dois

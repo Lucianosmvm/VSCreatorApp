@@ -488,7 +488,11 @@ body.preview-off .pv-flut{display:none}
 
     <label>Tema</label>
     <textarea id="vmTema" placeholder="Ex: uma restauradora de relógios descobre que um deles adianta o tempo" spellcheck="false" style="min-height:52px" oninput="saveStateSoon()"></textarea>
-    <div class="hint">Uma frase basta. Se você já tem o roteiro escrito, cole no <b>Importar roteiro</b> aqui embaixo em vez de usar isto.</div>
+    <div class="hint">Uma frase basta. Se você já tem o texto pronto, use o campo logo abaixo — não o <b>Importar roteiro</b>, que não passa pelo ViMax.</div>
+
+    <label>Ou cole o roteiro pronto (opcional)</label>
+    <textarea id="vmRoteiro" placeholder="O texto corrido da sua história. Preenchido, o Tema acima é ignorado." spellcheck="false" style="min-height:52px" oninput="saveStateSoon()"></textarea>
+    <div class="hint">Com o roteiro na mão o ViMax pula a escrita da história: <b>2 chamadas em vez de 4</b>, e o texto sai como você escreveu. Continua ganhando personagem consistente — é a diferença para o <b>Importar roteiro</b> lá embaixo, que só recorta o JSON.</div>
 
     <label>Cenas</label>
     <input type="number" id="vmCenas" min="2" max="40" step="1" value="6" oninput="saveStateSoon()">
@@ -496,6 +500,10 @@ body.preview-off .pv-flut{display:none}
     <label>Estilo visual (opcional)</label>
     <input type="text" id="vmEstilo" placeholder="Ex: cinematic photograph, warm evening light" spellcheck="false" oninput="saveStateSoon()">
     <div class="hint">Vai para <b>todas</b> as cenas de uma vez, ainda no texto. É diferente do "Estilo forçado" das Chaves, que é colado na frente de cada prompt depois de pronto — os dois podem conviver, mas repetir o mesmo estilo nos dois só gasta palavra.</div>
+
+    <label>Instruções extras (opcional)</label>
+    <input type="text" id="vmRequisito" placeholder="Ex: público iniciante, tom direto, fechar convidando a seguir o perfil" spellcheck="false" oninput="saveStateSoon()">
+    <div class="hint">Entra em <b>todas</b> as etapas do planejamento, não só na última: público, tom, e o que a cena final deve pedir.</div>
 
     <div class="btnrow" style="margin-top:11px">
       <button class="btn-sm btn-add" id="vmBtn" onclick="planejarComViMax(this)">🎬 Planejar roteiro</button>
@@ -1603,8 +1611,10 @@ function saveState(){
       repPersonagem: personagemDesc(),
       repProxy: document.getElementById('repProxy').value,
       vmTema: document.getElementById('vmTema').value,
+      vmRoteiro: document.getElementById('vmRoteiro').value,
       vmCenas: document.getElementById('vmCenas').value,
       vmEstilo: document.getElementById('vmEstilo').value,
+      vmRequisito: document.getElementById('vmRequisito').value,
       voiceSel: document.getElementById('voiceSel').value,
       voiceManual: document.getElementById('voiceManual').value,
       rememberKey: remember,
@@ -1681,6 +1691,7 @@ function loadState(){
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
   set('repModel',d.repModel); set('repExtra',d.repExtra); set('repProxy',d.repProxy);
   set('vmTema',d.vmTema); set('vmCenas',d.vmCenas); set('vmEstilo',d.vmEstilo);
+  set('vmRoteiro',d.vmRoteiro); set('vmRequisito',d.vmRequisito);
   // depois de repModel: a lista espelha o campo, e o campo é quem manda
   sincronizarSeletorDeModelo();
   if(d.voiceSel){
@@ -5282,6 +5293,56 @@ function avisarVolume(n){
   setStatus(`⚠️ ${n} cenas: geração longa. Veja o aviso na aba Diagnóstico.`);
 }
 
+// Conferência do roteiro na importação. Vale para os dois caminhos — JSON colado
+// do Claude e roteiro do ViMax — porque o defeito é o mesmo nos dois: o modelo
+// obedece o formato e desobedece as regras de ritmo, e isso só aparece depois,
+// no vídeo pronto, com a narração cortando no meio de uma frase.
+// Nada aqui bloqueia a importação: é aviso, não validação. A pessoa é quem sabe
+// se a cena de 4 palavras é erro ou pausa proposital.
+const LINT_CONECTIVOS=['e','ou','mas','porque','que','para','pra','com','de','da','do','em','no','na','se','como','quando','entao','então','pois','a','o'];
+
+function lintRoteiro(scenes){
+  const avisos=[];
+  const falas=scenes.map(s=>(s.narracao||s.texto||'').trim());
+  const primeiras={};
+
+  falas.forEach((fala,i)=>{
+    const cena='Cena '+(i+1);
+    if(!fala){ avisos.push(cena+': sem texto — vai virar imagem muda.'); return; }
+
+    const palavras=fala.split(/\s+/).filter(Boolean);
+    if(palavras.length<6) avisos.push(cena+': '+palavras.length+' palavras (o alvo é 6 a 12) — cena curta demais quebra o ritmo.');
+    else if(palavras.length>12) avisos.push(cena+': '+palavras.length+' palavras (o alvo é 6 a 12) — legenda longa e cena arrastada.');
+
+    // o fim da fala é onde entra o silêncio e o cross-dissolve: terminar
+    // pendurado num conectivo é o defeito que mais salta no vídeo pronto
+    const ultima=(palavras[palavras.length-1]||'').toLowerCase().replace(/[.,;:!?…]+$/,'');
+    if(LINT_CONECTIVOS.includes(ultima)) avisos.push(cena+': termina em "'+ultima+'" — a frase fica pendurada na troca de cena.');
+    if(/[,…]$/.test(fala)||/\.\.\.$/.test(fala)) avisos.push(cena+': termina em vírgula ou reticências.');
+    if(/\.$/.test(fala)) avisos.push(cena+': tem ponto final — some na legenda e sobra na fala.');
+    if(/[\u201C\u201D\u2018\u2019]/.test(fala)) avisos.push(cena+': tem aspas curvas.');
+
+    const p1=(palavras[0]||'').toLowerCase().replace(/[^a-zà-ú]/gi,'');
+    if(p1) (primeiras[p1]=primeiras[p1]||[]).push(i+1);
+
+    const img=String(scenes[i].imagem||'').trim();
+    if(!img) avisos.push(cena+': sem "image_prompt" — não há o que gerar de fundo.');
+    else if(/[àáâãäçéêíóôõúü]/i.test(img)) avisos.push(cena+': o "image_prompt" parece estar em português — os geradores respondem melhor em inglês.');
+  });
+
+  Object.keys(primeiras).forEach(p=>{
+    if(primeiras[p].length>=3) avisos.push('Cenas '+primeiras[p].join(', ')+' começam com "'+p+'" — repetição puxa a atenção para a fórmula.');
+  });
+
+  const vistas={};
+  falas.forEach((f,i)=>{ const k=f.toLowerCase(); if(!k) return; (vistas[k]=vistas[k]||[]).push(i+1); });
+  Object.keys(vistas).forEach(k=>{
+    if(vistas[k].length>1) avisos.push('Cenas '+vistas[k].join(', ')+' têm a mesma fala.');
+  });
+
+  return avisos;
+}
+
 function setJsonMsg(m,color){
   const el=document.getElementById('jsonMsg');
   el.textContent=m;
@@ -5323,6 +5384,8 @@ function importJSON(){
   try{ scenes=list.map((s,i)=>normScene(s,i)); }
   catch(e){ setJsonMsg('❌ '+e.message,'var(--accent)'); return; }
 
+  const lint=lintRoteiro(scenes);
+
   const hasWork=frames.some(f=>f.image||f.audioBuffer);
   if(hasWork && !confirm('Importar substitui as cenas atuais.\n\nImagens e narrações de cenas que não mudaram são reaproveitadas; o resto é descartado.\n\nContinuar?')) return;
 
@@ -5363,8 +5426,14 @@ function importJSON(){
     `${comNarracaoPropria} cena(s) traziam "narracao" diferente do texto — o campo não existe mais.`,
     'A narração agora é sempre o texto da tela, e é isso que garante a legenda acender sincronizada com a voz. Ajuste o "texto" se quiser mudar a fala.');
 
+  if(lint.length) logLine('warn',
+    `Roteiro importado com ${lint.length} ponto(s) a conferir`,
+    lint.join('\n')+'\n\nNada foi bloqueado: edite as cenas antes de gerar as narrações, porque depois de gerado o áudio a correção custa TTS de novo.');
+
   const reImg=next.filter(f=>f.image).length, reAud=next.filter(f=>f.audioBuffer).length;
-  setJsonMsg(`✅ ${next.length} cenas importadas.`+((reImg||reAud)?` Reaproveitado: ${reImg} imagem(ns), ${reAud} narração(ões).`:''),'var(--green)');
+  setJsonMsg(`✅ ${next.length} cenas importadas.`
+    +((reImg||reAud)?` Reaproveitado: ${reImg} imagem(ns), ${reAud} narração(ões).`:'')
+    +(lint.length?` ⚠️ ${lint.length} ponto(s) a conferir na aba Diagnóstico.`:''),'var(--green)');
   avisarVolume(next.length);
   setStatus(reImg===next.length?'Roteiro importado. Gere as narrações.':'Roteiro importado. Gere as imagens e as narrações.');
 }
@@ -5534,26 +5603,35 @@ async function conferirViMax(){
 
 async function planejarComViMax(btn){
   const tema=document.getElementById('vmTema').value.trim();
-  if(!tema) return setVmMsg('Escreva o tema primeiro.','var(--accent)');
+  const roteiro=document.getElementById('vmRoteiro').value.trim();
+  // roteiro colado manda: quem já escreveu o texto não deve pagar duas chamadas
+  // para o modelo reescrever o que ele mesmo escreveu
+  if(!tema && !roteiro) return setVmMsg('Escreva o tema ou cole o roteiro pronto.','var(--accent)');
 
-  // a chave é a mesma da tradução. Se houver várias, vai a primeira viva: o
-  // rodízio do withKeyRotation não serve aqui, porque quem chama o Gemini é o
-  // processo do outro lado e ele recebe uma chave só.
+  // as chaves são as mesmas da tradução, e vão TODAS: o rodízio acontece do
+  // outro lado, por etapa do planejamento, para uma cota estourada no meio não
+  // jogar fora as chamadas que já foram pagas
   const chaves=gmLiveKeys().length ? gmLiveKeys() : gmKeys();
   if(!chaves.length) return setVmMsg('Cole uma chave do Gemini no janela Chaves.','var(--accent)');
 
   const cenas=Math.max(2,Math.min(40,parseInt(document.getElementById('vmCenas').value)||6));
   const job={
-    tema, cenas,
+    cenas,
     estilo: document.getElementById('vmEstilo').value.trim(),
+    requisito: document.getElementById('vmRequisito').value.trim(),
     formato: formato().horizontal ? '16:9' : '9:16',
-    llm:{ model:gmModel(), api_key:chaves[0] }
+    llm:{ model:gmModel(), api_keys:chaves }
   };
+  if(roteiro) job.roteiro=roteiro; else job.tema=tema;
 
   if(btn) btn.disabled=true;
-  showOv('🎬 ViMax planejando o roteiro…<br><small>personagens → storyboard → cenas. Leva 1 a 3 min.</small>');
+  showOv(roteiro
+    ? '🎬 ViMax planejando a partir do seu texto…<br><small>personagens → storyboard → cenas. Leva 1 a 2 min.</small>'
+    : '🎬 ViMax planejando o roteiro…<br><small>história → personagens → storyboard → cenas. Leva 1 a 3 min.</small>');
   setVmMsg('Planejando…','var(--muted)');
-  logLine('info',`ViMax: planejando ${cenas} cena(s) com ${gmModel()}`,tema.slice(0,120));
+  logLine('info',
+    `ViMax: planejando ${cenas} cena(s) com ${gmModel()} e ${chaves.length} chave(s)`,
+    (roteiro?'roteiro colado: ':'tema: ')+(roteiro||tema).slice(0,120));
 
   const t0=Date.now();
   try{
@@ -5567,6 +5645,12 @@ async function planejarComViMax(btn){
     const n=(dados.scenes||[]).length;
     document.getElementById('jsonIn').value=JSON.stringify({scenes:dados.scenes},null,2);
     const ms=Date.now()-t0;
+
+    // as chaves que estouraram do outro lado apagam o pontinho aqui também,
+    // senão a próxima chamada do navegador ia tentar a mesma chave morta
+    (dados.chaves_esgotadas||[]).forEach(i=>{ if(chaves[i]) gmExhausted.add(chaves[i]); });
+    if((dados.chaves_esgotadas||[]).length) updateKeyStatus();
+    (dados.avisos||[]).forEach(a=>logLine('warn','ViMax: '+a,''));
     logLine('ok',`ViMax OK (${(ms/1000).toFixed(0)}s, ${n} cenas)`,dados.ficha_personagens||'');
     setVmMsg(`✅ ${n} cena(s) prontas no campo abaixo. Confira e clique em Importar.`,'var(--green)');
     setJsonMsg('Roteiro do ViMax carregado. Clique em Importar.','var(--muted)');
