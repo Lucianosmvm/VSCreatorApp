@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Shorts Creator Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Fredoka:wght@600&family=Montserrat:wght@800&family=Oswald:wght@700&family=Playfair+Display:wght@900&family=Poppins:wght@800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Caveat:wght@700&family=DM+Sans:wght@300;400;500;700&family=Fredoka:wght@600&family=Montserrat:wght@800&family=Oswald:wght@700&family=Permanent+Marker&family=Playfair+Display:wght@900&family=Poppins:wght@800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0a0a0a;--surface:#151515;--surface2:#1c1c1c;
@@ -875,6 +875,9 @@ body.preview-off .pv-flut{display:none}
     <input type="range" class="slider" id="globalPos" min="5" max="95" step="1" value="80" oninput="onPosChange()">
     <div class="hint">A fonte fica na aba Cenas, junto dos botões de gerar.</div>
 
+    <label class="chk"><input type="checkbox" id="modoDidatico" onchange="onLegendaChange()"> Conteúdo didático — o app escreve os rótulos na imagem</label>
+    <div class="hint">Para aula em quadro branco: cada cena ganha um campo <b>Rótulos</b>, e o app desenha essas palavras <b>sobre a imagem</b>, atrás da legenda. Existe porque gerador de imagem erra português — pedir "PROTOCOLO" a ele devolve "PROTCOLO" com letra invertida, enquanto aqui sai a palavra exata, de graça e sem gerar de novo.<br>Desligado, nada muda: nenhum rótulo é desenhado e o campo some das cenas.</div>
+
     <div class="sec-hd" style="margin-top:14px">
       <div class="sec-ic">⏱️</div>
       <div class="sec-t">Ritmo</div>
@@ -1093,6 +1096,16 @@ const FONTES = {
   fredoka:    {nome:'Fredoka · divertida',          familia:'"Fredoka",Arial,sans-serif',          peso:600, escala:0.84},
   playfair:   {nome:'Playfair Display · serifada',  familia:'"Playfair Display",Georgia,serif',    peso:900, escala:0.80},
   dmsans:     {nome:'DM Sans · leve',               familia:'"DM Sans",Arial,sans-serif',          peso:300, escala:0.80},
+  // As duas de escrita à mão existem para o modo didático: legenda e rótulo em
+  // Bebas ao lado de um desenho a canetão entregam quadro branco com letra de
+  // outdoor.
+  // A 0.78 da marker saiu da mesma medição das outras (frase de referência
+  // contra a Bebas Neue). A da caveat NÃO: a régua mede a mancha da linha
+  // inteira, e numa fonte de escrita as hastes e caudas incham essa mancha sem
+  // aumentar a letra — medido dava 0.96 e a legenda saía visivelmente menor que
+  // todas as outras. 1.25 é o valor conferido a olho, lado a lado com a Bebas.
+  marker:     {nome:'Permanent Marker · canetão',   familia:'"Permanent Marker",Impact,sans-serif',peso:400, escala:0.78},
+  caveat:     {nome:'Caveat · escrita à mão',       familia:'"Caveat","Comic Sans MS",cursive',    peso:700, escala:1.25},
 };
 const FONTE_PADRAO='bebas';
 function fonteDe(id){ return FONTES[id] || FONTES[FONTE_PADRAO]; }
@@ -1144,7 +1157,26 @@ function preencherSeletorDeFonte(){
   el.innerHTML=Object.entries(FONTES)
     .map(([k,v])=>`<option value="${k}"${k===FONTE_PADRAO?' selected':''}>${v.nome}</option>`).join('');
 }
+// Canvas NÃO baixa fonte. O @font-face do Google vem com font-display:swap e só
+// é buscado quando algum elemento da PÁGINA usa a família — e só a Bebas Neue
+// aparece no CSS daqui (logo, numeração das cenas). As outras existem apenas
+// dentro do canvas, então "escolher a fonte e renderizar em seguida" podia assar
+// o fallback (Impact, Georgia) dentro do MP4, sem erro nenhum aparecendo.
+//
+// Nunca incomodou porque as antigas são todas sem-serifa parecidas e o preview
+// costuma acontecer antes do render. Com "canetão" a diferença entre a fonte e o
+// fallback é a feature inteira, então virou obrigação pedir o download.
+function carregarFonte(id){
+  const f=fonteDe(id);
+  if(!document.fonts||!document.fonts.load) return Promise.resolve();
+  return document.fonts.load(`${f.peso} 100px ${f.familia}`).catch(()=>{});
+}
+
 function onFontChange(){
+  // repinta de novo quando a fonte terminar de chegar: o primeiro renderCards
+  // pode ter desenhado com o fallback ainda no lugar
+  carregarFonte(fonteAtual()).then(()=>{ renderCards();
+    if(pvIndex>=0 && frames[pvIndex] && frames[pvIndex].image) previewFrame(pvIndex); });
   renderCards();
   if(pvIndex>=0 && frames[pvIndex] && frames[pvIndex].image) previewFrame(pvIndex);
   saveState();
@@ -1158,8 +1190,78 @@ const STYLES = {
   outline:   {tam:118, fonte:'bebas',  fill:'#FFF',   shadow:'transparent',    blur:0, off:0, stroke:'#000',strokeW:14},
   highlight: {tam:108, fonte:'bebas',  fill:'#FFE600',shadow:'rgba(0,0,0,.85)',blur:16,off:5, stroke:null},
   minimal:   {tam:78,  fonte:'dmsans', fill:'#FFF',   shadow:'rgba(0,0,0,.55)',blur:12,off:4, stroke:null},
+  // Único de tinta escura. Os seis de cima nasceram para foto: todos pintam a
+  // letra de branco (ou amarelo) e jogam sombra preta atrás. Em fundo claro —
+  // quadro branco, papel, ilustração de traço — isso vira letra invisível com
+  // um borrão escuro em volta.
+  // Aqui é o contrário: letra quase preta, e o branco vai para o CONTORNO em
+  // vez da letra. O contorno é o que salva a legenda quando ela cai em cima de
+  // um rabisco em vez de cair no vazio do quadro. Menor que os outros de
+  // propósito: em imagem didática a legenda divide espaço com o desenho, não
+  // manda nele.
+  quadro:    {tam:96,  fonte:'bebas',  fill:'#1B1B1B',shadow:'rgba(255,255,255,.95)',blur:20,off:0,stroke:'#FFF',strokeW:12},
 };
-const STYLE_ICONS = {viral:'🔥',neon:'💡',shadow:'🌑',outline:'⬜',highlight:'🟨',minimal:'✏️'};
+const STYLE_ICONS = {viral:'🔥',neon:'💡',shadow:'🌑',outline:'⬜',highlight:'🟨',minimal:'✏️',quadro:'🖊️'};
+
+// ── RÓTULOS (modo didático) ──────────────────────────────
+// O rótulo é a palavra escrita NO quadro — "PACOTE IP", "203.0.113.5" — e não a
+// legenda. São coisas diferentes: a legenda é a fala, uma por cena, desenhada
+// pelo app desde sempre; o rótulo é parte do desenho, pode ter vários por cena
+// e cada um mora numa posição.
+//
+// Por que o app desenha e não o gerador de imagem: modelo de imagem erra
+// português. Pedir "PROTOCOLO" devolve "PROTCOLO", letra espelhada, acento no
+// lugar errado — e cada tentativa de acertar é uma imagem paga a mais. Aqui a
+// palavra sai exata, na hora do render, e corrigir um typo não gera nada.
+const ROTULO_CORES={tinta:'#1B1B1B',laranja:'#C0501A',azul:'#1B3F8B',verde:'#1E6B3A',vermelho:'#A81E1E'};
+const ROTULO_MAX=8;            // mais que isto não é rótulo, é parágrafo
+const ROTULO_MAX_CHARS=42;
+
+function rotuloCor(v){
+  const k=String(v||'').toLowerCase().trim();
+  if(ROTULO_CORES[k]) return ROTULO_CORES[k];
+  return /^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(k) ? k : ROTULO_CORES.tinta;
+}
+
+// Aceita ["PACOTE IP"] e [{texto,x,y,cor}] no mesmo campo: o JSON vem de LLM ou
+// da mão, e recusar por formato só geraria import falhando por detalhe bobo.
+// Qualquer coisa que não dê para entender vira [] — rótulo é enfeite, não pode
+// derrubar a importação de um roteiro inteiro.
+function normRotulos(v){
+  if(!Array.isArray(v)) return [];
+  const num=(n,fb)=>{ const x=parseFloat(n); return isFinite(x)?Math.min(100,Math.max(0,x)):fb; };
+  return v.slice(0,ROTULO_MAX).map(r=>{
+    if(typeof r==='string') r={texto:r};
+    if(!r||typeof r!=='object') return null;
+    const texto=String(r.texto!=null?r.texto:(r.text!=null?r.text:(r.label!=null?r.label:''))).trim().slice(0,ROTULO_MAX_CHARS);
+    if(!texto) return null;
+    return {texto, x:num(r.x,null), y:num(r.y,null), cor:rotuloCor(r.cor||r.color)};
+  }).filter(Boolean);
+}
+
+// Uma linha por rótulo: TEXTO | x | y | cor — com x, y e cor opcionais.
+// Formato de digitar, não de máquina: quem escreve isso está olhando a imagem e
+// dizendo "essa palavra vai ali".
+function parseRotulosTexto(txt){
+  return normRotulos(String(txt||'').split(/\n+/).map(linha=>{
+    const p=linha.split('|');
+    const texto=(p[0]||'').trim();
+    if(!texto) return null;
+    return {texto, x:p[1], y:p[2], cor:(p[3]||'').trim()};
+  }).filter(Boolean));
+}
+
+function rotulosParaTexto(rot){
+  return (rot||[]).map(r=>{
+    const nome=Object.keys(ROTULO_CORES).find(k=>ROTULO_CORES[k]===r.cor)||r.cor;
+    const partes=[r.texto];
+    if(r.x!=null||r.y!=null||nome!=='tinta') partes.push(r.x==null?'':r.x, r.y==null?'':r.y);
+    if(nome!=='tinta') partes.push(nome);
+    return partes.join(' | ');
+  }).join('\n');
+}
+
+function modoDidatico(){ return !!(document.getElementById('modoDidatico')||{}).checked; }
 
 let idSeq = 0;
 function newId(){ return 'f'+Date.now().toString(36)+'-'+(idSeq++); }
@@ -1181,7 +1283,7 @@ function posLabel(v){
 }
 
 function newFrame(){
-  return {id:newId(),prompt:'',text:'',narration:'',
+  return {id:newId(),prompt:'',text:'',narration:'',rotulos:[],
           image:null,imageUrl:null,imageBytes:null,video:null,videoBytes:null,enhanced:'',
           audioBytes:null,audioBuffer:null,audioUrl:null,wordTimes:null,lastError:null,
           audioReqId:null,audioReqAt:0,audioVoice:null,audioModel:null};
@@ -1567,6 +1669,7 @@ function saveState(){
     localStorage.setItem(LS_KEY, JSON.stringify({
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration||'',
+        rotulos:f.rotulos&&f.rotulos.length?f.rotulos:undefined,
         enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
@@ -1610,6 +1713,7 @@ function saveState(){
       repStyle: document.getElementById('repStyle').value,
       repPersonagem: personagemDesc(),
       repProxy: document.getElementById('repProxy').value,
+      modoDidatico: document.getElementById('modoDidatico').checked,
       vmTema: document.getElementById('vmTema').value,
       vmRoteiro: document.getElementById('vmRoteiro').value,
       vmCenas: document.getElementById('vmCenas').value,
@@ -1642,6 +1746,7 @@ function loadState(){
   if(Array.isArray(d.frames)&&d.frames.length){
     frames = d.frames.slice(0,MAX_CENAS).map(f=>({
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
+      rotulos:normRotulos(f.rotulos),
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes,
       video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
@@ -1686,6 +1791,7 @@ function loadState(){
   }
   if(d.useTranslate!==undefined) document.getElementById('useTranslate').checked=!!d.useTranslate;
   if(d.elCont!==undefined) document.getElementById('elCont').checked=!!d.elCont;
+  if(d.modoDidatico!==undefined) document.getElementById('modoDidatico').checked=!!d.modoDidatico;
   if(d.imgSource) document.getElementById('imgSource').value=d.imgSource;
   if(d.rememberKey&&d.pollToken) document.getElementById('pollToken').value=d.pollToken;
   if(d.rememberKey&&d.repToken) document.getElementById('repToken').value=d.repToken;
@@ -2127,6 +2233,10 @@ function renderCards(){
         <label>Prompt da imagem</label>
         <textarea id="fp-${i}" placeholder="Ex: pôr do sol dramático sobre cidade futurista, cinematográfico" oninput="syncFrame(${i})">${esc(f.prompt)}</textarea>
 
+        ${modoDidatico()?`
+        <label>Rótulos — uma linha por palavra no quadro</label>
+        <textarea id="fr-${i}" placeholder="PACOTE IP | 70 | 62 | laranja&#10;203.0.113.5" oninput="syncFrame(${i})">${esc(rotulosParaTexto(f.rotulos))}</textarea>`:''}
+
 
         ${f.enhanced?`<div class="fc-enh" title="${esc(f.enhanced)}">🤖 ${esc(f.enhanced.substring(0,70))}…</div>`:''}
 
@@ -2184,9 +2294,14 @@ function syncFrame(i){
   const t=document.getElementById('ft-'+i);
   const n=document.getElementById('fn-'+i);
 
+  const r=document.getElementById('fr-'+i);
+
   if(p) frames[i].prompt=p.value;
   if(t) frames[i].text=t.value;
   if(n) frames[i].narration=n.value;
+  // sem o campo na tela (modo desligado) os rótulos ficam como estão: alternar
+  // o interruptor não pode apagar o que já foi escrito
+  if(r) frames[i].rotulos=parseRotulosTexto(r.value);
   // "Texto na tela" vazio herda a narração, e o placeholder mostra o que vai
   // aparecer — então ele acompanha o que está sendo digitado na narração
   if(t) t.placeholder=narrationOf(frames[i])||'igual à narração';
@@ -2215,9 +2330,14 @@ function drawBgOnCtx(c,img,cw,ch){
     if(!iw||!ih){ c.fillStyle='#000'; c.fillRect(0,0,cw,ch); return; }
     const sc=Math.max(cw/iw,ch/ih);
     c.drawImage(img,(cw-iw*sc)/2,(ch-ih*sc)/2,iw*sc,ih*sc);
-    c.fillStyle='rgba(0,0,0,.38)';c.fillRect(0,0,cw,ch);
+    // Véu preto para a legenda branca sobreviver a qualquer foto. Em conteúdo
+    // didático ele é o contrário do que se quer: 38% de preto sobre quadro
+    // branco entrega um quadro cinza, e o desenho a canetão perde o contraste
+    // que é a razão de existir do estilo. Lá a legenda já é de tinta escura
+    // (preset "quadro"), então não precisa de véu nenhum.
+    if(!modoDidatico()){ c.fillStyle='rgba(0,0,0,.38)'; c.fillRect(0,0,cw,ch); }
   } else {
-    c.fillStyle='#000';c.fillRect(0,0,cw,ch);
+    c.fillStyle=modoDidatico()?'#FFF':'#000';c.fillRect(0,0,cw,ch);
   }
 }
 
@@ -2258,6 +2378,48 @@ function drawTextOnCtx(c,text,styleName,cw,ch,visibleText,posPct,fontId){
     c.fillStyle=s.fill;c.fillText(l,cw/2,startY+idx*lineH);
   });
   c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetX=0;c.shadowOffsetY=0;
+}
+
+// Desenha os rótulos do modo didático. Função separada de propósito: o
+// drawTextOnCtx é o funil por onde passam preview, MP4 do navegador e render
+// quadro a quadro do serve.py, e mexer nele para uma feature opcional seria
+// arriscar todo vídeo já feito por causa de um que ainda não existe.
+//
+// Sai antes da legenda, então a legenda fica por cima — o rótulo é parte do
+// desenho, a legenda é o que está sendo dito agora.
+function drawRotulosOnCtx(c,rotulos,cw,ch,fontId){
+  if(!rotulos||!rotulos.length) return;
+  const ft=fonteDe(fontId||fonteAtual());
+  const scale=ch/1920;
+  c.save();
+  c.textAlign='center'; c.textBaseline='middle';
+  // mesma escada da legenda: contorno branco embaixo, tinta em cima. É o que
+  // mantém a palavra legível quando ela cai sobre um traço do desenho
+  c.shadowColor='rgba(255,255,255,.9)';
+  c.shadowBlur=14*scale; c.shadowOffsetX=0; c.shadowOffsetY=0;
+  c.lineJoin='round'; c.miterLimit=2;
+
+  rotulos.forEach((r,i)=>{
+    // sem posição, empilha a partir do topo: fica longe da legenda (que mora em
+    // 80% por padrão) e não exige que o roteiro saiba de coordenada
+    const x=(r.x==null?50:r.x), y=(r.y==null?(14+i*8):r.y);
+    let fs=Math.max(1,Math.round(52*ft.escala*scale));
+    c.font=`${ft.peso} ${fs}px ${ft.familia}`;
+    // aperta a fonte em vez de quebrar linha: rótulo em duas linhas deixa de
+    // parecer escrito no quadro e passa a parecer uma segunda legenda
+    const maxW=cw*.56;
+    let larg=c.measureText(r.texto).width;
+    if(larg>maxW){
+      fs=Math.max(1,Math.floor(fs*maxW/larg));
+      c.font=`${ft.peso} ${fs}px ${ft.familia}`;
+    }
+    const px=cw*(x/100), py=ch*(y/100);
+    c.strokeStyle='#FFF'; c.lineWidth=Math.max(1,10*scale);
+    c.strokeText(r.texto,px,py);
+    c.fillStyle=r.cor||ROTULO_CORES.tinta;
+    c.fillText(r.texto,px,py);
+  });
+  c.restore();
 }
 
 // Quantas palavras já apareceram em `tIn` segundos dentro da cena.
@@ -2344,6 +2506,9 @@ function drawScene(c,f,tIn,dur,cw,ch){
     // foi falado, acumulando. Os dois usam a mesma contagem — muda só o recorte.
     visible = modo==='single' ? (words[n-1]||'') : words.slice(0,n).join(' ');
   }
+  // desligado, nem chega a olhar o campo: vídeo sem modo didático desenha
+  // exatamente o que desenhava antes desta função existir
+  if(modoDidatico()) drawRotulosOnCtx(c,f.rotulos,cw,ch);
   drawTextOnCtx(c,textoNaTela(f),estiloAtual(),cw,ch,visible,posAtual());
 }
 
@@ -5233,6 +5398,7 @@ const K_IMG =['imagem','image','prompt','descricao','descrição','imagem_prompt
 // narration_text é o que se FALA; "texto"/"legenda" é o que se ESCREVE
 const K_TXT =['texto','text','legenda','caption','tela','on_screen_text','screenText','texto_tela'];
 const K_NAR =['narracao','narração','narration','narration_text','narrationText','voz','fala','voiceover','audio'];
+const K_ROT =['rotulos','rótulos','labels','rotulo','rótulo','anotacoes','anotações'];
 const K_STY =['estilo','style'];
 const K_ANI =['animacao','animação','animation','anim'];
 const K_POS =['posicao','posição','position','pos','alinhamento'];
@@ -5253,7 +5419,7 @@ function normScene(s,i){
   const texto =String(firstOf(s,K_TXT)||'').trim();
   const narr  =String(firstOf(s,K_NAR)||'').trim();
   if(!imagem&&!texto&&!narr) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem", "texto" ou "narration_text".`);
-  return { imagem, texto, narracao:narr };
+  return { imagem, texto, narracao:narr, rotulos:normRotulos(firstOf(s,K_ROT)||[]) };
 }
 
 function applyConfig(c){
@@ -5393,7 +5559,7 @@ function importJSON(){
   const old=frames, keptIds=new Set();
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
-    f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao;
+    f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao; f.rotulos=s.rotulos;
 
     if(o){
       if(o.image && o.prompt===f.prompt){
@@ -5457,6 +5623,7 @@ function exportJSON(){
       // o texto da tela só sai quando difere da fala — senão é ruído no JSON
       const tela=(f.text||'').trim();
       if(tela && tela!==narrationOf(f)) c.texto=tela;
+      if(f.rotulos && f.rotulos.length) c.rotulos=f.rotulos;
       return c;
     })
   };
@@ -5479,6 +5646,20 @@ function fillExample(){
   setJsonMsg('Exemplo carregado. Clique em Importar.','var(--muted)');
 }
 
+// O bloco de rótulos só entra com o modo ligado. Com ele desligado o prompt sai
+// caractere por caractere igual ao de antes desta mudança -- vídeo de história
+// não deve nem ficar sabendo que rótulo existe.
+const CLAUDE_PROMPT_ROTULOS=`
+
+RÓTULOS (conteúdo didático)
+Além dos dois campos, cada cena pode trazer "rotulos": as palavras que aparecem ESCRITAS na imagem, como num quadro branco. Quem desenha essas palavras é o aplicativo, não o gerador de imagem — então elas saem com a grafia exata.
+- Formato: "rotulos": [{"texto": "PACOTE IP", "x": 70, "y": 62, "cor": "laranja"}]
+- "texto" em PORTUGUÊS, no máximo 3 palavras. É rótulo, não frase — a frase é a narração.
+- "x" e "y" em porcentagem da imagem (0 a 100), onde a palavra fica centrada. Deixe abaixo de 70 no "y": a legenda ocupa o rodapé.
+- "cor" opcional: tinta, laranja, azul, verde ou vermelho. Use cor para destacar o termo central da cena; o resto em tinta.
+- No máximo 3 rótulos por cena, e só quando a palavra escrita ensina algo que o desenho sozinho não diz.
+- O "image_prompt" continua pedindo imagem SEM texto: os rótulos entram por cima depois.`;
+
 function claudePrompt(){
   const f=formato();
   const perfil = f.horizontal
@@ -5490,7 +5671,8 @@ function claudePrompt(){
     .replace('{{QTD_CENAS}}', cenas)
     .replace('{{ENQUADRAMENTO}}', f.horizontal
       ? 'Enquadramento horizontal 16:9: pense em planos abertos, paisagem, espaço nas laterais.'
-      : 'Enquadramento vertical 9:16: pense em close, sujeito centralizado, pouco espaço lateral.');
+      : 'Enquadramento vertical 9:16: pense em close, sujeito centralizado, pouco espaço lateral.')
+    + (modoDidatico()?CLAUDE_PROMPT_ROTULOS:'');
 }
 
 const CLAUDE_PROMPT=`Você é roteirista de {{PERFIL}}, em português do Brasil.
@@ -5748,6 +5930,8 @@ renderKeyRows(['']);
 preencherSeletorDeFonte();
 preencherSeletorDeEstilo();
 loadState();
+// depois do loadState: é ele que sabe qual fonte o projeto estava usando
+carregarFonte(fonteAtual()).then(()=>repintarCenas());
 aplicarToggleVideo();
 aplicarModoNarracao();
 // antes do restoreAssets: é o projeto aberto que diz de onde os arquivos vêm
