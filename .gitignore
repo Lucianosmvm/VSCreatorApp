@@ -73,3 +73,6 @@ remotion/public/videos/*/*.wav
 
 # Tokens locais (Replicate etc.). Nunca versionar.
 .env
+
+# Comentarios de revisao feitos no app (rascunho de trabalho, muda a toda hora)
+projetos/*/revisao.json

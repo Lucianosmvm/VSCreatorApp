@@ -236,6 +236,20 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 .passo.agora{border-color:rgba(255,68,68,.45);box-shadow:0 0 0 1px rgba(255,68,68,.15)}
 .passo.agora .passo-n{background:var(--accent);border-color:var(--accent);color:#fff}
 .passo.espera{opacity:.55}
+.cl-comp{background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:12px;margin-bottom:10px}
+.cl-comp-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cl-comp-t{font-weight:600;font-size:13px}
+.cl-comp-m{font-size:10px;color:var(--muted);margin-left:auto}
+.cl-comp .btnrow{display:flex;gap:6px;flex-wrap:wrap}
+.cl-st{font-size:11px;color:var(--muted);margin:0 0 8px}
+.cl-comp .btnrow a{text-decoration:none}
+.cl-prog{height:4px;background:var(--border2);border-radius:2px;margin-top:8px;overflow:hidden}
+.cl-prog>i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.cl-cenas{display:flex;flex-direction:column;gap:6px;max-height:360px;overflow:auto;padding-right:4px}
+.cl-cena{display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:start}
+.cl-cena b{font-size:11px;color:var(--muted);padding-top:6px}
+.cl-cena small{display:block;font-size:10px;color:var(--dim);margin-bottom:3px;line-height:1.35}
+.cl-cena textarea{min-height:34px;height:34px;font-size:11px}
 .passo-chk{margin:0;font-size:10px;color:var(--muted)}
 .passos.mascote .passo-img,.passos.mascote #vidAllBtn,.passos.mascote #vidLigarBtn{display:none!important}
 .passo-mais{position:relative}
@@ -464,6 +478,7 @@ body.preview-off .pv-flut{display:none}
   <div class="rail-mark">SC</div>
   <button class="ri" data-tab="projetos" onclick="abrirModal('projetos')" title="Projetos salvos em disco"><span>📁</span><b>Projetos</b></button>
   <button class="ri" data-tab="roteiro" onclick="abrirModal('roteiro')" title="Importar roteiro"><span>📋</span><b>Roteiro</b></button>
+  <button class="ri" data-tab="claude" onclick="abrirModal('claude')" title="Vídeos montados pelo Claude: preview, revisão e render"><span>🤖</span><b>Claude</b><i class="pip" id="pipClaude"></i></button>
   <button class="ri" data-tab="chaves"  onclick="abrirModal('chaves')"  title="Chaves e modelos"><span>🔑</span><b>Chaves</b><i class="pip" id="pipChaves"></i></button>
   <button class="ri" data-tab="config"  onclick="abrirModal('config')"  title="Configurações"><span>⚙️</span><b>Config</b></button>
   <button class="ri" data-tab="diag"    onclick="abrirModal('diag')"    title="Diagnóstico"><span>🩺</span><b>Diag</b><i class="pip" id="pipDiag"></i></button>
@@ -485,6 +500,38 @@ body.preview-off .pv-flut{display:none}
     <div class="modal-corpo" id="modalCorpo">
 
 <!-- ══════════ PAINEL: ROTEIRO ══════════ -->
+<!-- ══════════ PAINEL: VÍDEOS DO CLAUDE ══════════
+     O Claude Code monta o vídeo (remotion/src/videos/) e grava a lista de
+     composições do projeto. Aqui você assiste no preview, comenta cena por cena
+     e, quando aprovar, você mesmo manda renderizar. -->
+<div class="pane" data-tab="claude">
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">🤖</div>
+      <div class="sec-t">Vídeos do Claude</div>
+      <div class="sec-pill" id="clProj"></div>
+    </div>
+    <div id="clLista"></div>
+    <div class="tip">Ainda não tem vídeo aqui? Narre o projeto, clique em <b>🤖 Enviar para o Claude</b> e peça no Claude Code: <i>"monta o vídeo"</i>.</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-hd">
+      <div class="sec-ic">✍️</div>
+      <div class="sec-t">Revisão — o que mudar</div>
+    </div>
+    <label>Comentário geral</label>
+    <textarea id="clGeral" placeholder="Ex: legenda maior; mascote mais à esquerda; ritmo mais rápido" oninput="clRevisaoSoon()"></textarea>
+    <label style="margin-top:12px">Por cena <span class="fc-opt">deixe em branco o que estiver bom</span></label>
+    <div id="clCenas" class="cl-cenas"></div>
+    <div class="btnrow" style="margin-top:10px">
+      <button class="btn-sm btn-add" onclick="clSalvarRevisao(true)">💾 Salvar revisão</button>
+      <span class="jmsg" id="clMsg"></span>
+    </div>
+    <div class="tip">Depois de salvar, diga no Claude Code: <b>"aplica a revisão"</b>. Mudança de <b>fala</b> exige narrar de novo; mudança visual não.</div>
+  </div>
+</div>
+
 <!-- ══════════ PAINEL: PROJETOS ══════════ -->
 <div class="pane" data-tab="projetos">
   <div class="sec">
@@ -1034,6 +1081,7 @@ body.preview-off .pv-flut{display:none}
           <button class="btn btn-red"   id="videoBtn"  onclick="renderVideo()" disabled>🎬 Gerar vídeo</button>
           <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹</button>
         </div>
+        <button class="btn btn-ghost" id="clRevisarBtn" onclick="abrirModal('claude')" style="display:none">👀 Revisar vídeos do Claude</button>
         <button class="btn btn-violet" id="claudeBtn" onclick="enviarParaClaude()" title="Salva timeline e narração para o Claude Code montar o vídeo">🤖 Enviar para o Claude</button>
       </div>
       <details class="passo-mais">
@@ -1388,8 +1436,8 @@ const idbClear = ()=>idbTx('readwrite',s=>s.clear());
 // para um painel sempre visível. Uma janela que se fecha começa fechada — abrir
 // o app já mostrando uma caixa de diálogo por cima seria o contrário do pedido.
 const PREVIEW_KEY='shortsCreator.preview';
-const ABAS_PAINEL=['projetos','roteiro','chaves','config','diag'];
-const TITULO_ABA={projetos:'📁 Projetos',roteiro:'📋 Roteiro',chaves:'🔑 Chaves e modelos',
+const ABAS_PAINEL=['projetos','claude','roteiro','chaves','config','diag'];
+const TITULO_ABA={projetos:'📁 Projetos',claude:'🤖 Vídeos do Claude',roteiro:'📋 Roteiro',chaves:'🔑 Chaves e modelos',
   config:'⚙️ Configurações',diag:'🩺 Diagnóstico'};
 
 function modoLateral(){ return matchMedia('(min-width:1000px)').matches; }
@@ -1414,6 +1462,7 @@ function abrirModal(name){
   // a lista vem do disco: rele ao abrir, senao mostra o estado de quando a
   // pagina carregou e um projeto criado em outra aba nao aparece
   if(name==='projetos'){ projPintarBarra(); projPintarLista(); }
+  if(name==='claude') clAbrir();
   const x=m.querySelector('.modal-x'); if(x) x.focus();
 }
 
@@ -5085,6 +5134,115 @@ async function renderRemotion(){
     checkDone();
   }
 }
+
+// ── VÍDEOS DO CLAUDE: preview, revisão e render ───────────
+// O Claude Code grava remotion/public/videos/<projeto>/composicoes.json quando
+// termina de montar. Daqui o usuário assiste no Remotion Studio, comenta por
+// cena (projetos/<id>/revisao.json) e dispara o render quando aprovar.
+let clEstado=null, clTimer=null, clRevT=null;
+
+async function clCarregar(){
+  if(!projAtivo()) return null;
+  try{ const r=await fetch(`/claude/${projetoAtual.id}`); if(!r.ok) return null; return await r.json(); }
+  catch(_){ return null; }
+}
+function clTam(b){ return b?(b/1048576).toFixed(1)+' MB':''; }
+
+async function clAbrir(){
+  document.getElementById('clProj').textContent=projRotulo();
+  clEstado=await clCarregar();
+  clPintar();
+  clPintarRevisao();
+}
+function clPintar(){
+  const box=document.getElementById('clLista'); if(!box) return;
+  const comps=(clEstado&&clEstado.composicoes)||[];
+  const btn=document.getElementById('clRevisarBtn'); if(btn) btn.style.display=comps.length?'flex':'none';
+  const pip=document.getElementById('pipClaude'); if(pip) pip.classList.toggle('on',comps.length>0);
+  if(!projAtivo()){ box.innerHTML='<div class="cl-st">Abra um projeto primeiro.</div>'; return; }
+  if(!comps.length){ box.innerHTML='<div class="cl-st">O Claude ainda não montou vídeo para este projeto.</div>'; return; }
+  let rodando=false;
+  box.innerHTML=comps.map(c=>{
+    const r=c.render||{};
+    if(r.estado==='renderizando') rodando=true;
+    const st = r.estado==='renderizando'?`renderizando… ${r.pct||0}%`
+             : r.estado==='pronto'?`✅ pronto · ${clTam(r.bytes)}`
+             : r.estado==='erro'?'❌ falhou':'ainda não renderizado';
+    return `<div class="cl-comp">
+      <div class="cl-comp-hd"><span class="cl-comp-t">${esc(c.titulo||c.id)}</span>
+        <span class="cl-comp-m">${esc(c.formato||'')} · ${c.duracao?fmtTime(c.duracao):''}</span></div>
+      <div class="cl-st">${st}</div>
+      <div class="btnrow">
+        <button class="btn-sm btn-mic" onclick="clPreview('${esc(c.id)}')">▶ Preview</button>
+        <button class="btn-sm btn-add" onclick="clRender('${esc(c.id)}')" ${r.estado==='renderizando'?'disabled':''}>🎬 ${r.estado==='pronto'?'Renderizar de novo':'Renderizar'}</button>
+        ${r.estado==='pronto'?`<a class="btn-sm btn-del" href="/claude/${projetoAtual.id}/mp4?comp=${encodeURIComponent(c.id)}" download="${esc(c.id)}.mp4">⬇ Baixar</a>`:''}
+      </div>
+      ${r.estado==='renderizando'?`<div class="cl-prog"><i style="width:${r.pct||0}%"></i></div>`:''}
+      ${r.estado==='erro'&&r.detalhe?`<div class="err-box">${esc(r.detalhe.slice(-300))}</div>`:''}
+    </div>`;
+  }).join('');
+  clearTimeout(clTimer);
+  if(rodando) clTimer=setTimeout(async()=>{ clEstado=await clCarregar(); clPintar(); },2000);
+}
+async function clPreview(comp){
+  const aba=window.open('about:blank','_blank');
+  setStatus('▶ Abrindo o Remotion Studio… (a primeira vez leva uns segundos)');
+  try{
+    const r=await (await fetch('/claude/studio',{method:'POST'})).json();
+    if(!r.ok) throw new Error('não consegui subir o Studio');
+    // o Studio leva alguns segundos para responder na primeira vez
+    await new Promise(res=>setTimeout(res,4000));
+    if(aba) aba.location.href=`${r.url}/${encodeURIComponent(comp)}`;
+    setStatus('▶ Preview aberto em outra aba (espaço = play/pause).');
+  }catch(e){ if(aba) aba.close(); setStatus('❌ Preview: '+e.message); }
+}
+async function clRender(comp){
+  try{
+    const r=await fetch(`/claude/${projetoAtual.id}/render?comp=${encodeURIComponent(comp)}`,{method:'POST'});
+    if(!r.ok) throw new Error((await r.json()).detail||`HTTP ${r.status}`);
+    logLine('info',`Renderizando ${comp}`,'Pode fechar a janela: o serve.py termina sozinho e o MP4 fica em remotion/out/.');
+    clEstado=await clCarregar(); clPintar();
+  }catch(e){ setStatus('❌ Render: '+e.message); }
+}
+
+// revisão: uma linha por cena, com a fala como referência
+function clPintarRevisao(){
+  const box=document.getElementById('clCenas'); if(!box) return;
+  const rev=(clEstado&&clEstado.revisao)||[];
+  const geral=rev.find(x=>x.cena==='geral');
+  document.getElementById('clGeral').value=geral?geral.texto:'';
+  box.innerHTML=frames.map((f,i)=>{
+    const item=rev.find(x=>x.cena===i+1);
+    return `<div class="cl-cena"><b>C${i+1}</b><div>
+      <small>${esc((textoNaTela(f)||'').slice(0,110))}</small>
+      <textarea id="clc-${i}" placeholder="ok" oninput="clRevisaoSoon()">${esc(item?item.texto:'')}</textarea></div></div>`;
+  }).join('');
+}
+function clColetar(){
+  const out=[];
+  const g=document.getElementById('clGeral').value.trim();
+  if(g) out.push({cena:'geral',texto:g});
+  frames.forEach((f,i)=>{
+    const el=document.getElementById('clc-'+i);
+    const t=el?el.value.trim():'';
+    if(t) out.push({cena:i+1,fala:textoNaTela(f),texto:t});
+  });
+  return out;
+}
+function clRevisaoSoon(){ clearTimeout(clRevT); clRevT=setTimeout(()=>clSalvarRevisao(false),1200); }
+async function clSalvarRevisao(avisar){
+  if(!projAtivo()) return;
+  const dados=clColetar();
+  try{
+    const r=await fetch(`/claude/${projetoAtual.id}/revisao`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)});
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const msg=document.getElementById('clMsg');
+    if(msg){ msg.textContent=dados.length?`✅ ${dados.length} comentário(s) salvos — diga "aplica a revisão" no Claude Code.`:'✅ Salvo (sem comentários).'; msg.style.color='var(--green)'; }
+    if(avisar) setStatus('✍️ Revisão salva. No Claude Code: "aplica a revisão".');
+  }catch(e){ setStatus('❌ Não salvei a revisão: '+e.message); }
+}
+// ao carregar: mostra o atalho do passo 5 se já existe vídeo do Claude
+setTimeout(async()=>{ clEstado=await clCarregar(); clPintar(); },1500);
 
 // ── ENVIAR PARA O CLAUDE ─────────────────────────────────
 // Mesma timeline e mesmos áudios do render com Remotion, mas sem renderizar:

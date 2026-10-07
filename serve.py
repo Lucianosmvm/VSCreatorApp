@@ -597,6 +597,88 @@ def remotion_montar(job):
     print("[remotion] %s: pronto — %s (%.1f MB)" % (job["id"], job["saida"], job["bytes"] / 1048576))
 
 
+# -- VIDEOS DO CLAUDE (revisao no app) -----------------------------------
+#
+# Depois que o Claude Code monta um video, ele grava
+# remotion/public/videos/<projeto>/composicoes.json com as composicoes daquele
+# projeto (longo, short...). O app lista essas composicoes, abre o preview no
+# Remotion Studio, guarda comentarios por cena em projetos/<id>/revisao.json e,
+# quando o usuario aprova, dispara o render daqui.
+#
+# O id da composicao so e aceito se estiver no composicoes.json do projeto, e
+# vai para o processo como item de lista (nunca shell).
+CLAUDE_PREFIX = "/claude"
+CLAUDE_COMP_OK = re.compile(r"^[A-Za-z0-9-]{1,80}$")
+STUDIO_PORTA = 3000
+claude_renders = {}            # comp -> {estado, pct, detalhe, bytes}
+claude_lock = threading.Lock()
+studio_proc = None
+
+
+def claude_composicoes(pid):
+    caminho = os.path.join(REMOTION_VIDEOS, pid, "composicoes.json")
+    try:
+        with open(caminho, encoding="utf-8") as fh:
+            lista = json.load(fh)
+    except (OSError, ValueError):
+        return []
+    return [c for c in lista if isinstance(c, dict) and CLAUDE_COMP_OK.match(str(c.get("id", "")))]
+
+
+def claude_saida(comp):
+    return os.path.join(REMOTION_APP, "out", comp + ".mp4")
+
+
+def claude_render(comp):
+    job = claude_renders[comp]
+    os.makedirs(os.path.join(REMOTION_APP, "out"), exist_ok=True)
+    cmd = [remotion_node(), REMOTION_CLI, "render", "src/index.ts", comp,
+           claude_saida(comp), "--crf=18", "--log=info"]
+    print("[claude] renderizando %s" % comp)
+    try:
+        proc = subprocess.Popen(cmd, cwd=REMOTION_APP, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, text=True,
+                                encoding="utf-8", errors="replace")
+    except OSError as e:
+        job.update(estado="erro", detalhe="nao consegui iniciar o Node: %s" % e)
+        return
+    cauda = []
+    for linha in proc.stdout:
+        linha = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", linha).strip()
+        if not linha:
+            continue
+        cauda = (cauda + [linha])[-15:]
+        m = REMOTION_PROGRESSO.search(linha)
+        if m and ("Rendered" in linha or "Encoded" in linha):
+            feito, total = int(m.group(1)), max(1, int(m.group(2)))
+            base, peso = (80, 19) if "Encoded" in linha else (0, 80)
+            job["pct"] = min(99, base + int(feito * peso / total))
+    proc.wait()
+    saida = claude_saida(comp)
+    if proc.returncode != 0 or not os.path.isfile(saida):
+        job.update(estado="erro", pct=0, detalhe="\n".join(cauda)[-800:])
+        print("[claude] %s: FALHOU" % comp)
+        return
+    job.update(estado="pronto", pct=100, detalhe="", bytes=os.path.getsize(saida))
+    print("[claude] %s: pronto (%.1f MB)" % (comp, job["bytes"] / 1048576))
+
+
+def claude_studio():
+    """Sobe o Remotion Studio uma vez; chamadas seguintes reaproveitam."""
+    global studio_proc
+    if studio_proc is not None and studio_proc.poll() is None:
+        return True
+    try:
+        studio_proc = subprocess.Popen(
+            [remotion_node(), REMOTION_CLI, "studio", "src/index.ts",
+             "--port=%d" % STUDIO_PORTA, "--no-open"],
+            cwd=REMOTION_APP, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except OSError:
+        return False
+    print("[claude] Remotion Studio em http://localhost:%d" % STUDIO_PORTA)
+    return True
+
+
 def endereco_publico(host):
     """False para localhost, IP privado, link-local — evita virar scanner de rede."""
     try:
@@ -661,6 +743,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._render("GET", rota)
         if rota == REMOTION_PREFIX or rota.startswith(REMOTION_PREFIX + "/"):
             return self._remotion("GET", rota)
+        if rota.startswith(CLAUDE_PREFIX + "/"):
+            return self._claude("GET", rota)
         return SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
@@ -677,6 +761,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._render("POST", rota)
         if rota == REMOTION_PREFIX or rota.startswith(REMOTION_PREFIX + "/"):
             return self._remotion("POST", rota)
+        if rota.startswith(CLAUDE_PREFIX + "/"):
+            return self._claude("POST", rota)
         self.send_error(404)
 
     def do_DELETE(self):
@@ -1182,6 +1268,79 @@ class Handler(SimpleHTTPRequestHandler):
             threading.Thread(target=remotion_montar, args=(job,), daemon=True).start()
             return self._json(202, remotion_publico(job))
         return self._json(404, {"detail": "rota do remotion desconhecida"})
+
+    def _claude(self, metodo, rota):
+        partes = [p for p in rota[len(CLAUDE_PREFIX):].split("/") if p]
+        corpo = None
+        if metodo == "POST":
+            corpo = self._ler_corpo(1024 * 1024)
+            if corpo is None:
+                return
+
+        if partes == ["studio"] and metodo == "POST":
+            if not remotion_status()["instalado"]:
+                return self._json(503, {"detail": "Remotion nao instalado"})
+            ok = claude_studio()
+            return self._json(200 if ok else 500, {"ok": ok, "url": "http://localhost:%d" % STUDIO_PORTA})
+
+        if not partes or not PROJETO_ID_OK.match(partes[0]):
+            return self._json(400, {"detail": "projeto invalido"})
+        pid, resto = partes[0], partes[1:]
+        pasta = projeto_dir(pid)
+        if pasta is None:
+            return self._json(400, {"detail": "projeto invalido"})
+        comps = claude_composicoes(pid)
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        comp = q.get("comp", [""])[0]
+
+        if metodo == "GET" and not resto:
+            revisao = []
+            try:
+                with open(os.path.join(pasta, "revisao.json"), encoding="utf-8") as fh:
+                    revisao = json.load(fh)
+            except (OSError, ValueError):
+                pass
+            for c in comps:
+                saida = claude_saida(c["id"])
+                with claude_lock:
+                    r = dict(claude_renders.get(c["id"]) or {})
+                if not r and os.path.isfile(saida):
+                    r = {"estado": "pronto", "pct": 100, "bytes": os.path.getsize(saida),
+                         "quando": os.path.getmtime(saida)}
+                c["render"] = r or None
+            return self._json(200, {"composicoes": comps, "revisao": revisao})
+
+        if metodo == "POST" and resto == ["revisao"]:
+            try:
+                dados = json.loads((corpo or b"[]").decode("utf-8"))
+                assert isinstance(dados, list)
+            except (ValueError, AssertionError, UnicodeDecodeError):
+                return self._json(400, {"detail": "revisao deve ser uma lista"})
+            os.makedirs(pasta, exist_ok=True)
+            with open(os.path.join(pasta, "revisao.json"), "w", encoding="utf-8") as fh:
+                json.dump(dados, fh, ensure_ascii=False, indent=1)
+            return self._json(200, {"ok": True})
+
+        if comp not in {c["id"] for c in comps}:
+            return self._json(404, {"detail": "composicao nao pertence a este projeto"})
+
+        if metodo == "POST" and resto == ["render"]:
+            with claude_lock:
+                atual = claude_renders.get(comp)
+                if atual and atual["estado"] == "renderizando":
+                    return self._json(409, {"detail": "ja esta renderizando"})
+                claude_renders[comp] = {"estado": "renderizando", "pct": 0, "detalhe": "", "bytes": 0}
+            threading.Thread(target=claude_render, args=(comp,), daemon=True).start()
+            return self._json(202, {"ok": True})
+
+        if metodo == "GET" and resto == ["mp4"]:
+            saida = claude_saida(comp)
+            if not os.path.isfile(saida):
+                return self._json(404, {"detail": "ainda nao renderizado"})
+            with open(saida, "rb") as fh:
+                return self._responder(200, fh.read(), "video/mp4")
+
+        return self._json(404, {"detail": "rota desconhecida"})
 
     def _remotion_entregar(self, job):
         """Copia timeline + audios do job para remotion/public/videos/<projeto>/.

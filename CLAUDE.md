@@ -17,7 +17,18 @@ fala em português; responda em português.
    Claude NÃO gera narração: a chave da ElevenLabs fica no navegador do usuário.
 4. **Claude monta o vídeo** a partir de `remotion/public/videos/<id>/timeline.json`
    (tempo real de cada cena e de cada palavra) — seção "Montar o vídeo".
-5. **Claude renderiza** e entrega o caminho do MP4.
+5. **Claude publica no app** (não renderiza o vídeo inteiro): grava
+   `remotion/public/videos/<id>/composicoes.json`:
+   ```json
+   [{"id": "<comp-id>", "titulo": "Vídeo longo (YouTube)", "formato": "16:9", "duracao": 264.9},
+    {"id": "<comp-id>-short", "titulo": "Short (Shorts, Reels, TikTok)", "formato": "9:16", "duracao": 85.7}]
+   ```
+   O usuário abre **🤖 Claude** no app: ▶ Preview (Remotion Studio na porta 3000),
+   comenta por cena e clica **🎬 Renderizar** quando aprovar (MP4 em `remotion/out/<comp-id>.mp4`).
+6. **"aplica a revisão"**: ler `projetos/<id>/revisao.json` (`[{cena: n|"geral", fala, texto}]`,
+   cena 1-based = índice+1 na timeline do vídeo longo), aplicar, conferir com stills e avisar
+   para o usuário renderizar de novo. Se o comentário muda a FALA, editar `projeto.json`
+   (atualizar `salvoEm`) e pedir para narrar e enviar de novo.
 
 Ao editar um `projetos/<id>/projeto.json` existente, **sempre atualize `salvoEm`**
 (ISO UTC, ex. `2026-10-07T15:00:00.000Z`): o app compara esse campo e, se o disco
