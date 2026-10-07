@@ -3,11 +3,30 @@ import type { Palavra, Timeline } from "../tipos";
 
 const POR_GRUPO = 3;
 
+// A narração fala "C sharp" (a ElevenLabs erra "C#"), mas na tela fica "C#".
+// Junta as duas palavras na hora da primeira; pontuação do "sharp" é mantida.
+export function juntarParaTela(palavras: Palavra[]): Palavra[] {
+  const out: Palavra[] = [];
+  for (let i = 0; i < palavras.length; i++) {
+    const p = palavras[i];
+    const prox = palavras[i + 1];
+    const m = prox && /^c$/i.test(p.w) && prox.w.match(/^sharp([.,;:!?]*)$/i);
+    if (m) {
+      out.push({ w: "C#" + m[1], t: p.t });
+      i++;
+    } else out.push(p);
+  }
+  return out;
+}
+
 // Legenda estilo karaokê: mostra um grupo de até 3 palavras por vez, e cada
 // palavra "pula" no quadro exato em que é falada (tempo vindo da ElevenLabs).
-export const Legenda: React.FC<{ palavras: Palavra[]; legenda: Timeline["legenda"] }> = ({ palavras, legenda }) => {
+export const Legenda: React.FC<{ palavras: Palavra[]; legenda: Timeline["legenda"] }> = ({ palavras: faladas, legenda }) => {
+  const palavras = juntarParaTela(faladas);
   const frame = useCurrentFrame();
-  const { fps, width } = useVideoConfig();
+  // tamanhos pelo lado menor: vale igual para 9:16 e 16:9
+  const { fps, width: largura, height } = useVideoConfig();
+  const width = Math.min(largura, height);
   const t = frame / fps;
   if (!palavras.length) return null;
 
@@ -32,7 +51,7 @@ export const Legenda: React.FC<{ palavras: Palavra[]; legenda: Timeline["legenda
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: `0 ${tamanho * 0.28}px`,
+          gap: `0 ${tamanho * 0.42}px`,
           fontFamily: "Poppins",
           fontWeight: 800,
           fontSize: tamanho,
@@ -51,7 +70,7 @@ export const Legenda: React.FC<{ palavras: Palavra[]; legenda: Timeline["legenda
               key={idx}
               style={{
                 display: "inline-block",
-                transform: `scale(${interpolate(s, [0, 1], [0.5, ativa ? 1.12 : 1])}) translateY(${interpolate(s, [0, 1], [20, 0])}px)`,
+                transform: `scale(${interpolate(s, [0, 1], [0.5, ativa ? 1.06 : 1])}) translateY(${interpolate(s, [0, 1], [20, 0])}px)`,
                 opacity: s,
                 color: ativa ? "#FFD23F" : "white",
                 WebkitTextStroke: caixa ? undefined : `${tamanho * 0.09}px black`,

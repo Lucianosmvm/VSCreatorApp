@@ -3,14 +3,14 @@ import type { Cena } from "../tipos";
 
 // Imagem parada ganha Ken Burns: zoom lento e um pouco de deriva. A direção
 // alterna por cena para o vídeo não parecer um zoom só repetido.
-export const Fundo: React.FC<{ cena: Cena; indice: number; duracaoQuadros: number }> = ({ cena, indice, duracaoQuadros }) => {
+export const Fundo: React.FC<{ cena: Cena; indice: number; duracaoQuadros: number; pasta?: string }> = ({ cena, indice, duracaoQuadros, pasta = "" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   if (cena.video) {
     return (
       <AbsoluteFill style={{ backgroundColor: "black" }}>
-        <OffthreadVideo src={staticFile(cena.video)} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <OffthreadVideo src={staticFile(pasta + cena.video)} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
     );
   }
@@ -26,7 +26,7 @@ export const Fundo: React.FC<{ cena: Cena; indice: number; duracaoQuadros: numbe
   return (
     <AbsoluteFill style={{ backgroundColor: "black", overflow: "hidden" }}>
       <Img
-        src={staticFile(cena.imagem)}
+        src={staticFile(pasta + cena.imagem)}
         style={{
           width: "100%",
           height: "100%",

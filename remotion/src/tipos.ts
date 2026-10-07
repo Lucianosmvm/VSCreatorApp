@@ -19,6 +19,9 @@ export type Cena = {
   video?: string;
   audio?: string;
   template?: "auto" | "imagem" | "destaque";
+  // modo mascote (sem imagem de IA)
+  mascote?: string;   // frente | lado | costas | neutro | feliz | determinado
+  titulo?: string;    // frase grande da cena
 };
 
 export type Timeline = {

@@ -67,3 +67,9 @@ ViMax/
 remotion/node_modules/
 remotion/jobs/
 remotion/out/
+# Narração entregue pelo "Enviar para o Claude": regenerável pelo app. A
+# timeline.json fica versionada porque as composições em src/videos/ a importam.
+remotion/public/videos/*/*.wav
+
+# Tokens locais (Replicate etc.). Nunca versionar.
+.env

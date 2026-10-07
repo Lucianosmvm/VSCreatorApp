@@ -34,7 +34,9 @@ const formatar = (n: number, ref: string) => {
 // Cartão com o número contando até o valor, entrando no quadro em que ele é dito.
 export const Destaque: React.FC<{ palavras: Palavra[] }> = ({ palavras }) => {
   const frame = useCurrentFrame();
-  const { fps, width } = useVideoConfig();
+  // tamanhos pelo lado menor: vale igual para 9:16 e 16:9
+  const { fps, width: largura, height } = useVideoConfig();
+  const width = Math.min(largura, height);
   const d = acharDestaque(palavras);
   if (!d) return null;
 

@@ -218,6 +218,40 @@ textarea.masked{-webkit-text-security:disc;text-security:disc}
 .ajuda summary::before{content:'▸ '}
 .ajuda[open] summary::before{content:'▾ '}
 .ajuda[open] summary{margin-bottom:7px}
+/* ── passos da rotina ── */
+.passos{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:stretch}
+.passo{flex:1 1 140px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:9px 10px;display:flex;flex-direction:column;gap:7px;min-width:0;transition:border-color .2s,opacity .2s}
+.passo .btn{margin-top:auto;padding:8px 10px;font-size:11px;white-space:nowrap}
+.passo-par{display:flex;gap:6px;margin-top:auto}
+.passo-par .btn{margin-top:0}
+.passo-par .btn:first-child{flex:1}
+.passo-par .btn:not(:first-child){width:auto;flex:0 0 auto}
+.passo-hd{display:flex;align-items:center;gap:7px;min-width:0}
+.passo-n{width:20px;height:20px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);color:var(--muted);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.passo-t{font-size:12px;font-weight:600;color:var(--text)}
+.passo-st{margin-left:auto;font-size:10px;color:var(--muted);white-space:nowrap}
+.passo.feito{border-color:rgba(61,186,111,.35)}
+.passo.feito .passo-n{background:var(--green);border-color:var(--green);color:#0a0a0a}
+.passo.feito .passo-st{color:var(--green)}
+.passo.agora{border-color:rgba(255,68,68,.45);box-shadow:0 0 0 1px rgba(255,68,68,.15)}
+.passo.agora .passo-n{background:var(--accent);border-color:var(--accent);color:#fff}
+.passo.espera{opacity:.55}
+.passo-chk{margin:0;font-size:10px;color:var(--muted)}
+.passos.mascote .passo-img,.passos.mascote #vidAllBtn,.passos.mascote #vidLigarBtn{display:none!important}
+.passo-mais{position:relative}
+.passo-mais>summary{list-style:none;cursor:pointer;height:100%;min-height:40px;width:36px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:18px}
+.passo-mais>summary::-webkit-details-marker{display:none}
+.passo-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;width:220px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.passo-menu .btn{margin-top:0;padding:8px 10px;font-size:11px}
+.passo-menu select{font-size:11px;padding:6px 9px}
+.sec-vimax{margin-top:12px}
+.sec-vimax>summary{cursor:pointer;font-size:12px;color:var(--muted);padding:10px 12px;border:1px dashed var(--border2);border-radius:10px}
+.sec-vimax[open]>summary{margin-bottom:10px}
+/* explicações longas dos painéis só aparecem quando pedidas */
+body:not(.dicas) .modal-corpo .hint,
+body:not(.dicas) .modal-corpo .tip:not(.warn){display:none}
+.modal-dicas{margin-left:auto;margin-right:8px;font-size:10px;color:var(--muted);background:none;border:1px solid var(--border2);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit}
+body.dicas .modal-dicas{color:var(--accent);border-color:rgba(255,68,68,.35)}
 .barra-lbl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:0}
 .barra-sep{width:1px;height:22px;background:var(--border2);margin:0 3px}
 .barra-dir{margin-left:auto;display:flex;gap:7px}
@@ -445,6 +479,7 @@ body.preview-off .pv-flut{display:none}
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
     <div class="modal-hd">
       <div class="modal-t" id="modalTitulo">Configuração</div>
+      <button class="modal-dicas" onclick="document.body.classList.toggle('dicas')" title="Mostrar ou esconder as explicações dos campos">? explicações</button>
       <button class="modal-x" onclick="fecharModal()" title="Fechar (Esc)">✕</button>
     </div>
     <div class="modal-corpo" id="modalCorpo">
@@ -478,7 +513,27 @@ body.preview-off .pv-flut{display:none}
 
 <div class="pane" data-tab="roteiro">
 
+  <div class="sec sec-import" id="secImport">
+    <div class="sec-hd">
+      <div class="sec-ic">📋</div>
+      <div class="sec-t">Importar roteiro</div>
+    </div>
+    <textarea id="jsonIn" class="mono masked-off" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false" style="min-height:64px;height:64px"></textarea>
+    <div class="btnrow" style="margin-top:9px">
+      <button class="btn-sm btn-add" onclick="importJSON()">⬆ Importar</button>
+      <button class="btn-sm btn-del" onclick="fillExample()">Exemplo</button>
+      <button class="btn-sm btn-del" onclick="exportJSON()">⬇ Exportar</button>
+      <button class="btn-sm btn-mic" onclick="copyClaudePrompt()">📋 Prompt p/ Claude</button>
+    </div>
+    <div class="jmsg" id="jsonMsg"></div>
+    <div class="tip">
+      <code>{"scenes":[{"narration_text":"…","image_prompt":"…"}]}</code> — o formato antigo também entra. Reimportar reaproveita o que não mudou.
+    </div>
+  </div>
+
   <!-- PLANEJAR COM O VIMAX -->
+  <details class="sec-vimax">
+  <summary>🎬 Não tem roteiro? Planejar com o ViMax</summary>
   <div class="sec" id="secViMax">
     <div class="sec-hd">
       <div class="sec-ic">🎬</div>
@@ -519,24 +574,7 @@ body.preview-off .pv-flut{display:none}
       O ViMax ainda não está instalado nesta máquina. Rode <code>python vimax_setup.py</code> na pasta do app e recarregue a página.
     </div>
   </div>
-
-  <div class="sec sec-import" id="secImport">
-    <div class="sec-hd">
-      <div class="sec-ic">📋</div>
-      <div class="sec-t">Importar roteiro</div>
-    </div>
-    <textarea id="jsonIn" class="mono masked-off" placeholder='{"cenas":[{"imagem":"...","texto":"..."}]}' spellcheck="false" style="min-height:64px;height:64px"></textarea>
-    <div class="btnrow" style="margin-top:9px">
-      <button class="btn-sm btn-add" onclick="importJSON()">⬆ Importar</button>
-      <button class="btn-sm btn-del" onclick="fillExample()">Exemplo</button>
-      <button class="btn-sm btn-del" onclick="exportJSON()">⬇ Exportar</button>
-      <button class="btn-sm btn-mic" onclick="copyClaudePrompt()">📋 Prompt p/ Claude</button>
-    </div>
-    <div class="jmsg" id="jsonMsg"></div>
-    <div class="tip">
-      <code>{"scenes":[{"narration_text":"…","image_prompt":"…"}]}</code> — o formato antigo também entra. Reimportar reaproveita o que não mudou.
-    </div>
-  </div>
+  </details>
 
 
 </div>
@@ -853,7 +891,7 @@ body.preview-off .pv-flut{display:none}
     • terminado o envio dos quadros, <b>a aba pode fechar</b>: quem termina é o FFmpeg, no terminal;<br>
     • sai H.264 com <b>taxa de quadros constante</b> e duração exata, em vez do arquivo de taxa variável que o gravador do navegador entrega.<br>
     Precisa do <code>serve.py</code> rodando e do FFmpeg instalado (<code>winget install Gyan.FFmpeg</code>) — sem os dois, o app avisa e grava pelo navegador como antes. O MP4 fica em <code>render/&lt;job&gt;/saida.mp4</code> e também baixa sozinho quando fica pronto.</div>
-    <label class="chk" style="margin-top:10px"><input type="checkbox" id="renderRemotion" onchange="saveState()"> Animar com Remotion (motion graphics)</label>
+    <label class="chk" style="margin-top:10px"><input type="checkbox" id="renderRemotion" checked onchange="saveState();atualizarPassos()"> Animar com Remotion (motion graphics)</label>
     <div class="hint">Em vez de desenhar no canvas, o app manda para o projeto <code>remotion/</code> a <b>timeline da narração</b> — início de cada cena e o segundo exato de cada palavra, já com silêncio cortado e pausas aplicadas — junto com imagens, clipes e áudio. O Remotion anima em cima disso: legenda karaokê com a palavra falada destacada, <b>número em destaque</b> que entra no instante em que é dito ("R$ 1.200", "35%"), zoom lento nas imagens e dissolve dentro da pausa. Gere a narração <b>antes</b>: sem ela não há tempo de palavra para sincronizar. Precisa do Node.js e de <code>cd remotion &amp;&amp; npm install</code> uma vez.</div>
     <div class="sec-hd" style="margin-top:4px">
       <div class="sec-ic">🔤</div>
@@ -964,22 +1002,51 @@ body.preview-off .pv-flut{display:none}
       <div class="sec-ic">🎞️</div>
       <div class="sec-t">Cenas</div>
     </div>
-    <div class="barra">
-      <button class="btn btn-red"    id="genAllBtn"     onclick="generateAll()">✨ Gerar imagens</button>
-      <button class="btn btn-ghost"  id="genMissingBtn" onclick="generateAll(true)">↻ Só as que faltam</button>
-      <button class="btn btn-violet" id="ttsAllBtn"     onclick="narrateAll()">🎤 Narrações</button>
-      <button class="btn btn-ghost"  id="vidAllBtn"     onclick="animarTodas()" style="display:none">🎞️ Animar</button>
-      <span class="barra-sep"></span>
-      <button class="btn btn-red"   id="videoBtn"   onclick="renderVideo()" disabled>🎬 Gerar vídeo</button>
-      <button class="btn btn-ghost" id="exportBtn"  onclick="exportZIP()" disabled>⬇ Peças soltas</button>
-      <button class="btn btn-ghost" id="cancelBtn"  onclick="cancelRender()" style="display:none">⏹ Cancelar</button>
-      <span class="barra-sep"></span>
-      <label class="barra-lbl" for="globalFont">Fonte</label>
-      <select id="globalFont" onchange="onFontChange()"></select>
-      <span class="barra-dir">
-        <button class="btn btn-ghost" onclick="addFrame()">+ Cena</button>
-        <button class="btn btn-ghost" onclick="resetAll()">↺ Limpar tudo</button>
-      </span>
+    <!-- A rotina é sempre a mesma: roteiro → narração → imagens → animação →
+         exportar. Cada passo mostra quanto já está pronto e acende quando o
+         anterior termina. Narração vem ANTES das imagens porque é ela que dá a
+         duração de cada cena e o tempo de cada palavra para o Remotion. -->
+    <div class="passos" id="passos">
+      <div class="passo" data-passo="1">
+        <div class="passo-hd"><span class="passo-n">1</span><span class="passo-t">Roteiro</span><span class="passo-st" id="pst1"></span></div>
+        <button class="btn btn-ghost" onclick="abrirModal('projetos')">📁 Abrir projeto</button>
+      </div>
+      <div class="passo" data-passo="2">
+        <div class="passo-hd"><span class="passo-n">2</span><span class="passo-t">Narração</span><span class="passo-st" id="pst2"></span></div>
+        <button class="btn btn-violet" id="ttsAllBtn" onclick="narrateAll()">🎤 Narrações</button>
+      </div>
+      <div class="passo" data-passo="3">
+        <div class="passo-hd"><span class="passo-n">3</span><span class="passo-t">Imagens</span><span class="passo-st" id="pst3"></span></div>
+        <label class="chk passo-chk"><input type="checkbox" id="modoMascote" onchange="onModoMascote()"> Só mascote (sem Replicate)</label>
+        <div class="passo-par passo-img">
+          <button class="btn btn-red"   id="genAllBtn"     onclick="generateAll()">✨ Gerar</button>
+          <button class="btn btn-ghost" id="genMissingBtn" onclick="generateAll(true)" title="Gerar só as que faltam">↻</button>
+        </div>
+      </div>
+      <div class="passo" data-passo="4">
+        <div class="passo-hd"><span class="passo-n">4</span><span class="passo-t">Animação</span><span class="passo-st" id="pst4"></span></div>
+        <button class="btn btn-ghost" id="vidAllBtn" onclick="animarTodas()" style="display:none">🎞️ Animar</button>
+        <button class="btn btn-ghost" id="vidLigarBtn" onclick="ligarAnimacao()">Ligar clipes 3D</button>
+      </div>
+      <div class="passo" data-passo="5">
+        <div class="passo-hd"><span class="passo-n">5</span><span class="passo-t">Exportar</span><span class="passo-st" id="pst5"></span></div>
+        <div class="passo-par">
+          <button class="btn btn-red"   id="videoBtn"  onclick="renderVideo()" disabled>🎬 Gerar vídeo</button>
+          <button class="btn btn-ghost" id="cancelBtn" onclick="cancelRender()" style="display:none">⏹</button>
+        </div>
+        <button class="btn btn-violet" id="claudeBtn" onclick="enviarParaClaude()" title="Salva timeline e narração para o Claude Code montar o vídeo">🤖 Enviar para o Claude</button>
+      </div>
+      <details class="passo-mais">
+        <summary title="Mais opções">⋯</summary>
+        <div class="passo-menu">
+          <label class="barra-lbl" for="globalFont">Fonte da legenda</label>
+          <select id="globalFont" onchange="onFontChange()"></select>
+          <button class="btn btn-ghost" onclick="abrirRoteiro()">📋 Colar roteiro JSON</button>
+          <button class="btn btn-ghost" id="exportBtn" onclick="exportZIP()" disabled>⬇ Peças soltas (CapCut)</button>
+          <button class="btn btn-ghost" onclick="addFrame()">+ Cena</button>
+          <button class="btn btn-ghost" onclick="resetAll()">↺ Limpar tudo</button>
+        </div>
+      </details>
     </div>
     <div class="tip warn" id="avisoNarracao" style="display:none"></div>
 
@@ -1013,14 +1080,6 @@ body.preview-off .pv-flut{display:none}
         </div>
       </div>
     </div>
-    <details class="tip ajuda">
-      <summary>Como funciona cada botão</summary>
-      <b style="color:#666">Imagens vêm da Replicate</b>, que precisa do <code>python serve.py</code> rodando nesta máquina.<br><br>
-      <b style="color:#666">Gerar vídeo</b> entrega <b>um arquivo único com a narração embutida</b>, pronto para subir direto. A <b>Resolução</b>, no janela Config, decide o formato: 9:16 para Shorts, Reels e TikTok, ou 16:9 para vídeo horizontal no YouTube. É em tempo real: 30 s de vídeo levam 30 s, e a janela precisa ficar visível.<br><br>
-      <b style="color:#666">Gerar imagens</b> roda várias cenas ao mesmo tempo — o número está em <b>Cenas em paralelo</b>, no janela Config. Se a Replicate passar a devolver 429, baixe esse número.<br><br>
-      <b style="color:#666">Animar</b> (ligado no janela Chaves) troca a imagem parada por um clipe gerado a partir dela. É cobrado por cena, à parte da imagem — anime só depois de aprovar a imagem. A duração de cada clipe acompanha a narração da cena.<br><br>
-      <b style="color:#666">Peças soltas</b> não é vídeo — são os quadros em JPG, os MP3 e um <code>timeline.json</code>, para montar à mão no CapCut.
-    </details>
   </div>
 
 </div>
@@ -1493,10 +1552,17 @@ function projSnapshot(){
 async function projSalvar(silencioso){
   if(!projAtivo()||projOcupado) return;
   try{
+    const disco=await projSalvoEmNoDisco();
+    if(disco && projetoAtual.salvoEm && disco!==projetoAtual.salvoEm){
+      logLine('warn','Não salvei: o projeto foi alterado fora do app.','Carregando a versão do disco (edição do Claude Code).');
+      return projAbrir(projetoAtual.id);
+    }
+    const snap=projSnapshot();
     await projApi(`/${projetoAtual.id}/projeto.json`,{
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(projSnapshot())
+      body:JSON.stringify(snap)
     });
+    projMarcarSalvo(snap.salvoEm);
     projPintarBarra();
     if(!silencioso) setStatus(`💾 Projeto "${projetoAtual.nome}" salvo.`);
   }catch(e){
@@ -1558,7 +1624,7 @@ async function projAbrir(id){
 
   try{
     localStorage.setItem(LS_KEY,JSON.stringify(d));
-    localStorage.setItem(PROJ_KEY,JSON.stringify({id,nome:d.nome||id}));
+    localStorage.setItem(PROJ_KEY,JSON.stringify({id,nome:d.nome||id,salvoEm:d.salvoEm||null}));
   }catch(e){ setStatus('❌ Sem espaço no navegador para abrir o projeto.'); return; }
   await idbClear();          // os bytes vêm da pasta agora, não da sessão velha
   location.reload();
@@ -1585,10 +1651,34 @@ async function projExcluir(id){
 function projRestaurarAberto(){
   try{
     const d=JSON.parse(localStorage.getItem(PROJ_KEY)||'null');
-    if(d&&d.id) projetoAtual={id:d.id,nome:d.nome||d.id};
+    if(d&&d.id) projetoAtual={id:d.id,nome:d.nome||d.id,salvoEm:d.salvoEm||null};
   }catch(e){}
   projPintarBarra();
   projPintarLista();
+  projConferirDisco();
+}
+
+// O Claude Code edita projeto.json direto no disco (roteiro novo, troca de
+// texto). Sem isto o app seguia com a cópia do navegador e, no próximo
+// salvamento automático, gravava a versão velha por cima da edição.
+// Regra: a versão do disco que eu não conheço ganha — recarrego dela.
+function projMarcarSalvo(salvoEm){
+  if(!projAtivo()) return;
+  projetoAtual.salvoEm=salvoEm;
+  try{ localStorage.setItem(PROJ_KEY,JSON.stringify(projetoAtual)); }catch(e){}
+}
+async function projSalvoEmNoDisco(){
+  try{ return (await (await projApi(`/${projetoAtual.id}/projeto.json`,{})).json()).salvoEm||null; }
+  catch(e){ return undefined; }   // sem servidor: não dá para saber
+}
+async function projConferirDisco(){
+  if(!projAtivo()) return;
+  const disco=await projSalvoEmNoDisco();
+  if(disco===undefined) return;
+  if(disco && disco!==projetoAtual.salvoEm){
+    logLine('info','Projeto mudou no disco — carregando a versão nova.','Provavelmente editado pelo Claude Code.');
+    projAbrir(projetoAtual.id);
+  }
 }
 
 function projTamanho(b){
@@ -1672,6 +1762,7 @@ function saveState(){
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration||'',
         rotulos:f.rotulos&&f.rotulos.length?f.rotulos:undefined,
+        mascote:f.mascote||undefined, titulo:f.titulo||undefined,
         enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
@@ -1688,7 +1779,8 @@ function saveState(){
       globalAnim: animAtual(),
       globalPos: posAtual(),
       renderServidor: renderNoServidor(),
-      renderRemotion: renderComRemotion(),
+      motorRemotion: renderComRemotion(),
+      modoMascote: !!(document.getElementById('modoMascote')||{}).checked,
       vidOn: animacaoLigada(),
       vidModel: document.getElementById('vidModel').value,
       vidRes: document.getElementById('vidRes').value,
@@ -1750,6 +1842,7 @@ function loadState(){
     frames = d.frames.slice(0,MAX_CENAS).map(f=>({
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
       rotulos:normRotulos(f.rotulos),
+      mascote:f.mascote||'', titulo:f.titulo||'',
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes,
       video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
@@ -1782,7 +1875,10 @@ function loadState(){
   const rs=document.getElementById('renderServidor');
   if(rs && d.renderServidor!==undefined) rs.checked = !!d.renderServidor;
   const rr=document.getElementById('renderRemotion');
-  if(rr) rr.checked = !!d.renderRemotion;
+  // padrão ligado: a rotina do app termina no Remotion
+  if(rr && d.motorRemotion!==undefined) rr.checked = !!d.motorRemotion;
+  const mm=document.getElementById('modoMascote');
+  if(mm && d.modoMascote!==undefined) mm.checked = !!d.modoMascote;
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('elModo', d.elModo);
@@ -2227,6 +2323,16 @@ function renderCards(){
       </div>
 
       <div class="fc-body">
+        ${modoMascote()?`
+        <label>Fala <span class="fc-opt">a voz lê isto e vira a legenda</span></label>
+        <textarea id="ft-${i}" oninput="syncFrame(${i})" style="min-height:74px">${esc(f.text||f.narration||'')}</textarea>
+        ${(f.titulo||f.mascote)?`<div class="fc-sync">${f.titulo?`🔤 ${esc(f.titulo)}`:''}${f.titulo&&f.mascote?' · ':''}${f.mascote?`🧑‍💻 ${esc(f.mascote)}`:''}</div>`:''}
+        <div class="fc-acts">
+          <button class="btn-sm btn-mic" onclick="narrateSingle(${i})">🎤 ${f.audioBuffer?'Refazer voz':'Narrar só esta'}</button>
+        </div>
+        ${f.audioUrl?`<audio controls preload="none" src="${esc(f.audioUrl)}"></audio>`:''}
+        ${f.lastError?`<div class="err-box">⚠ ${esc(f.lastError)}</div>`:''}
+      </div>`:`
         <div class="fc-sec">ROTEIRO</div>
 
         <label>Narração <span class="fc-opt">o que a voz fala</span></label>
@@ -2262,7 +2368,7 @@ function renderCards(){
           <button class="btn-sm btn-del" style="margin-top:7px" onclick="narrateSingle(${i})">🎤 Só esta cena</button>
           <button class="btn-sm btn-mic" style="margin-top:7px" onclick="narrateAll()">🎤 Refazer a faixa</button></div>`:''}
         ${f.lastError?`<div class="err-box">⚠ ${esc(f.lastError)}</div>`:''}
-      </div>
+      </div>`}
     `;
     list.appendChild(card);
 
@@ -3041,6 +3147,8 @@ function aplicarToggleVideo(){
   if(b) b.style.display = on ? 'block' : 'none';
   const bt=document.getElementById('vidAllBtn');
   if(bt) bt.style.display = on ? 'flex' : 'none';
+  const lg=document.getElementById('vidLigarBtn');
+  if(lg) lg.style.display = on ? 'none' : 'flex';
   // e, dentro da caixa, só os campos do motor escolhido
   const df = vidEngine()==='depthflow';
   const rep=document.getElementById('vidRepBox'); if(rep) rep.style.display = df ? 'none' : 'block';
@@ -4848,6 +4956,17 @@ async function renderServidor(){
 //
 // Só faz sentido DEPOIS da narração: os tempos das palavras são o que amarra a
 // legenda e o número em destaque à fala.
+// Modo mascote: nada de Replicate. O fundo é motion graphics do Remotion e o
+// personagem vem dos recortes em remotion/public/mascote/.
+function modoMascote(){
+  const el=document.getElementById('modoMascote');
+  return !!(el && el.checked) && renderComRemotion();
+}
+function onModoMascote(){
+  saveState(); checkDone(); renderCards();
+  setStatus(modoMascote()?'🧑‍💻 Modo mascote: imagens dispensadas — roteiro, narração e exportar.':'Modo imagens: gere as imagens antes de exportar.');
+}
+
 function renderComRemotion(){
   const el=document.getElementById('renderRemotion');
   return el ? el.checked : false;
@@ -4879,7 +4998,11 @@ function montarTimelineRemotion(){
     const c={inicio:+seg.start.toFixed(3), dur:+seg.dur.toFixed(3),
              janela:+janelaDeTransicao(seg).toFixed(3),
              texto:textoNaTela(f), palavras:palavrasDaCena(f,seg.dur)};
-    if(f.videoBytes){
+    if(f.mascote) c.mascote=f.mascote;
+    if(f.titulo) c.titulo=f.titulo;
+    if(modoMascote()){
+      // sem imagem de IA: o Remotion desenha o fundo e põe o mascote
+    }else if(f.videoBytes){
       const ext=REMOTION_EXT[f.video&&f.video._mime]||'mp4';
       c.video=`cena_${n}.${ext}`; arquivos.push({nome:c.video,bytes:f.videoBytes,tipo:`video/${ext}`});
     }else if(f.imageBytes){
@@ -4896,6 +5019,7 @@ function montarTimelineRemotion(){
   });
   const duracao=tl.reduce((a,s)=>a+s.dur,0);
   return {timeline:{fps,largura:cw,altura:ch,duracao:+duracao.toFixed(3),
+                    projeto:projAtivo()?{id:projetoAtual.id,nome:projetoAtual.nome}:null,
                     legenda:{pos:posAtual(),estilo:estiloAtual()},cenas}, arquivos};
 }
 
@@ -4903,7 +5027,7 @@ async function renderRemotion(){
   const semFala=frames.filter(f=>narrationOf(f)&&!f.audioBuffer).length;
   if(semFala){ setStatus(`⚠️ ${semFala} cena(s) sem narração — gere a narração antes de animar com o Remotion.`); return; }
   const {timeline,arquivos}=montarTimelineRemotion();
-  if(!timeline.cenas.some(c=>c.imagem||c.video)){ setStatus('⚠️ Gere as imagens antes de renderizar.'); return; }
+  if(!modoMascote() && !timeline.cenas.some(c=>c.imagem||c.video)){ setStatus('⚠️ Gere as imagens antes de renderizar.'); return; }
 
   stopPreview();
   rendering=true; renderCancelled=false;
@@ -4960,6 +5084,40 @@ async function renderRemotion(){
     document.getElementById('recDot').classList.remove('on');
     checkDone();
   }
+}
+
+// ── ENVIAR PARA O CLAUDE ─────────────────────────────────
+// Mesma timeline e mesmos áudios do render com Remotion, mas sem renderizar:
+// vão para remotion/public/videos/<projeto>/ e o Claude Code escreve a
+// composição daquele vídeo (cenas, mascote, gráficos) em cima dos tempos reais.
+async function enviarParaClaude(){
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
+  if(!projAtivo()){ setStatus('⚠️ Abra ou crie um projeto antes de enviar para o Claude.'); return; }
+  const semFala=frames.filter(f=>narrationOf(f)&&!f.audioBuffer).length;
+  if(semFala){ setStatus(`⚠️ ${semFala} cena(s) sem narração — gere a narração antes de enviar.`); return; }
+  const {timeline,arquivos}=montarTimelineRemotion();
+  const soAudio=arquivos.filter(a=>a.tipo==='audio/wav' || !modoMascote());
+  const btn=document.getElementById('claudeBtn');
+  btn.disabled=true;
+  let job=null;
+  try{
+    // no modo mascote não vai imagem nenhuma; fora dele, vão as imagens e clipes também
+    const tl=JSON.parse(JSON.stringify(timeline));
+    if(modoMascote()) tl.cenas.forEach(c=>{ delete c.imagem; delete c.video; });
+    job=(await renderPost('/remotion',JSON.stringify(tl),'application/json')).job;
+    for(let i=0;i<soAudio.length;i++){
+      const a=soAudio[i];
+      setStatus(`📤 Enviando para o Claude ${i+1}/${soAudio.length}`);
+      await renderPost(`/remotion/${job}/arquivo?nome=${encodeURIComponent(a.nome)}`,a.buf?bufferParaWav(a.buf):a.bytes,a.tipo);
+    }
+    const r=await renderPost(`/remotion/${job}/entregar`,null,null);
+    logLine('ok','Enviado para o Claude',`${r.pasta} — agora peça no Claude Code: "monta o vídeo do projeto ${projetoAtual.nome}".`);
+    setStatus(`🤖 Pronto! No Claude Code, peça: "monta o vídeo do projeto ${projetoAtual.nome}"`);
+  }catch(e){
+    if(job){ try{ await fetch(`/remotion/${job}`,{method:'DELETE'}); }catch(_){} }
+    logLine('err','Envio para o Claude falhou',e.message);
+    setStatus('❌ Envio para o Claude falhou: '+(e.message||e));
+  }finally{ btn.disabled=false; }
 }
 
 // Renders que ficaram no servidor. Existe para o caso que o recurso inteiro
@@ -5546,7 +5704,10 @@ function normScene(s,i){
   const texto =String(firstOf(s,K_TXT)||'').trim();
   const narr  =String(firstOf(s,K_NAR)||'').trim();
   if(!imagem&&!texto&&!narr) throw new Error(`Cena ${i+1}: precisa de pelo menos "imagem", "texto" ou "narration_text".`);
-  return { imagem, texto, narracao:narr, rotulos:normRotulos(firstOf(s,K_ROT)||[]) };
+  // mascote e titulo so valem no Remotion: pose do mascote e frase grande da cena
+  const mascote=String(s.mascote||s.pose||'').toLowerCase().trim();
+  const titulo =String(s.titulo||s.título||s.title||'').trim();
+  return { imagem, texto, narracao:narr, rotulos:normRotulos(firstOf(s,K_ROT)||[]), mascote, titulo };
 }
 
 function applyConfig(c){
@@ -5619,7 +5780,7 @@ function lintRoteiro(scenes){
     if(p1) (primeiras[p1]=primeiras[p1]||[]).push(i+1);
 
     const img=String(scenes[i].imagem||'').trim();
-    if(!img) avisos.push(cena+': sem "image_prompt" — não há o que gerar de fundo.');
+    if(!img && !modoMascote()) avisos.push(cena+': sem "image_prompt" — não há o que gerar de fundo.');
     else if(/[àáâãäçéêíóôõúü]/i.test(img)) avisos.push(cena+': o "image_prompt" parece estar em português — os geradores respondem melhor em inglês.');
   });
 
@@ -5687,6 +5848,7 @@ function importJSON(){
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
     f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao; f.rotulos=s.rotulos;
+    f.mascote=s.mascote; f.titulo=s.titulo;
 
     if(o){
       if(o.image && o.prompt===f.prompt){
@@ -5751,6 +5913,8 @@ function exportJSON(){
       const tela=(f.text||'').trim();
       if(tela && tela!==narrationOf(f)) c.texto=tela;
       if(f.rotulos && f.rotulos.length) c.rotulos=f.rotulos;
+      if(f.mascote) c.mascote=f.mascote;
+      if(f.titulo) c.titulo=f.titulo;
       return c;
     })
   };
@@ -6001,7 +6165,8 @@ function setABadge(i,cls,txt){
   if(el){el.className='fc-badge '+cls;el.textContent=txt;}
 }
 function checkDone(){
-  const allImg = frames.length && frames.every(f=>f.image);
+  atualizarPassos();
+  const allImg = frames.length && (modoMascote() || frames.every(f=>f.image));
   // narração velha não é detalhe: o arquivo sai com a voz dizendo uma frase e a
   // legenda mostrando outra. Melhor travar do que entregar isso pronto.
   const velhas = cenasComNarracaoVelha();
@@ -6018,6 +6183,46 @@ function checkDone(){
       `A voz ainda fala a frase antiga. Refaça a narração dessas cenas — `+
       `<button class="btn-sm btn-mic" onclick="narrarDesatualizadas()">🎤 Refazer só as desatualizadas</button>`;
   }
+}
+
+// ── PASSOS DA ROTINA ─────────────────────────────────────
+// Só leitura do estado: cada passo diz quanto está pronto, o primeiro que falta
+// fica aceso e os de depois esperam. Nada aqui bloqueia botão — isso continua
+// com quem já bloqueava (checkDone, rendering).
+function abrirRoteiro(){
+  abrirModal('roteiro');
+  const t=document.getElementById('jsonIn'); if(t) setTimeout(()=>t.focus(),50);
+}
+function ligarAnimacao(){
+  const v=document.getElementById('vidOn'); if(!v) return;
+  v.checked=true; onVidChange();
+  setStatus('Clipes 3D ligados — o motor e o efeito ficam em ⚙️ Config › Vídeo.');
+}
+function atualizarPassos(){
+  const box=document.getElementById('passos'); if(!box) return;
+  const n=frames.length;
+  const voz=frames.filter(f=>f.audioBuffer).length;
+  const img=frames.filter(f=>f.image).length;
+  const anim=animacaoLigada();
+  const vid=frames.filter(f=>f.video).length;
+  const remo=renderComRemotion();
+  const masc=modoMascote();
+  box.classList.toggle('mascote',masc);
+  const st=[
+    {ok:n>0,           txt:n?`${n} cenas`:''},
+    {ok:n>0&&voz===n,  txt:n?`${voz}/${n}`:''},
+    {ok:n>0&&(masc||img===n), txt:masc?'mascote':(n?`${img}/${n}`:'')},
+    // sem clipes 3D o passo não trava nada: o Remotion já move a imagem
+    {ok:n>0&&(masc||(img===n&&(!anim||vid===n))), txt:masc?'no Remotion':anim?(n?`${vid}/${n}`:''):(remo?'zoom no Remotion':'opcional')},
+    {ok:false,         txt:remo?'Remotion':'Canvas'},
+  ];
+  let aceso=st.findIndex(x=>!x.ok);
+  box.querySelectorAll('.passo').forEach((el,i)=>{
+    el.classList.toggle('feito',st[i].ok);
+    el.classList.toggle('agora',i===aceso);
+    el.classList.toggle('espera',aceso>=0&&i>aceso&&i<4);
+    const p=document.getElementById('pst'+(i+1)); if(p) p.textContent=st[i].txt;
+  });
 }
 
 // Regerar só o que ficou velho evita gastar caracteres da ElevenLabs

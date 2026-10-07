@@ -516,6 +516,9 @@ REMOTION_PREFIX = "/remotion"
 REMOTION_APP = os.path.join(APP_DIR, "remotion")
 REMOTION_CLI = os.path.join(REMOTION_APP, "node_modules", "@remotion", "cli", "remotion-cli.js")
 REMOTION_JOBS = os.path.join(REMOTION_APP, "jobs")
+# "Enviar para o Claude": a timeline e os audios de um projeto ficam aqui, e o
+# Claude Code escreve a composicao daquele video em remotion/src/videos/
+REMOTION_VIDEOS = os.path.join(REMOTION_APP, "public", "videos")
 REMOTION_ID_OK = re.compile(r"^rmt-[0-9]{6,20}$")
 REMOTION_ARQ_OK = re.compile(r"^cena_[0-9]{3}\.(webp|png|jpg|gif|mp4|webm|wav)$")
 REMOTION_MAX_ARQ = 200 * 1024 * 1024
@@ -1168,6 +1171,8 @@ class Handler(SimpleHTTPRequestHandler):
                 fh.write(corpo)
             job["recebidos"].add(nome)
             return self._json(200, {"ok": True})
+        if metodo == "POST" and resto == ["entregar"]:
+            return self._remotion_entregar(job)
         if metodo == "POST" and resto == ["montar"]:
             if job["estado"] != "recebendo":
                 return self._json(409, {"detail": "este job ja foi montado"})
@@ -1177,6 +1182,34 @@ class Handler(SimpleHTTPRequestHandler):
             threading.Thread(target=remotion_montar, args=(job,), daemon=True).start()
             return self._json(202, remotion_publico(job))
         return self._json(404, {"detail": "rota do remotion desconhecida"})
+
+    def _remotion_entregar(self, job):
+        """Copia timeline + audios do job para remotion/public/videos/<projeto>/.
+
+        Nao renderiza: quem monta o video a partir dali e o Claude Code.
+        """
+        if job["estado"] != "recebendo":
+            return self._json(409, {"detail": "este job ja foi usado"})
+        faltam = job["esperados"] - job["recebidos"]
+        if faltam:
+            return self._json(400, {"detail": "faltam arquivos: %s" % ", ".join(sorted(faltam))})
+        try:
+            with open(os.path.join(job["pasta"], "timeline.json"), encoding="utf-8") as fh:
+                pid = (json.load(fh).get("projeto") or {}).get("id") or ""
+        except (OSError, ValueError, AttributeError):
+            pid = ""
+        if not PROJETO_ID_OK.match(pid):
+            return self._json(400, {"detail": "abra ou crie um projeto antes de enviar"})
+        destino = os.path.join(REMOTION_VIDEOS, pid)
+        shutil.rmtree(destino, ignore_errors=True)       # reenviar substitui
+        os.makedirs(destino)
+        for nome in ["timeline.json"] + sorted(job["recebidos"]):
+            shutil.copy2(os.path.join(job["pasta"], nome), os.path.join(destino, nome))
+        with remotion_lock:
+            remotion_jobs.pop(job["id"], None)
+        shutil.rmtree(job["pasta"], ignore_errors=True)
+        print("[remotion] projeto %s entregue em %s" % (pid, destino))
+        return self._json(200, {"ok": True, "pasta": "remotion/public/videos/%s" % pid})
 
     def _remotion_novo(self, corpo):
         st = remotion_status()
@@ -1208,6 +1241,11 @@ class Handler(SimpleHTTPRequestHandler):
         jid = "rmt-%d" % int(time.time() * 1000)
         pasta = remotion_dir(jid)
         os.makedirs(pasta, exist_ok=True)
+        # a pasta do job vira o --public-dir do render: os recortes do mascote
+        # (remotion/public/mascote) precisam estar dentro dela
+        fixos = os.path.join(REMOTION_APP, "public", "mascote")
+        if os.path.isdir(fixos):
+            shutil.copytree(fixos, os.path.join(pasta, "mascote"))
         with open(os.path.join(pasta, "timeline.json"), "w", encoding="utf-8") as fh:
             json.dump(tl, fh, ensure_ascii=False)
         job = {"id": jid, "pasta": pasta, "saida": os.path.join(pasta, "saida.mp4"),
