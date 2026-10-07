@@ -5145,7 +5145,8 @@ function clPintar(){
     const curto=c.formato==='9:16';
     const rot=(curto?'📱 Short':'🎬 Longo')+` · ${c.duracao?fmtTime(c.duracao):''}`;
     if(r.estado==='renderizando')
-      return `<div class="cl-linha"><button class="btn btn-ghost" disabled>${rot} — ${r.pct||0}%</button></div>
+      return `<div class="cl-linha"><button class="btn btn-ghost" disabled>${rot} — ${r.pct||0}%</button>
+        <button class="btn btn-ghost" style="flex:0 0 auto;width:auto" onclick="clCancelar('${esc(c.id)}')" title="Cancelar este render">⏹</button></div>
         <div class="cl-prog"><i style="width:${r.pct||0}%"></i></div>`;
     return `<div class="cl-linha">
       <button class="btn ${r.estado==='pronto'?'btn-ghost':'btn-red'}" onclick="clRender('${esc(c.id)}')" title="${r.estado==='pronto'?'Renderizar de novo':'Renderizar'}">${r.estado==='pronto'?'↻ ':''}${rot}</button>
@@ -5154,6 +5155,14 @@ function clPintar(){
   }).join('');
   clearTimeout(clTimer);
   if(rodando) clTimer=setTimeout(async()=>{ clEstado=await clCarregar(); clPintar(); },2000);
+}
+async function clCancelar(comp){
+  try{
+    const r=await fetch(`/claude/${projetoAtual.id}/cancelar?comp=${encodeURIComponent(comp)}`,{method:'POST'});
+    if(!r.ok) throw new Error((await r.json()).detail||`HTTP ${r.status}`);
+    setStatus('⏹ Render cancelado.');
+    setTimeout(async()=>{ clEstado=await clCarregar(); clPintar(); },800);
+  }catch(e){ setStatus('❌ Cancelar: '+e.message); }
 }
 async function clRender(comp){
   try{

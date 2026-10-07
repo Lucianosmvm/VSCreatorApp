@@ -642,6 +642,7 @@ def claude_render(comp):
     except OSError as e:
         job.update(estado="erro", detalhe="nao consegui iniciar o Node: %s" % e)
         return
+    job["proc"] = proc          # para o /cancelar conseguir parar
     cauda = []
     for linha in proc.stdout:
         linha = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", linha).strip()
@@ -654,7 +655,12 @@ def claude_render(comp):
             base, peso = (80, 19) if "Encoded" in linha else (0, 80)
             job["pct"] = min(99, base + int(feito * peso / total))
     proc.wait()
+    job.pop("proc", None)
     saida = claude_saida(comp)
+    if job.get("cancelado"):
+        job.update(estado="cancelado", pct=0, detalhe="")
+        print("[claude] %s: cancelado" % comp)
+        return
     if proc.returncode != 0 or not os.path.isfile(saida):
         job.update(estado="erro", pct=0, detalhe="\n".join(cauda)[-800:])
         print("[claude] %s: FALHOU" % comp)
@@ -1303,7 +1309,7 @@ class Handler(SimpleHTTPRequestHandler):
             for c in comps:
                 saida = claude_saida(c["id"])
                 with claude_lock:
-                    r = dict(claude_renders.get(c["id"]) or {})
+                    r = {k: v for k, v in (claude_renders.get(c["id"]) or {}).items() if k != "proc"}
                 if not r and os.path.isfile(saida):
                     r = {"estado": "pronto", "pct": 100, "bytes": os.path.getsize(saida),
                          "quando": os.path.getmtime(saida)}
@@ -1350,6 +1356,16 @@ class Handler(SimpleHTTPRequestHandler):
                 claude_renders[comp] = {"estado": "renderizando", "pct": 0, "detalhe": "", "bytes": 0}
             threading.Thread(target=claude_render, args=(comp,), daemon=True).start()
             return self._json(202, {"ok": True})
+
+        if metodo == "POST" and resto == ["cancelar"]:
+            with claude_lock:
+                job = claude_renders.get(comp)
+                proc = job.get("proc") if job else None
+                if not proc or job.get("estado") != "renderizando":
+                    return self._json(409, {"detail": "nada renderizando"})
+                job["cancelado"] = True
+            proc.terminate()       # o remotion encerra o Chrome headless junto
+            return self._json(200, {"ok": True})
 
         if metodo == "GET" and resto == ["mp4"]:
             saida = claude_saida(comp)
