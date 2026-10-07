@@ -1,0 +1,21 @@
+{
+  "name": "vscreator-remotion",
+  "private": true,
+  "description": "Motor de animação do VSCreatorApp: monta o vídeo a partir da timeline exportada depois da narração.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Shorts"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "@remotion/google-fonts": "4.0.534",
+    "@remotion/transitions": "4.0.534",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "typescript": "5.6.3"
+  }
+}

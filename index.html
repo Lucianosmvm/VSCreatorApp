@@ -853,6 +853,8 @@ body.preview-off .pv-flut{display:none}
     • terminado o envio dos quadros, <b>a aba pode fechar</b>: quem termina é o FFmpeg, no terminal;<br>
     • sai H.264 com <b>taxa de quadros constante</b> e duração exata, em vez do arquivo de taxa variável que o gravador do navegador entrega.<br>
     Precisa do <code>serve.py</code> rodando e do FFmpeg instalado (<code>winget install Gyan.FFmpeg</code>) — sem os dois, o app avisa e grava pelo navegador como antes. O MP4 fica em <code>render/&lt;job&gt;/saida.mp4</code> e também baixa sozinho quando fica pronto.</div>
+    <label class="chk" style="margin-top:10px"><input type="checkbox" id="renderRemotion" onchange="saveState()"> Animar com Remotion (motion graphics)</label>
+    <div class="hint">Em vez de desenhar no canvas, o app manda para o projeto <code>remotion/</code> a <b>timeline da narração</b> — início de cada cena e o segundo exato de cada palavra, já com silêncio cortado e pausas aplicadas — junto com imagens, clipes e áudio. O Remotion anima em cima disso: legenda karaokê com a palavra falada destacada, <b>número em destaque</b> que entra no instante em que é dito ("R$ 1.200", "35%"), zoom lento nas imagens e dissolve dentro da pausa. Gere a narração <b>antes</b>: sem ela não há tempo de palavra para sincronizar. Precisa do Node.js e de <code>cd remotion &amp;&amp; npm install</code> uma vez.</div>
     <div class="sec-hd" style="margin-top:4px">
       <div class="sec-ic">🔤</div>
       <div class="sec-t">Legenda — vale para todas as cenas</div>
@@ -1686,6 +1688,7 @@ function saveState(){
       globalAnim: animAtual(),
       globalPos: posAtual(),
       renderServidor: renderNoServidor(),
+      renderRemotion: renderComRemotion(),
       vidOn: animacaoLigada(),
       vidModel: document.getElementById('vidModel').value,
       vidRes: document.getElementById('vidRes').value,
@@ -1778,6 +1781,8 @@ function loadState(){
   // escolheu 'nao', so nao tinha a opcao
   const rs=document.getElementById('renderServidor');
   if(rs && d.renderServidor!==undefined) rs.checked = !!d.renderServidor;
+  const rr=document.getElementById('renderRemotion');
+  if(rr) rr.checked = !!d.renderRemotion;
   document.getElementById('vidOn').checked = !!d.vidOn;
   set('fps', d.fps); set('resolution', d.resolution); set('elModel', d.elModel);
   set('elModo', d.elModo);
@@ -4700,6 +4705,7 @@ async function servidorTemFFmpeg(){
 // Ponto único de escolha do motor, igual ao gerarClipe(): o botão continua um só.
 async function renderVideo(){
   if(rendering) return;
+  if(renderComRemotion()) return renderRemotion();
   if(renderNoServidor()){
     if(await servidorTemFFmpeg()) return renderServidor();
     logLine('warn','Render no servidor indisponível — usando o gravador do navegador.',
@@ -4825,6 +4831,127 @@ async function renderServidor(){
       logLine('err','Render no servidor falhou',e.message);
       setStatus('❌ Falha no render do servidor: '+(e.message||e));
     }
+  }finally{
+    rendering=false; renderCancelled=false;
+    vbtn.disabled=false; vbtn.textContent='🎬 Gerar vídeo pronto para postar';
+    document.getElementById('cancelBtn').style.display='none';
+    document.getElementById('progBar').style.display='none';
+    document.getElementById('recDot').classList.remove('on');
+    checkDone();
+  }
+}
+
+// ── RENDER COM REMOTION ──────────────────────────────────
+// O navegador não desenha nada aqui: monta a timeline (o mesmo buildTimeline do
+// preview, então início, pausa e dissolve batem com o que você viu) e manda
+// para o serve.py junto com a mídia. Quem anima é o projeto remotion/.
+//
+// Só faz sentido DEPOIS da narração: os tempos das palavras são o que amarra a
+// legenda e o número em destaque à fala.
+function renderComRemotion(){
+  const el=document.getElementById('renderRemotion');
+  return el ? el.checked : false;
+}
+
+const REMOTION_EXT={'image/webp':'webp','image/png':'png','image/jpeg':'jpg','image/gif':'gif','video/mp4':'mp4','video/webm':'webm'};
+
+// Tempo de cada palavra no relógio da CENA tocada. Os wordTimes vêm do áudio
+// original e o buffer tocado teve o silêncio do começo cortado — mesmo desconto
+// do visibleWordCount(). Sem timestamps, espalha pelo tempo da fala.
+function palavrasDaCena(f,dur){
+  const words=textoNaTela(f).split(/\s+/).filter(Boolean);
+  const fala=f.audioBuffer?f.audioBuffer.duration:dur;
+  if(f.wordTimes && f.wordTimes.length===words.length){
+    const corte=f.audioTrimStart||0;
+    return words.map((w,i)=>({w,t:+Math.max(0,f.wordTimes[i]-corte).toFixed(3)}));
+  }
+  return words.map((w,i)=>({w,t:+((i/Math.max(1,words.length))*fala*0.95).toFixed(3)}));
+}
+
+function montarTimelineRemotion(){
+  const fps=parseInt(document.getElementById('fps').value,10)||24;
+  const {cw,ch}=currentRes();
+  frames.forEach((_,i)=>syncFrame(i));
+  const tl=buildTimeline();
+  const arquivos=[];   // {nome, bytes|buf, tipo}
+  const cenas=tl.map((seg,i)=>{
+    const f=seg.f, n=String(i).padStart(3,'0');
+    const c={inicio:+seg.start.toFixed(3), dur:+seg.dur.toFixed(3),
+             janela:+janelaDeTransicao(seg).toFixed(3),
+             texto:textoNaTela(f), palavras:palavrasDaCena(f,seg.dur)};
+    if(f.videoBytes){
+      const ext=REMOTION_EXT[f.video&&f.video._mime]||'mp4';
+      c.video=`cena_${n}.${ext}`; arquivos.push({nome:c.video,bytes:f.videoBytes,tipo:`video/${ext}`});
+    }else if(f.imageBytes){
+      const mime=(f.image&&f.image._mime)||'image/png';
+      const ext=REMOTION_EXT[mime]||'png';
+      c.imagem=`cena_${n}.${ext}`; arquivos.push({nome:c.imagem,bytes:f.imageBytes,tipo:mime});
+    }
+    if(f.audioBuffer){
+      // o buffer já cortado/fatiado, como o app toca — o MP3 original traria
+      // de volta o silêncio das pontas e a fala andaria na frente da imagem
+      c.audio=`cena_${n}.wav`; arquivos.push({nome:c.audio,buf:f.audioBuffer,tipo:'audio/wav'});
+    }
+    return c;
+  });
+  const duracao=tl.reduce((a,s)=>a+s.dur,0);
+  return {timeline:{fps,largura:cw,altura:ch,duracao:+duracao.toFixed(3),
+                    legenda:{pos:posAtual(),estilo:estiloAtual()},cenas}, arquivos};
+}
+
+async function renderRemotion(){
+  const semFala=frames.filter(f=>narrationOf(f)&&!f.audioBuffer).length;
+  if(semFala){ setStatus(`⚠️ ${semFala} cena(s) sem narração — gere a narração antes de animar com o Remotion.`); return; }
+  const {timeline,arquivos}=montarTimelineRemotion();
+  if(!timeline.cenas.some(c=>c.imagem||c.video)){ setStatus('⚠️ Gere as imagens antes de renderizar.'); return; }
+
+  stopPreview();
+  rendering=true; renderCancelled=false;
+  const vbtn=document.getElementById('videoBtn');
+  vbtn.disabled=true; vbtn.textContent='Renderizando…';
+  document.getElementById('cancelBtn').style.display='flex';
+  document.getElementById('progBar').style.display='block';
+  document.getElementById('recDot').classList.add('on');
+
+  let job=null;
+  try{
+    job=(await renderPost('/remotion',JSON.stringify(timeline),'application/json')).job;
+    logLine('info',`Remotion: job ${job}`,`${timeline.cenas.length} cenas, ${fmtTime(timeline.duracao)}, ${arquivos.length} arquivos.`);
+    for(let i=0;i<arquivos.length;i++){
+      if(renderCancelled) throw new Error('cancelado');
+      const a=arquivos[i];
+      await renderPost(`/remotion/${job}/arquivo?nome=${encodeURIComponent(a.nome)}`,a.buf?bufferParaWav(a.buf):a.bytes,a.tipo);
+      setProg(Math.round(((i+1)/arquivos.length)*15));
+      setStatus(`📤 Enviando mídia ${i+1}/${arquivos.length}`);
+    }
+    await renderPost(`/remotion/${job}/montar`,null,null);
+    setStatus('🎞️ Remotion animando — pode fechar esta aba, o MP4 sai em remotion/jobs/.');
+
+    let st=null;
+    while(true){
+      await new Promise(r=>setTimeout(r,1500));
+      const r=await fetch(`/remotion/${job}`);
+      if(!r.ok) throw new Error(`não consegui ler o estado (HTTP ${r.status})`);
+      st=await r.json();
+      if(st.estado==='pronto'||st.estado==='erro') break;
+      setProg(15+Math.round(st.pct*0.85));
+      setStatus(`🎞️ Remotion animando… ${st.pct}%`);
+    }
+    if(st.estado==='erro') throw new Error(st.detalhe||'Remotion falhou');
+
+    setProg(100);
+    const blob=await (await fetch(`/remotion/${job}/mp4`)).blob();
+    const href=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=href; a.download=`shorts_${job}.mp4`; a.click();
+    setTimeout(()=>URL.revokeObjectURL(href),15000);
+    logLine('ok',`Vídeo Remotion pronto: ${(st.bytes/1048576).toFixed(1)} MB`,`Salvo em remotion/jobs/${job}/saida.mp4.`);
+    setStatus(`✅ Vídeo pronto (Remotion): ${fmtTime(timeline.duracao)}, ${(st.bytes/1048576).toFixed(1)} MB`);
+  }catch(e){
+    const cancelado = renderCancelled || /cancelad/i.test(e.message||'');
+    if(job && cancelado){ try{ await fetch(`/remotion/${job}`,{method:'DELETE'}); }catch(_){} }
+    if(cancelado){ setStatus('⏹ Renderização cancelada.'); logLine('warn','Render Remotion cancelado.'); }
+    else{ logLine('err','Render Remotion falhou',e.message); setStatus('❌ Falha no Remotion: '+(e.message||e)); }
   }finally{
     rendering=false; renderCancelled=false;
     vbtn.disabled=false; vbtn.textContent='🎬 Gerar vídeo pronto para postar';

@@ -499,6 +499,101 @@ def render_montar(job):
           % (job["id"], job["saida"], job["bytes"] / 1048576))
 
 
+# -- RENDER COM REMOTION --------------------------------------------------
+#
+# Segundo motor de render: em vez de o navegador desenhar cada quadro, ele
+# manda a TIMELINE (cenas, tempos das palavras, pausas) e as midias de cada
+# cena, e o projeto em remotion/ (React) anima tudo: legenda karaoke, numero em
+# destaque, Ken Burns, dissolve.
+#
+# A timeline so e montada DEPOIS da narracao, com os tempos ja no relogio do
+# video final (silencio cortado, pausas aplicadas). O Remotion so converte
+# segundos em quadros, entao a animacao cai em cima da fala.
+#
+# Mesmas regras do /render: id nasce aqui, nome de arquivo passa por regex
+# fechada, o processo recebe lista de argumentos.
+REMOTION_PREFIX = "/remotion"
+REMOTION_APP = os.path.join(APP_DIR, "remotion")
+REMOTION_CLI = os.path.join(REMOTION_APP, "node_modules", "@remotion", "cli", "remotion-cli.js")
+REMOTION_JOBS = os.path.join(REMOTION_APP, "jobs")
+REMOTION_ID_OK = re.compile(r"^rmt-[0-9]{6,20}$")
+REMOTION_ARQ_OK = re.compile(r"^cena_[0-9]{3}\.(webp|png|jpg|gif|mp4|webm|wav)$")
+REMOTION_MAX_ARQ = 200 * 1024 * 1024
+REMOTION_MAX_JSON = 8 * 1024 * 1024
+REMOTION_PROGRESSO = re.compile(r"(\d+)\s*/\s*(\d+)")
+
+remotion_jobs = {}
+remotion_lock = threading.Lock()
+
+
+def remotion_node():
+    return shutil.which("node")
+
+
+def remotion_status():
+    return {"node": bool(remotion_node()), "instalado": os.path.isfile(REMOTION_CLI)}
+
+
+def remotion_dir(jid):
+    if not REMOTION_ID_OK.match(jid or ""):
+        return None
+    return os.path.join(REMOTION_JOBS, jid)
+
+
+def remotion_publico(job):
+    return {
+        "job": job["id"], "estado": job["estado"], "pct": job["pct"],
+        "detalhe": job["detalhe"], "duracao": job["duracao"],
+        "faltam": sorted(job["esperados"] - job["recebidos"]),
+        "arquivo": "saida.mp4" if job["estado"] == "pronto" else None,
+        "bytes": job.get("bytes", 0),
+    }
+
+
+def remotion_montar(job):
+    """Roda o `remotion render`. Thread solta: o POST /montar volta na hora."""
+    cmd = [remotion_node(), REMOTION_CLI, "render", "src/index.ts", "Shorts",
+           job["saida"],
+           "--props=" + os.path.join(job["pasta"], "timeline.json"),
+           "--public-dir=" + job["pasta"],
+           "--codec=h264", "--crf=18", "--log=info"]
+    job["estado"] = "montando"
+    job["detalhe"] = "Remotion renderizando"
+    print("[remotion] %s: renderizando" % job["id"])
+    try:
+        proc = subprocess.Popen(cmd, cwd=REMOTION_APP, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, text=True,
+                                encoding="utf-8", errors="replace")
+    except OSError as e:
+        job["estado"] = "erro"
+        job["detalhe"] = "nao consegui iniciar o Node: %s" % e
+        return
+    cauda = []
+    for linha in proc.stdout:
+        linha = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", linha).strip()
+        if not linha:
+            continue
+        cauda = (cauda + [linha])[-15:]
+        m = REMOTION_PROGRESSO.search(linha)
+        if m and ("Rendered" in linha or "Encoded" in linha):
+            feito, total = int(m.group(1)), max(1, int(m.group(2)))
+            # duas fases: desenhar (0-80%) e codificar (80-99%)
+            base, peso = (80, 19) if "Encoded" in linha else (0, 80)
+            job["pct"] = min(99, base + int(feito * peso / total))
+    proc.wait()
+    if proc.returncode != 0 or not os.path.isfile(job["saida"]):
+        job["estado"] = "erro"
+        job["pct"] = 0
+        job["detalhe"] = "\n".join(cauda)[-800:] or ("Remotion terminou com codigo %d" % proc.returncode)
+        print("[remotion] %s: FALHOU — %s" % (job["id"], job["detalhe"][-200:]))
+        return
+    job["bytes"] = os.path.getsize(job["saida"])
+    job["estado"] = "pronto"
+    job["pct"] = 100
+    job["detalhe"] = ""
+    print("[remotion] %s: pronto — %s (%.1f MB)" % (job["id"], job["saida"], job["bytes"] / 1048576))
+
+
 def endereco_publico(host):
     """False para localhost, IP privado, link-local — evita virar scanner de rede."""
     try:
@@ -561,6 +656,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._projetos("GET", rota)
         if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
             return self._render("GET", rota)
+        if rota == REMOTION_PREFIX or rota.startswith(REMOTION_PREFIX + "/"):
+            return self._remotion("GET", rota)
         return SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
@@ -575,6 +672,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._projetos("POST", rota)
         if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
             return self._render("POST", rota)
+        if rota == REMOTION_PREFIX or rota.startswith(REMOTION_PREFIX + "/"):
+            return self._remotion("POST", rota)
         self.send_error(404)
 
     def do_DELETE(self):
@@ -583,6 +682,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._projetos("DELETE", rota)
         if rota == RENDER_PREFIX or rota.startswith(RENDER_PREFIX + "/"):
             return self._render("DELETE", rota)
+        if rota == REMOTION_PREFIX or rota.startswith(REMOTION_PREFIX + "/"):
+            return self._remotion("DELETE", rota)
         self.send_error(404)
 
     # ---- proxy ---------------------------------------------------------
@@ -1015,6 +1116,108 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=render_montar, args=(job,), daemon=True).start()
         return self._json(202, render_publico(job))
 
+    def _remotion(self, metodo, rota):
+        partes = [p for p in rota[len(REMOTION_PREFIX):].split("/") if p]
+
+        # corpo sai do socket antes de validar (mesma armadilha do /render)
+        corpo = None
+        if metodo == "POST":
+            limite = REMOTION_MAX_ARQ if partes[-1:] == ["arquivo"] else REMOTION_MAX_JSON
+            corpo = self._ler_corpo(limite)
+            if corpo is None:
+                return
+
+        if not partes:
+            if metodo == "GET":
+                return self._json(200, remotion_status())
+            if metodo == "POST":
+                return self._remotion_novo(corpo)
+            return self._json(405, {"detail": "use GET ou POST em /remotion"})
+
+        pasta = remotion_dir(partes[0])
+        if pasta is None:
+            return self._json(400, {"detail": "id de job invalido"})
+        with remotion_lock:
+            job = remotion_jobs.get(partes[0])
+        if job is None:
+            return self._json(404, {"detail": "job nao encontrado"})
+        resto = partes[1:]
+
+        if metodo == "DELETE" and not resto:
+            with remotion_lock:
+                remotion_jobs.pop(job["id"], None)
+            shutil.rmtree(pasta, ignore_errors=True)
+            return self._json(200, {"ok": True})
+        if metodo == "GET" and not resto:
+            return self._json(200, remotion_publico(job))
+        if metodo == "GET" and resto == ["mp4"]:
+            if job["estado"] != "pronto":
+                return self._json(409, {"detail": "este render ainda nao esta pronto"})
+            with open(job["saida"], "rb") as fh:
+                return self._responder(200, fh.read(), "video/mp4")
+        if metodo == "POST" and resto == ["arquivo"]:
+            if job["estado"] != "recebendo":
+                return self._json(409, {"detail": "este job ja fechou a recepcao"})
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            nome = q.get("nome", [""])[0]
+            if nome not in job["esperados"]:
+                return self._json(400, {"detail": "arquivo nao declarado na timeline"})
+            if not corpo:
+                return self._json(400, {"detail": "corpo vazio"})
+            with open(os.path.join(pasta, nome), "wb") as fh:
+                fh.write(corpo)
+            job["recebidos"].add(nome)
+            return self._json(200, {"ok": True})
+        if metodo == "POST" and resto == ["montar"]:
+            if job["estado"] != "recebendo":
+                return self._json(409, {"detail": "este job ja foi montado"})
+            faltam = job["esperados"] - job["recebidos"]
+            if faltam:
+                return self._json(400, {"detail": "faltam arquivos: %s" % ", ".join(sorted(faltam))})
+            threading.Thread(target=remotion_montar, args=(job,), daemon=True).start()
+            return self._json(202, remotion_publico(job))
+        return self._json(404, {"detail": "rota do remotion desconhecida"})
+
+    def _remotion_novo(self, corpo):
+        st = remotion_status()
+        if not st["node"]:
+            return self._json(503, {"detail": "Node.js nao encontrado no PATH"})
+        if not st["instalado"]:
+            return self._json(503, {"detail": "Remotion nao instalado. Rode: cd remotion && npm install"})
+        try:
+            tl = json.loads((corpo or b"{}").decode("utf-8"))
+            cenas = tl["cenas"]
+            duracao = float(tl["duracao"])
+            fps = int(tl["fps"])
+            assert isinstance(cenas, list) and cenas and 0.1 <= duracao <= 3600 and 1 <= fps <= 60
+            assert 240 <= int(tl["largura"]) <= 3840 and 240 <= int(tl["altura"]) <= 3840
+        except (ValueError, KeyError, TypeError, AssertionError, UnicodeDecodeError):
+            return self._json(400, {"detail": "timeline invalida (cenas/duracao/fps/largura/altura)"})
+
+        # so nomes que passam na regex; o Remotion le os arquivos por staticFile()
+        esperados = set()
+        for c in cenas:
+            for campo in ("imagem", "video", "audio"):
+                nome = c.get(campo) if isinstance(c, dict) else None
+                if nome is None:
+                    continue
+                if not isinstance(nome, str) or not REMOTION_ARQ_OK.match(nome):
+                    return self._json(400, {"detail": "nome de arquivo recusado: %r" % (nome,)})
+                esperados.add(nome)
+
+        jid = "rmt-%d" % int(time.time() * 1000)
+        pasta = remotion_dir(jid)
+        os.makedirs(pasta, exist_ok=True)
+        with open(os.path.join(pasta, "timeline.json"), "w", encoding="utf-8") as fh:
+            json.dump(tl, fh, ensure_ascii=False)
+        job = {"id": jid, "pasta": pasta, "saida": os.path.join(pasta, "saida.mp4"),
+               "estado": "recebendo", "pct": 0, "detalhe": "", "duracao": duracao,
+               "esperados": esperados, "recebidos": set(), "bytes": 0}
+        with remotion_lock:
+            remotion_jobs[jid] = job
+        print("[remotion] %s: aberto (%d cenas, %.1fs, %d arquivos)" % (jid, len(cenas), duracao, len(esperados)))
+        return self._json(200, remotion_publico(job))
+
     def _projetos(self, metodo, rota):
         partes = [p for p in rota[len(PROJETOS_PREFIX):].split("/") if p]
 
@@ -1212,6 +1415,10 @@ if __name__ == "__main__":
         RENDER_PREFIX, "ok" if st["ffmpeg"] else "FALTA ffmpeg",
         len(render_jobs), prontos))
     print("  MP4 montado aqui roda fora do navegador: depois de enviar os quadros da para fechar a aba.")
+    rst = remotion_status()
+    print("Render com Remotion em  %s  ->  node:%s remotion:%s" % (
+        REMOTION_PREFIX, "ok" if rst["node"] else "FALTA",
+        "ok" if rst["instalado"] else "FALTA (cd remotion && npm install)"))
     print("Servindo os arquivos de  %s" % APP_DIR)
     print("Ctrl+C para parar.")
     try:

@@ -60,3 +60,10 @@ render/
 # Clone de outro repositorio (HKUDS/ViMax, MIT) com .git proprio dentro, mais
 # a venv de ~200 MB. Nada aqui e nosso e tudo volta com: python vimax_setup.py
 ViMax/
+
+# ── Remotion ─────────────────────────────────────────────────────────
+# Dependências do Node (recriável com: cd remotion && npm install) e os jobs
+# que o serve.py monta (imagens + áudio + timeline de cada render).
+remotion/node_modules/
+remotion/jobs/
+remotion/out/
