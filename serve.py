@@ -1308,7 +1308,25 @@ class Handler(SimpleHTTPRequestHandler):
                     r = {"estado": "pronto", "pct": 100, "bytes": os.path.getsize(saida),
                          "quando": os.path.getmtime(saida)}
                 c["render"] = r or None
-            return self._json(200, {"composicoes": comps, "revisao": revisao})
+            # clipes por cena (remotion/cenas.mjs) para os cards do app
+            cenas = {}
+            try:
+                with open(os.path.join(REMOTION_VIDEOS, pid, "cenas", "index.json"), encoding="utf-8") as fh:
+                    cenas = json.load(fh).get("cenas", {})
+            except (OSError, ValueError, AttributeError):
+                pass
+            return self._json(200, {"composicoes": comps, "revisao": revisao, "cenas": cenas})
+
+        # GET /claude/<pid>/cena/cena_000.mp4|jpg -> clipe/miniatura da cena
+        if metodo == "GET" and len(resto) == 2 and resto[0] == "cena":
+            nome = resto[1]
+            if not re.match(r"^cena_[0-9]{3}\.(mp4|jpg)$", nome):
+                return self._json(400, {"detail": "nome invalido"})
+            arq = os.path.join(REMOTION_VIDEOS, pid, "cenas", nome)
+            if not os.path.isfile(arq):
+                return self._json(404, {"detail": "cena sem clipe"})
+            with open(arq, "rb") as fh:
+                return self._responder(200, fh.read(), "video/mp4" if nome.endswith(".mp4") else "image/jpeg")
 
         if metodo == "POST" and resto == ["revisao"]:
             try:

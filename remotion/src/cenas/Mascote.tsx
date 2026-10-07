@@ -69,20 +69,26 @@ export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: numb
   const entrada = spring({ frame, fps, config: { damping: 13, stiffness: 120 } });
   const respira = Math.sin(t * Math.PI * 1.1) * 0.012;
 
-  // pulinho: decai rápido depois do início de cada palavra
+  // Falando: balanço suave e contínuo (~1 por segundo), que entra e sai
+  // devagar com a fala. Um pulinho por palavra ficava frenético (~3/s).
+  const inicioFala = palavras.length ? palavras[0].t : 0;
+  const envelope =
+    interpolate(t, [inicioFala, inicioFala + 0.4], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) *
+    interpolate(t, [fimFala - 0.3, fimFala + 0.3], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const balanco = Math.sin((t - inicioFala) * Math.PI * 2 * 0.9) * envelope;
+  // pulinho só no começo de cada frase: 1ª palavra e a que vem depois de , . : ? !
   let pulo = 0;
-  if (t < fimFala) {
-    for (const p of palavras) {
-      const dt = t - p.t;
-      if (dt >= 0 && dt < 0.22) pulo = Math.max(pulo, Math.sin((dt / 0.22) * Math.PI));
-    }
-  }
+  palavras.forEach((p, i) => {
+    const comecaFrase = i === 0 || /[,.;:!?]$/.test(palavras[i - 1].w);
+    const dt = t - p.t;
+    if (comecaFrase && dt >= 0 && dt < 0.35) pulo = Math.max(pulo, Math.sin((dt / 0.35) * Math.PI));
+  });
   // no 16:9 sobra largura: o mascote pode ocupar bem mais da altura
   const deitado = width > height;
   // em pé o mascote fica embaixo, abaixo da legenda e do painel
   const altura = busto ? height * (deitado ? 0.55 : 0.3) : height * (deitado ? 0.78 : 0.4);
-  const sobe = pulo * height * 0.012 + comemora * height * 0.09;
-  const inclina = (lado === "esq" ? -1 : 1) * pulo * 1.5 + dirConteudo * olha * 6 + comemora * dirConteudo * -4;
+  const sobe = pulo * height * 0.014 + Math.abs(balanco) * height * 0.004 + comemora * height * 0.09;
+  const inclina = balanco * 1.6 + (lado === "esq" ? -1 : 1) * pulo * 1.2 + dirConteudo * olha * 6 + comemora * dirConteudo * -4;
   const tremeX = treme * Math.sin(t * 60) * height * 0.012;
   const estica = 1 + comemora * 0.05;
   // "lado" foi desenhado olhando para a direita; do lado direito da tela vira

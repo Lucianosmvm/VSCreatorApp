@@ -23,11 +23,18 @@ fala em português; responda em português.
    [{"id": "<comp-id>", "titulo": "Vídeo longo (YouTube)", "formato": "16:9", "duracao": 264.9},
     {"id": "<comp-id>-short", "titulo": "Short (Shorts, Reels, TikTok)", "formato": "9:16", "duracao": 85.7}]
    ```
-   O usuário abre **🤖 Claude** no app: ▶ Preview (Remotion Studio na porta 3000),
-   comenta por cena e clica **🎬 Renderizar** quando aprovar (MP4 em `remotion/out/<comp-id>.mp4`).
+   e gera o clipe de cada cena para os cards do app (com som, 640x360):
+   ```bash
+   cd remotion && node cenas.mjs <comp-id> <id-do-projeto>            # todas
+   cd remotion && node cenas.mjs <comp-id> <id-do-projeto> 3 7 12     # só essas (índices 0-based)
+   ```
+   No app, cada card mostra a animação da cena + campo **💬 Ajuste pro Claude**; o passo 5
+   tem **🎬 Longo / 📱 Short** para o usuário renderizar quando aprovar (MP4 em
+   `remotion/out/<comp-id>.mp4`, ⬇ para baixar).
 6. **"aplica a revisão"**: ler `projetos/<id>/revisao.json` (`[{cena: n|"geral", fala, texto}]`,
-   cena 1-based = índice+1 na timeline do vídeo longo), aplicar, conferir com stills e avisar
-   para o usuário renderizar de novo. Se o comentário muda a FALA, editar `projeto.json`
+   cena 1-based = índice+1 na timeline do vídeo longo), aplicar, conferir com stills,
+   regerar os clipes SÓ das cenas mudadas (`node cenas.mjs ... <índices>`), limpar os itens
+   aplicados do revisao.json e avisar para o usuário conferir nos cards e renderizar. Se o comentário muda a FALA, editar `projeto.json`
    (atualizar `salvoEm`) e pedir para narrar e enviar de novo.
 
 Ao editar um `projetos/<id>/projeto.json` existente, **sempre atualize `salvoEm`**

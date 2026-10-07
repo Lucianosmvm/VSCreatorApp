@@ -76,3 +76,6 @@ remotion/public/videos/*/*.wav
 
 # Comentarios de revisao feitos no app (rascunho de trabalho, muda a toda hora)
 projetos/*/revisao.json
+
+# Clipes por cena para os cards do app (remotion/cenas.mjs): regeneraveis
+remotion/public/videos/*/cenas/

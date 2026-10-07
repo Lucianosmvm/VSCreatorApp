@@ -4,8 +4,20 @@
     {
       "name": "shorts-creator",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["serve.py", "8777"],
+      "runtimeArgs": [
+        "serve.py",
+        "8777"
+      ],
       "port": 8777
+    },
+    {
+      "name": "shorts-creator-teste",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "serve.py",
+        "8778"
+      ],
+      "port": 8778
     }
   ]
 }

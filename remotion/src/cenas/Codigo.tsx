@@ -256,7 +256,11 @@ function reacoesDoCodigo(linhas: Linha[], saida: Saida[] = []): Reacao[] {
 export const codigo =
   (f: Montador<{ titulo?: string; linhas: Linha[]; saida?: Saida[]; escala?: number; extra?: Reacao[] }>) =>
   ({ cena, indice }: { cena: Cena; indice: number }) => {
-    const d = f(cena);
+    const bruto = f(cena);
+    // linha que começasse a ser digitada colada no corte terminaria a cena pela
+    // metade ("Dia úti") ou sem tempo de ler: nada começa no último 1 s
+    const limite = Math.max(0, cena.dur - 1.0);
+    const d = { ...bruto, linhas: bruto.linhas.map((l) => (l.t !== undefined && l.t > limite ? { ...l, t: limite } : l)) };
     return (
       <Base cena={cena} indice={indice} reacoes={[...reacoesDoCodigo(d.linhas, d.saida), ...(d.extra ?? [])]} tipoConteudo="codigo">
         <Painel titulo={d.titulo ?? cena.titulo ?? "Program.cs"} linhas={d.linhas} saida={d.saida} escala={d.escala} />
