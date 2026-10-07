@@ -40,6 +40,15 @@ FOLHAS = {
               "(3) thinking with hand on chin, (4) celebrating with both fists raised, (5) giving a thumbs up.",
     2: BASE + "(1) surprised with both hands up, (2) scratching the back of the head confused, "
               "(3) arms crossed confident, (4) waving hello, (5) sitting cross-legged with laptop on lap.",
+    3: BASE + "(1) explaining with one open palm extended to the side like presenting something, "
+              "(2) index finger pointing straight up having an idea, (3) facepalm with one hand covering the face, "
+              "(4) shrugging with both palms up, (5) giving a clear thumbs up with one hand in front of the chest.",
+    4: BASE + "(1) leaning forward investigating with a magnifying glass, (2) holding a coffee mug with both hands, "
+              "(3) sad and slumped with head down and arms hanging, (4) jumping in the air excited with both feet off the ground, "
+              "(5) running to the right.",
+    5: BASE + "(1) holding a large BLANK white rectangular sign board with both hands in front of the body, the board is completely empty with no writing, "
+              "(2) a glowing yellow lightbulb floating above the head, looking up with an idea, (3) yawning tired with one arm stretching up, "
+              "(4) making a peace sign V with two fingers, (5) bowing politely to say thank you.",
 }
 
 

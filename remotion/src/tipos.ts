@@ -22,6 +22,7 @@ export type Cena = {
   // modo mascote (sem imagem de IA)
   mascote?: string;   // frente | lado | costas | neutro | feliz | determinado
   titulo?: string;    // frase grande da cena
+  placa?: string;     // texto na placa que o mascote segura (pose "placa")
 };
 
 export type Timeline = {

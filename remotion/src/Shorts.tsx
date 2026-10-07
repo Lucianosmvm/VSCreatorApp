@@ -46,7 +46,7 @@ const CenaVisual: React.FC<{ cena: Cena; indice: number; fps: number; fadeQuadro
           pode ter começado `atraso` quadros antes por causa do dissolve */}
       <Sequence from={atraso} layout="none">
         {semMidia && cena.titulo && !temNumero && <Titulo texto={cena.titulo} indice={indice} />}
-        {semMidia && <Mascote pose={poseDaCena(cena.mascote, cena.palavras, indice)} palavras={cena.palavras} indice={indice} fimFala={fimFala} />}
+        {semMidia && <Mascote pose={cena.placa ? "placa" : poseDaCena(cena.mascote, cena.palavras, indice)} palavras={cena.palavras} indice={indice} fimFala={fimFala} placa={cena.placa} />}
         {usaDestaque && <Destaque palavras={cena.palavras} />}
         <Legenda palavras={cena.palavras} legenda={legenda} />
       </Sequence>

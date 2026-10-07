@@ -32,7 +32,8 @@ APP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJETOS = os.path.join(APP_DIR, "projetos")
 POSES = {"frente", "lado", "costas", "neutro", "feliz", "determinado",
          "apontando", "digitando", "pensando", "comemorando", "surpreso",
-         "desconfiado", "cocando", "bracos", "acenando", "sentado"}
+         "desconfiado", "cocando", "bracos", "acenando", "sentado",
+         "explicando", "confiante", "tapando", "alcas", "lupa", "cafe", "triste", "pulando", "correndo"}
 
 # campos de cena e de chaves que nao podem vazar do projeto-modelo
 NAO_COPIAR = {"frames", "nome", "salvoEm", "vmTema", "vmRoteiro", "apiKeys", "elKey"}
@@ -94,6 +95,8 @@ def main():
             f["mascote"] = pose
         if c.get("titulo"):
             f["titulo"] = str(c["titulo"]).strip()
+        if c.get("placa"):
+            f["placa"] = str(c["placa"]).strip()
         frames.append(f)
 
     projeto = modelo()

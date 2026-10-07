@@ -61,7 +61,12 @@ Formato que `novo_projeto.py` aceita:
 - Números escritos como dígitos (`R$ 1.200`, `35%`, `12x`): viram cartão animado sozinhos.
 - `titulo` (opcional): 2–5 palavras, frase grande no topo.
 - `mascote` (opcional). Corpo inteiro: `frente`, `lado`, `costas`, `apontando`, `digitando`,
-  `pensando`, `comemorando`, `surpreso`, `desconfiado`, `cocando`, `bracos`, `acenando`, `sentado`.
+  `pensando`, `comemorando`, `surpreso`, `desconfiado`, `cocando`, `bracos`, `acenando`, `sentado`,
+  `explicando` (mão aberta apresentando), `confiante`, `tapando` (mãos nos olhos), `alcas` (segura a
+  mochila), `lupa` (investigando/debug), `cafe`, `triste`, `pulando`, `correndo`,
+  `ideia` (lâmpada acesa), `animado` (braços abertos), `paz` (sinal de V), `perfil`, `placa`.
+- `placa` (opcional): texto curto (1–3 palavras, ex. "DICA", "C# 8", "Parte 2?") que o mascote
+  mostra numa placa — a pose vira `placa` sozinha. Ótimo para avisos, versões e CTA.
   Busto: `neutro`, `feliz`, `determinado`. Sem o campo, é escolhido sozinho.
   Nas cenas especiais (`codigo`/`fichas` em `cenas/Codigo.tsx`) a pose reage sozinha:
   digitando com o código, apontando no realce, comemorando no ✓, surpreso no ✗.

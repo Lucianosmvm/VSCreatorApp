@@ -1785,7 +1785,7 @@ function saveState(){
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration||'',
         rotulos:f.rotulos&&f.rotulos.length?f.rotulos:undefined,
-        mascote:f.mascote||undefined, titulo:f.titulo||undefined,
+        mascote:f.mascote||undefined, titulo:f.titulo||undefined, placa:f.placa||undefined,
         enhanced:f.enhanced,
         imageUrl:f.imageUrl||null, hasImageBytes: !!f.imageBytes,
         hasAudio: !!f.audioBytes, wordTimes:f.wordTimes||null, audioText:f.audioText!=null?f.audioText:null,
@@ -1865,7 +1865,7 @@ function loadState(){
     frames = d.frames.slice(0,MAX_CENAS).map(f=>({
       id:f.id||newId(), prompt:f.prompt||'', text:f.text||'', narration:f.narration||'',
       rotulos:normRotulos(f.rotulos),
-      mascote:f.mascote||'', titulo:f.titulo||'',
+      mascote:f.mascote||'', titulo:f.titulo||'', placa:f.placa||'',
       enhanced:f.enhanced||'', imageUrl:f.imageUrl||null, image:null, imageBytes:null, _hasImageBytes:!!f.hasImageBytes,
       video:null, videoBytes:null, _hasVideo:!!f.hasVideo, lastError:null,
       audioBytes:null, audioBuffer:null, audioUrl:null,
@@ -5031,6 +5031,7 @@ function montarTimelineRemotion(){
              texto:textoNaTela(f), palavras:palavrasDaCena(f,seg.dur)};
     if(f.mascote) c.mascote=f.mascote;
     if(f.titulo) c.titulo=f.titulo;
+    if(f.placa) c.placa=f.placa;
     if(modoMascote()){
       // sem imagem de IA: o Remotion desenha o fundo e põe o mascote
     }else if(f.videoBytes){
@@ -5831,7 +5832,8 @@ function normScene(s,i){
   // mascote e titulo so valem no Remotion: pose do mascote e frase grande da cena
   const mascote=String(s.mascote||s.pose||'').toLowerCase().trim();
   const titulo =String(s.titulo||s.título||s.title||'').trim();
-  return { imagem, texto, narracao:narr, rotulos:normRotulos(firstOf(s,K_ROT)||[]), mascote, titulo };
+  const placa  =String(s.placa||'').trim();
+  return { imagem, texto, narracao:narr, rotulos:normRotulos(firstOf(s,K_ROT)||[]), mascote, titulo, placa };
 }
 
 function applyConfig(c){
@@ -5972,7 +5974,7 @@ function importJSON(){
   const next=scenes.map((s,i)=>{
     const o=old[i], f=newFrame();
     f.prompt=s.imagem; f.text=s.texto; f.narration=s.narracao; f.rotulos=s.rotulos;
-    f.mascote=s.mascote; f.titulo=s.titulo;
+    f.mascote=s.mascote; f.titulo=s.titulo; f.placa=s.placa;
 
     if(o){
       if(o.image && o.prompt===f.prompt){
@@ -6039,6 +6041,7 @@ function exportJSON(){
       if(f.rotulos && f.rotulos.length) c.rotulos=f.rotulos;
       if(f.mascote) c.mascote=f.mascote;
       if(f.titulo) c.titulo=f.titulo;
+      if(f.placa) c.placa=f.placa;
       return c;
     })
   };

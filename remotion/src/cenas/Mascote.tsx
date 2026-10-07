@@ -6,9 +6,15 @@ import { acharDestaque } from "./Destaque";
 const CORPO = ["frente", "lado", "costas",
   // geradas na Replicate a partir da folha (MascoteRef/geradas/)
   "apontando", "digitando", "pensando", "comemorando", "surpreso",
-  "desconfiado", "cocando", "bracos", "acenando", "sentado"];
+  "desconfiado", "cocando", "bracos", "acenando", "sentado",
+  "explicando", "confiante", "tapando", "alcas", "lupa", "cafe", "triste", "pulando", "correndo",
+  "placa", "ideia", "animado", "paz", "perfil"];
 // desenhadas olhando/apontando para a esquerda: espelhar quando o conteúdo está à direita
-const OLHA_ESQ = ["apontando"];
+const OLHA_ESQ = ["apontando", "explicando", "lupa", "perfil"];
+
+// Área branca da placa em placa.png, em % do sprite (medida no recorte).
+const PLACA = { x: 5.4, y: 37.4, w: 88.8, h: 37.9 };
+const PLACA_PROPORCAO = 0.572; // largura / altura do sprite
 const BUSTO = ["neutro", "feliz", "determinado"];
 export const POSES = [...CORPO, ...BUSTO];
 
@@ -34,7 +40,7 @@ const DUR = { ok: 0.7, erro: 0.6, olha: 0.9 };
 
 // O mascote não tem boca, então "falar" é corpo: um pulinho curto a cada
 // palavra dita, respiração quando está calado, e entrada com mola.
-export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: number; fimFala: number; reacoes?: Reacao[] }> = ({ pose: poseBase, palavras, indice, fimFala, reacoes = [] }) => {
+export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: number; fimFala: number; reacoes?: Reacao[]; placa?: string }> = ({ pose: poseBase, palavras, indice, fimFala, reacoes = [], placa }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   const t = frame / fps;
@@ -60,8 +66,10 @@ export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: numb
   for (const r of reacoes) {
     const dt = t - r.t;
     if (dt < 0 || r.t < ultimaReacao) continue;
-    if (r.tipo === "ok" && dt < 1.4) { pose = deBusto ? "feliz" : "comemorando"; ultimaReacao = r.t; }
-    if (r.tipo === "erro" && dt < 1.4) { pose = deBusto ? "determinado" : "surpreso"; ultimaReacao = r.t; }
+    // alterna entre duas poses para a mesma reação não ficar repetitiva
+    const vez = Math.round(r.t * 10) % 2;
+    if (r.tipo === "ok" && dt < 1.4) { pose = deBusto ? "feliz" : vez ? "pulando" : "comemorando"; ultimaReacao = r.t; }
+    if (r.tipo === "erro" && dt < 1.4) { pose = deBusto ? "determinado" : vez ? "tapando" : "surpreso"; ultimaReacao = r.t; }
     if (r.tipo === "olha" && dt < 1.0 && !deBusto) { pose = "apontando"; ultimaReacao = r.t; }
   }
   const busto = BUSTO.includes(pose);
@@ -93,7 +101,10 @@ export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: numb
   const estica = 1 + comemora * 0.05;
   // "lado" foi desenhado olhando para a direita; do lado direito da tela vira
   const olhaDir = !OLHA_ESQ.includes(pose);
-  const espelha = (pose === "lado" || OLHA_ESQ.includes(pose)) && (olhaDir ? lado === "dir" : lado === "esq") ? -1 : 1;
+  // poses de perfil olham para o centro da tela: "lado"/"correndo" vão para a direita,
+  // as de OLHA_ESQ para a esquerda — espelha quando estiverem do lado errado
+  const perfil = pose === "lado" || pose === "correndo" || OLHA_ESQ.includes(pose);
+  const espelha = perfil && (olhaDir ? lado === "dir" : lado === "esq") ? -1 : 1;
 
   const deslocX = interpolate(entrada, [0, 1], [lado === "esq" ? -width * 0.5 : width * 0.5, 0]) + tremeX + dirConteudo * olha * width * 0.015;
 
@@ -111,6 +122,22 @@ export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: numb
         }}
       >
         <Img src={staticFile(`mascote/${pose}.png`)} style={{ height: "100%" }} />
+        {pose === "placa" && placa && (
+          <div
+            style={{
+              position: "absolute",
+              left: `${PLACA.x}%`, top: `${PLACA.y}%`, width: `${PLACA.w}%`, height: `${PLACA.h}%`,
+              display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center",
+              padding: "6%", boxSizing: "border-box",
+              fontFamily: "Poppins", fontWeight: 900, color: "#1d2416", lineHeight: 1.05,
+              textTransform: "uppercase", overflowWrap: "anywhere",
+              // cabe na placa: pela altura e pelo comprimento do texto
+              fontSize: Math.min(altura * 0.12, (altura * PLACA_PROPORCAO * PLACA.w / 100 * 0.85) / (Math.max(4, Math.min(placa.length, 12)) * 0.62)),
+            }}
+          >
+            {placa}
+          </div>
+        )}
       </div>
     </AbsoluteFill>
   );
