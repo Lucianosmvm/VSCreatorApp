@@ -111,3 +111,11 @@ multimedia, render...) — consultar para APIs do Remotion.
 
 - App → "🎬 Gerar vídeo" com Remotion ligado: render automático com os templates padrão (`/remotion` no `serve.py`).
 - Mascote recortado de `MascoteRef/mascote.jpeg` em `remotion/public/mascote/*.png`.
+
+## Short a partir do vídeo longo
+
+Mesma narração, sem gastar ElevenLabs: escolha as cenas (gancho + núcleo + CTA,
+60–120 s) e use `recortarTimeline(tl, [índices], { largura: 1080, altura: 1920, legenda: {...tl.legenda, pos: 56} })`
+(`src/tipos.ts`). Remapeie `especiais` e poses do índice original para o novo
+(ver `CondicionaisShort` em `src/videos/CondicionaisCSharp.tsx`) e registre como
+`<id>-short`. Painel, fichas e mascote se ajustam sozinhos ao formato em pé.

@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Timeline } from "../tipos";
-import { CondicionaisCSharp } from "./CondicionaisCSharp";
+import { CondicionaisCSharp, CondicionaisShort, timelineShort } from "./CondicionaisCSharp";
 import tlCondicionais from "../../public/videos/condicionais-em-c-if-else-e-ternario-muy7zibr/timeline.json";
 
 // Um vídeo por projeto do app. Para cada um o Claude Code cria
@@ -15,4 +15,5 @@ export type VideoRegistrado = {
 
 export const VIDEOS: VideoRegistrado[] = [
   { id: "condicionais-csharp", timeline: tlCondicionais as Timeline, componente: CondicionaisCSharp },
+  { id: "condicionais-csharp-short", timeline: timelineShort(tlCondicionais as Timeline), componente: CondicionaisShort },
 ];

@@ -1,5 +1,5 @@
 import { Video, type CenaEspecial } from "../Shorts";
-import type { Timeline } from "../tipos";
+import { recortarTimeline, type Timeline } from "../tipos";
 import { codigo, em, fichas } from "../cenas/Codigo";
 
 // "Condicionais em C#: if, else e ternário" — 56 cenas, 16:9.
@@ -365,5 +365,27 @@ export const CondicionaisCSharp: React.FC<Timeline> = (tl) => (
     cenas={tl.cenas.map((c, i) => (POSES[i] ? { ...c, mascote: POSES[i] } : c))}
     pasta="videos/condicionais-em-c-if-else-e-ternario-muy7zibr/"
     especiais={especiais}
+  />
+);
+
+// ── Short (9:16, ~1:30) tirado do vídeo longo ─────────────────────────────
+// Mesma narração e mesmas cenas especiais; só as cenas abaixo, nesta ordem.
+const CENAS_SHORT = [0, 9, 11, 16, 19, 20, 21, 22, 23, 35, 37, 38, 39, 42, 43, 52, 53, 55];
+
+export const timelineShort = (tl: Timeline) =>
+  recortarTimeline(tl, CENAS_SHORT, { largura: 1080, altura: 1920, legenda: { ...tl.legenda, pos: 56 } });
+
+const remapear = <T,>(porOrigem: Record<number, T>) =>
+  Object.fromEntries(CENAS_SHORT.flatMap((orig, novo) => (porOrigem[orig] !== undefined ? [[novo, porOrigem[orig]]] : []))) as Record<number, T>;
+
+const ESPECIAIS_SHORT = remapear(especiais);
+const POSES_SHORT = remapear(POSES);
+
+export const CondicionaisShort: React.FC<Timeline> = (tl) => (
+  <Video
+    {...tl}
+    cenas={tl.cenas.map((c, i) => (POSES_SHORT[i] ? { ...c, mascote: POSES_SHORT[i] } : c))}
+    pasta="videos/condicionais-em-c-if-else-e-ternario-muy7zibr/"
+    especiais={ESPECIAIS_SHORT}
   />
 );

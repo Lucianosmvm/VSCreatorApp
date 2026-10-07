@@ -65,19 +65,24 @@ export type Saida = { txt: string; t: number; cor?: string };
 
 const Painel: React.FC<{ titulo: string; linhas: Linha[]; saida?: Saida[]; escala?: number }> = ({ titulo, linhas, saida = [], escala = 1 }) => {
   const frame = useCurrentFrame();
-  const { fps, height } = useVideoConfig();
+  const { fps, height, width } = useVideoConfig();
   const t = frame / fps;
-  const fonte = height * 0.042 * escala;
+  // 16:9: painel à direita do mascote; 9:16: painel no alto, largura toda
+  const empe = height > width;
+  const larguraPainel = width * (empe ? 0.92 : 0.63);
+  // a linha mais longa tem que caber: monoespaçada ≈ 0,6 da fonte por caractere
+  const maiorLinha = Math.max(16, ...linhas.map((l) => l.txt.length + (l.ok !== undefined || l.erro !== undefined ? 2 : 0)));
+  const fonte = Math.min(height * 0.042, (larguraPainel * 0.9) / (maiorLinha * 0.6)) * escala;
   const entra = spring({ frame, fps, config: { damping: 14, stiffness: 130 } });
 
   return (
     <div
       style={{
         position: "absolute",
-        left: "33%",
+        left: empe ? "4%" : "33%",
         right: "4%",
-        top: "9%",
-        maxHeight: "62%",
+        top: empe ? "7%" : "9%",
+        maxHeight: empe ? "44%" : "62%",
         background: "rgba(14,16,11,.92)",
         border: "2px solid #4b5a35",
         borderRadius: fonte * 0.6,
@@ -166,18 +171,21 @@ export type Ficha = { txt: string; t: number; sub?: string; cor?: string; texto?
 
 const Fichas: React.FC<{ fichas: Ficha[]; colunas?: number }> = ({ fichas, colunas }) => {
   const frame = useCurrentFrame();
-  const { fps, height } = useVideoConfig();
-  const fonte = height * 0.075;
+  const { fps, height, width } = useVideoConfig();
+  const empe = height > width;
+  const fonte = Math.min(width, height) * (empe ? 0.1 : 0.075);
+  const cols = Math.min(colunas ?? Math.min(fichas.length, 3), empe ? 3 : 5);
+  const celula = (width * (empe ? 0.9 : 0.63)) / cols;
   return (
     <div
       style={{
         position: "absolute",
-        left: "33%",
-        right: "4%",
-        top: "8%",
-        height: "62%",
+        left: empe ? "5%" : "33%",
+        right: empe ? "5%" : "4%",
+        top: empe ? "8%" : "8%",
+        height: empe ? "40%" : "62%",
         display: "grid",
-        gridTemplateColumns: `repeat(${colunas ?? Math.min(fichas.length, 3)}, 1fr)`,
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
         alignContent: "center",
         gap: fonte * 0.35,
       }}
@@ -200,7 +208,7 @@ const Fichas: React.FC<{ fichas: Ficha[]; colunas?: number }> = ({ fichas, colun
               textDecoration: riscada ? "line-through" : undefined,
             }}
           >
-            <div style={{ fontFamily: "Consolas, monospace", fontWeight: 900, fontSize: fonte, lineHeight: 1.1 }}>{f.txt}</div>
+            <div style={{ fontFamily: "Consolas, monospace", fontWeight: 900, fontSize: Math.min(fonte, (celula * 0.8) / (f.txt.length * 0.6)), lineHeight: 1.1 }}>{f.txt}</div>
             {f.sub && <div style={{ fontFamily: "Poppins", fontWeight: 800, fontSize: fonte * 0.32, marginTop: fonte * 0.12, textTransform: "uppercase" }}>{f.sub}</div>}
           </div>
         );

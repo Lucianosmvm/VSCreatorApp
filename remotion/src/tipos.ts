@@ -54,3 +54,18 @@ export const TIMELINE_VAZIA: Timeline = {
     },
   ],
 };
+
+// Corte de um vídeo já narrado: mantém só as cenas escolhidas, na ordem dada,
+// e recalcula o início de cada uma. Os áudios são os mesmos (cada cena tem o
+// seu), então a sincronia continua exata. Serve para tirar um Short do longo.
+export function recortarTimeline(tl: Timeline, indices: number[], formato: Partial<Pick<Timeline, "largura" | "altura" | "legenda">>): Timeline {
+  let inicio = 0;
+  const cenas = indices.map((i) => {
+    const c = { ...tl.cenas[i], inicio };
+    inicio += c.dur;
+    return c;
+  });
+  // a última cena não dissolve em nada
+  if (cenas.length) cenas[cenas.length - 1] = { ...cenas[cenas.length - 1], janela: 0 };
+  return { ...tl, ...formato, cenas, duracao: +inicio.toFixed(3) };
+}

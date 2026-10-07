@@ -79,7 +79,8 @@ export const Mascote: React.FC<{ pose: string; palavras: Palavra[]; indice: numb
   }
   // no 16:9 sobra largura: o mascote pode ocupar bem mais da altura
   const deitado = width > height;
-  const altura = busto ? height * (deitado ? 0.55 : 0.36) : height * (deitado ? 0.78 : 0.5);
+  // em pé o mascote fica embaixo, abaixo da legenda e do painel
+  const altura = busto ? height * (deitado ? 0.55 : 0.3) : height * (deitado ? 0.78 : 0.4);
   const sobe = pulo * height * 0.012 + comemora * height * 0.09;
   const inclina = (lado === "esq" ? -1 : 1) * pulo * 1.5 + dirConteudo * olha * 6 + comemora * dirConteudo * -4;
   const tremeX = treme * Math.sin(t * 60) * height * 0.012;
