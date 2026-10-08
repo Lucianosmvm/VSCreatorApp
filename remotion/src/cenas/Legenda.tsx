@@ -37,7 +37,9 @@ export const Legenda: React.FC<{ palavras: Palavra[]; legenda: Timeline["legenda
 
   const g0 = Math.floor(atual / POR_GRUPO) * POR_GRUPO;
   const grupo = palavras.slice(g0, g0 + POR_GRUPO);
-  const tamanho = Math.round(width * 0.085);
+  // palavra muito longa ("IndexOutOfRangeException") encolhe para caber na largura
+  const maior = Math.max(...grupo.map((p) => p.w.length));
+  const tamanho = Math.round(Math.min(width * 0.085, (largura * 0.86) / (maior * 0.68)));
   const caixa = legenda.estilo === "box";
 
   return (

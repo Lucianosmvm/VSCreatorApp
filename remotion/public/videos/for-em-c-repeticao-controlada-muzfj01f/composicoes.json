@@ -1,0 +1,14 @@
+[
+ {
+  "id": "for-csharp",
+  "titulo": "Vídeo longo (YouTube)",
+  "formato": "16:9",
+  "duracao": 322.99
+ },
+ {
+  "id": "for-csharp-short",
+  "titulo": "Short (Shorts, Reels, TikTok)",
+  "formato": "9:16",
+  "duracao": 97.86
+ }
+]

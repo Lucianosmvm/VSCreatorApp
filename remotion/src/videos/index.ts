@@ -1,5 +1,7 @@
 import type React from "react";
 import type { Timeline } from "../tipos";
+import { ForCSharp, ForCSharpShort, timelineShortFor } from "./ForCSharp";
+import tlFor from "../../public/videos/for-em-c-repeticao-controlada-muzfj01f/timeline.json";
 import { SwitchCSharp, SwitchCSharpShort, timelineShortSwitch } from "./SwitchCSharp";
 import tlSwitch from "../../public/videos/switch-e-switch-expression-em-c-muydj4v4/timeline.json";
 import { CondicionaisCSharp, CondicionaisShort, timelineShort } from "./CondicionaisCSharp";
@@ -20,4 +22,6 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "condicionais-csharp-short", timeline: timelineShort(tlCondicionais as Timeline), componente: CondicionaisShort },
   { id: "switch-csharp", timeline: tlSwitch as Timeline, componente: SwitchCSharp },
   { id: "switch-csharp-short", timeline: timelineShortSwitch(tlSwitch as Timeline), componente: SwitchCSharpShort },
+  { id: "for-csharp", timeline: tlFor as Timeline, componente: ForCSharp },
+  { id: "for-csharp-short", timeline: timelineShortFor(tlFor as Timeline), componente: ForCSharpShort },
 ];

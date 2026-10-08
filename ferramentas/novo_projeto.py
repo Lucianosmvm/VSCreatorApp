@@ -33,7 +33,8 @@ PROJETOS = os.path.join(APP_DIR, "projetos")
 POSES = {"frente", "lado", "costas", "neutro", "feliz", "determinado",
          "apontando", "digitando", "pensando", "comemorando", "surpreso",
          "desconfiado", "cocando", "bracos", "acenando", "sentado",
-         "explicando", "confiante", "tapando", "alcas", "lupa", "cafe", "triste", "pulando", "correndo"}
+         "explicando", "confiante", "tapando", "alcas", "lupa", "cafe", "triste", "pulando", "correndo",
+         "placa", "ideia", "animado", "paz", "perfil"}
 
 # campos de cena e de chaves que nao podem vazar do projeto-modelo
 NAO_COPIAR = {"frames", "nome", "salvoEm", "vmTema", "vmRoteiro", "apiKeys", "elKey"}

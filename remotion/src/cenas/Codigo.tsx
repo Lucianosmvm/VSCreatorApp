@@ -141,11 +141,14 @@ const Painel: React.FC<{ titulo: string; linhas: Linha[]; saida?: Saida[]; escal
           );
         })}
         {saida.some((s) => t >= s.t) && (
-          <div style={{ marginTop: fonte * 0.5, paddingTop: fonte * 0.4, borderTop: "2px dashed #2e3823" }}>
+          // até 2 saídas: uma por linha; mais que isso vão lado a lado, como um
+          // console de verdade — senão passavam do painel e sumiam
+          <div style={{ marginTop: fonte * 0.5, paddingTop: fonte * 0.4, borderTop: "2px dashed #2e3823",
+                        display: "flex", flexDirection: saida.length > 2 ? "row" : "column", flexWrap: "wrap", gap: saida.length > 2 ? `0 ${fonte * 0.9}px` : 0 }}>
             {saida.map((s, i) =>
               t >= s.t ? (
                 <div key={i} style={{ color: s.cor ?? "#28c840", fontWeight: 700 }}>
-                  {"> "}
+                  {saida.length > 2 && i > 0 ? "" : "> "}
                   {s.txt}
                 </div>
               ) : null,
