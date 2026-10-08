@@ -92,6 +92,7 @@ Peças prontas em `remotion/src/`:
 | `cenas/Legenda.tsx` | Legenda karaokê (sempre presente, inclusive em cena especial) |
 | `cenas/Destaque.tsx` | Cartão com número contando (`acharDestaque` detecta) |
 | `cenas/Titulo.tsx` | Frase grande no topo |
+| `cenas/Som.tsx` | Efeitos sonoros (`public/sfx/`, gerados por `ferramentas/gerar_sfx.py`): tecla ao digitar, pop em ficha/placa/saída, plim no ✓, erro no ✗, whoosh em cena com título, contagem no número. Automáticos em `codigo`/`fichas` e nas cenas padrão; à mão: `<Sons efeitos={[{ t: em(c, "palavra"), tipo: "plim" }]} />` |
 
 Para cada projeto:
 1. Ler `remotion/public/videos/<id>/timeline.json` (cenas, `inicio`, `dur`, `palavras[].t`).

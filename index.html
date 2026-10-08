@@ -4159,6 +4159,24 @@ function indiceDoAlinhamento(chars,textoCombinado){
   };
 }
 
+// Blocos da faixa. Numa geração só, a ElevenLabs às vezes "deriva" no meio de
+// textos longos: medido no projeto do For (5.000 caracteres), o tom pulou de
+// ~138 Hz para ~195 Hz na cena 34 e ficou assim até o fim — voz fina e sem
+// fôlego. Em blocos de ~1.200 caracteres, cada um com o texto vizinho como
+// contexto e costurado ao anterior (previous_request_ids), a leitura continua
+// soando contínua e a deriva não tem espaço para acontecer.
+const FAIXA_BLOCO=1200;
+
+function blocosDaFaixa(alvos){
+  const blocos=[]; let atual=[], tam=0;
+  for(const x of alvos){
+    if(atual.length && tam+x.texto.length>FAIXA_BLOCO){ blocos.push(atual); atual=[]; tam=0; }
+    atual.push(x); tam+=x.texto.length+FAIXA_SEP.length;
+  }
+  if(atual.length) blocos.push(atual);
+  return blocos;
+}
+
 async function narrarFaixa(){
   if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
   frames.forEach((_,i)=>syncFrame(i));
@@ -4172,87 +4190,103 @@ async function narrarFaixa(){
   const semTexto=frames.findIndex(f=>!narrationOf(f));
   if(semTexto>=0) logLine('warn',`Cena ${semTexto+1} está sem texto e fica fora da faixa.`);
 
-  // monta o texto e guarda onde cada cena começa e acaba dentro dele
-  let combinado='';
-  for(const x of alvos){
-    if(combinado) combinado+=FAIXA_SEP;
-    x.ini=combinado.length;
-    combinado+=x.texto;
-    x.fim=combinado.length;
-  }
-  logLine('info',`Faixa única: ${alvos.length} cena(s), ${combinado.length} caracteres numa geração só.`,
-    'A voz não recomeça entre as cenas — é isso que tira a emenda e a deriva de timbre.');
-
-  const base=`${EL_API}/text-to-speech/${encodeURIComponent(vid)}`;
-  const res=await fetchRetry(base+'/with-timestamps?output_format=mp3_44100_128',{
-    method:'POST',
-    headers:{'xi-api-key':key,'Content-Type':'application/json','Accept':'application/json'},
-    body:JSON.stringify({text:combinado,model_id:model})
-  },{label:'ElevenLabs (faixa)',tries:3,timeoutMs:300000});
-  if(!res.ok) throw await elError(res,'Erro no TTS da faixa');
-
-  const d=await res.json();
-  if(!d.audio_base64) throw new Error('ElevenLabs não devolveu áudio.');
-  const bytesFaixa=b64ToBytes(d.audio_base64);
-  const al=d.alignment||d.normalized_alignment||null;
-  if(!al || !Array.isArray(al.characters))
-    throw new Error('A ElevenLabs não devolveu o alinhamento; sem ele não dá para dividir a faixa em cenas. Use o modo por cena.');
-
-  const ac=getAudioCtx();
-  const faixaBuf=await ac.decodeAudioData(bytesFaixa.slice().buffer);
-  const st=al.character_start_times_seconds, en=al.character_end_times_seconds||st;
-  const idx=indiceDoAlinhamento(al.characters,combinado);
-  if(!idx) logLine('warn','O alinhamento não bateu com o texto enviado; dividindo as cenas proporcionalmente.',
-    'A locução continua contínua — só os cortes entre cenas ficam aproximados.');
+  const blocos=blocosDaFaixa(alvos);
+  const totalChars=alvos.reduce((a,x)=>a+x.texto.length,0);
+  logLine('info',`Faixa: ${alvos.length} cena(s), ${totalChars} caracteres em ${blocos.length} bloco(s).`,
+    'Blocos curtos com o texto vizinho como contexto: a leitura soa contínua e a voz não deriva no meio.');
 
   const faixaId='fx'+Date.now().toString(36);
-  const tempoDe=(pos,fim)=>{
-    if(idx){ const k=Math.max(0,Math.min(st.length-1,idx(pos))); return fim?(en[k]??st[k]):st[k]; }
-    return (pos/combinado.length)*faixaBuf.duration;      // degradado, mas nunca quebrado
-  };
+  const base=`${EL_API}/text-to-speech/${encodeURIComponent(vid)}`;
+  let reqAnterior=null, durTotal=0, ok=0, exato=true;
 
-  // As fatias se ENCAIXAM: cada uma termina onde a próxima começa, e a última
-  // vai até o fim do arquivo. Cortando no fim da última palavra sobrava de
-  // fora o tempo do separador — que é justamente a respiração entre as cenas.
-  // Descartá-la devolveria o corte seco que a faixa única existe para evitar.
-  const inicios=alvos.map((x,k)=>k===0 ? 0 : tempoDe(x.ini,false));
+  for(let b=0;b<blocos.length;b++){
+    const bloco=blocos[b];
+    if(blocos.length>1) setStatus(`🎤 Narrando bloco ${b+1}/${blocos.length}…`);
 
-  let ok=0;
-  for(let k=0;k<alvos.length;k++){
-    const x=alvos[k];
-    const t0=inicios[k];
-    const t1=(k===alvos.length-1) ? faixaBuf.duration : inicios[k+1];
-    const fatia=fatiarBuffer(ac,faixaBuf,t0,Math.max(t0+0.05,t1));
-    const wav=bufferParaWav(fatia);
-
-    // tempos de palavra relativos ao início da FATIA, que é o que o
-    // visibleWordCount espera
-    let tempos=null;
-    if(idx){
-      tempos=[]; let dentro=false;
-      const cIni=idx(x.ini), cFim=idx(x.fim);
-      for(let c=cIni;c<Math.min(cFim,al.characters.length);c++){   // c, nao k: o k e do laco das cenas
-        if(/\s/.test(al.characters[c])) dentro=false;
-        else if(!dentro){ tempos.push(Math.max(0,st[c]-t0)); dentro=true; }
-      }
-      if(tempos.length!==x.texto.split(/\s+/).filter(Boolean).length) tempos=null;
+    // monta o texto do bloco e guarda onde cada cena começa e acaba dentro dele
+    let combinado='';
+    for(const x of bloco){
+      if(combinado) combinado+=FAIXA_SEP;
+      x.ini=combinado.length;
+      combinado+=x.texto;
+      x.fim=combinado.length;
     }
+    const corpo={text:combinado,model_id:model};
+    // contexto de prosódia: não é sintetizado nem cobrado
+    if(b>0) corpo.previous_text=blocos[b-1].map(x=>x.texto).join(FAIXA_SEP).slice(-CTX_MAX);
+    if(b<blocos.length-1) corpo.next_text=blocos[b+1].map(x=>x.texto).join(FAIXA_SEP).slice(0,CTX_MAX);
+    if(reqAnterior) corpo.previous_request_ids=[reqAnterior];
 
-    await attachAudio(x.f,wav,tempos,{semCorte:true,mime:'audio/wav'});
-    x.f.audioText=x.texto;
-    x.f.audioVoice=vid; x.f.audioModel=model;
-    x.f.audioFaixa=faixaId;          // marca de qual faixa esta cena saiu
-    x.f.audioReqId=null; x.f.audioReqAt=0;
-    x.f.lastError=null;
-    idbPut(x.f.id,{bytes:wav.buffer.slice(0),wordTimes:tempos,text:x.texto});
-    projSubirAsset('audio',x.f.id,wav,'audio/wav');
-    setABadge(x.i,'b-aud','🔊 '+fatia.duration.toFixed(1)+'s');
-    ok++;
+    const res=await fetchRetry(base+'/with-timestamps?output_format=mp3_44100_128',{
+      method:'POST',
+      headers:{'xi-api-key':key,'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(corpo)
+    },{label:`ElevenLabs (faixa ${b+1}/${blocos.length})`,tries:3,timeoutMs:300000});
+    if(!res.ok) throw await elError(res,`Erro no TTS da faixa (bloco ${b+1})`);
+    reqAnterior=res.headers.get('request-id')||res.headers.get('x-request-id')||null;
+
+    const d=await res.json();
+    if(!d.audio_base64) throw new Error('ElevenLabs não devolveu áudio.');
+    const bytesFaixa=b64ToBytes(d.audio_base64);
+    const al=d.alignment||d.normalized_alignment||null;
+    if(!al || !Array.isArray(al.characters))
+      throw new Error('A ElevenLabs não devolveu o alinhamento; sem ele não dá para dividir a faixa em cenas. Use o modo por cena.');
+
+    const ac=getAudioCtx();
+    const faixaBuf=await ac.decodeAudioData(bytesFaixa.slice().buffer);
+    durTotal+=faixaBuf.duration;
+    const st=al.character_start_times_seconds, en=al.character_end_times_seconds||st;
+    const idx=indiceDoAlinhamento(al.characters,combinado);
+    if(!idx){
+      exato=false;
+      logLine('warn',`Bloco ${b+1}: o alinhamento não bateu com o texto; cenas divididas proporcionalmente.`,
+        'A locução continua contínua — só os cortes entre cenas ficam aproximados.');
+    }
+    const tempoDe=(pos,fim)=>{
+      if(idx){ const k=Math.max(0,Math.min(st.length-1,idx(pos))); return fim?(en[k]??st[k]):st[k]; }
+      return (pos/combinado.length)*faixaBuf.duration;      // degradado, mas nunca quebrado
+    };
+
+    // As fatias se ENCAIXAM: cada uma termina onde a próxima começa, e a última
+    // do bloco vai até o fim do arquivo. Cortando no fim da última palavra
+    // sobrava de fora o tempo do separador — a respiração entre as cenas.
+    const inicios=bloco.map((x,k)=>k===0 ? 0 : tempoDe(x.ini,false));
+
+    for(let k=0;k<bloco.length;k++){
+      const x=bloco[k];
+      const t0=inicios[k];
+      const t1=(k===bloco.length-1) ? faixaBuf.duration : inicios[k+1];
+      const fatia=fatiarBuffer(ac,faixaBuf,t0,Math.max(t0+0.05,t1));
+      const wav=bufferParaWav(fatia);
+
+      // tempos de palavra relativos ao início da FATIA (o que o visibleWordCount espera)
+      let tempos=null;
+      if(idx){
+        tempos=[]; let dentro=false;
+        const cIni=idx(x.ini), cFim=idx(x.fim);
+        for(let c=cIni;c<Math.min(cFim,al.characters.length);c++){
+          if(/\s/.test(al.characters[c])) dentro=false;
+          else if(!dentro){ tempos.push(Math.max(0,st[c]-t0)); dentro=true; }
+        }
+        if(tempos.length!==x.texto.split(/\s+/).filter(Boolean).length) tempos=null;
+      }
+
+      await attachAudio(x.f,wav,tempos,{semCorte:true,mime:'audio/wav'});
+      x.f.audioText=x.texto;
+      x.f.audioVoice=vid; x.f.audioModel=model;
+      x.f.audioFaixa=faixaId;          // marca de qual faixa esta cena saiu
+      x.f.audioReqId=null; x.f.audioReqAt=0;
+      x.f.lastError=null;
+      idbPut(x.f.id,{bytes:wav.buffer.slice(0),wordTimes:tempos,text:x.texto});
+      projSubirAsset('audio',x.f.id,wav,'audio/wav');
+      setABadge(x.i,'b-aud','🔊 '+fatia.duration.toFixed(1)+'s');
+      ok++;
+    }
   }
 
-  logLine('ok',`Faixa pronta: ${faixaBuf.duration.toFixed(1)}s divididos em ${ok} cena(s).`,
-    idx?'Cortes tirados do alinhamento por caractere da ElevenLabs.':'Cortes proporcionais (alinhamento não bateu).');
-  return {dur:faixaBuf.duration,cenas:ok,exato:!!idx};
+  logLine('ok',`Faixa pronta: ${durTotal.toFixed(1)}s em ${blocos.length} bloco(s), ${ok} cena(s).`,
+    exato?'Cortes tirados do alinhamento por caractere da ElevenLabs.':'Algum bloco teve cortes proporcionais (alinhamento não bateu).');
+  return {dur:durTotal,cenas:ok,exato};
 }
 
 // Cena narrada por fora da faixa (ou editada depois dela) volta a ser uma

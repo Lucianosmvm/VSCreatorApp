@@ -2,6 +2,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import type { Cena } from "../tipos";
 import { FundoAnimado } from "./FundoAnimado";
 import { Mascote, poseDaCena, type Reacao } from "./Mascote";
+import { Sons, type Efeito } from "./Som";
 
 // ── tempo pela palavra ───────────────────────────────────────────────────
 // As cenas especiais marcam os eventos pela PALAVRA falada, não por segundo
@@ -243,6 +244,19 @@ const Base: React.FC<{ cena: Cena; indice: number; reacoes: Reacao[]; tipoConteu
 
 type Montador<T> = (cena: Cena) => T;
 
+// Som de cada acontecimento do painel: digitação, ✓, ✗ e saída do console.
+// O painel entrando (linhas já presentes) não faz barulho.
+function sonsDoCodigo(linhas: Linha[], saida: Saida[] = []): Efeito[] {
+  const e: Efeito[] = [];
+  for (const l of linhas) {
+    if (l.t !== undefined && l.t > 0.05 && l.txt.trim()) e.push({ t: l.t, tipo: "tecla" });
+    if (l.ok !== undefined) e.push({ t: l.ok, tipo: "plim" });
+    if (l.erro !== undefined) e.push({ t: l.erro, tipo: "erro" });
+  }
+  for (const s of saida) if (s.t > 0.05) e.push({ t: s.t, tipo: s.cor === "#ff5f57" ? "erro" : "pop" });
+  return e;
+}
+
 // Reações tiradas do próprio conteúdo: ✓ comemora, ✗ / saída vermelha treme,
 // linha marcada ou ficha nova = olha para o painel. `extra` soma reações à mão.
 function reacoesDoCodigo(linhas: Linha[], saida: Saida[] = []): Reacao[] {
@@ -267,6 +281,7 @@ export const codigo =
     return (
       <Base cena={cena} indice={indice} reacoes={[...reacoesDoCodigo(d.linhas, d.saida), ...(d.extra ?? [])]} tipoConteudo="codigo">
         <Painel titulo={d.titulo ?? cena.titulo ?? "Program.cs"} linhas={d.linhas} saida={d.saida} escala={d.escala} />
+        <Sons efeitos={sonsDoCodigo(d.linhas, d.saida)} />
       </Base>
     );
   };
@@ -279,6 +294,7 @@ export const fichas =
     return (
       <Base cena={cena} indice={indice} reacoes={[...reacoes, ...(d.extra ?? [])]} tipoConteudo="fichas">
         <Fichas fichas={d.fichas} colunas={d.colunas} />
+        <Sons efeitos={d.fichas.map((x) => ({ t: x.t, tipo: x.cor === "#ff5f57" ? "erro" : "pop" }))} />
       </Base>
     );
   };

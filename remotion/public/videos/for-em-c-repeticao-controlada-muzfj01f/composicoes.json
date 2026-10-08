@@ -3,12 +3,12 @@
   "id": "for-csharp",
   "titulo": "Vídeo longo (YouTube)",
   "formato": "16:9",
-  "duracao": 322.99
+  "duracao": 299.723
  },
  {
   "id": "for-csharp-short",
   "titulo": "Short (Shorts, Reels, TikTok)",
   "formato": "9:16",
-  "duracao": 97.86
+  "duracao": 95.58
  }
 ]

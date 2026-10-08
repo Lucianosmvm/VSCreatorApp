@@ -6,6 +6,7 @@ import { Destaque, acharDestaque } from "./cenas/Destaque";
 import { FundoAnimado } from "./cenas/FundoAnimado";
 import { Mascote, poseDaCena } from "./cenas/Mascote";
 import { Titulo } from "./cenas/Titulo";
+import { Sons } from "./cenas/Som";
 import type { Cena, Timeline } from "./tipos";
 
 loadFont("normal", { weights: ["800", "900"], subsets: ["latin", "latin-ext"] });
@@ -48,6 +49,14 @@ const CenaVisual: React.FC<{ cena: Cena; indice: number; fps: number; fadeQuadro
         {semMidia && cena.titulo && !temNumero && <Titulo texto={cena.titulo} indice={indice} />}
         {semMidia && <Mascote pose={cena.placa ? "placa" : poseDaCena(cena.mascote, cena.palavras, indice)} palavras={cena.palavras} indice={indice} fimFala={fimFala} placa={cena.placa} />}
         {usaDestaque && <Destaque palavras={cena.palavras} />}
+        {/* whoosh na cena com título (começo de assunto), pop na placa, tic-tic no número */}
+        <Sons
+          efeitos={[
+            ...(semMidia && cena.titulo && !temNumero ? [{ t: 0, tipo: "whoosh" as const }] : []),
+            ...(semMidia && cena.placa ? [{ t: 0.15, tipo: "pop" as const }] : []),
+            ...(temNumero ? [{ t: Math.max(0, (acharDestaque(cena.palavras)?.t ?? 0) - 0.12), tipo: "contagem" as const }] : []),
+          ]}
+        />
         <Legenda palavras={cena.palavras} legenda={legenda} />
       </Sequence>
     </AbsoluteFill>

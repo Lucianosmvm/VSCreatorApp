@@ -1436,9 +1436,10 @@ class Handler(SimpleHTTPRequestHandler):
         os.makedirs(pasta, exist_ok=True)
         # a pasta do job vira o --public-dir do render: os recortes do mascote
         # (remotion/public/mascote) precisam estar dentro dela
-        fixos = os.path.join(REMOTION_APP, "public", "mascote")
-        if os.path.isdir(fixos):
-            shutil.copytree(fixos, os.path.join(pasta, "mascote"))
+        for fixo in ("mascote", "sfx"):
+            origem = os.path.join(REMOTION_APP, "public", fixo)
+            if os.path.isdir(origem):
+                shutil.copytree(origem, os.path.join(pasta, fixo))
         with open(os.path.join(pasta, "timeline.json"), "w", encoding="utf-8") as fh:
             json.dump(tl, fh, ensure_ascii=False)
         job = {"id": jid, "pasta": pasta, "saida": os.path.join(pasta, "saida.mp4"),
