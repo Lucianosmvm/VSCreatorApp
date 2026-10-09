@@ -56,7 +56,8 @@ Formato que `novo_projeto.py` aceita:
   ]
 }
 ```
-- `texto` = o que a voz fala E a legenda. Uma ideia por cena, 6–18 palavras.
+- `texto` = o que a voz fala E a legenda. Uma ideia por cena, 6–18 palavras. Prefira frases curtas com
+  pontuação: a legenda corta nas vírgulas/pontos, e muita gente assiste sem som.
 - 6–12 cenas, ~30–60 s no total. Gancho forte na cena 1, CTA na última.
 - Números escritos como dígitos (`R$ 1.200`, `35%`, `12x`): viram cartão animado sozinhos.
 - `titulo` (opcional): 2–5 palavras, frase grande no topo.
@@ -89,7 +90,7 @@ Peças prontas em `remotion/src/`:
 | `Shorts.tsx` → `Video` | Monta tudo: cenas na hora certa, dissolve, áudio. Props `pasta` e `especiais` |
 | `cenas/FundoAnimado.tsx` | Fundo verde-oliva com grade e símbolos de código |
 | `cenas/Mascote.tsx` | Mascote com entrada, respiração e pulinho a cada palavra |
-| `cenas/Legenda.tsx` | Legenda karaokê (sempre presente, inclusive em cena especial) |
+| `cenas/Legenda.tsx` | Legenda de leitura: frase inteira (até 12 palavras, 2 linhas, ~2,5 s na tela) com a palavra falada em amarelo; sempre presente, inclusive em cena especial |
 | `cenas/Destaque.tsx` | Cartão com número contando (`acharDestaque` detecta) |
 | `cenas/Titulo.tsx` | Frase grande no topo |
 | `cenas/Som.tsx` | Efeitos sonoros (`public/sfx/`, gerados por `ferramentas/gerar_sfx.py`): tecla ao digitar, pop em ficha/placa/saída, plim no ✓, erro no ✗, whoosh em cena com título, contagem no número. Automáticos em `codigo`/`fichas` e nas cenas padrão; à mão: `<Sons efeitos={[{ t: em(c, "palavra"), tipo: "plim" }]} />` |

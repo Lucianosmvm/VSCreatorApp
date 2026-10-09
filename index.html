@@ -670,6 +670,15 @@ body.preview-off .pv-flut{display:none}
       <option value="eleven_flash_v2_5">Flash v2.5 · mais rápido</option>
     </select>
 
+    <label>Velocidade da voz</label>
+    <select id="elVelocidade" onchange="saveState()">
+      <option value="0.85">0,85 · bem calma</option>
+      <option value="0.92" selected>0,92 · calma (recomendado)</option>
+      <option value="1">1,0 · normal da voz</option>
+      <option value="1.08">1,08 · rápida</option>
+    </select>
+    <div class="hint">Mais devagar dá tempo de ler a legenda sem som (ônibus, sem fone). 0,92 é quase imperceptível no ouvido e deixa ~8% mais tempo por frase.</div>
+
     <label>Como gerar a narração</label>
     <select id="elModo" onchange="onElModoChange()">
       <option value="faixa" selected>Faixa única · uma locução para o vídeo todo</option>
@@ -1803,6 +1812,7 @@ function saveState(){
       globalPos: posAtual(),
       renderServidor: renderNoServidor(),
       motorRemotion: renderComRemotion(),
+      elVelocidade: (document.getElementById('elVelocidade')||{}).value,
       modoMascote: !!(document.getElementById('modoMascote')||{}).checked,
       vidOn: animacaoLigada(),
       vidModel: document.getElementById('vidModel').value,
@@ -1897,6 +1907,8 @@ function loadState(){
   // escolheu 'nao', so nao tinha a opcao
   const rs=document.getElementById('renderServidor');
   if(rs && d.renderServidor!==undefined) rs.checked = !!d.renderServidor;
+  const ev=document.getElementById('elVelocidade');
+  if(ev && d.elVelocidade) ev.value=d.elVelocidade;
   const rr=document.getElementById('renderRemotion');
   // padrão ligado: a rotina do app termina no Remotion
   if(rr && d.motorRemotion!==undefined) rr.checked = !!d.motorRemotion;
@@ -4167,6 +4179,14 @@ function indiceDoAlinhamento(chars,textoCombinado){
 // soando contínua e a deriva não tem espaço para acontecer.
 const FAIXA_BLOCO=1200;
 
+// Ajustes de voz mandados em toda geração. A ElevenLabs troca o objeto inteiro
+// quando recebe voice_settings, então vão também estabilidade e semelhança nos
+// valores padrão dela — mandar só a velocidade zeraria os outros.
+function vozConfig(){
+  const v=parseFloat((document.getElementById('elVelocidade')||{}).value);
+  return {stability:0.5, similarity_boost:0.75, speed:(v>=0.7&&v<=1.2)?v:1};
+}
+
 function blocosDaFaixa(alvos){
   const blocos=[]; let atual=[], tam=0;
   for(const x of alvos){
@@ -4211,7 +4231,7 @@ async function narrarFaixa(){
       combinado+=x.texto;
       x.fim=combinado.length;
     }
-    const corpo={text:combinado,model_id:model};
+    const corpo={text:combinado,model_id:model,voice_settings:vozConfig()};
     // contexto de prosódia: não é sintetizado nem cobrado
     if(b>0) corpo.previous_text=blocos[b-1].map(x=>x.texto).join(FAIXA_SEP).slice(-CTX_MAX);
     if(b<blocos.length-1) corpo.next_text=blocos[b+1].map(x=>x.texto).join(FAIXA_SEP).slice(0,CTX_MAX);
@@ -4367,7 +4387,7 @@ async function ttsScene(f, ctx){
   const qs='?output_format=mp3_44100_128';
   const base=`${EL_API}/text-to-speech/${encodeURIComponent(vid)}`;
 
-  const corpo={text, model_id:model};
+  const corpo={text, model_id:model, voice_settings:vozConfig()};
   if(ctx&&ctx.prevText) corpo.previous_text=ctx.prevText;
   if(ctx&&ctx.nextText) corpo.next_text=ctx.nextText;
   const ids=(ctx&&ctx.prevIds)||[];
