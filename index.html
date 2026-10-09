@@ -4184,14 +4184,24 @@ const FAIXA_BLOCO=1200;
 // valores padrão dela — mandar só a velocidade zeraria os outros.
 function vozConfig(){
   const v=parseFloat((document.getElementById('elVelocidade')||{}).value);
-  return {stability:0.5, similarity_boost:0.75, speed:(v>=0.7&&v<=1.2)?v:1};
+  // estabilidade 0,65 (padrão 0,5): timbre mais uniforme entre os blocos da faixa
+  return {stability:0.65, similarity_boost:0.75, speed:(v>=0.7&&v<=1.2)?v:1};
 }
 
+// Blocos de tamanho PARECIDO: enchendo até 1.200 e deixando a sobra no fim, o
+// último bloco do For ficou com 480 caracteres e saiu com timbre mais agudo
+// que os outros (pouco texto para a voz "pegar" o tom). Aqui o total é
+// dividido em partes iguais e cada bloco fecha quando passa da sua cota.
 function blocosDaFaixa(alvos){
+  const total=alvos.reduce((a,x)=>a+x.texto.length+FAIXA_SEP.length,0);
+  const n=Math.max(1,Math.ceil(total/FAIXA_BLOCO));
+  const cota=total/n;
   const blocos=[]; let atual=[], tam=0;
   for(const x of alvos){
-    if(atual.length && tam+x.texto.length>FAIXA_BLOCO){ blocos.push(atual); atual=[]; tam=0; }
-    atual.push(x); tam+=x.texto.length+FAIXA_SEP.length;
+    const t=x.texto.length+FAIXA_SEP.length;
+    // fecha antes desta cena se ela levar o bloco para mais longe da cota
+    if(atual.length && blocos.length<n-1 && tam+t-cota > cota-tam){ blocos.push(atual); atual=[]; tam=0; }
+    atual.push(x); tam+=t;
   }
   if(atual.length) blocos.push(atual);
   return blocos;
