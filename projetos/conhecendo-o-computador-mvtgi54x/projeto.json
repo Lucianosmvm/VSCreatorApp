@@ -1,0 +1,486 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1920x1080",
+ "elModel": "eleven_multilingual_v2",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"9:16\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "nome": "Conhecendo o Computador",
+ "frames": [
+  {
+   "id": "fmvtgi54x-0",
+   "prompt": "",
+   "text": "Olá! Seja bem-vindo ao curso de informática básica.",
+   "narration": "",
+   "mascote": "acenando",
+   "titulo": "Bem-vindo!"
+  },
+  {
+   "id": "fmvtgi54x-1",
+   "prompt": "",
+   "text": "Você já parou para pensar em quantas coisas um computador faz?",
+   "narration": "",
+   "mascote": "pensando"
+  },
+  {
+   "id": "fmvtgi54x-2",
+   "prompt": "",
+   "text": "Podemos estudar, escrever trabalhos e acessar a internet.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-3",
+   "prompt": "",
+   "text": "Também conversamos com pessoas e organizamos documentos.",
+   "narration": "",
+   "mascote": "frente"
+  },
+  {
+   "id": "fmvtgi54x-4",
+   "prompt": "",
+   "text": "Para usar tudo isso, primeiro precisamos entender o básico.",
+   "narration": "",
+   "mascote": "determinado"
+  },
+  {
+   "id": "fmvtgi54x-5",
+   "prompt": "",
+   "text": "Hoje vamos aprender três palavras importantes.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "3 palavras-chave"
+  },
+  {
+   "id": "fmvtgi54x-6",
+   "prompt": "",
+   "text": "Hardware, software e sistema operacional.",
+   "narration": "",
+   "mascote": "placa",
+   "placa": "HARDWARE SOFTWARE SO"
+  },
+  {
+   "id": "fmvtgi54x-7",
+   "prompt": "",
+   "text": "Não se preocupe se nunca ouviu esses termos antes.",
+   "narration": "",
+   "mascote": "paz"
+  },
+  {
+   "id": "fmvtgi54x-8",
+   "prompt": "",
+   "text": "Vamos explicar cada um com exemplos bem simples.",
+   "narration": "",
+   "mascote": "confiante"
+  },
+  {
+   "id": "fmvtgi54x-9",
+   "prompt": "",
+   "text": "Primeiro, o que é um computador?",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "O que é?"
+  },
+  {
+   "id": "fmvtgi54x-10",
+   "prompt": "",
+   "text": "É uma máquina que recebe informações, processa e mostra um resultado.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-11",
+   "prompt": "",
+   "text": "Você digita uma pergunta e ele devolve uma resposta na tela.",
+   "narration": "",
+   "mascote": "digitando"
+  },
+  {
+   "id": "fmvtgi54x-12",
+   "prompt": "",
+   "text": "Essa máquina é feita de duas partes bem diferentes.",
+   "narration": "",
+   "mascote": "frente"
+  },
+  {
+   "id": "fmvtgi54x-13",
+   "prompt": "",
+   "text": "Uma parte você pode tocar com a mão.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-14",
+   "prompt": "",
+   "text": "A outra parte você só vê funcionando na tela.",
+   "narration": "",
+   "mascote": "surpreso"
+  },
+  {
+   "id": "fmvtgi54x-15",
+   "prompt": "",
+   "text": "A parte física chama-se hardware.",
+   "narration": "",
+   "mascote": "placa",
+   "titulo": "Hardware",
+   "placa": "HARDWARE"
+  },
+  {
+   "id": "fmvtgi54x-16",
+   "prompt": "",
+   "text": "Hardware é tudo o que você pode ver e tocar.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-17",
+   "prompt": "",
+   "text": "O monitor, que mostra as imagens, é hardware.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-18",
+   "prompt": "",
+   "text": "O teclado, usado para digitar letras, é hardware.",
+   "narration": "",
+   "mascote": "digitando"
+  },
+  {
+   "id": "fmvtgi54x-19",
+   "prompt": "",
+   "text": "O mouse, que move a seta na tela, é hardware.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-20",
+   "prompt": "",
+   "text": "Dentro do gabinete existem peças ainda mais importantes.",
+   "narration": "",
+   "mascote": "pensando"
+  },
+  {
+   "id": "fmvtgi54x-21",
+   "prompt": "",
+   "text": "O processador é o cérebro do computador.",
+   "narration": "",
+   "mascote": "ideia"
+  },
+  {
+   "id": "fmvtgi54x-22",
+   "prompt": "",
+   "text": "Ele faz os cálculos e toma as decisões rápidas.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-23",
+   "prompt": "",
+   "text": "A memória guarda informações enquanto você está usando o computador.",
+   "narration": "",
+   "mascote": "frente"
+  },
+  {
+   "id": "fmvtgi54x-24",
+   "prompt": "",
+   "text": "O disco, HD ou SSD, guarda os arquivos para sempre.",
+   "narration": "",
+   "mascote": "determinado"
+  },
+  {
+   "id": "fmvtgi54x-25",
+   "prompt": "",
+   "text": "Pense no hardware como o corpo do computador.",
+   "narration": "",
+   "mascote": "comemorando"
+  },
+  {
+   "id": "fmvtgi54x-26",
+   "prompt": "",
+   "text": "Agora vamos conhecer a outra parte, o software.",
+   "narration": "",
+   "mascote": "placa",
+   "titulo": "Software",
+   "placa": "SOFTWARE"
+  },
+  {
+   "id": "fmvtgi54x-27",
+   "prompt": "",
+   "text": "Software é tudo aquilo que você não pode tocar.",
+   "narration": "",
+   "mascote": "pensando"
+  },
+  {
+   "id": "fmvtgi54x-28",
+   "prompt": "",
+   "text": "São os programas que funcionam dentro do computador.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-29",
+   "prompt": "",
+   "text": "O editor de texto, usado para escrever, é um software.",
+   "narration": "",
+   "mascote": "digitando"
+  },
+  {
+   "id": "fmvtgi54x-30",
+   "prompt": "",
+   "text": "O navegador, usado para acessar sites, é um software.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-31",
+   "prompt": "",
+   "text": "Até os jogos que você joga são softwares.",
+   "narration": "",
+   "mascote": "feliz"
+  },
+  {
+   "id": "fmvtgi54x-32",
+   "prompt": "",
+   "text": "Se o hardware é o corpo, o software é a mente.",
+   "narration": "",
+   "mascote": "ideia"
+  },
+  {
+   "id": "fmvtgi54x-33",
+   "prompt": "",
+   "text": "Um comanda e o outro executa a tarefa.",
+   "narration": "",
+   "mascote": "confiante"
+  },
+  {
+   "id": "fmvtgi54x-34",
+   "prompt": "",
+   "text": "Sem software, o hardware é apenas uma caixa parada.",
+   "narration": "",
+   "mascote": "triste"
+  },
+  {
+   "id": "fmvtgi54x-35",
+   "prompt": "",
+   "text": "Sem hardware, o software não tem onde funcionar.",
+   "narration": "",
+   "mascote": "desconfiado"
+  },
+  {
+   "id": "fmvtgi54x-36",
+   "prompt": "",
+   "text": "Os dois precisam trabalhar sempre juntos.",
+   "narration": "",
+   "mascote": "bracos"
+  },
+  {
+   "id": "fmvtgi54x-37",
+   "prompt": "",
+   "text": "Mas existe um software muito especial.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Sistema Operacional"
+  },
+  {
+   "id": "fmvtgi54x-38",
+   "prompt": "",
+   "text": "Ele organiza todos os outros programas do computador.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-39",
+   "prompt": "",
+   "text": "Esse software especial é o sistema operacional.",
+   "narration": "",
+   "mascote": "placa",
+   "placa": "SISTEMA OPERACIONAL"
+  },
+  {
+   "id": "fmvtgi54x-40",
+   "prompt": "",
+   "text": "O sistema operacional é como o gerente da casa.",
+   "narration": "",
+   "mascote": "determinado"
+  },
+  {
+   "id": "fmvtgi54x-41",
+   "prompt": "",
+   "text": "Ele decide o que cada programa pode usar e quando.",
+   "narration": "",
+   "mascote": "frente"
+  },
+  {
+   "id": "fmvtgi54x-42",
+   "prompt": "",
+   "text": "No seu computador, esse gerente se chama Windows 11.",
+   "narration": "",
+   "mascote": "placa",
+   "titulo": "Windows 11",
+   "placa": "WINDOWS 11"
+  },
+  {
+   "id": "fmvtgi54x-43",
+   "prompt": "",
+   "text": "O Windows 11 mostra a área de trabalho que você vê.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-44",
+   "prompt": "",
+   "text": "A barra de tarefas, lá embaixo, também é parte dele.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-45",
+   "prompt": "",
+   "text": "O menu Iniciar abre todos os seus programas instalados.",
+   "narration": "",
+   "mascote": "digitando"
+  },
+  {
+   "id": "fmvtgi54x-46",
+   "prompt": "",
+   "text": "Sem o Windows, o computador nem ligaria direito.",
+   "narration": "",
+   "mascote": "surpreso"
+  },
+  {
+   "id": "fmvtgi54x-47",
+   "prompt": "",
+   "text": "Agora pense no seu celular por um instante.",
+   "narration": "",
+   "mascote": "pensando"
+  },
+  {
+   "id": "fmvtgi54x-48",
+   "prompt": "",
+   "text": "A tela e a bateria do celular são hardware.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-49",
+   "prompt": "",
+   "text": "Os aplicativos que você usa são software.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-50",
+   "prompt": "",
+   "text": "E o sistema que organiza tudo é o sistema operacional.",
+   "narration": "",
+   "mascote": "ideia"
+  },
+  {
+   "id": "fmvtgi54x-51",
+   "prompt": "",
+   "text": "Viu como esses três conceitos estão em todo lugar?",
+   "narration": "",
+   "mascote": "comemorando"
+  },
+  {
+   "id": "fmvtgi54x-52",
+   "prompt": "",
+   "text": "Vamos revisar rapidinho o que aprendemos hoje.",
+   "narration": "",
+   "mascote": "confiante",
+   "titulo": "Resumo"
+  },
+  {
+   "id": "fmvtgi54x-53",
+   "prompt": "",
+   "text": "Hardware é a parte física que você toca.",
+   "narration": "",
+   "mascote": "apontando"
+  },
+  {
+   "id": "fmvtgi54x-54",
+   "prompt": "",
+   "text": "Software são os programas que funcionam por dentro.",
+   "narration": "",
+   "mascote": "explicando"
+  },
+  {
+   "id": "fmvtgi54x-55",
+   "prompt": "",
+   "text": "E o sistema operacional organiza tudo isso junto.",
+   "narration": "",
+   "mascote": "determinado"
+  },
+  {
+   "id": "fmvtgi54x-56",
+   "prompt": "",
+   "text": "No nosso curso, esse sistema é o Windows 11.",
+   "narration": "",
+   "mascote": "placa",
+   "placa": "WINDOWS 11"
+  },
+  {
+   "id": "fmvtgi54x-57",
+   "prompt": "",
+   "text": "Muito bem, você já entendeu a base da informática.",
+   "narration": "",
+   "mascote": "comemorando"
+  },
+  {
+   "id": "fmvtgi54x-58",
+   "prompt": "",
+   "text": "Na próxima aula vamos explorar a área de trabalho do Windows.",
+   "narration": "",
+   "mascote": "acenando",
+   "titulo": "Próxima aula"
+  },
+  {
+   "id": "fmvtgi54x-59",
+   "prompt": "",
+   "text": "Até lá, continue praticando o que você aprendeu.",
+   "narration": "",
+   "mascote": "paz"
+  }
+ ],
+ "frameCount": "60",
+ "salvoEm": "2026-10-29T11:25:01.000Z"
+}
