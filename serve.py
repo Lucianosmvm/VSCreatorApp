@@ -591,6 +591,8 @@ def remotion_montar(job):
         print("[remotion] %s: FALHOU — %s" % (job["id"], job["detalhe"][-200:]))
         return
     job["bytes"] = os.path.getsize(job["saida"])
+    with open(os.path.join(job["pasta"], "pronto.json"), "w", encoding="utf-8") as fh:
+        json.dump({"duracao": job["duracao"], "bytes": job["bytes"]}, fh)
     job["estado"] = "pronto"
     job["pct"] = 100
     job["detalhe"] = ""
@@ -685,6 +687,229 @@ def claude_studio():
     return True
 
 
+# ── AUTOMATICO: tema -> video sem sair do app ──────────────────────────
+#
+# O mesmo fluxo do CLAUDE.md, com o serve.py fazendo o papel de quem
+# conversa com o Claude:
+#   1. roteiro   claude -p (sem ferramentas) devolve o JSON -> novo_projeto.py
+#   2. narracao  ferramentas/narrar.py com a chave da ElevenLabs do .env
+#   3. montagem  claude -p com permissao para editar remotion/ e rodar
+#                tsc / still / cenas.mjs -> composicoes.json + clipes
+# Cada etapa e um processo novo: nada de historico acumulado entre videos.
+#
+# O pedido do usuario vai como TEXTO do prompt, nunca como argumento de shell
+# (subprocess com lista). O Claude so recebe ferramentas na etapa 3, e o Bash
+# dele fica restrito a cd/npx/node/python.
+AUTO_PREFIX = "/auto"
+AUTO_ENV = os.path.join(APP_DIR, ".env")
+AUTO_MODELO = os.environ.get("VSC_MODELO", "sonnet")   # montagem: sonnet sai bem mais barato
+AUTO_TIMEOUT = 45 * 60
+AUTO_FERRAMENTAS = ["Read", "Edit", "Write", "Glob", "Grep",
+                    "Bash(cd:*)", "Bash(npx:*)", "Bash(node:*)", "Bash(python:*)", "Bash(ls:*)"]
+auto_jobs = {}                 # jid -> {estado, etapa, msg, log, pid, proc}
+sys.path.insert(0, os.path.join(APP_DIR, "ferramentas"))
+from novo_projeto import POSES as AUTO_POSES  # noqa: E402 — mesma lista que o novo_projeto.py valida
+auto_lock = threading.Lock()
+
+
+def auto_chave():
+    try:
+        with open(AUTO_ENV, encoding="utf-8") as fh:
+            for linha in fh:
+                if linha.strip().startswith("ELEVENLABS_API_KEY="):
+                    return linha.split("=", 1)[1].strip()
+    except OSError:
+        pass
+    return os.environ.get("ELEVENLABS_API_KEY", "").strip()
+
+
+def auto_gravar_chave(valor):
+    linhas = []
+    try:
+        with open(AUTO_ENV, encoding="utf-8") as fh:
+            linhas = [l for l in fh.read().splitlines() if not l.strip().startswith("ELEVENLABS_API_KEY=")]
+    except OSError:
+        pass
+    linhas.append("ELEVENLABS_API_KEY=" + valor)
+    with open(AUTO_ENV, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(linhas) + "\n")
+
+
+def auto_claude_bin():
+    achado = shutil.which("claude")
+    if achado:
+        return achado
+    c = os.path.join(os.path.expanduser("~"), ".local", "bin", "claude.exe")
+    return c if os.path.isfile(c) else None
+
+
+def auto_publico(job):
+    return {k: v for k, v in job.items() if k not in ("proc", "pedido")}
+
+
+def auto_log(job, texto):
+    job["log"] = (job["log"] + [texto])[-40:]
+    job["msg"] = texto
+
+
+def auto_rodar(job, cmd, entrada=None, ao_ler=None):
+    """Roda e acompanha linha a linha. Devolve (codigo, saida inteira)."""
+    # Sem as variaveis de uma sessao do Claude Code que tenha subido o serve.py
+    # (ANTHROPIC_BASE_URL, CLAUDE_CODE_*): o claude filho tentaria usar a
+    # autenticacao daquela sessao e falharia com "OAuth session expired".
+    env = {k: v for k, v in os.environ.items()
+           if not (k.startswith("CLAUDE") or k == "ANTHROPIC_BASE_URL")}
+    env.update(PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    proc = subprocess.Popen(cmd, cwd=APP_DIR, env=env, stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                            text=True, encoding="utf-8", errors="replace")
+    job["proc"] = proc
+    if entrada is not None:
+        proc.stdin.write(entrada)
+    proc.stdin.close()
+    timer = threading.Timer(AUTO_TIMEOUT, proc.kill)
+    timer.start()
+    saida = []
+    for linha in proc.stdout:
+        saida.append(linha)
+        if ao_ler:
+            ao_ler(linha.rstrip())
+    proc.wait()
+    timer.cancel()
+    job.pop("proc", None)
+    if job.get("cancelado"):
+        raise RuntimeError("cancelado")
+    return proc.returncode, "".join(saida)
+
+
+def auto_claude(job, prompt, ferramentas, modelo):
+    """claude -p em stream-json: cada ferramenta usada vira uma linha de progresso."""
+    cmd = [auto_claude_bin(), "-p", "--output-format", "stream-json", "--verbose",
+           "--model", modelo, "--permission-mode", "acceptEdits"]
+    if ferramentas:
+        cmd += ["--allowedTools"] + ferramentas
+    else:
+        cmd += ["--tools", ""]
+    final = {}
+
+    def ler(linha):
+        try:
+            ev = json.loads(linha)
+        except ValueError:
+            return
+        if ev.get("type") == "assistant":
+            for b in (ev.get("message") or {}).get("content") or []:
+                if b.get("type") == "tool_use":
+                    inp = b.get("input") or {}
+                    alvo = inp.get("command") or inp.get("file_path") or inp.get("pattern") or ""
+                    auto_log(job, "%s %s" % (b.get("name"), str(alvo)[:140]))
+        elif ev.get("type") == "result":
+            final.update(ev)
+
+    codigo, saida = auto_rodar(job, cmd, entrada=prompt, ao_ler=ler)
+    if codigo != 0 or final.get("is_error"):
+        raise RuntimeError("Claude falhou: %s" % (final.get("result") or saida[-600:]))
+    return final.get("result") or ""
+
+
+def auto_prompt_roteiro(pedido, resolucao):
+    longo = resolucao == "1920x1080"
+    return (
+        "Escreva o roteiro de um video seguindo EXATAMENTE as \"Regras do roteiro\" do CLAUDE.md "
+        "deste projeto (formato aceito por ferramentas/novo_projeto.py). "
+        "Resolucao: %s (%s). No campo mascote use SOMENTE uma destas poses: %s. "
+        "Responda SOMENTE o JSON, sem comentarios nem cercas de codigo.\n\n"
+        "Pedido do usuario (pode ser um tema ou um roteiro pronto para adaptar):\n%s"
+    ) % (resolucao, "video longo do YouTube, 3 a 6 minutos" if longo else "Short, 30 a 90 segundos",
+         ", ".join(sorted(AUTO_POSES)), pedido)
+
+
+def auto_prompt_montagem(pid):
+    return (
+        "O projeto %s ja foi narrado: remotion/public/videos/%s/timeline.json esta pronta. "
+        "Monte o video seguindo a secao \"Montar o video\" do CLAUDE.md e publique no app (passo 5): "
+        "componente em remotion/src/videos/, registro em index.ts (longo + versao Short se o video for 16:9), "
+        "npx tsc -p . sem erros, confira 3 a 5 stills das cenas especiais, grave composicoes.json e gere "
+        "os clipes de todas as cenas com node cenas.mjs. Nao renderize o video inteiro. "
+        "Trabalhe sozinho, sem fazer perguntas, e termine com um resumo de uma linha."
+    ) % (pid, pid)
+
+
+def auto_prompt_revisao(pid):
+    return (
+        "Aplique a revisao do projeto %s seguindo o passo 6 do CLAUDE.md (projetos/%s/revisao.json). "
+        "Se algum comentario mudar a FALA, edite o projeto.json (atualize salvoEm) e diga no resumo "
+        "que precisa narrar de novo. Trabalhe sozinho, sem perguntas, e termine com um resumo de uma linha."
+    ) % (pid, pid)
+
+
+def auto_executar(job):
+    try:
+        if job["tipo"] == "revisao":
+            job.update(etapa=2)
+            auto_log(job, "Aplicando os ajustes…")
+            resumo = auto_claude(job, auto_prompt_revisao(job["pid"]), AUTO_FERRAMENTAS, AUTO_MODELO)
+            job.update(estado="pronto", etapa=3, resumo=resumo.strip()[-500:])
+            auto_log(job, "Ajustes aplicados.")
+            return
+
+        if not job.get("pid"):
+            job.update(etapa=0)
+            auto_log(job, "Escrevendo o roteiro…")
+            texto = auto_claude(job, auto_prompt_roteiro(job["pedido"], job["resolucao"]), None, AUTO_MODELO)
+            texto = re.sub(r"^\s*```(?:json)?\s*|\s*```\s*$", "", texto.strip())
+            try:
+                roteiro = json.loads(texto)
+                assert isinstance(roteiro.get("cenas"), list) and roteiro["cenas"]
+            except (ValueError, AssertionError, AttributeError):
+                raise RuntimeError("o roteiro veio em formato invalido; tente de novo")
+            roteiro["resolucao"] = job["resolucao"]
+            # pose inventada pelo modelo nao trava o fluxo: sem o campo, o app escolhe
+            for c in roteiro["cenas"]:
+                if isinstance(c, dict) and str(c.get("mascote") or "").strip().lower() not in AUTO_POSES:
+                    c.pop("mascote", None)
+            arq = os.path.join(REMOTION_JOBS, "roteiro-%s.json" % job["id"])
+            os.makedirs(REMOTION_JOBS, exist_ok=True)
+            with open(arq, "w", encoding="utf-8") as fh:
+                json.dump(roteiro, fh, ensure_ascii=False)
+            codigo, saida = auto_rodar(job, [sys.executable, os.path.join(APP_DIR, "ferramentas", "novo_projeto.py"), arq])
+            os.remove(arq)
+            if codigo != 0:
+                raise RuntimeError(saida.strip()[-400:])
+            job["pid"] = saida.strip().splitlines()[-1].strip()
+            job["nome"] = roteiro.get("nome") or job["pid"]
+            job["cenas"] = [c.get("texto", "") for c in roteiro["cenas"]]
+            if job.get("pausar"):
+                job.update(estado="revisar", etapa=1)
+                auto_log(job, "Roteiro pronto. Confira e continue para gastar a narração.")
+                return
+
+        job.update(estado="rodando", etapa=1)
+        auto_log(job, "Gerando a narração na ElevenLabs…")
+        codigo, saida = auto_rodar(job, [sys.executable, os.path.join(APP_DIR, "ferramentas", "narrar.py"), job["pid"]],
+                                   ao_ler=lambda l: auto_log(job, "Narração: " + l) if l else None)
+        if codigo != 0:
+            raise RuntimeError(saida.strip()[-400:])
+
+        job.update(etapa=2)
+        auto_log(job, "Animando as cenas no Remotion…")
+        resumo = auto_claude(job, auto_prompt_montagem(job["pid"]), AUTO_FERRAMENTAS, AUTO_MODELO)
+        if not claude_composicoes(job["pid"]):
+            raise RuntimeError("a montagem terminou sem composicoes.json: %s" % resumo[-300:])
+        job.update(estado="pronto", etapa=3, resumo=resumo.strip()[-500:])
+        auto_log(job, "Vídeo pronto para exportar.")
+    except Exception as e:      # noqa: BLE001 — qualquer falha vira estado visivel no app
+        job.update(estado="cancelado" if job.get("cancelado") else "erro", detalhe=str(e)[-800:])
+        auto_log(job, "Cancelado." if job.get("cancelado") else "Falhou: %s" % str(e)[-300:])
+    finally:
+        print("[auto] %s: %s %s" % (job["id"], job["estado"], job.get("pid") or ""))
+
+
+def auto_iniciar(job):
+    job.update(estado="rodando", detalhe="", cancelado=False)
+    threading.Thread(target=auto_executar, args=(job,), daemon=True).start()
+
+
 def endereco_publico(host):
     """False para localhost, IP privado, link-local — evita virar scanner de rede."""
     try:
@@ -724,7 +949,8 @@ class Handler(SimpleHTTPRequestHandler):
         rota = self.path.split("?")[0]
         if (self.path.startswith(PREFIX) or rota == FETCH_PREFIX
                 or rota.startswith(PARALLAX_PREFIX) or rota.startswith(PROJETOS_PREFIX)
-                or rota.startswith(RENDER_PREFIX) or rota.startswith(PLANO_PREFIX)):
+                or rota.startswith(RENDER_PREFIX) or rota.startswith(PLANO_PREFIX)
+                or rota.startswith(AUTO_PREFIX)):
             self.send_response(204)
             self._cors()
             self.send_header("Content-Length", "0")
@@ -751,6 +977,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._remotion("GET", rota)
         if rota.startswith(CLAUDE_PREFIX + "/"):
             return self._claude("GET", rota)
+        if rota == AUTO_PREFIX or rota.startswith(AUTO_PREFIX + "/"):
+            return self._auto("GET", rota)
         return SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
@@ -769,6 +997,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self._remotion("POST", rota)
         if rota.startswith(CLAUDE_PREFIX + "/"):
             return self._claude("POST", rota)
+        if rota == AUTO_PREFIX or rota.startswith(AUTO_PREFIX + "/"):
+            return self._auto("POST", rota)
         self.send_error(404)
 
     def do_DELETE(self):
@@ -1234,6 +1464,18 @@ class Handler(SimpleHTTPRequestHandler):
             return self._json(400, {"detail": "id de job invalido"})
         with remotion_lock:
             job = remotion_jobs.get(partes[0])
+        # O resultado salvo no projeto continua disponível após reiniciar o app.
+        if (job is None and metodo == "GET" and os.path.isfile(os.path.join(pasta, "saida.mp4"))
+                and os.path.isfile(os.path.join(pasta, "pronto.json"))):
+            try:
+                with open(os.path.join(pasta, "pronto.json"), encoding="utf-8") as fh:
+                    tl = json.load(fh)
+                job = {"id": partes[0], "pasta": pasta, "saida": os.path.join(pasta, "saida.mp4"),
+                       "estado": "pronto", "pct": 100, "detalhe": "", "duracao": float(tl["duracao"]),
+                       "esperados": set(), "recebidos": set(),
+                       "bytes": os.path.getsize(os.path.join(pasta, "saida.mp4"))}
+            except (OSError, ValueError, KeyError, TypeError):
+                job = None
         if job is None:
             return self._json(404, {"detail": "job nao encontrado"})
         resto = partes[1:]
@@ -1374,6 +1616,85 @@ class Handler(SimpleHTTPRequestHandler):
             with open(saida, "rb") as fh:
                 return self._responder(200, fh.read(), "video/mp4")
 
+        return self._json(404, {"detail": "rota desconhecida"})
+
+    def _auto(self, metodo, rota):
+        partes = [p for p in rota[len(AUTO_PREFIX):].split("/") if p]
+        corpo = {}
+        if metodo == "POST":
+            bruto = self._ler_corpo(256 * 1024)
+            if bruto is None:
+                return
+            try:
+                corpo = json.loads((bruto or b"{}").decode("utf-8"))
+                assert isinstance(corpo, dict)
+            except (ValueError, AssertionError, UnicodeDecodeError):
+                return self._json(400, {"detail": "corpo deve ser um objeto JSON"})
+
+        # GET /auto -> o que falta para o modo automatico funcionar
+        if metodo == "GET" and not partes:
+            with auto_lock:
+                ativo = next((auto_publico(j) for j in auto_jobs.values()
+                              if j["estado"] in ("rodando", "revisar")), None)
+            return self._json(200, {"chave": bool(auto_chave()), "claude": bool(auto_claude_bin()),
+                                    "remotion": remotion_status()["instalado"], "modelo": AUTO_MODELO,
+                                    "ativo": ativo})
+
+        # POST /auto/chave {"elevenlabs": "..."} -> grava no .env do servidor
+        if metodo == "POST" and partes == ["chave"]:
+            valor = str(corpo.get("elevenlabs") or "").strip()
+            if not re.match(r"^[A-Za-z0-9_-]{20,200}$", valor):
+                return self._json(400, {"detail": "chave invalida"})
+            auto_gravar_chave(valor)
+            return self._json(200, {"ok": True})
+
+        # POST /auto {"pedido", "resolucao", "pausar"} | {"revisao": "<pid>"}
+        if metodo == "POST" and not partes:
+            if not auto_claude_bin():
+                return self._json(503, {"detail": "Claude Code (claude) nao encontrado no PATH"})
+            with auto_lock:
+                if any(j["estado"] == "rodando" for j in auto_jobs.values()):
+                    return self._json(409, {"detail": "ja tem um video sendo criado"})
+                jid = "auto-%d" % int(time.time() * 1000)
+                job = {"id": jid, "estado": "rodando", "etapa": 0, "msg": "", "log": [], "detalhe": ""}
+                if corpo.get("revisao"):
+                    pid = str(corpo["revisao"])
+                    if not PROJETO_ID_OK.match(pid) or not os.path.isdir(os.path.join(PROJETOS_DIR, pid)):
+                        return self._json(400, {"detail": "projeto invalido"})
+                    job.update(tipo="revisao", pid=pid)
+                else:
+                    pedido = str(corpo.get("pedido") or "").strip()
+                    resolucao = corpo.get("resolucao")
+                    if not 3 <= len(pedido) <= 20000 or resolucao not in ("1080x1920", "1920x1080"):
+                        return self._json(400, {"detail": "pedido ou resolucao invalidos"})
+                    if not auto_chave():
+                        return self._json(400, {"detail": "sem chave da ElevenLabs no servidor"})
+                    job.update(tipo="video", pedido=pedido, resolucao=resolucao, pausar=bool(corpo.get("pausar")))
+                auto_jobs[jid] = job
+            auto_iniciar(job)
+            return self._json(202, auto_publico(job))
+
+        if not partes or not re.match(r"^auto-[0-9]{6,20}$", partes[0]):
+            return self._json(404, {"detail": "job desconhecido"})
+        with auto_lock:
+            job = auto_jobs.get(partes[0])
+        if job is None:
+            return self._json(404, {"detail": "job nao encontrado"})
+        if metodo == "GET" and len(partes) == 1:
+            return self._json(200, auto_publico(job))
+        if metodo == "POST" and partes[1:] == ["continuar"]:
+            if job["estado"] not in ("revisar", "erro", "cancelado") or not job.get("pid"):
+                return self._json(409, {"detail": "nada para continuar"})
+            auto_iniciar(job)
+            return self._json(202, auto_publico(job))
+        if metodo == "POST" and partes[1:] == ["cancelar"]:
+            job["cancelado"] = True
+            proc = job.get("proc")
+            if proc:
+                proc.kill()
+            elif job["estado"] == "revisar":
+                job["estado"] = "cancelado"
+            return self._json(200, {"ok": True})
         return self._json(404, {"detail": "rota desconhecida"})
 
     def _remotion_entregar(self, job):

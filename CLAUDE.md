@@ -44,6 +44,14 @@ mudou, recarrega a versão do disco em vez de sobrescrevê-la.
 Se o usuário pedir ajuste de texto depois da narração, o áudio precisa ser
 refeito no app (passo 3) — avisar antes de mudar fala.
 
+## Modo automático (tudo pelo app)
+
+Tela inicial do app → tema ou roteiro → **Criar vídeo**. O `serve.py` (`/auto`) faz o fluxo
+acima sozinho: `claude -p` escreve o roteiro → `novo_projeto.py` → `ferramentas/narrar.py`
+(ElevenLabs com `ELEVENLABS_API_KEY` do `.env`) → `claude -p` monta e publica (passos 4–5).
+**🛠 Aplicar ajustes** no passo 5 roda o passo 6 do mesmo jeito. Modelo da montagem:
+`VSC_MODELO` (padrão `sonnet`). Rodando em modo automático: não faça perguntas, termine sozinho.
+
 ## Regras do roteiro
 
 Formato que `novo_projeto.py` aceita:

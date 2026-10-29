@@ -474,6 +474,7 @@ body.preview-off .pv-flut{display:none}
   .canvas-wrap{flex:1;min-height:0;height:auto !important}
 }
 </style>
+<link rel="stylesheet" href="automatico.css">
 </head>
 <body>
 
@@ -665,7 +666,9 @@ body.preview-off .pv-flut{display:none}
 
     <label>Modelo</label>
     <select id="elModel" onchange="saveState()">
-      <option value="eleven_multilingual_v2" selected>Multilingual v2 · melhor PT-BR</option>
+      <option value="eleven_v4" selected>Eleven v4 · mais natural (recomendado)</option>
+      <option value="eleven_v4_turbo">Eleven v4 Turbo · mais rápido</option>
+      <option value="eleven_multilingual_v2">Multilingual v2 · anterior</option>
       <option value="eleven_turbo_v2_5">Turbo v2.5 · mais barato</option>
       <option value="eleven_flash_v2_5">Flash v2.5 · mais rápido</option>
     </select>
@@ -1015,13 +1018,46 @@ body.preview-off .pv-flut{display:none}
     <div class="logo">SHORTS <em>CREATOR</em></div>
     <!-- o status fica no topo, e não junto do preview, porque as outras abas
          também falam por ele (vozes carregadas, teste de ambiente, erros) -->
-    <div class="status" id="statusMsg">Configure as cenas e clique em Gerar</div>
-    <div class="hbadge">IMAGEM + VOZ</div>
+    <div class="status" id="statusMsg">Da sua ideia ao vídeo pronto.</div>
+    <button class="btn-sm btn-del" id="editorToggle" onclick="alternarEditor()">Editar cenas</button>
   </header>
   <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
 </div>
 
 <div class="wrap">
+<section class="criador" aria-labelledby="criadorTitulo">
+  <div class="criador-intro"><span class="eyebrow">SEU PRÓXIMO VÍDEO</span>
+    <h1 id="criadorTitulo">O que vamos criar?</h1>
+    <p>Conte sua ideia ou cole um roteiro. O Claude escreve, a ElevenLabs narra e o Remotion anima — você só confere e exporta.</p>
+  </div>
+  <div class="pedido-card">
+    <label for="autoPedido">Tema ou roteiro</label>
+    <textarea id="autoPedido" placeholder="Ex.: explique como os juros compostos funcionam, com exemplos simples e um tom descontraído." oninput="salvarPedidoAutomatico()"></textarea>
+    <div class="pedido-footer">
+      <fieldset class="formatos"><legend>Formato do vídeo</legend>
+        <label class="formato-card"><input type="radio" name="autoFormato" value="1080x1920" checked onchange="salvarPedidoAutomatico()"><span class="formato-icone vertical"></span><span><b>Short</b><small>Vertical · 9:16</small></span></label>
+        <label class="formato-card"><input type="radio" name="autoFormato" value="1920x1080" onchange="salvarPedidoAutomatico()"><span class="formato-icone horizontal"></span><span><b>Horizontal</b><small>YouTube · 16:9 (+ Short)</small></span></label>
+      </fieldset>
+      <button class="criar-btn" id="autoCriar" onclick="criarVideoAutomatico()">Criar vídeo <span aria-hidden="true">↗</span></button>
+    </div>
+    <label class="auto-pausar"><input type="checkbox" id="autoPausar" checked onchange="salvarPedidoAutomatico()"> Parar para eu conferir o roteiro antes de narrar</label>
+  </div>
+  <div class="auto-andamento" id="autoAndamento" hidden>
+    <div class="auto-heading"><b id="autoTitulo">Criando seu vídeo</b><span id="autoContagem"></span></div>
+    <ol class="auto-etapas" aria-label="Etapas da criação"><li>Roteiro</li><li>Narração</li><li>Animação</li><li>Pronto</li></ol>
+    <p id="autoMensagem" role="status" aria-live="polite"></p>
+    <ol class="auto-roteiro" id="autoRoteiro" hidden></ol>
+    <div class="auto-acoes">
+      <button class="criar-btn" id="autoContinuar" onclick="continuarAutomatico()" hidden>Continuar</button>
+      <button class="btn-sm btn-del" id="autoCancelar" onclick="cancelarAutomatico()" hidden>Cancelar</button>
+    </div>
+  </div>
+  <div class="auto-resultado" id="autoResultado" hidden>
+    <div><span class="eyebrow">TUDO PRONTO</span><h2>Seu vídeo ganhou vida.</h2><p>Abra o projeto para ver cada cena, pedir ajustes e exportar o MP4.</p></div>
+    <button class="criar-btn" id="autoAbrir" onclick="abrirProjetoAutomatico()">Abrir projeto</button>
+  </div>
+  <p class="criador-nota" id="autoNota"></p>
+</section>
 
 <!-- ══════════ CENAS (a tela toda) ══════════ -->
 <div class="pane on" data-tab="cenas">
@@ -1065,6 +1101,7 @@ body.preview-off .pv-flut{display:none}
         </div>
         <div id="clPasso" class="cl-passo"></div>
         <button class="btn btn-violet" id="claudeBtn" onclick="enviarParaClaude()" title="Salva timeline e narração para o Claude Code montar o vídeo">🤖 Enviar para o Claude</button>
+        <button class="btn btn-violet" onclick="revisarAutomatico()" title="O Claude aplica os 💬 ajustes dos cards e regera os clipes, sem sair do app">🛠 Aplicar ajustes</button>
       </div>
       <details class="passo-mais">
         <summary title="Mais opções">⋯</summary>
@@ -1142,6 +1179,7 @@ let pvInterval = null;
 let pvIndex = -1;
 let rendering = false;
 let emLote = false;   // lote paralelo em andamento: cenas não escrevem status individual
+let autoMeta = null;
 // vista do canvas de cenas — declarado aqui porque o init roda antes do bloco
 // que usa estas variáveis, e `let` não é içado
 // Vista do canvas de cenas. Declaradas AQUI, com o resto do estado, porque o
@@ -1791,6 +1829,7 @@ function saveState(){
   try{
     const remember = document.getElementById('rememberKey').checked;
     localStorage.setItem(LS_KEY, JSON.stringify({
+      autoMeta,
       frames: frames.map(f=>({
         id:f.id, prompt:f.prompt, text:f.text, narration:f.narration||'',
         rotulos:f.rotulos&&f.rotulos.length?f.rotulos:undefined,
@@ -1863,6 +1902,7 @@ function loadState(){
   let d=null;
   try{ d=JSON.parse(localStorage.getItem(LS_KEY)||'null'); }catch(e){}
   if(!d) return;
+  autoMeta = d.autoMeta || null;
   // Migração única. buildFrames() chama saveState() a cada carga, então toda
   // sessão antiga tem um gmModel gravado que venceria o padrão novo do HTML.
   // Move uma vez para o 2.5-flash (menos congestionado que o modelo de ponta);
@@ -2353,7 +2393,7 @@ function renderCards(){
       <div class="fc-thumb" ${clipe?'':`onclick="previewFrame(${i})" title="Ver esta cena no preview"`}>
         ${clipe?`<video class="fc-vid" src="${clipe.replace('?','.mp4?')}" poster="${clipe.replace('?','.jpg?')}" preload="none" playsinline controls></video>`
                :`<canvas id="mini-${i}" width="${miniW}" height="${miniH}"></canvas>`}
-        <div class="fc-pos">F${i+1}</div>
+        <div class="fc-pos">Cena ${i+1}</div>
       </div>
 
       <div class="fc-head">
@@ -5119,7 +5159,7 @@ function montarTimelineRemotion(){
                     legenda:{pos:posAtual(),estilo:estiloAtual()},cenas}, arquivos};
 }
 
-async function renderRemotion(){
+async function renderRemotion(opcoes={}){
   const semFala=frames.filter(f=>narrationOf(f)&&!f.audioBuffer).length;
   if(semFala){ setStatus(`⚠️ ${semFala} cena(s) sem narração — gere a narração antes de animar com o Remotion.`); return; }
   const {timeline,arquivos}=montarTimelineRemotion();
@@ -5145,10 +5185,11 @@ async function renderRemotion(){
       setStatus(`📤 Enviando mídia ${i+1}/${arquivos.length}`);
     }
     await renderPost(`/remotion/${job}/montar`,null,null);
-    setStatus('🎞️ Remotion animando — pode fechar esta aba, o MP4 sai em remotion/jobs/.');
+    setStatus('🎞️ Montando o vídeo. Aguarde a conclusão para assistir e baixar.');
 
     let st=null;
     while(true){
+      if(renderCancelled) throw new Error('cancelado');
       await new Promise(r=>setTimeout(r,1500));
       const r=await fetch(`/remotion/${job}`);
       if(!r.ok) throw new Error(`não consegui ler o estado (HTTP ${r.status})`);
@@ -5160,6 +5201,7 @@ async function renderRemotion(){
     if(st.estado==='erro') throw new Error(st.detalhe||'Remotion falhou');
 
     setProg(100);
+    if(opcoes.automatico) return {url:`/remotion/${job}/mp4`, job, duracao:timeline.duracao};
     const blob=await (await fetch(`/remotion/${job}/mp4`)).blob();
     const href=URL.createObjectURL(blob);
     const a=document.createElement('a');
@@ -5172,6 +5214,7 @@ async function renderRemotion(){
     if(job && cancelado){ try{ await fetch(`/remotion/${job}`,{method:'DELETE'}); }catch(_){} }
     if(cancelado){ setStatus('⏹ Renderização cancelada.'); logLine('warn','Render Remotion cancelado.'); }
     else{ logLine('err','Render Remotion falhou',e.message); setStatus('❌ Falha no Remotion: '+(e.message||e)); }
+    if(opcoes.automatico) throw e;
   }finally{
     rendering=false; renderCancelled=false;
     vbtn.disabled=false; vbtn.textContent='🎬 Gerar vídeo pronto para postar';
@@ -6468,7 +6511,7 @@ checkEnvironment(false);
 buildFrames();
 aplicarFormato();   // ajusta canvas, quadros e aspect_ratio ao formato salvo
 checkDone();
-restoreAssets();
+const assetsReady = restoreAssets();
 // depois do loadState, senão a consulta do schema sai sem token e não dá para
 // dizer se o modelo aceita referência
 restaurarReferencia();
@@ -6476,5 +6519,6 @@ restaurarReferencia();
 conferirViMax();
 
 </script>
+<script src="automatico.js"></script>
 </body>
 </html>

@@ -109,6 +109,7 @@ def main():
         "modoMascote": True,
         "renderServidor": True,
         "vidOn": False,
+        "elModel": "eleven_v4",          # projeto novo sempre na voz mais recente
         "appVersao": projeto.get("appVersao", 2),
         # 1080x1920 (Shorts, ate 3 min) ou 1920x1080 (YouTube normal)
         "resolution": roteiro.get("resolucao") or projeto.get("resolution", "1080x1920"),
