@@ -101,6 +101,7 @@ Peças prontas em `remotion/src/`:
 | `cenas/Legenda.tsx` | Legenda de leitura: frase inteira (até 12 palavras, 2 linhas, ~2,5 s na tela) com a palavra falada em amarelo; sempre presente, inclusive em cena especial |
 | `cenas/Destaque.tsx` | Cartão com número contando (`acharDestaque` detecta) |
 | `cenas/Titulo.tsx` | Frase grande no topo |
+| `cenas/Objetos.tsx` | Objeto citado na fala vira ícone SVG animado no meio da tela (monitor, rede, software...), até 3 por cena, na cena padrão sem número. `acharObjetos` detecta pelas listas `PALAVRAS`/`EXPRESSOES` |
 | `cenas/Som.tsx` | Efeitos sonoros (`public/sfx/`, gerados por `ferramentas/gerar_sfx.py`): tecla ao digitar, pop em ficha/placa/saída, plim no ✓, erro no ✗, whoosh em cena com título, contagem no número. Automáticos em `codigo`/`fichas` e nas cenas padrão; à mão: `<Sons efeitos={[{ t: em(c, "palavra"), tipo: "plim" }]} />` |
 
 Para cada projeto:
@@ -127,12 +128,17 @@ Para cada projeto:
    import tlArmadilha from "../../public/videos/<id>/timeline.json";
    { id: "armadilha-parcelas", timeline: tlArmadilha as Timeline, componente: ArmadilhaParcelas },
    ```
-4. Conferir: `cd remotion && npx tsc -p .`, depois quadros soltos das cenas especiais:
+4. **Ícones que faltam**: leia o `texto` das cenas e liste os objetos concretos citados (coisas
+   que dá para desenhar: câmera, fone, carro...) que `acharObjetos` não pega. Para cada um, desenhe
+   um ícone novo em `ICONES` de `cenas/Objetos.tsx` (viewBox 100x100, paleta `ESC/OLI/BEG/CRE/AMA`,
+   contorno `{...traco}`, animação simples com `f`) e adicione a palavra em `PALAVRAS` (sem acento,
+   com plural). Não crie ícone para ideia abstrata. Confira num still.
+5. Conferir: `cd remotion && npx tsc -p .`, depois quadros soltos das cenas especiais:
    ```bash
    cd remotion && npx remotion still src/index.ts <comp-id> out/q.png --frame=<n>
    ```
    Olhar a imagem antes de renderizar o vídeo inteiro.
-5. Render:
+6. Render:
    ```bash
    cd remotion && npx remotion render src/index.ts <comp-id> out/<comp-id>.mp4
    ```

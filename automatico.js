@@ -5,6 +5,7 @@ let autoJob = null;
 let autoTimer = null;
 const autoEl = id => document.getElementById(id);
 const AUTO_JOB_KEY = 'vscreator-auto-job';
+const AUTO_EDITOR_KEY = 'vscreator-abrir-editor';   // depois do reload do projAbrir, cai direto nas cenas
 
 function alternarEditor() {
   if (autoJob && autoJob.estado === 'rodando') return;
@@ -34,7 +35,10 @@ async function autoApi(caminho, corpo) {
 const AUTO_ETAPAS = ['Escrevendo o roteiro', 'Narrando', 'Animando as cenas', 'Pronto'];
 
 function pintarAutomatico(job) {
+  // acabou agora (não um job antigo lembrado ao recarregar): abre o projeto sozinho
+  const acabouAgora = autoJob && autoJob.id === job.id && autoJob.estado === 'rodando' && job.estado === 'pronto';
   autoJob = job;
+  if (acabouAgora && job.pid) { abrirProjetoAutomatico(); return; }
   const rodando = job.estado === 'rodando', erro = job.estado === 'erro' || job.estado === 'cancelado';
   autoEl('autoAndamento').hidden = false;
   autoEl('autoAndamento').classList.toggle('com-erro', erro);
@@ -116,10 +120,18 @@ async function revisarAutomatico() {
 }
 
 function abrirProjetoAutomatico() {
-  if (autoJob?.pid) projAbrir(autoJob.pid);
+  if (!autoJob?.pid) return;
+  try { localStorage.setItem(AUTO_EDITOR_KEY, '1'); } catch (_) {}
+  projAbrir(autoJob.pid);
 }
 
 (async () => {
+  try {
+    if (localStorage.getItem(AUTO_EDITOR_KEY)) {
+      localStorage.removeItem(AUTO_EDITOR_KEY);
+      if (!document.body.classList.contains('editor-aberto')) alternarEditor();
+    }
+  } catch (_) {}
   try {
     const salvo = JSON.parse(localStorage.getItem('vscreator-pedido') || 'null');
     if (salvo) {

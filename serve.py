@@ -829,6 +829,8 @@ def auto_prompt_montagem(pid):
         "O projeto %s ja foi narrado: remotion/public/videos/%s/timeline.json esta pronta. "
         "Monte o video seguindo a secao \"Montar o video\" do CLAUDE.md e publique no app (passo 5): "
         "componente em remotion/src/videos/, registro em index.ts (longo + versao Short se o video for 16:9), "
+        "desenhe em remotion/src/cenas/Objetos.tsx os icones dos objetos citados na fala que ainda nao existem "
+        "(passo \"Icones que faltam\" do CLAUDE.md), "
         "npx tsc -p . sem erros, confira 3 a 5 stills das cenas especiais, grave composicoes.json e gere "
         "os clipes de todas as cenas com node cenas.mjs. Nao renderize o video inteiro. "
         "Trabalhe sozinho, sem fazer perguntas, e termine com um resumo de uma linha."
