@@ -6,6 +6,8 @@ import { SwitchCSharp, SwitchCSharpShort, timelineShortSwitch } from "./SwitchCS
 import tlSwitch from "../../public/videos/switch-e-switch-expression-em-c-muydj4v4/timeline.json";
 import { CondicionaisCSharp, CondicionaisShort, timelineShort } from "./CondicionaisCSharp";
 import tlCondicionais from "../../public/videos/condicionais-em-c-if-else-e-ternario-muy7zibr/timeline.json";
+import { ConhecendoComputador, ConhecendoComputadorShort, timelineShortComputador } from "./ConhecendoComputador";
+import tlComputador from "../../public/videos/conhecendo-o-computador-mvtty7ty/timeline.json";
 
 // Um vídeo por projeto do app. Para cada um o Claude Code cria
 // src/videos/<Nome>.tsx e registra aqui. A timeline (tempo de cada cena e de
@@ -24,4 +26,6 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "switch-csharp-short", timeline: timelineShortSwitch(tlSwitch as Timeline), componente: SwitchCSharpShort },
   { id: "for-csharp", timeline: tlFor as Timeline, componente: ForCSharp },
   { id: "for-csharp-short", timeline: timelineShortFor(tlFor as Timeline), componente: ForCSharpShort },
+  { id: "conhecendo-computador", timeline: tlComputador as Timeline, componente: ConhecendoComputador },
+  { id: "conhecendo-computador-short", timeline: timelineShortComputador(tlComputador as Timeline), componente: ConhecendoComputadorShort },
 ];

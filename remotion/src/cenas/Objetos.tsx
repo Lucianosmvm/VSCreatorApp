@@ -339,6 +339,65 @@ const ICONES: Record<string, Icone> = {
       <circle cx="50" cy="50" r="11" fill={CRE} {...traco} />
     </g>
   ),
+  cerebro: (f) => {
+    const pulso = 0.5 + 0.5 * Math.sin(f / 4);
+    return (
+      <>
+        <path d="M50 14 C36 6 18 14 18 30 C8 36 8 54 18 60 C16 76 32 86 44 80 L50 84 L56 80 C68 86 84 76 82 60 C92 54 92 36 82 30 C82 14 64 6 50 14 Z" fill={BEG} {...traco} />
+        <path d="M50 14 V84 M30 30 C38 34 38 44 30 48 M70 30 C62 34 62 44 70 48 M28 64 C36 60 42 66 40 72 M72 64 C64 60 58 66 60 72" fill="none" {...traco} strokeWidth="3" />
+        {[[30, 40], [68, 38], [36, 66], [64, 66]].map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={3 + (Math.floor(f / 6) % 4 === i ? 2 * pulso : 0)} fill={AMA} stroke={ESC} strokeWidth="1.5" />
+        ))}
+      </>
+    );
+  },
+  bateria: (f) => {
+    const carga = Math.min(4, Math.floor(f / 6) + 1);
+    return (
+      <>
+        <rect x="8" y="28" width="76" height="44" rx="6" fill={CRE} {...traco} />
+        <rect x="84" y="40" width="8" height="20" rx="2" fill={ESC} />
+        {[0, 1, 2, 3].map((i) => (
+          <rect key={i} x={14 + i * 17.5} y="34" width="14" height="32" rx="2" fill={i < carga ? (carga === 4 ? AMA : OLI) : "transparent"} />
+        ))}
+      </>
+    );
+  },
+  pasta: (f) => {
+    const abre = Math.min(1, f / 10);
+    return (
+      <>
+        <path d="M8 24 H38 L46 32 H92 V84 H8 Z" fill={OLI} {...traco} />
+        <rect x="20" y={34 - abre * 14} width="56" height="40" rx="2" fill={CRE} {...traco} strokeWidth="3" />
+        <rect x="28" y={42 - abre * 14} width="30" height="4" rx="2" fill={ESC} />
+        <rect x="28" y={50 - abre * 14} width="38" height="4" rx="2" fill={BEG} />
+        <path d="M8 44 H92 V84 H8 Z" fill={AMA} {...traco} />
+      </>
+    );
+  },
+  janela: (f) => (
+    <>
+      {[0, 1].map((i) => {
+        const s = Math.min(1, Math.max(0, (f - i * 6) / 8));
+        return (
+          <g key={i} opacity={s} transform={`translate(${i * 18} ${i * 16 + (1 - s) * 10})`}>
+            <rect x="8" y="8" width="66" height="50" rx="5" fill={i ? CRE : BEG} {...traco} />
+            <path d="M8 20 H74" {...traco} />
+            <rect x="52" y="12" width="5" height="5" fill={AMA} /><rect x="61" y="12" width="5" height="5" fill="#e0533d" />
+          </g>
+        );
+      })}
+      <rect x="4" y="86" width="92" height="10" rx="3" fill={ESC} />
+      <rect x="8" y="88" width="8" height="6" rx="1" fill={AMA} />
+    </>
+  ),
+  mao: (f) => (
+    <g transform={`rotate(${Math.sin(f / 6) * 6} 50 80)`}>
+      <path d="M30 92 C22 76 16 62 14 52 C12 44 22 42 26 50 L32 60 V22 C32 14 42 14 42 22 V46 V16 C42 8 52 8 52 16 V46 V20 C52 12 62 12 62 20 V48 V30 C62 22 72 22 72 30 V60 C72 76 66 86 62 92 Z"
+        fill={BEG} {...traco} />
+      <path d="M42 46 V36 M52 46 V36 M62 48 V40" stroke={ESC} strokeWidth="2.5" strokeLinecap="round" />
+    </g>
+  ),
 };
 
 // Palavra falada (sem acento, minúscula) -> ícone. Expressões de 2–3 palavras
@@ -380,6 +439,11 @@ const PALAVRAS: [RegExp, string, string?][] = [
   [/^(calcular|calculos?|calculadora|contas)$/, "calculadora"],
   [/^(tempo|horas?|minutos?|relogio)$/, "relogio"],
   [/^(dinheiro|salario|grana|pagar|pagamento)$/, "dinheiro"],
+  [/^(cerebro|mente|pensar|pensa)$/, "cerebro", "Cérebro"],
+  [/^(bateria|baterias|energia|carregar)$/, "bateria", "Bateria"],
+  [/^(pasta|pastas)$/, "pasta", "Pastas"],
+  [/^(janela|janelas|menu|icones)$/, "janela", "Janelas"],
+  [/^(mao|maos|tocar|toca|segurar)$/, "mao"],
   [/^(configurar|configuracao|configuracoes|ajustes|engrenagem)$/, "engrenagem"],
 ];
 
@@ -428,7 +492,7 @@ export const Objetos: React.FC<{ palavras?: Palavra[]; objetos?: Objeto[]; topo?
   if (visiveis <= 0) return null;
 
   const deitado = largura > height;
-  const tam = lado * (lista.length === 1 ? 0.36 : lista.length === 2 ? 0.3 : 0.25);
+  const tam = lado * (lista.length === 1 ? 0.3 : lista.length === 2 ? 0.28 : 0.25);
   const passo = tam * 1.3;
   const centroY = height * (topo ?? (deitado ? 0.44 : 0.33));
 
