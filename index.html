@@ -1092,6 +1092,12 @@ body.preview-off .pv-flut{display:none}
         <div class="passo-hd"><span class="passo-n">4</span><span class="passo-t">Animação</span><span class="passo-st" id="pst4"></span></div>
         <button class="btn btn-ghost" id="vidAllBtn" onclick="animarTodas()" style="display:none">🎞️ Animar</button>
         <button class="btn btn-ghost" id="vidLigarBtn" onclick="ligarAnimacao()">Ligar clipes 3D</button>
+        <button class="btn btn-violet" id="refazerAnimacaoBtn" onclick="refazerAnimacaoAutomatico()" title="Refaz as cenas usando o áudio existente, sem gerar narração">↻ Refazer animação</button>
+        <details>
+          <summary>Como deve ficar?</summary>
+          <textarea id="animacaoOrientacao" aria-label="Orientação para refazer a animação" maxlength="8000" placeholder="Opcional: mais movimento nos objetos, comparações visuais…"></textarea>
+        </details>
+        <small>Reutiliza a narração já gerada.</small>
       </div>
       <div class="passo" data-passo="5">
         <div class="passo-hd"><span class="passo-n">5</span><span class="passo-t">Exportar</span><span class="passo-st" id="pst5"></span></div>
@@ -5323,10 +5329,10 @@ setTimeout(clAtualizar,1500);
 // vão para remotion/public/videos/<projeto>/ e o Claude Code escreve a
 // composição daquele vídeo (cenas, mascote, gráficos) em cima dos tempos reais.
 async function enviarParaClaude(){
-  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return; }
-  if(!projAtivo()){ setStatus('⚠️ Abra ou crie um projeto antes de enviar para o Claude.'); return; }
+  if(rendering){ setStatus('⚠️ Renderização em andamento.'); return false; }
+  if(!projAtivo()){ setStatus('⚠️ Abra ou crie um projeto antes de enviar para o Claude.'); return false; }
   const semFala=frames.filter(f=>narrationOf(f)&&!f.audioBuffer).length;
-  if(semFala){ setStatus(`⚠️ ${semFala} cena(s) sem narração — gere a narração antes de enviar.`); return; }
+  if(semFala){ setStatus(`⚠️ ${semFala} cena(s) sem narração — gere a narração antes de enviar.`); return false; }
   const {timeline,arquivos}=montarTimelineRemotion();
   const soAudio=arquivos.filter(a=>a.tipo==='audio/wav' || !modoMascote());
   const btn=document.getElementById('claudeBtn');
@@ -5345,10 +5351,12 @@ async function enviarParaClaude(){
     const r=await renderPost(`/remotion/${job}/entregar`,null,null);
     logLine('ok','Enviado para o Claude',`${r.pasta} — agora peça no Claude Code: "monta o vídeo do projeto ${projetoAtual.nome}".`);
     setStatus(`🤖 Pronto! No Claude Code, peça: "monta o vídeo do projeto ${projetoAtual.nome}"`);
+    return true;
   }catch(e){
     if(job){ try{ await fetch(`/remotion/${job}`,{method:'DELETE'}); }catch(_){} }
     logLine('err','Envio para o Claude falhou',e.message);
     setStatus('❌ Envio para o Claude falhou: '+(e.message||e));
+    return false;
   }finally{ btn.disabled=false; }
 }
 

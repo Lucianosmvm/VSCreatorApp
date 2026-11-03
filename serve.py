@@ -845,8 +845,63 @@ def auto_prompt_revisao(pid):
     ) % (pid, pid)
 
 
+def auto_timeline_animacao(pid):
+    """Só aceita montagem com timeline e todos os áudios locais já disponíveis."""
+    pasta_projeto = projeto_dir(pid)
+    if not pasta_projeto or not os.path.isfile(os.path.join(pasta_projeto, "projeto.json")):
+        raise ValueError("projeto invalido")
+    pasta = os.path.realpath(os.path.join(REMOTION_VIDEOS, pid))
+    raiz = os.path.realpath(REMOTION_VIDEOS)
+    if not pasta.startswith(raiz + os.sep):
+        raise ValueError("pasta de narracao invalida")
+    try:
+        with open(os.path.join(pasta, "timeline.json"), encoding="utf-8") as fh:
+            tl = json.load(fh)
+    except (OSError, ValueError):
+        raise ValueError("Envie a narracao existente para a montagem antes de refazer a animacao.") from None
+    if not isinstance(tl, dict) or not isinstance(tl.get("cenas"), list) or not tl["cenas"]:
+        raise ValueError("timeline sem cenas; envie a narracao existente novamente")
+    for i, cena in enumerate(tl["cenas"]):
+        nome = cena.get("audio") if isinstance(cena, dict) else None
+        if not isinstance(nome, str) or not re.fullmatch(r"cena_[0-9]{3}\.wav", nome):
+            raise ValueError("cena %d sem audio valido; envie a narracao existente novamente" % (i + 1))
+        arq = os.path.realpath(os.path.join(pasta, nome))
+        if not arq.startswith(pasta + os.sep) or not os.path.isfile(arq) or os.path.getsize(arq) == 0:
+            raise ValueError("falta o audio da cena %d; envie a narracao existente novamente" % (i + 1))
+    return tl
+
+
+def auto_prompt_animacao(pid, orientacao=""):
+    return (
+        "Refaca SOMENTE a animacao do projeto %s usando a narracao JA GERADA em "
+        "remotion/public/videos/%s/timeline.json. Preserve integralmente os arquivos de audio, "
+        "o projeto.json, as falas, a ordem das cenas e todos os tempos da timeline. "
+        "NAO execute ferramentas/narrar.py, NAO use ElevenLabs e NAO gere narracao ou roteiro. "
+        "Siga a secao Montar o video do CLAUDE.md: refaca os componentes visuais, confira "
+        "npx tsc -p . e stills, publique composicoes.json e regenere os clipes de TODAS as cenas "
+        "com node cenas.mjs. Preserve os IDs das composicoes existentes. Se houver Short, "
+        "mantenha seu recorte e remapeie as cenas especiais. Nao renderize o video inteiro. "
+        "Use o estilo original do projeto, com os componentes existentes; nao use o motor "
+        "vetorial desativado em cenas/dinamicas. Nao aplique revisoes que mudem a fala. "
+        "Trabalhe sozinho, sem perguntas. Termine com um resumo curto.\n\n"
+        "Orientacao visual do usuario (vale apenas para a animacao):\n%s"
+    ) % (pid, pid, orientacao or "Melhore as animacoes mantendo a identidade visual do projeto.")
+
+
 def auto_executar(job):
     try:
+        if job["tipo"] == "animacao":
+            auto_timeline_animacao(job["pid"])
+            job.update(etapa=2)
+            auto_log(job, "Refazendo a animação com a narração existente…")
+            resumo = auto_claude(job, auto_prompt_animacao(job["pid"], job.get("orientacao", "")),
+                                 AUTO_FERRAMENTAS, AUTO_MODELO)
+            if not claude_composicoes(job["pid"]):
+                raise RuntimeError("a animacao terminou sem composicoes.json: %s" % resumo[-300:])
+            job.update(estado="pronto", etapa=3, resumo=resumo.strip()[-500:])
+            auto_log(job, "Animação refeita. Confira os clipes dos cards antes de renderizar.")
+            return
+
         if job["tipo"] == "revisao":
             job.update(etapa=2)
             auto_log(job, "Aplicando os ajustes…")
@@ -1565,7 +1620,13 @@ class Handler(SimpleHTTPRequestHandler):
                     cenas = json.load(fh).get("cenas", {})
             except (OSError, ValueError, AttributeError):
                 pass
-            return self._json(200, {"composicoes": comps, "revisao": revisao, "cenas": cenas})
+            try:
+                auto_timeline_animacao(pid)
+                animacao_disponivel = True
+            except ValueError:
+                animacao_disponivel = False
+            return self._json(200, {"composicoes": comps, "revisao": revisao, "cenas": cenas,
+                                    "animacaoDisponivel": animacao_disponivel})
 
         # GET /claude/<pid>/cena/cena_000.mp4|jpg -> clipe/miniatura da cena
         if metodo == "GET" and len(resto) == 2 and resto[0] == "cena":
@@ -1650,7 +1711,7 @@ class Handler(SimpleHTTPRequestHandler):
             auto_gravar_chave(valor)
             return self._json(200, {"ok": True})
 
-        # POST /auto {"pedido", "resolucao", "pausar"} | {"revisao": "<pid>"}
+        # POST /auto: criar vídeo, aplicar revisão ou refazer apenas a animação.
         if metodo == "POST" and not partes:
             if not auto_claude_bin():
                 return self._json(503, {"detail": "Claude Code (claude) nao encontrado no PATH"})
@@ -1659,7 +1720,23 @@ class Handler(SimpleHTTPRequestHandler):
                     return self._json(409, {"detail": "ja tem um video sendo criado"})
                 jid = "auto-%d" % int(time.time() * 1000)
                 job = {"id": jid, "estado": "rodando", "etapa": 0, "msg": "", "log": [], "detalhe": ""}
-                if corpo.get("revisao"):
+                if corpo.get("animacao"):
+                    pid = str(corpo["animacao"])
+                    try:
+                        auto_timeline_animacao(pid)
+                    except ValueError as e:
+                        return self._json(400, {"detail": str(e)})
+                    if not remotion_status()["instalado"]:
+                        return self._json(503, {"detail": "Remotion nao instalado"})
+                    orientacao = corpo.get("orientacao", "")
+                    if not isinstance(orientacao, str) or len(orientacao) > 8000:
+                        return self._json(400, {"detail": "orientacao deve ter ate 8000 caracteres"})
+                    with claude_lock:
+                        if any((claude_renders.get(c["id"]) or {}).get("estado") == "renderizando"
+                               for c in claude_composicoes(pid)):
+                            return self._json(409, {"detail": "aguarde o render terminar antes de refazer a animacao"})
+                    job.update(tipo="animacao", pid=pid, etapa=2, orientacao=orientacao.strip())
+                elif corpo.get("revisao"):
                     pid = str(corpo["revisao"])
                     if not PROJETO_ID_OK.match(pid) or not os.path.isdir(os.path.join(PROJETOS_DIR, pid)):
                         return self._json(400, {"detail": "projeto invalido"})
