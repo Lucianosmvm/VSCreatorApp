@@ -28,10 +28,12 @@ const rampa = (t: number, a: number, b: number, de = 0, para = 1) =>
 // ── cenários ─────────────────────────────────────────────────────────────
 const Vila: React.FC<{ indice: number }> = ({ indice }) => {
   const { f } = useT();
+  const { width, height } = useVideoConfig();
+  const luaX = height > width ? 1000 : 1640; // em pé o cenário é cortado nas laterais
   const px = (k: number) => -f * k * (indice % 2 ? 1 : -1);
   return (
     <AbsoluteFill style={{ background: "linear-gradient(#0a0e09 0%,#1b2415 52%,#34402a 74%,#141a0f 75%,#0c1009 100%)" }}>
-      <div style={{ position: "absolute", left: 1640 + px(0.03), top: 60, width: 210, height: 210, borderRadius: "50%", background: "radial-gradient(circle at 40% 40%,#f2ead8,#d8c3a0 62%,#a99270)", boxShadow: "0 0 120px 40px rgba(216,195,160,.3)" }} />
+      <div style={{ position: "absolute", left: luaX + px(0.03), top: 60, width: 210, height: 210, borderRadius: "50%", background: "radial-gradient(circle at 40% 40%,#f2ead8,#d8c3a0 62%,#a99270)", boxShadow: "0 0 120px 40px rgba(216,195,160,.3)" }} />
       <svg width={2200} height={1080} style={{ position: "absolute", left: -140 + px(0.08), top: 0 }}>
         <g fill="#141b10">
           <path d="M0 810V560l70-70 70 70v250zM190 810V600h190v210zM175 610l110-90 110 90z" />
@@ -74,6 +76,8 @@ export const Arena: React.FC<{
   children: React.ReactNode;
 }> = ({ cena, indice, lugar = "vila", zoom = 0.05, tremor = [], sons = [], children }) => {
   const { t } = useT();
+  const { width, height } = useVideoConfig();
+  const empe = height > width;
   const empurra = rampa(t, 0, Math.max(cena.dur, 1), 1, 1 + zoom);
   const treme = tremor.reduce((s, x) => {
     const d = t - x;
@@ -82,7 +86,10 @@ export const Arena: React.FC<{
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <AbsoluteFill style={{ transform: `translateX(${treme}px) scale(${empurra})`, transformOrigin: indice % 2 ? "38% 58%" : "62% 58%" }}>
-        {lugar === "vila" ? <Vila indice={indice} /> : <Oficina />}
+        {/* em pé: o cenário de 1920x1080 cobre a altura e fica centrado */}
+        <div style={empe ? { position: "absolute", left: (width - 1920 * (height / 1080)) / 2, top: 0, width: 1920, height: 1080, transform: `scale(${height / 1080})`, transformOrigin: "0 0" } : { position: "absolute", inset: 0 }}>
+          {lugar === "vila" ? <Vila indice={indice} /> : <Oficina />}
+        </div>
         {children}
       </AbsoluteFill>
       {cena.titulo && <Capitulo texto={cena.titulo} />}
@@ -95,7 +102,7 @@ const Capitulo: React.FC<{ texto: string }> = ({ texto }) => {
   const s = useSurge(0.05, 190, 15);
   return (
     <div style={{ position: "absolute", left: 0, right: 0, top: 34, display: "flex", justifyContent: "center", transform: `translateY(${(s - 1) * 150}px)` }}>
-      <div style={{ fontFamily: FONTE, fontWeight: 900, fontSize: 62, color: COR.esc, background: COR.ama, padding: "8px 44px", borderRadius: 16, transform: "rotate(-1deg)", boxShadow: "0 14px 40px rgba(0,0,0,.6)" }}>{texto}</div>
+      <div style={{ fontFamily: FONTE, fontWeight: 900, fontSize: 62, color: COR.esc, background: COR.ama, padding: "8px 44px", borderRadius: 16, textAlign: "center", transform: "rotate(-1deg)", boxShadow: "0 14px 40px rgba(0,0,0,.6)" }}>{texto}</div>
     </div>
   );
 };
@@ -134,12 +141,13 @@ export const Carimbo: React.FC<{ txt: string; t: number; x: number; y: number; c
 /** linha que se desenha de (x1,y1) até (x2,y2) */
 export const Seta: React.FC<{ t: number; x1: number; y1: number; x2: number; y2: number; cor?: string; ponta?: boolean }> = ({ t, x1, y1, x2, y2, cor = COR.ama, ponta = true }) => {
   const { t: agora } = useT();
+  const { width, height } = useVideoConfig();
   const p = rampa(agora, t, t + 0.3);
   if (p <= 0) return null;
   const xf = x1 + (x2 - x1) * p, yf = y1 + (y2 - y1) * p;
   const ang = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
   return (
-    <svg width={1920} height={1080} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}>
+    <svg width={width} height={height} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}>
       <line x1={x1} y1={y1} x2={xf} y2={yf} stroke={cor} strokeWidth={8} strokeDasharray="18 14" strokeLinecap="round" />
       {ponta && <path d="M-28-20L6 0l-34 20z" fill={cor} transform={`translate(${xf} ${yf}) rotate(${ang})`} />}
     </svg>
@@ -397,14 +405,16 @@ export const Fabrica: React.FC<{ t0: number; saidas: number[] }> = ({ t0, saidas
 
 /** parede de arquivos repetidos que vai enchendo a tela */
 export const ParedeCodigo: React.FC<{ t0: number; passo?: number; total?: number; riscar?: number; txt?: string }> = ({ t0, passo = 0.075, total = 42, riscar, txt = "class Ganado { ... }" }) => {
+  const { width: largo, height: alto } = useVideoConfig();
   const { t } = useT();
   return (
     <>
       {Array.from({ length: total }, (_, i) => {
+        const cols = alto > largo ? 3 : 6;
         const ini = t0 + i * passo;
         if (t < ini) return null;
-        const x = 180 + (i % 6) * 310 + random(`px${i}`) * 34;
-        const y = 150 + Math.floor(i / 6) * 95 + random(`py${i}`) * 26;
+        const x = (cols === 3 ? 190 : 180) + (i % cols) * (cols === 3 ? 350 : 310) + random(`px${i}`) * 34;
+        const y = 150 + Math.floor(i / cols) * 95 + random(`py${i}`) * 26;
         return <Entra key={i} t={ini} x={x} y={y} gira={(random(`g${i}`) - 0.5) * 9}><div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 28, background: "rgba(14,17,10,.94)", color: COR.ver, border: `3px solid ${riscar !== undefined && t >= riscar ? COR.ver : COR.oli}`, borderRadius: 10, padding: "8px 16px", whiteSpace: "nowrap", textDecoration: riscar !== undefined && t >= riscar ? "line-through" : undefined }}>{txt}</div></Entra>;
       })}
     </>

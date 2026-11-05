@@ -4,5 +4,11 @@
   "titulo": "Vídeo longo (YouTube)",
   "formato": "16:9",
   "duracao": 244.678
+ },
+ {
+  "id": "classes-objetos-csharp-short",
+  "titulo": "Short (Shorts, Reels, TikTok)",
+  "formato": "9:16",
+  "duracao": 54.75
  }
 ]

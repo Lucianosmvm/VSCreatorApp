@@ -1,5 +1,5 @@
 import { Video, type CenaEspecial } from "../Shorts";
-import type { Timeline } from "../tipos";
+import { recortarTimeline, type Timeline } from "../tipos";
 import { codigo, em, fichas } from "../cenas/Codigo";
 import { Mascote } from "../cenas/Mascote";
 import { Arena, Boneco, Carimbo, Casa, Clarao, COR, Contador, Entra, Fabrica, FichaClasse, FichaObjeto, Grande, Hud, Icone, ParedeCodigo, Planta, Rotulo, Seta, type LinhaFicha } from "../cenas/Arena";
@@ -600,3 +600,131 @@ const especiais: Record<number, CenaEspecial> = {
 };
 
 export const ClassesObjetosCSharp: React.FC<Timeline> = (tl) => <Video {...tl} pasta={PASTA} especiais={especiais} />;
+
+// ── Short (9:16, ~55 s) da mesma narração ────────────────────────────────
+// Palco próprio em 1080x1920: pés em y=1400, legenda logo abaixo (pos 74).
+const CENAS_SHORT = [0, 4, 5, 9, 12, 13, 15, 39, 21, 23, 35, 36, 56];
+const CHAO = 1400;
+
+export const timelineShortClasses = (tl: Timeline) =>
+  recortarTimeline(tl, CENAS_SHORT, { largura: 1080, altura: 1920, legenda: { ...tl.legenda, pos: 74 } });
+
+const porOrigem: Record<number, CenaEspecial> = {
+  0: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} sons={pop(em(c, "criados"))} zoom={0.1}>
+      <Boneco tipo="leon" x={540} y={CHAO} h={860} molde={em(c, "criados")} />
+      <Entra t={em(c, "pensou")} x={880} y={500} sai={em(c, "criados")}><Grande txt="?" tam={260} cor={COR.ama} /></Entra>
+      <Entra t={em(c, "pensou")} x={190} y={620} sai={em(c, "criados")}><Grande txt="?" tam={170} /></Entra>
+    </Arena>
+  ),
+  4: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} tremor={[em(c, "vezes")]} sons={[{ t: em(c, "centenas"), tipo: "contagem" }, { t: em(c, "vezes"), tipo: "erro" }]}>
+      <ParedeCodigo t0={em(c, "centenas")} passo={0.05} riscar={em(c, "vezes")} />
+      <Carimbo txt="MESMO CÓDIGO?" t={em(c, "vezes")} x={540} y={760} tam={92} />
+    </Arena>
+  ),
+  5: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} sons={[{ t: em(c, "classes"), tipo: "plim" }, { t: em(c, "objetos"), tipo: "plim" }]} tremor={[em(c, "objetos")]}>
+      <Entra t={em(c, "classes")} x={540} y={230}><Grande txt="CLASSE" cor={COR.azul} /></Entra>
+      <FichaClasse x={540} y={460} t={em(c, "classes")} de="esq" linhas={PROPS} largura={800} tam={52} />
+      <Entra t={em(c, "objetos")} x={540} y={720}><Grande txt="OBJETO" cor={COR.ama} /></Entra>
+      <Boneco tipo="leon" x={540} y={CHAO} h={600} t={em(c, "objetos")} de="zoom" />
+    </Arena>
+  ),
+  9: ({ cena: c, indice }) => {
+    const junta = em(c, "modelo");
+    return (
+      <Arena cena={c} indice={indice} lugar="oficina" zoom={0.09} tremor={[em(c, "classe")]} sons={[{ t: junta, tipo: "whoosh" }, { t: em(c, "classe"), tipo: "plim" }]}>
+        <Entra x={270} y={420} sai={junta}><Rotulo txt="Nome" tam={72} /></Entra>
+        <Entra x={800} y={700} sai={junta}><Rotulo txt="Vida" tam={72} /></Entra>
+        <Entra x={480} y={1040} sai={junta}><Rotulo txt="Velocidade" tam={72} /></Entra>
+        <FichaClasse x={540} y={720} t={junta} nome="modelo" trocaNome={{ t: em(c, "classe"), txt: "class Personagem" }} largura={940} tam={72} linhas={PROPS} />
+      </Arena>
+    );
+  },
+  12: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} lugar="oficina" tremor={[em(c, "nao")]} sons={[{ t: em(c, "nao"), tipo: "erro" }]}>
+      <FichaClasse x={540} y={350} largura={880} tam={62} linhas={PROPS} legenda="é só o molde" />
+      <Boneco tipo="leon" x={540} y={CHAO} h={760} molde0 />
+      <Carimbo txt="NÃO É O PERSONAGEM" t={em(c, "nao")} x={540} y={1000} tam={68} />
+    </Arena>
+  ),
+  13: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} tremor={[em(c, "Leon")]} sons={[{ t: em(c, "Leon"), tipo: "plim" }]}>
+      <FichaClasse x={540} y={380} t={em(c, "molde")} de="esq" linhas={PROPS} largura={800} tam={52} />
+      <Seta t={em(c, "criar")} x1={540} y1={570} x2={540} y2={690} />
+      <Boneco tipo="leon" x={540} y={CHAO} h={680} t={em(c, "Leon")} de="zoom" />
+    </Arena>
+  ),
+  15: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} tremor={[em(c, "objeto")]} sons={[{ t: em(c, "objeto"), tipo: "plim" }, { t: em(c, "instancia"), tipo: "pop" }]}>
+      <Entra t={em(c, "instancia")} x={540} y={170}><Rotulo txt="instância da classe" fundo={COR.ama} tam={60} /></Entra>
+      <FichaClasse x={540} y={410} linhas={PROPS} largura={800} tam={52} />
+      <Boneco tipo="leon" x={540} y={CHAO} h={620} />
+      <Carimbo txt="OBJETO" t={em(c, "objeto")} x={540} y={720} cor={COR.ama} tam={110} />
+    </Arena>
+  ),
+  21: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} sons={[{ t: em(c, "100"), tipo: "contagem" }, { t: em(c, "50"), tipo: "contagem" }]}>
+      <Boneco tipo="leon" x={280} y={CHAO} h={700} />
+      <Boneco tipo="ganado" x={800} y={CHAO} h={700} vira />
+      <Hud nome="Leon" vida={100} x={540} y={320} t={em(c, "100")} largura={860} />
+      <Hud nome="Ganado" vida={50} x={540} y={490} t={em(c, "50")} largura={860} />
+    </Arena>
+  ),
+  23: ({ cena: c, indice }) => {
+    const d = em(c, "dano");
+    return (
+      <Arena cena={c} indice={indice} tremor={[d]} sons={[{ t: d, tipo: "erro" }, { t: em(c, "muda"), tipo: "plim" }]}>
+        <Boneco tipo="leon" x={260} y={CHAO} h={640} dano={[d]} />
+        <Boneco tipo="ganado" x={640} y={CHAO} h={560} vira />
+        <Boneco tipo="ganado" tom={1} x={920} y={CHAO} h={560} vira />
+        <Hud nome="Leon" vida={80} de={100} em={d} x={540} y={250} largura={860} />
+        <Hud nome="Ganado A" vida={50} em={-1} x={540} y={390} largura={860} />
+        <Hud nome="Ganado B" vida={70} em={-1} x={540} y={530} largura={860} />
+        <Entra t={d} x={270} y={690}><Grande txt="-20" cor={COR.ver} tam={110} /></Entra>
+        <Carimbo txt="NÃO MUDA" t={em(c, "muda")} x={760} y={720} cor={COR.vd} tam={78} gira={3} />
+      </Arena>
+    );
+  },
+  35: ({ cena: c, indice }) => {
+    const a = em(c, "reduzir");
+    return (
+      <Arena cena={c} indice={indice} tremor={[a]} sons={[{ t: a, tipo: "erro" }, { t: em(c, "80"), tipo: "contagem" }]}>
+        <Entra t={em(c, "metodo")} x={540} y={200}><Rotulo txt="ReceberDano(20);" mono fundo={COR.ama} tam={72} /></Entra>
+        <Hud nome="Leon" vida={80} de={100} em={a} x={540} y={390} largura={860} />
+        <Entra t={a + 0.4} x={540} y={590}><Grande txt="100 → 80" tam={130} cor={COR.ver} /></Entra>
+        <Boneco tipo="leon" x={290} y={CHAO} h={640} dano={[a]} />
+        <Boneco tipo="ganado" x={800} y={CHAO} h={640} vira ataca={[a - 0.2]} />
+      </Arena>
+    );
+  },
+  36: ({ cena: c, indice }) => {
+    const p = em(c, "Propriedades"), m = em(c, "metodos");
+    return (
+      <Arena cena={c} indice={indice} lugar="oficina" tremor={[m]} sons={pop(p, m)}>
+        <Entra t={p} x={540} y={200}><Grande txt="PROPRIEDADES" cor={COR.azul} tam={100} /></Entra>
+        <Hud nome="Vida" vida={80} x={540} y={350} t={p} largura={860} />
+        <Entra t={m} x={540} y={560}><Grande txt="MÉTODOS" cor={COR.ama} tam={100} /></Entra>
+        <Entra t={m} x={540} y={700}><Rotulo txt="Atacar()" mono fundo={COR.ama} tam={72} /></Entra>
+        <Boneco tipo="leon" x={540} y={CHAO} h={600} ataca={[m + 0.3, m + 1.2]} />
+      </Arena>
+    );
+  },
+  56: ({ cena: c, indice }) => (
+    <Arena cena={c} indice={indice} lugar="oficina" sons={pop(em(c, "like"), em(c, "inscreva"), em(c, "compartilhe"))}>
+      <Entra t={em(c, "like")} x={210} y={300}><Icone nome="like" tam={260} cor={COR.ama} /></Entra>
+      <Entra t={em(c, "inscreva")} x={540} y={300}><Icone nome="sino" tam={260} cor={COR.ver} /></Entra>
+      <Entra t={em(c, "compartilhe")} x={870} y={300}><Icone nome="compartilha" tam={240} cor={COR.azul} /></Entra>
+      <Entra t={em(c, "canal")} x={540} y={560}><Rotulo txt="Dev Sobrevivente" fundo={COR.ama} tam={92} /></Entra>
+      <Mascote pose="acenando" palavras={c.palavras} indice={0} fimFala={c.dur} />
+    </Arena>
+  ),
+};
+
+// a cena 39 é painel de código: `codigo` já se ajusta ao formato em pé
+const ESPECIAIS_SHORT = Object.fromEntries(
+  CENAS_SHORT.map((orig, novo) => [novo, porOrigem[orig] ?? especiais[orig]]),
+) as Record<number, CenaEspecial>;
+
+export const ClassesObjetosShort: React.FC<Timeline> = (tl) => <Video {...tl} pasta={PASTA} especiais={ESPECIAIS_SHORT} />;

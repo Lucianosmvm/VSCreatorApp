@@ -8,7 +8,7 @@ import { CondicionaisCSharp, CondicionaisShort, timelineShort } from "./Condicio
 import tlCondicionais from "../../public/videos/condicionais-em-c-if-else-e-ternario-muy7zibr/timeline.json";
 import { ConhecendoComputador, ConhecendoComputadorShort, timelineShortComputador } from "./ConhecendoComputador";
 import tlComputador from "../../public/videos/conhecendo-o-computador-mvtty7ty/timeline.json";
-import { ClassesObjetosCSharp } from "./ClassesObjetosCSharp";
+import { ClassesObjetosCSharp, ClassesObjetosShort, timelineShortClasses } from "./ClassesObjetosCSharp";
 import tlClasses from "../../public/videos/classes-e-objetos-em-c-com-resident-evil-mw0m04aw/timeline.json";
 
 // Um vídeo por projeto do app. Para cada um o Claude Code cria
@@ -31,4 +31,5 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "conhecendo-computador", timeline: tlComputador as Timeline, componente: ConhecendoComputador },
   { id: "conhecendo-computador-short", timeline: timelineShortComputador(tlComputador as Timeline), componente: ConhecendoComputadorShort },
   { id: "classes-objetos-csharp", timeline: tlClasses as Timeline, componente: ClassesObjetosCSharp },
+  { id: "classes-objetos-csharp-short", timeline: timelineShortClasses(tlClasses as Timeline), componente: ClassesObjetosShort },
 ];
