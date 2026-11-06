@@ -158,3 +158,17 @@ Mesma narração, sem gastar ElevenLabs: escolha as cenas (gancho + núcleo + CT
 (`src/tipos.ts`). Remapeie `especiais` e poses do índice original para o novo
 (ver `CondicionaisShort` em `src/videos/CondicionaisCSharp.tsx`) e registre como
 `<id>-short`. Painel, fichas e mascote se ajustam sozinhos ao formato em pé.
+
+## Estilo "TI Ninja" com EffectCraft (MCP)
+
+Quando o usuário pedir vídeo "estilo TI" / "estilo TI Ninja" / "no EffectCraft": em vez de
+`src/videos/<Nome>.tsx`, escreva `projetos/<id>/cenas-ec.json` (plano visual por cena) e rode
+`node ferramentas/effectcraft/montar-video.mjs <id> --stills`, confira os stills em
+`exportacoes/<id>/stills/`, depois rode sem `--stills` (render + áudio + clipes + composicoes.json).
+Guia do estilo, roteiro e formato do plano: `docs/estilo-ti-ninja.md`.
+
+- MCP `effectcraft` em `.mcp.json` (CLI 0.21.1 portable em `ferramentas/effectcraft/bin/`, fora do git;
+  baixar de github.com/storytold/effectcraft/releases se faltar). Kit visual: `ferramentas/effectcraft/estilo.mjs`.
+- Pegadinhas da API: `comp.new` usa `background` e `renderer: "advanced3D"`; cor sempre `#rrggbb`;
+  `plane` nasce em pé (girar `transform/rotationX` 90); Y cresce para baixo; Z menor = mais perto da
+  câmera; giros em `transform/rotationX|rotationY|rotation`; fontes: `Segoe UI` Black e `JetBrains Mono`.

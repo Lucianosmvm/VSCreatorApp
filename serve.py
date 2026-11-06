@@ -636,6 +636,12 @@ def claude_render(comp):
     os.makedirs(os.path.join(REMOTION_APP, "out"), exist_ok=True)
     cmd = [remotion_node(), REMOTION_CLI, "render", "src/index.ts", comp,
            claude_saida(comp), "--crf=18", "--log=info"]
+    # Composições do EffectCraft (estilo TI): quem renderiza é montar-video.mjs.
+    for pid in os.listdir(REMOTION_VIDEOS):
+        if any(c.get("id") == comp and c.get("motor") == "effectcraft" for c in claude_composicoes(pid)):
+            script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ferramentas", "effectcraft", "montar-video.mjs")
+            cmd = [remotion_node(), script, pid, "--sem-clipes"] + (["--short"] if comp.endswith("-short") else [])
+            break
     print("[claude] renderizando %s" % comp)
     try:
         proc = subprocess.Popen(cmd, cwd=REMOTION_APP, stdout=subprocess.PIPE,

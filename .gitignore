@@ -79,3 +79,10 @@ projetos/*/revisao.json
 
 # Clipes por cena para os cards do app (remotion/cenas.mjs): regeneraveis
 remotion/public/videos/*/cenas/
+ferramentas/effectcraft/bin/
+ferramentas/effectcraft/portable.zip
+
+# Saidas do EffectCraft (MP4, WAV, .ecproj, stills): regeneraveis
+exportacoes/
+ferramentas/effectcraft/test.ecproj
+ferramentas/effectcraft/teste.png
