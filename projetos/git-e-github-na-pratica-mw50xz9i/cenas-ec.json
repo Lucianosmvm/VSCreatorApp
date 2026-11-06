@@ -1,0 +1,1643 @@
+{
+"legenda": true,
+"cenas": [
+{
+"modelo": "rede3d",
+"secao": "00 · sexta, 17h",
+"marca": "PROJETO",
+"pcs": 10,
+"eventos": [
+{
+"acao": "cor",
+"alvo": "pc*",
+"cor": "vermelho",
+"em": "agora",
+"passo": 0.06
+},
+{
+"acao": "anel",
+"alvo": "srv",
+"cor": "vermelho",
+"em": "abre"
+}
+],
+"cartao": {
+"rotulo": "o sistema",
+"texto": "NÃO ABRE",
+"tipo": "erro",
+"em": "não"
+}
+},
+{
+"modelo": "cartoes",
+"itens": [
+{
+"titulo": "final",
+"sub": "projeto_final.zip",
+"cor": "laranja",
+"em": "final"
+},
+{
+"titulo": "final 2",
+"sub": "projeto_final2.zip",
+"cor": "amarelo",
+"em": "dois"
+},
+{
+"titulo": "agora vai",
+"sub": "final_agora_vai.zip",
+"cor": "vermelho",
+"em": "agora"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Qual arquivo é o certo?",
+"estado": "erro",
+"em": "certo"
+},
+{
+"texto": "O que mudou desde ontem?",
+"estado": "erro",
+"em": "mudou"
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "controle de versão",
+"destaque": "controle de versão",
+"em": "controle"
+},
+{
+"modelo": "lista",
+"secao": "00 · neste vídeo",
+"titulo": "neste vídeo",
+"itens": [
+"Git × GitHub",
+"As 3 áreas e o commit",
+"Branch e merge",
+"GitHub: push e pull",
+"Erros comuns"
+],
+"atual": 0
+},
+{
+"modelo": "cartoes",
+"itens": [
+{
+"titulo": "3 áreas",
+"sub": "pasta · staging · repo",
+"em": "áreas"
+},
+{
+"titulo": "commit",
+"sub": "a foto do projeto",
+"em": "commit"
+},
+{
+"titulo": "branch",
+"sub": "caminho paralelo",
+"em": "branches"
+},
+{
+"titulo": "GitHub",
+"sub": "a nuvem",
+"em": "GitHub"
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "Dev Sobrevivente",
+"destaque": "Dev Sobrevivente",
+"em": "Dev",
+"pilulas": [
+{
+"texto": "programação sem enrolação",
+"tipo": "ok",
+"em": "sem"
+}
+]
+},
+{
+"modelo": "titulo",
+"numero": "01",
+"texto": "Git × GitHub",
+"secao": "01 · git × github",
+"marca": "GIT"
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "pc",
+"tipo": "pc",
+"x": 0,
+"z": 0
+}
+],
+"ligacoes": [],
+"alvo": "pc",
+"zoom": 2.0,
+"eventos": [
+{
+"acao": "anel",
+"alvo": "pc",
+"em": "computador"
+}
+],
+"cartao": {
+"rotulo": "git",
+"texto": "HISTÓRICO LOCAL",
+"tipo": "ok",
+"em": "histórico"
+}
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "pc",
+"tipo": "pc",
+"x": -380,
+"z": 0
+},
+{
+"id": "nuv",
+"tipo": "nuvem",
+"x": 380,
+"z": 80
+}
+],
+"ligacoes": [
+[
+"pc",
+"nuv"
+]
+],
+"eventos": [
+{
+"acao": "anel",
+"alvo": "nuv",
+"em": "site"
+},
+{
+"acao": "pacote",
+"rota": [
+"pc",
+"nuv"
+],
+"em": "cópia",
+"duracao": 1.2
+}
+],
+"legenda_nos": [
+"seu PC",
+"GitHub"
+],
+"zoom": 2.0
+},
+{
+"modelo": "cartoes",
+"entre": "→",
+"itens": [
+{
+"titulo": "Git",
+"sub": "o caderno",
+"cor": "verde",
+"em": "caderno"
+},
+{
+"titulo": "GitHub",
+"sub": "a estante",
+"cor": "azul",
+"em": "estante"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Git sem GitHub",
+"estado": "ok",
+"em": "Dá"
+},
+{
+"texto": "GitHub sem Git",
+"estado": "erro",
+"em": "Mas"
+}
+]
+},
+{
+"modelo": "cartoes",
+"itens": [
+{
+"titulo": "2005",
+"sub": "ano de criação",
+"cor": "amarelo",
+"em": "2005"
+},
+{
+"titulo": "Linus Torvalds",
+"sub": "criador",
+"cor": "verde",
+"em": "Linus",
+"tam": 44
+},
+{
+"titulo": "Linux",
+"sub": "mesmo criador",
+"cor": "azul",
+"em": "Linux"
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "o controle de versão mais usado do mundo",
+"destaque": "mais usado",
+"em": "controle"
+},
+{
+"modelo": "cartoes",
+"itens": [
+{
+"titulo": "grátis",
+"cor": "verde",
+"em": "gratuito"
+},
+{
+"titulo": "código aberto",
+"cor": "azul",
+"em": "aberto",
+"tam": 44
+},
+{
+"titulo": "Win · Linux · Mac",
+"cor": "amarelo",
+"em": "Windows",
+"tam": 40
+}
+]
+},
+{
+"modelo": "terminal",
+"secao": "02 · começando",
+"marca": "INIT",
+"titulo": "Windows PowerShell · C:/meu-projeto",
+"linhas": [
+{
+"texto": "PS C:/meu-projeto> git init",
+"em": "git"
+},
+{
+"texto": "Initialized empty Git repository in C:/meu-projeto/.git/",
+"realce": "ok",
+"em": "init"
+}
+]
+},
+{
+"modelo": "cartoes",
+"entre": "→",
+"itens": [
+{
+"titulo": "pasta",
+"sub": "C:/meu-projeto",
+"cor": "laranja",
+"em": "pasta"
+},
+{
+"titulo": "repositório",
+"sub": ".git/ observando tudo",
+"cor": "verde",
+"em": "repositório",
+"tam": 48
+}
+]
+},
+{
+"modelo": "titulo",
+"numero": "03",
+"texto": "As três áreas",
+"secao": "03 · as três áreas",
+"marca": "ÁREAS"
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta de trabalho",
+"sub": "você edita aqui",
+"em": "primeira"
+},
+{
+"titulo": "Preparação",
+"sub": "staging",
+"em": "Preparação"
+},
+{
+"titulo": "Repositório",
+"sub": "versões salvas",
+"em": "Repositório"
+}
+],
+"itens": [
+{
+"texto": "login.js",
+"cor": "vermelho",
+"passos": [
+{
+"caixa": 0,
+"em": "edita"
+}
+]
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta de trabalho",
+"sub": "você edita aqui",
+"em": 0
+},
+{
+"titulo": "Preparação",
+"sub": "staging",
+"em": "segunda"
+},
+{
+"titulo": "Repositório",
+"sub": "versões salvas",
+"em": 0.2
+}
+],
+"itens": [
+{
+"texto": "login.js",
+"cor": "amarelo",
+"passos": [
+{
+"caixa": 1,
+"em": "escolhe"
+}
+]
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta de trabalho",
+"sub": "você edita aqui",
+"em": 0
+},
+{
+"titulo": "Preparação",
+"sub": "staging",
+"em": 0.1
+},
+{
+"titulo": "Repositório",
+"sub": "versões salvas",
+"em": "terceira"
+}
+],
+"itens": [
+{
+"texto": "versão 1",
+"cor": "verde",
+"passos": [
+{
+"caixa": 2,
+"em": "guardadas"
+}
+]
+}
+]
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "PS C:/meu-projeto> git status",
+"em": "git"
+},
+{
+"texto": "On branch main",
+"em": "mostra"
+},
+{
+"texto": "Changes not staged for commit:",
+"em": "cada"
+},
+{
+"texto": "    modified:   login.js",
+"cor": "erro",
+"em": "área"
+}
+]
+},
+{
+"modelo": "terminal",
+"linhas": [
+"PS C:/meu-projeto> git status",
+"Changes not staged for commit:",
+{
+"texto": "    modified:   login.js",
+"cor": "erro",
+"realce": "erro",
+"realce_em": "vermelho"
+}
+],
+"pilulas": [
+{
+"texto": "modificado, não preparado",
+"tipo": "erro",
+"em": "preparado"
+}
+]
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "PS> git diff login.js",
+"em": "diff"
+},
+{
+"texto": "-    return senha == null;",
+"cor": "erro",
+"realce": "erro",
+"em": "linhas"
+},
+{
+"texto": "+    return senha != null;",
+"cor": "ok",
+"realce": "ok",
+"em": "mudaram"
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta de trabalho",
+"em": 0
+},
+{
+"titulo": "Preparação",
+"em": 0.1
+},
+{
+"titulo": "Repositório",
+"em": 0.2
+}
+],
+"setas": [
+{
+"de": 0,
+"para": 1,
+"rotulo": "git add",
+"em": "add"
+}
+],
+"itens": [
+{
+"texto": "login.js",
+"cor": "verde",
+"passos": [
+{
+"caixa": 0,
+"em": 0.3
+},
+{
+"caixa": 1,
+"em": "move"
+}
+]
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta de trabalho",
+"em": 0
+},
+{
+"titulo": "Preparação",
+"em": 0.1
+},
+{
+"titulo": "Repositório",
+"em": 0.2
+}
+],
+"setas": [
+{
+"de": 1,
+"para": 2,
+"rotulo": "git commit",
+"em": "commit"
+}
+],
+"itens": [
+{
+"texto": "login.js",
+"cor": "verde",
+"passos": [
+{
+"caixa": 1,
+"em": 0.3
+},
+{
+"caixa": 2,
+"em": "foto"
+}
+]
+}
+]
+},
+{
+"modelo": "tabela",
+"titulo": "git show",
+"linhas": [
+[
+"Código",
+"c3e9f10"
+],
+[
+"Autor",
+"Dev Sobrevivente"
+],
+[
+"Data",
+"06/11/2026"
+],
+[
+"Mensagem",
+"Corrige login"
+]
+],
+"ok": 0,
+"em": "código"
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "git commit -m \"ajustes\"",
+"estado": "erro",
+"em": "ajustes"
+},
+{
+"texto": "git commit -m \"Corrige login\"",
+"estado": "ok",
+"em": "Corrige"
+}
+]
+},
+{
+"modelo": "grafo",
+"secao": "03 · o commit",
+"marca": "COMMIT",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+}
+],
+"commits": [
+{
+"id": "a1f0c21",
+"msg": "Primeiro commit",
+"em": "Cada"
+},
+{
+"id": "b2d4a77",
+"msg": "Cadastro",
+"em": "aponta"
+},
+{
+"id": "c3e9f10",
+"msg": "Corrige login",
+"em": "anterior"
+}
+]
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "PS C:/meu-projeto> git log --oneline",
+"em": "git"
+},
+{
+"texto": "c3e9f10 (HEAD -> main) Corrige login",
+"realce": "ok",
+"em": "mais"
+},
+{
+"texto": "b2d4a77 Cria tela de cadastro",
+"em": "novo"
+},
+{
+"texto": "a1f0c21 Primeiro commit",
+"em": "antigo"
+}
+]
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "c3e9f10 Corrige login",
+"realce": "ok",
+"em": "código"
+},
+{
+"texto": "b2d4a77 Cria tela de cadastro",
+"em": "mensagem"
+}
+],
+"pilulas": [
+{
+"texto": "código curto + mensagem",
+"tipo": "info",
+"em": "escreveu"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+}
+],
+"commits": [
+{
+"id": "a1f0c21",
+"em": 0.1
+},
+{
+"id": "b2d4a77",
+"em": 0.2
+},
+{
+"id": "c3e9f10",
+"em": 0.3
+}
+],
+"head": [
+{
+"alvo": "c3e9f10",
+"em": "se"
+},
+{
+"alvo": "a1f0c21",
+"em": "volta"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+}
+],
+"commits": [
+{
+"id": "a1f0c21",
+"msg": "ok",
+"em": 0.1
+},
+{
+"id": "b2d4a77",
+"msg": "quebrou aqui",
+"em": "commit"
+},
+{
+"id": "c3e9f10",
+"msg": "ainda quebrado",
+"em": 0.3
+}
+],
+"pilulas": [
+{
+"texto": "b2d4a77 quebrou o sistema",
+"tipo": "erro",
+"em": "quebrou"
+}
+]
+},
+{
+"modelo": "titulo",
+"numero": "04",
+"texto": "Branch e merge",
+"secao": "04 · branch e merge",
+"marca": "BRANCH"
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+},
+{
+"nome": "nova-tela",
+"cor": "#ff8a3d"
+}
+],
+"commits": [
+{
+"id": "a1f0c21",
+"em": 0.1
+},
+{
+"id": "b2d4a77",
+"em": 0.2
+},
+{
+"id": "c3e9f10",
+"em": 0.3
+},
+{
+"id": "d4b19aa",
+"ramo": 1,
+"pai": "b2d4a77",
+"x": 2,
+"em": "caminho"
+},
+{
+"id": "e5c03f2",
+"ramo": 1,
+"x": 3,
+"em": "paralelo"
+}
+]
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "PS C:/meu-projeto> git switch -c nova-tela",
+"em": "git"
+},
+{
+"texto": "Switched to a new branch 'nova-tela'",
+"realce": "ok",
+"em": "cria"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+},
+{
+"nome": "nova-tela",
+"cor": "#ff8a3d"
+}
+],
+"commits": [
+{
+"id": "a1f0c21",
+"em": 0.1
+},
+{
+"id": "b2d4a77",
+"em": 0.2
+},
+{
+"id": "c3e9f10",
+"em": "main"
+},
+{
+"id": "d4b19aa",
+"ramo": 1,
+"pai": "b2d4a77",
+"x": 2,
+"em": "commits"
+},
+{
+"id": "e5c03f2",
+"ramo": 1,
+"x": 3,
+"em": "branch"
+}
+],
+"pilulas": [
+{
+"texto": "main intacta",
+"tipo": "ok",
+"em": "principal"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+},
+{
+"nome": "nova-tela",
+"cor": "#ff8a3d"
+}
+],
+"commits": [
+{
+"id": "a1f0c21",
+"em": 0
+},
+{
+"id": "b2d4a77",
+"em": 0
+},
+{
+"id": "c3e9f10",
+"em": 0
+},
+{
+"id": "d4b19aa",
+"ramo": 1,
+"pai": "b2d4a77",
+"x": 2,
+"em": 0
+},
+{
+"id": "e5c03f2",
+"ramo": 1,
+"x": 3,
+"em": 0
+},
+{
+"id": "m6a7b8c",
+"msg": "merge",
+"x": 4,
+"em": "merge"
+}
+],
+"merges": [
+{
+"de": "e5c03f2",
+"para": "m6a7b8c",
+"em": "juntando"
+}
+],
+"head": [
+{
+"alvo": "c3e9f10",
+"em": "volta"
+},
+{
+"alvo": "m6a7b8c",
+"em": "merge"
+}
+]
+},
+{
+"modelo": "cartoes",
+"itens": [
+{
+"titulo": "nova-tela",
+"sub": "git branch -d",
+"cor": "laranja",
+"em": "Apaga",
+"estado": "erro",
+"estado_em": "Apaga"
+},
+{
+"titulo": "main",
+"sub": "continua igual",
+"cor": "verde",
+"em": "main",
+"estado": "ok",
+"estado_em": "intacta"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+},
+{
+"nome": "ideia-nova",
+"cor": "#4da3ff"
+}
+],
+"commits": [
+{
+"id": "a1",
+"em": 0.1
+},
+{
+"id": "b2",
+"em": 0.2
+},
+{
+"id": "c3",
+"em": "funcionando"
+},
+{
+"id": "d4",
+"ramo": 1,
+"pai": "b2",
+"x": 2,
+"em": "ideia"
+},
+{
+"id": "e5",
+"ramo": 1,
+"x": 3,
+"em": "própria"
+}
+]
+},
+{
+"modelo": "cartoes",
+"secao": "05 · conflito",
+"marca": "CONFLITO",
+"entre": "×",
+"itens": [
+{
+"titulo": "Ana",
+"sub": "return 10;",
+"cor": "azul",
+"em": "duas"
+},
+{
+"titulo": "Bia",
+"sub": "return 20;",
+"cor": "roxo",
+"em": "mesma"
+}
+]
+},
+{
+"modelo": "terminal",
+"titulo": "login.js",
+"linhas": [
+{
+"texto": "<<<<<<< HEAD",
+"realce": "erro",
+"em": "conflito"
+},
+"    return 10;",
+"=======",
+"    return 20;",
+">>>>>>> nova-tela"
+],
+"pilulas": [
+{
+"texto": "CONFLICT (content): login.js",
+"tipo": "erro",
+"em": "avisa"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Abre o arquivo",
+"estado": "ok",
+"em": "abre"
+},
+{
+"texto": "Escolhe o que fica",
+"estado": "ok",
+"em": "escolhe"
+},
+{
+"texto": "Faz um commit novo",
+"estado": "ok",
+"em": "commit"
+}
+]
+},
+{
+"modelo": "titulo",
+"numero": "06",
+"texto": "Subindo pro GitHub",
+"secao": "06 · github",
+"marca": "GITHUB"
+},
+{
+"modelo": "tabela",
+"titulo": "github.com · New repository",
+"linhas": [
+[
+"Nome",
+"meu-projeto"
+],
+[
+"Visibilidade",
+"Público"
+],
+[
+"Endereço",
+"github.com/dev/meu-projeto.git"
+]
+],
+"ok": 2,
+"em": "endereço"
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "PS C:/meu-projeto> git remote add origin \\",
+"em": "git"
+},
+{
+"texto": "    https://github.com/dev/meu-projeto.git",
+"realce": "ok",
+"em": "endereço"
+},
+{
+"texto": "PS C:/meu-projeto> git remote -v",
+"em": "liga"
+},
+{
+"texto": "origin  https://github.com/dev/meu-projeto.git (push)",
+"em": "projeto"
+}
+]
+},
+{
+"modelo": "cartoes",
+"entre": "=",
+"itens": [
+{
+"titulo": "origin",
+"cor": "amarelo",
+"em": "origin"
+},
+{
+"titulo": "github.com/dev/meu-projeto",
+"cor": "azul",
+"em": "endereço",
+"tam": 30
+}
+]
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "pc",
+"tipo": "pc",
+"x": -400,
+"z": 0
+},
+{
+"id": "nuv",
+"tipo": "nuvem",
+"x": 400,
+"z": 80
+}
+],
+"ligacoes": [
+[
+"pc",
+"nuv"
+]
+],
+"eventos": [
+{
+"acao": "pacote",
+"rota": [
+"pc",
+"nuv"
+],
+"em": "push",
+"duracao": 1
+},
+{
+"acao": "pacote",
+"rota": [
+"pc",
+"nuv"
+],
+"em": "commits",
+"duracao": 1
+},
+{
+"acao": "anel",
+"alvo": "nuv",
+"em": "GitHub"
+}
+],
+"legenda_nos": [
+"seu PC",
+"GitHub"
+],
+"pilulas": [
+{
+"texto": "git push",
+"tipo": "ok",
+"em": "push"
+}
+],
+"zoom": 2.0
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "pc",
+"tipo": "pc",
+"x": -400,
+"z": 0,
+"cor": "apagado"
+},
+{
+"id": "nuv",
+"tipo": "nuvem",
+"x": 400,
+"z": 80
+}
+],
+"ligacoes": [
+[
+"pc",
+"nuv"
+]
+],
+"eventos": [
+{
+"acao": "falha",
+"alvo": "pc",
+"em": "quebrar"
+},
+{
+"acao": "anel",
+"alvo": "nuv",
+"em": "salvo"
+}
+],
+"cartao": {
+"rotulo": "no GitHub",
+"texto": "CÓDIGO SALVO",
+"tipo": "ok",
+"em": "nuvem"
+},
+"zoom": 2.0
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "nuv",
+"tipo": "nuvem",
+"x": 0,
+"z": 120
+},
+{
+"id": "pc1",
+"tipo": "pc",
+"x": -450,
+"z": -60
+},
+{
+"id": "pc2",
+"tipo": "pc",
+"x": 450,
+"z": -60,
+"cor": "verde"
+}
+],
+"ligacoes": [
+[
+"pc1",
+"nuv"
+],
+[
+"nuv",
+"pc2"
+]
+],
+"eventos": [
+{
+"acao": "anel",
+"alvo": "pc2",
+"em": "outra"
+},
+{
+"acao": "pacote",
+"rota": [
+"nuv",
+"pc2"
+],
+"em": "baixa",
+"duracao": 1
+}
+],
+"pilulas": [
+{
+"texto": "git clone",
+"tipo": "ok",
+"em": "clone"
+}
+],
+"zoom": 1.6
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "GitHub",
+"sub": "commits do time",
+"cor": "azul",
+"em": "alguém"
+},
+{
+"titulo": "Seu PC",
+"sub": "sua cópia",
+"cor": "verde",
+"em": "pra"
+}
+],
+"setas": [
+{
+"de": 0,
+"para": 1,
+"rotulo": "git pull",
+"em": "pull"
+}
+],
+"itens": [
+{
+"texto": "commit da Ana",
+"cor": "azul",
+"passos": [
+{
+"caixa": 0,
+"em": "envia"
+},
+{
+"caixa": 1,
+"em": "traz"
+}
+]
+}
+]
+},
+{
+"modelo": "cartoes",
+"itens": [
+{
+"titulo": "git pull",
+"sub": "começo do dia",
+"cor": "azul",
+"em": "pull"
+},
+{
+"titulo": "git push",
+"sub": "fim do dia",
+"cor": "verde",
+"em": "push"
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "nova-tela",
+"sub": "sua branch",
+"cor": "laranja",
+"em": "Cada"
+},
+{
+"titulo": "Revisão",
+"sub": "pull request",
+"cor": "amarelo",
+"em": "pull"
+},
+{
+"titulo": "main",
+"sub": "linha principal",
+"cor": "verde",
+"em": "main"
+}
+],
+"setas": [
+{
+"de": 0,
+"para": 1,
+"rotulo": "abre PR",
+"em": "abre"
+}
+],
+"pilulas": [
+{
+"texto": "ninguém sobe direto na main",
+"tipo": "erro",
+"em": "ninguém"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Alguém lê o código",
+"estado": "ok",
+"em": "lê"
+},
+{
+"texto": "Aprova a mudança",
+"estado": "ok",
+"em": "antes"
+},
+{
+"texto": "Merge na main",
+"estado": "ok",
+"em": "merge"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Aprovação",
+"estado": "ok",
+"em": "aprovação"
+},
+{
+"texto": "Merge pull request",
+"estado": "ok",
+"em": "merge"
+}
+]
+},
+{
+"modelo": "documento",
+"fonte": "README.md",
+"url": "github.com/dev/meu-projeto",
+"titulo": "Meu Projeto",
+"texto": "Sistema de login de exemplo. Como rodar: clone o repositório e execute o projeto.",
+"realce": "Como rodar",
+"em": "explica",
+"rodape": "exemplo didático"
+},
+{
+"modelo": "titulo",
+"numero": "07",
+"texto": "4 erros comuns",
+"secao": "07 · erros comuns",
+"marca": "ERROS"
+},
+{
+"modelo": "terminal",
+"linhas": [
+{
+"texto": "PS> git commit -m \"ajustes\"",
+"realce": "erro",
+"em": "inútil"
+},
+{
+"texto": "PS> git commit -m \"teste 2\"",
+"realce": "erro",
+"em": "teste"
+}
+],
+"pilulas": [
+{
+"texto": "erro 1: mensagem inútil",
+"tipo": "erro",
+"em": "Primeiro"
+}
+]
+},
+{
+"modelo": "terminal",
+"titulo": ".gitignore",
+"linhas": [
+{
+"texto": ".env",
+"realce": "ok",
+"em": "gitignore"
+},
+{
+"texto": "senhas.txt",
+"em": "gitignore"
+},
+{
+"texto": "node_modules/",
+"em": "gitignore"
+}
+],
+"pilulas": [
+{
+"texto": "erro 2: senha no GitHub",
+"tipo": "erro",
+"em": "senha"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+}
+],
+"commits": [
+{
+"id": "1a2",
+"em": "Faça"
+},
+{
+"id": "2b3",
+"em": "commits"
+},
+{
+"id": "3c4",
+"em": "pequenos"
+},
+{
+"id": "4d5",
+"em": "várias"
+},
+{
+"id": "5e6",
+"em": "vezes"
+},
+{
+"id": "6f7",
+"em": "dia"
+}
+],
+"pilulas": [
+{
+"texto": "erro 3: semanas sem commit",
+"tipo": "erro",
+"em": "semanas"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Começar sem git pull",
+"estado": "erro",
+"em": "esquecer"
+},
+{
+"texto": "git pull antes de começar",
+"estado": "ok",
+"em": "conflito"
+}
+],
+"pilulas": [
+{
+"texto": "erro 4: conflito à toa",
+"tipo": "erro",
+"em": "toa"
+}
+]
+},
+{
+"modelo": "frase",
+"secao": "08 · carreira",
+"marca": "CARREIRA",
+"texto": "toda vaga de programação hoje pede Git",
+"destaque": "pede Git",
+"em": "toda"
+},
+{
+"modelo": "comentarios",
+"titulo": "recrutador abriu seu perfil",
+"badge": 1,
+"itens": [
+{
+"texto": "github.com/seu-usuario",
+"destaque": "github",
+"em": "GitHub"
+},
+{
+"texto": "42 repositórios · commits toda semana",
+"destaque": "commits",
+"em": "portfólio"
+}
+]
+},
+{
+"modelo": "terminal",
+"secao": "resumo",
+"marca": "RESUMO",
+"titulo": "o dia a dia",
+"linhas": [
+{
+"texto": "git init",
+"em": "init"
+},
+{
+"texto": "git add .",
+"em": "add"
+},
+{
+"texto": "git commit -m \"...\"",
+"em": "commit"
+},
+{
+"texto": "git switch -c minha-branch",
+"em": "branch"
+},
+{
+"texto": "git merge minha-branch",
+"em": "merge"
+},
+{
+"texto": "git push",
+"em": "push"
+},
+{
+"texto": "git pull",
+"realce": "ok",
+"em": "pull"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "Criar um repositório",
+"estado": "ok",
+"em": "crie"
+},
+{
+"texto": "Fazer três commits",
+"estado": "ok",
+"em": "três"
+},
+{
+"texto": "Subir pro GitHub",
+"estado": "ok",
+"em": "suba"
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "Dev Sobrevivente",
+"destaque": "Dev Sobrevivente",
+"em": "inscreva-se",
+"pilulas": [
+{
+"texto": "gostei",
+"tipo": "ok",
+"em": "gostei"
+},
+{
+"texto": "inscreva-se",
+"tipo": "ok",
+"x": 260,
+"em": "inscreva-se"
+},
+{
+"texto": "compartilhe",
+"tipo": "ok",
+"x": 560,
+"em": "compartilhe"
+}
+]
+}
+]
+}

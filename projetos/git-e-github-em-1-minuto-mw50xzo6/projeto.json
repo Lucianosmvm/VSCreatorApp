@@ -1,0 +1,153 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1080x1920",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "17",
+ "nome": "Git e GitHub em 1 minuto",
+ "frames": [
+  {
+   "id": "fmw50xzo6-0",
+   "prompt": "",
+   "text": "Final, final dois, final agora vai. Se a sua pasta é assim, você precisa de Git.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-1",
+   "prompt": "",
+   "text": "Com Git, você nunca mais perde código.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-2",
+   "prompt": "",
+   "text": "Git e GitHub não são a mesma coisa.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-3",
+   "prompt": "",
+   "text": "O Git roda no seu computador e guarda cada versão do projeto.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-4",
+   "prompt": "",
+   "text": "O GitHub é a nuvem que guarda uma cópia desse histórico.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-5",
+   "prompt": "",
+   "text": "E dá pra voltar pra qualquer versão, quando quiser.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-6",
+   "prompt": "",
+   "text": "O dia a dia cabe em quatro comandos.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-7",
+   "prompt": "",
+   "text": "git add escolhe os arquivos que entram na próxima versão.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-8",
+   "prompt": "",
+   "text": "git commit tira uma foto do projeto, com uma mensagem dizendo o que mudou.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-9",
+   "prompt": "",
+   "text": "git push envia seus commits pro GitHub.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-10",
+   "prompt": "",
+   "text": "E git pull traz o que o seu time mudou.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-11",
+   "prompt": "",
+   "text": "A regra: pull quando começa, push quando termina.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-12",
+   "prompt": "",
+   "text": "Quer testar uma ideia sem quebrar nada? Crie uma branch.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-13",
+   "prompt": "",
+   "text": "Deu certo, faz o merge. Deu errado, apaga a branch.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-14",
+   "prompt": "",
+   "text": "E nunca suba senha pro GitHub. Use o gitignore.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-15",
+   "prompt": "",
+   "text": "E escreva mensagens que dizem o que mudou. Nada de ajustes.",
+   "narration": ""
+  },
+  {
+   "id": "fmw50xzo6-16",
+   "prompt": "",
+   "text": "Segue o Dev Sobrevivente pra ver o vídeo completo de Git e GitHub.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-06T13:42:41.000Z"
+}

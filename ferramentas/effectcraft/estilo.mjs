@@ -11,7 +11,7 @@ export const COR = {
 export const CAMADAS = [COR.roxo, COR.laranja, COR.azul, COR.verde];
 const TIT = {font: 'Segoe UI', style: 'Black'};
 const MONO = {font: 'JetBrains Mono', style: 'Bold'};
-const TIPO_COR = {ok: COR.verde, erro: COR.vermelho, alerta: COR.amarelo, info: COR.azul};
+const TIPO_COR = {...COR, ok: COR.verde, erro: COR.vermelho, alerta: COR.amarelo, info: COR.azul};
 const TIPO_ICONE = {ok: '✓ ', erro: '✗ ', alerta: '! ', info: '● '};
 
 const sem = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9#%]/g, '');
@@ -63,8 +63,8 @@ export function novaCena({W, H, cena, plano, indice, total}) {
   function texto(str, x, y, tam, cor = COR.texto, {t = null, centro = false, fonte = TIT, nomeP = 'txt', fim = null, entra = true} = {}) {
     const l = nome(nomeP);
     cmd('layer.newText', {name: l, text: tela(str), position: [x, y], size: Math.round(tam * u), fill: cor, justify: centro ? 'center' : 'left', ...fonte});
-    if (t !== null) { if (entra) aparece(l, x, y, t, 14 * u); else keys(l, 'transform/opacity', [[0, 0], [t, 0], [t + .01, 100]], false); }
-    if (fim !== null && fim < dur - .05) keys(l, 'transform/opacity', [[fim - .01, 100], [fim, 0]], false);
+    if (t !== null) { if (entra) aparece(l, x, y, t, 14 * u); else keys(l, 'transform/opacity', [[0, 0], [t, 0], [t + 1 / 30, 100]], false); }
+    if (fim !== null && fim < dur - .05) keys(l, 'transform/opacity', [[fim - 1 / 30, 100], [fim, 0]], false);
     return l;
   }
   function linha(x1, y1, x2, y2, cor, larg = 3, t = null) {
@@ -200,7 +200,7 @@ export function novaCena({W, H, cena, plano, indice, total}) {
       const cor = TIPO_COR[it.cor] || it.cor || [COR.laranja, COR.amarelo, COR.roxo, COR.azul][i % 4], t = em(it.em, .15 + i * .3);
       retangulo(x, y, w, h, COR.painel, {borda: cor, larg: 3, t});
       texto(it.titulo, x, y + (it.sub ? -4 : 18) * u, it.tam || 58, cor, {t: t + .05, centro: true});
-      if (it.sub) texto(it.sub, x, y + 50 * u, 24, COR.apagado, {t: t + .1, centro: true, fonte: MONO});
+      if (it.sub) texto(it.sub, x, y + 56 * u, 28, COR.apagado, {t: t + .1, centro: true, fonte: MONO});
       if (it.estado) { const te = em(it.estado_em, t + .8); pilula(it.estado === 'ok' ? 'sim' : 'não', x - 50 * u, y + h / 2 + 50 * u, it.estado, te); }
       som(t, 'pop');
     });
@@ -220,6 +220,90 @@ export function novaCena({W, H, cena, plano, indice, total}) {
       linha(xs, a, xs, b, COR.verde, 6, t);
       texto(p.seta_texto || (p.seta === 'sobe' ? 'de baixo pra cima' : 'de cima pra baixo'), x, Math.max(a, b) + h / 2 + 60 * u, 24, COR.verde, {t: t + .3, fonte: MONO, centro: true});
     }
+  };
+  // Grafo de commits: ramos em faixas, bolinhas por commit, merge e HEAD.
+  // commits: [{id, ramo (índice), pai?, msg?, em}], ramos: [{nome, cor}], merges: [{de, para, em}],
+  // head: [{alvo, em}] (etiqueta HEAD pula entre commits)
+  M.grafo = (p) => {
+    const ramos = p.ramos || [{nome: 'main', cor: COR.verde}], commits = p.commits || [];
+    const passoX = vertical ? 190 * u : Math.min(340 * u, (W - 420 * u) / Math.max(1, commits.length - 1));
+    const x0 = vertical ? 140 * u : 300 * u, y0 = H * (vertical ? .36 : .4), dy = (vertical ? 300 : 250) * u;
+    const pos = {};
+    commits.forEach((c, i) => { pos[c.id] = [c.x != null ? x0 + c.x * passoX : x0 + i * passoX, y0 + (c.ramo || 0) * dy]; });
+    ramos.forEach((r, i) => {
+      const prim = commits.find(c => (c.ramo || 0) === i); if (!prim) return;
+      const t = em(prim.em, .1 + i * .3);
+      texto(r.nome, x0 - 40 * u, y0 + i * dy - 70 * u, 34, r.cor, {t, fonte: MONO});
+    });
+    commits.forEach((c, i) => {
+      const t = em(c.em, .2 + i * .35), [x, y] = pos[c.id], cor = ramos[c.ramo || 0].cor;
+      const pai = c.pai ?? commits.slice(0, i).reverse().find(k => (k.ramo || 0) === (c.ramo || 0))?.id;
+      if (pai && pos[pai]) linha(pos[pai][0], pos[pai][1], x, y, cor, 8, t - .35);
+      const b = elipse(x, y, 76 * u, 76 * u, COR.fundo, {borda: cor, larg: 9, nomeP: 'commit'});
+      keys(b, 'transform/scale', [[t, [0, 0]], [t + .3, [100, 100]]]);
+      keys(b, 'transform/opacity', [[0, 0], [t, 0], [t + .05, 100]], false);
+      texto(c.id, x, y + 84 * u, 28, COR.apagado, {t: t + .1, centro: true, fonte: MONO});
+      if (c.msg) texto(c.msg, x, y - 62 * u, 30, COR.texto, {t: t + .15, centro: true, fonte: {font: 'Segoe UI', style: 'Bold'}});
+      som(t, 'pop');
+    });
+    for (const m of p.merges || []) {
+      if (!pos[m.de] || !pos[m.para]) continue; const t = em(m.em, dur * .6);
+      linha(pos[m.de][0], pos[m.de][1], pos[m.para][0], pos[m.para][1], COR.amarelo, 6, t);
+      som(t, 'plim');
+    }
+    const heads = p.head || [];
+    if (heads.length) {
+      const h = retangulo(0, 0, 140 * u, 50 * u, COR.amarelo, {nomeP: 'head'}), ht = nome('headT');
+      cmd('layer.newText', {name: ht, text: 'HEAD', position: [0, 0], size: Math.round(30 * u), fill: COR.fundo, justify: 'center', ...MONO});
+      let ant = null;
+      heads.forEach((hd, i) => {
+        if (!pos[hd.alvo]) return; const t = em(hd.em, .3 + i), [x, y] = pos[hd.alvo];
+        if (ant) { keys(h, 'transform/position', [[t - .4, ant]]); keys(ht, 'transform/position', [[t - .4, [ant[0], ant[1] + 8 * u]]]); }
+        ant = [x, y - (commits.find(c => c.id === hd.alvo)?.msg ? 140 : 100) * u];
+        keys(h, 'transform/position', [[t, [x, y - (commits.find(c => c.id === hd.alvo)?.msg ? 140 : 100) * u]]]);
+        keys(ht, 'transform/position', [[t, [x, y - (commits.find(c => c.id === hd.alvo)?.msg ? 140 : 100) * u + 10 * u]]]);
+        if (i === 0) { keys(h, 'transform/opacity', [[0, 0], [t, 0], [t + .2, 100]], false); keys(ht, 'transform/opacity', [[0, 0], [t, 0], [t + .2, 100]], false); }
+      });
+    }
+  };
+  // Fluxo: caixas lado a lado (ou empilhadas no Short) e "chips" (arquivos/commits) andando entre elas.
+  // caixas: [{titulo, sub, cor}], itens: [{texto, cor, passos: [{caixa, em}]}], setas: [{de, para, rotulo, em}]
+  M.fluxo = (p) => {
+    const cx = p.caixas || [], k = cx.length, gap = (vertical ? 70 : 90) * u;
+    const w = vertical ? W - 200 * u : Math.min(480 * u, (W - 160 * u - gap * (k - 1)) / k), h = (vertical ? 300 : 360) * u;
+    const centro = i => vertical ? [W / 2, H * .24 + i * (h + gap)] : [W / 2 + (i - (k - 1) / 2) * (w + gap), H * .5];
+    cx.forEach((c, i) => {
+      const [x, y] = centro(i), cor = TIPO_COR[c.cor] || c.cor || [COR.azul, COR.amarelo, COR.verde, COR.roxo][i % 4], t = em(c.em, .1 + i * .25);
+      retangulo(x, y, w, h, COR.painel, {borda: cor, larg: 3, t});
+      texto(c.titulo, x, y - h / 2 + 62 * u, vertical ? 50 : 50, cor, {t: t + .05, centro: true});
+      if (c.sub) texto(c.sub, x, y - h / 2 + 104 * u, 28, COR.apagado, {t: t + .1, centro: true, fonte: MONO});
+      som(t, 'pop');
+    });
+    for (const s of p.setas || []) {
+      const [x1, y1] = centro(s.de), [x2, y2] = centro(s.para), t = em(s.em, dur * .4);
+      const a = vertical ? [x1, y1 + h / 2 + 8 * u] : [x1 + w / 2 + 8 * u, y1], b = vertical ? [x2, y2 - h / 2 - 8 * u] : [x2 - w / 2 - 8 * u, y2];
+      linha(a[0], a[1], b[0], b[1], COR.texto, 4, t);
+      if (s.rotulo) {
+        const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+        const lw = largTexto(s.rotulo, 30, true) + 36 * u;
+        retangulo(vertical ? mx + lw / 2 + 30 * u : mx, vertical ? my : my - 40 * u, lw, 52 * u, '#0f1512', {borda: COR.amarelo, t});
+        texto(s.rotulo, vertical ? mx + lw / 2 + 30 * u : mx, (vertical ? my : my - 40 * u) + 10 * u, 30, COR.amarelo, {t, centro: true, fonte: MONO});
+      }
+    }
+    (p.itens || []).forEach((it, j) => {
+      const cor = TIPO_COR[it.cor] || it.cor || COR.texto, cw = Math.max(220 * u, largTexto(it.texto, 32, true) + 50 * u);
+      const ch = retangulo(0, 0, cw, 64 * u, '#0c110e', {borda: cor, larg: 2, nomeP: 'chip'}), ct = nome('chipT');
+      cmd('layer.newText', {name: ct, text: tela(it.texto), position: [0, 0], size: Math.round(32 * u), fill: cor, justify: 'center', ...MONO});
+      let ant = null;
+      (it.passos || []).forEach((ps, i) => {
+        const t = em(ps.em, .5 + i), [x, y] = centro(ps.caixa), yy = y + (vertical ? 20 : 10) * u + j * 62 * u;
+        if (ant) { keys(ch, 'transform/position', [[t - .45, ant]]); keys(ct, 'transform/position', [[t - .45, [ant[0], ant[1] + 8 * u]]]); }
+        keys(ch, 'transform/position', [[t, [x, yy]]]);
+        keys(ct, 'transform/position', [[t, [x, yy + 8 * u]]]); ant = [x, yy];
+        if (i === 0) [ch, ct].forEach(l => keys(l, 'transform/opacity', [[0, 0], [t, 0], [t + .2, 100]], false));
+        som(t, 'pop');
+      });
+    });
   };
   M.terminal = (p) => {
     const linhas = p.linhas || [], w = vertical ? W - 80 * u : 1250 * u, h = Math.max(300 * u, 110 * u + linhas.length * 64 * u), x = vertical ? W / 2 : W * .45, y = H * .48;
@@ -355,20 +439,20 @@ export function novaCena({W, H, cena, plano, indice, total}) {
     cmd('layer.newLight', {kind: 'Ambient', name: nm('amb'), intensity: escritorio ? 45 : 35, color: '#bfe6ff'});
     cmd('layer.newLight', {kind: 'Spot', name: nm('sol'), intensity: 120, color: '#e8fbff', position: [400, -900, -1200], poi: [960, 690, 0], castsShadows: true, shadowDarkness: 55, shadowDiffusion: 30, coneAngle: 120});
     const cam = nm('cam'), alvo = p.alvo ? pos[p.alvo] : null, ax = alvo ? alvo[0] : 960, az = alvo ? alvo[1] : 60;
-    const dist = (p.zoom ? 1 / p.zoom : 1) * (vertical ? 1.6 : 1.18);
+    const dist = (p.zoom ? 1 / p.zoom : 1) * (vertical ? 1.25 : 1.18);
     cmd('layer.newCamera', {name: cam, preset: '50mm', position: [ax, -1200 * dist, az - 1560 * dist], poi: [ax, 660, az]});
     const ini = [ax + 180, -1300 * dist, az - 1700 * dist], fim = [ax - 80, -1100 * dist, az - 1450 * dist];
     keys(cam, 'transform/position', [[0, ini], [dur, fim]]);
     // HUD
     if (p.cartao) {
       const c = p.cartao, t = em(c.em, dur * .5), tipo = c.tipo || 'ok', cor = TIPO_COR[tipo];
-      const x = 60 * u, y = H - (vertical ? 520 : 200) * u, w = 460 * u;
+      const x = 60 * u, y = H - (vertical ? 520 : plano.legenda ? 260 : 200) * u, w = 460 * u;
       retangulo(x + w / 2, y, w, 130 * u, '#0e1813', {borda: COR.borda, t});
       texto((c.rotulo || '').toUpperCase(), x + 26 * u, y - 24 * u, 20, COR.apagado, {t, fonte: MONO});
       texto(TIPO_ICONE[tipo] + c.texto, x + 26 * u, y + 34 * u, 48, cor, {t: t + .08});
       som(t, tipo === 'erro' ? 'erro' : 'plim');
     }
-    if (p.legenda_nos) { let x = W / 2 - 400 * u; for (const ln of p.legenda_nos) x += pilula(ln.texto ?? ln, x, H - (vertical ? 420 : 110) * u, ln.tipo || COR.azul, em(ln.em, .3)) + 18 * u; }
+    if (p.legenda_nos) { let x = W / 2 - 400 * u; for (const ln of p.legenda_nos) x += pilula(ln.texto ?? ln, x, H - (vertical ? 420 : plano.legenda ? 190 : 110) * u, ln.tipo || COR.azul, em(ln.em, .3)) + 18 * u; }
   };
 
   function padraoEscritorio(qtd) {
@@ -384,7 +468,7 @@ export function novaCena({W, H, cena, plano, indice, total}) {
     if (modelo !== 'rede3d') moldura();
     M[modelo](plano);
     if (modelo === 'rede3d') moldura(true); // HUD por cima do 3D
-    for (const pl of plano.pilulas || []) pilula(pl.texto, pl.x != null ? pl.x * u : 60 * u, pl.y != null ? pl.y * u : H - (vertical ? 380 : 120) * u, pl.tipo || 'ok', em(pl.em, dur * .6));
+    for (const pl of plano.pilulas || []) pilula(pl.texto, pl.x != null ? pl.x * u : 60 * u, pl.y != null ? pl.y * u : H - (vertical ? 380 : plano.legenda ? 200 : 120) * u, pl.tipo || 'ok', em(pl.em, dur * .6));
     if (plano.legenda) legenda();
     const limpos = steps;
     if (ease.length) { limpos.push({command: 'keys.select', params: {keys: ease}}); limpos.push({command: 'keys.easyEase', params: {}}); }

@@ -1,0 +1,506 @@
+{
+"legenda": true,
+"cenas": [
+{
+"modelo": "cartoes",
+"secao": "git em 1 minuto",
+"marca": "GIT",
+"altura": 150,
+"itens": [
+{
+"titulo": "final.zip",
+"cor": "laranja",
+"em": "Final",
+"tam": 48
+},
+{
+"titulo": "final2.zip",
+"cor": "amarelo",
+"em": "dois",
+"tam": 48
+},
+{
+"titulo": "final_agora_vai.zip",
+"cor": "vermelho",
+"em": "agora",
+"tam": 40
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "nunca mais perca código",
+"destaque": "nunca mais",
+"em": "nunca"
+},
+{
+"modelo": "cartoes",
+"altura": 200,
+"itens": [
+{
+"titulo": "Git",
+"sub": "no seu PC",
+"cor": "verde",
+"em": "Git"
+},
+{
+"titulo": "GitHub",
+"sub": "na nuvem",
+"cor": "azul",
+"em": "GitHub"
+}
+],
+"pilulas": [
+{
+"texto": "não são a mesma coisa",
+"tipo": "erro",
+"x": 60,
+"y": 1180,
+"em": "mesma"
+}
+]
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "pc",
+"tipo": "pc",
+"x": 0,
+"z": 0
+}
+],
+"ligacoes": [],
+"alvo": "pc",
+"zoom": 2.0,
+"eventos": [
+{
+"acao": "anel",
+"alvo": "pc",
+"em": "computador"
+}
+],
+"cartao": {
+"rotulo": "git",
+"texto": "CADA VERSÃO",
+"tipo": "ok",
+"em": "versão"
+}
+},
+{
+"modelo": "rede3d",
+"cenario": "palco",
+"nos": [
+{
+"id": "pc",
+"tipo": "pc",
+"x": -300,
+"z": 0
+},
+{
+"id": "nuv",
+"tipo": "nuvem",
+"x": 300,
+"z": 80
+}
+],
+"ligacoes": [
+[
+"pc",
+"nuv"
+]
+],
+"eventos": [
+{
+"acao": "anel",
+"alvo": "nuv",
+"em": "nuvem"
+},
+{
+"acao": "pacote",
+"rota": [
+"pc",
+"nuv"
+],
+"em": "cópia",
+"duracao": 1
+}
+],
+"zoom": 2.0
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+}
+],
+"commits": [
+{
+"id": "v1",
+"em": 0.1
+},
+{
+"id": "v2",
+"em": 0.3
+},
+{
+"id": "v3",
+"em": 0.5
+},
+{
+"id": "v4",
+"em": 0.7
+}
+],
+"head": [
+{
+"alvo": "v4",
+"em": 0.8
+},
+{
+"alvo": "v1",
+"em": "qualquer"
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "4 comandos",
+"destaque": "4 comandos",
+"em": "quatro",
+"tamanho": 130
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta",
+"sub": "você edita",
+"em": 0
+},
+{
+"titulo": "Preparação",
+"sub": "staging",
+"em": 0.1
+},
+{
+"titulo": "Repositório",
+"sub": "versões",
+"em": 0.2
+}
+],
+"setas": [
+{
+"de": 0,
+"para": 1,
+"rotulo": "git add",
+"em": "add"
+}
+],
+"itens": [
+{
+"texto": "login.js",
+"cor": "verde",
+"passos": [
+{
+"caixa": 0,
+"em": 0.3
+},
+{
+"caixa": 1,
+"em": "escolhe"
+}
+]
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Pasta",
+"em": 0
+},
+{
+"titulo": "Preparação",
+"em": 0.1
+},
+{
+"titulo": "Repositório",
+"em": 0.2
+}
+],
+"setas": [
+{
+"de": 1,
+"para": 2,
+"rotulo": "git commit",
+"em": "commit"
+}
+],
+"itens": [
+{
+"texto": "login.js",
+"cor": "verde",
+"passos": [
+{
+"caixa": 1,
+"em": 0.3
+},
+{
+"caixa": 2,
+"em": "foto"
+}
+]
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "Seu PC",
+"cor": "verde",
+"em": 0
+},
+{
+"titulo": "GitHub",
+"cor": "azul",
+"em": 0.1
+}
+],
+"setas": [
+{
+"de": 0,
+"para": 1,
+"rotulo": "git push",
+"em": "push"
+}
+],
+"itens": [
+{
+"texto": "3 commits",
+"cor": "verde",
+"passos": [
+{
+"caixa": 0,
+"em": 0.3
+},
+{
+"caixa": 1,
+"em": "envia"
+}
+]
+}
+]
+},
+{
+"modelo": "fluxo",
+"caixas": [
+{
+"titulo": "GitHub",
+"cor": "azul",
+"em": 0
+},
+{
+"titulo": "Seu PC",
+"cor": "verde",
+"em": 0.1
+}
+],
+"setas": [
+{
+"de": 0,
+"para": 1,
+"rotulo": "git pull",
+"em": "pull"
+}
+],
+"itens": [
+{
+"texto": "commit do time",
+"cor": "azul",
+"passos": [
+{
+"caixa": 0,
+"em": 0.3
+},
+{
+"caixa": 1,
+"em": "traz"
+}
+]
+}
+]
+},
+{
+"modelo": "cartoes",
+"altura": 200,
+"itens": [
+{
+"titulo": "git pull",
+"sub": "quando começa",
+"cor": "azul",
+"em": "pull"
+},
+{
+"titulo": "git push",
+"sub": "quando termina",
+"cor": "verde",
+"em": "push"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+},
+{
+"nome": "ideia",
+"cor": "#ff8a3d"
+}
+],
+"commits": [
+{
+"id": "a1",
+"em": 0.1
+},
+{
+"id": "b2",
+"em": 0.3
+},
+{
+"id": "c3",
+"ramo": 1,
+"pai": "b2",
+"x": 2,
+"em": "branch"
+},
+{
+"id": "d4",
+"ramo": 1,
+"x": 3,
+"em": "branch"
+}
+],
+"pilulas": [
+{
+"texto": "main intacta",
+"tipo": "ok",
+"x": 60,
+"y": 1180,
+"em": "quebrar"
+}
+]
+},
+{
+"modelo": "grafo",
+"ramos": [
+{
+"nome": "main",
+"cor": "#7cff4f"
+},
+{
+"nome": "ideia",
+"cor": "#ff8a3d"
+}
+],
+"commits": [
+{
+"id": "a1",
+"em": 0
+},
+{
+"id": "b2",
+"em": 0
+},
+{
+"id": "c3",
+"ramo": 1,
+"pai": "b2",
+"x": 2,
+"em": 0
+},
+{
+"id": "d4",
+"ramo": 1,
+"x": 3,
+"em": 0
+},
+{
+"id": "m5",
+"x": 4,
+"pai": "b2",
+"em": "merge"
+}
+],
+"merges": [
+{
+"de": "d4",
+"para": "m5",
+"em": "merge"
+}
+]
+},
+{
+"modelo": "terminal",
+"titulo": ".gitignore",
+"linhas": [
+{
+"texto": ".env",
+"realce": "ok",
+"em": "gitignore"
+},
+{
+"texto": "senhas.txt",
+"em": "gitignore"
+}
+],
+"pilulas": [
+{
+"texto": "senha no GitHub",
+"tipo": "erro",
+"x": 60,
+"y": 1180,
+"em": "senha"
+}
+]
+},
+{
+"modelo": "checklist",
+"itens": [
+{
+"texto": "\"ajustes\"",
+"estado": "erro",
+"em": "ajustes"
+},
+{
+"texto": "\"Corrige login\"",
+"estado": "ok",
+"em": "mudou"
+}
+]
+},
+{
+"modelo": "frase",
+"texto": "Dev Sobrevivente",
+"destaque": "Dev Sobrevivente",
+"em": "Dev",
+"pilulas": [
+{
+"texto": "vídeo completo no canal",
+"tipo": "ok",
+"x": 60,
+"y": 1180,
+"em": "completo"
+}
+]
+}
+]
+}

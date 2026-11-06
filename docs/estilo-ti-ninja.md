@@ -100,6 +100,7 @@ Campos comuns (herdados pelas cenas seguintes até mudar): `secao` ("07 · inter
 `marca` (palavra gigante do rodapé), `camada` (0–3 acende a barra no canto; `null` esconde).
 Campos comuns não herdados: `legenda` (true/false), `pilulas: [{texto, tipo, em}]`.
 `em` = palavra da fala que dispara a animação (início da palavra; aceita número em segundos).
+Cores aceitam nomes da paleta (`verde`, `laranja`, `azul`...) ou `#rrggbb`.
 `tipo`/`estado`: `ok` (verde ✓), `erro` (vermelho ✗), `alerta` (amarelo !), `info` (azul).
 
 | modelo | campos |
@@ -114,6 +115,8 @@ Campos comuns não herdados: `legenda` (true/false), `pilulas: [{texto, tipo, em
 | `terminal` | `titulo`, `linhas: [texto | {texto, realce: ok/erro, em, cor}]` |
 | `documento` | `fonte`, `url`, `titulo`, `texto`, `realce` (trecho), `em`, `rodape` |
 | `comentarios` | `itens: [{texto, destaque, em}]`, `badge`, `titulo` |
+| `grafo` | `ramos: [{nome, cor}]`, `commits: [{id, ramo, pai, x, msg, em}]`, `merges: [{de, para, em}]`, `head: [{alvo, em}]` |
+| `fluxo` | `caixas: [{titulo, sub, cor, em}]`, `setas: [{de, para, rotulo, em}]`, `itens: [{texto, cor, passos: [{caixa, em}]}]` |
 | `rede3d` | ver abaixo |
 
 `rede3d`: `cenario` (`escritorio` azul-petróleo | `palco` escuro), `pcs` (escritório padrão:
