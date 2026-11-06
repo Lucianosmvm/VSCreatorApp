@@ -1,0 +1,87 @@
+{
+  "nome": "Herança em C# com Resident Evil 4 — Short",
+  "resolucao": "1080x1920",
+  "cenas": [
+    {
+      "texto": "Seu código virou uma horda de copiar e colar? Herança em C sharp pode ajudar.",
+      "titulo": "Sobreviva ao copiar/colar",
+      "mascote": "surpreso",
+      "visual": {
+        "tipo": "duplicacao",
+        "codigo": "Vida\nReceberDano()\nAtacar()"
+      }
+    },
+    {
+      "texto": "Num jogo inspirado em Resident Evil 4, vários inimigos compartilham vida e recebem dano.",
+      "titulo": "A mesma base",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "base",
+        "codigo": "class Inimigo\n{\n    public int Vida = 100;\n}"
+      }
+    },
+    {
+      "texto": "Coloque o comportamento comum na classe Inimigo. A regra fica definida em um só lugar.",
+      "titulo": "Uma regra, um lugar",
+      "mascote": "digitando",
+      "visual": {
+        "tipo": "dano",
+        "codigo": "public void ReceberDano(int dano)\n{ Vida = Math.Max(0, Vida - dano); }"
+      }
+    },
+    {
+      "texto": "Escreva Ganado, dois pontos, Inimigo. Isso significa: Ganado é um Inimigo e herda seus membros.",
+      "titulo": "Ganado É UM Inimigo",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "class Ganado : Inimigo { }\nnew Ganado().ReceberDano(30);"
+      }
+    },
+    {
+      "texto": "Cada objeto mantém sua própria vida. Acertar um aldeão não machuca automaticamente o outro.",
+      "titulo": "Cada um com sua vida",
+      "mascote": "pensando",
+      "visual": {
+        "tipo": "instancias",
+        "codigo": "Ganado A: 70 HP\nGanado B: 100 HP"
+      }
+    },
+    {
+      "texto": "Quer um ataque diferente? Declare Atacar como virtual na base e use override na derivada.",
+      "titulo": "virtual + override",
+      "mascote": "determinado",
+      "visual": {
+        "tipo": "override",
+        "codigo": "public virtual string Atacar()\n    => \"Golpe comum\";\n// derivada:\npublic override string Atacar()\n    => \"Investida de motosserra\";"
+      }
+    },
+    {
+      "texto": "Mesmo numa referência Inimigo, o objeto da motosserra executa sua versão especializada. Isso é polimorfismo.",
+      "titulo": "O objeto escolhe a resposta",
+      "mascote": "ideia",
+      "visual": {
+        "tipo": "polimorfismo",
+        "codigo": "Inimigo alvo = new GanadoMotosserra();\nalvo.Atacar(); // investida"
+      }
+    },
+    {
+      "texto": "Mas Leon tem um inventário; ele não é um inventário. Nesse caso, use composição.",
+      "titulo": "É UM ou TEM UM?",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "composicao",
+        "codigo": "Ganado É UM Inimigo\nLeon TEM UM Inventario"
+      }
+    },
+    {
+      "texto": "Salve esta missão do Dev Sobrevivente e veja o vídeo completo para dominar essa hierarquia.",
+      "titulo": "Missão completa no canal",
+      "mascote": "acenando",
+      "visual": {
+        "tipo": "cta",
+        "codigo": "DEV SOBREVIVENTE\nHerança em C# • vídeo completo"
+      }
+    }
+  ]
+}

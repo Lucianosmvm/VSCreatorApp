@@ -1,0 +1,14 @@
+{"legenda": false, "cenas": [
+ {"modelo":"comentarios","secao":"00 · o começo","marca":"computador","badge":2,"itens":[{"texto":"Computador só serve pra jogar!","destaque":"jogar","em":"quantas"},{"texto":"Não, ele faz muita coisa no dia a dia.","em":"faz"}]},
+ {"modelo":"rede3d","pcs":10,"eventos":[{"acao":"cor","alvo":"pc*","cor":"verde","em":"escrever","passo":0.08},{"acao":"anel","alvo":"sw","em":"internet"},{"acao":"pacote","rota":["pc1","sw","srv"],"em":"conversar"}],"cartao":{"rotulo":"no escritório","texto":"TUDO LIGADO","tipo":"ok","em":"organizar"},"legenda_nos":["Windows","switch","servidor"]},
+ {"modelo":"frase","texto":"entender o básico primeiro","destaque":"básico primeiro","em":"entender"},
+ {"modelo":"lista","titulo":"neste vídeo","itens":["Hardware","Software","Sistema operacional"],"atual":0,"secao":"00 · roteiro"},
+ {"modelo":"cartoes","itens":[{"titulo":"Hardware","sub":"o que se toca","em":"Hardware"},{"titulo":"Software","sub":"os programas","em":"software"},{"titulo":"S.O.","sub":"o gerente","em":"sistema"}]},
+ {"modelo":"checklist","itens":[{"texto":"Decorar termos difíceis","estado":"erro","em":"preocupe"},{"texto":"Entender com exemplos","estado":"ok","em":"agora"}]},
+ {"modelo":"pilha","camadas":["Você","Programas","Sistema","Hardware"],"seta":"sobe","seta_em":"cada","camada":0},
+ {"modelo":"titulo","numero":"01","texto":"O que é hardware","secao":"01 · hardware","marca":"hardware","camada":3},
+ {"modelo":"tabela","titulo":"Gerenciador de dispositivos","linhas":[["Monitor","Dell 24\""],["Teclado","USB ABNT2"],["Mouse","óptico"]],"ok":0,"em":"tocar"},
+ {"modelo":"terminal","linhas":["PS C:/> Get-PnpDevice -Class Monitor",{"texto":"OK    Monitor Genérico PnP","realce":"ok","em":"peças"},"OK    Teclado HID"]},
+ {"modelo":"documento","fonte":"Microsoft Learn · monitores","url":"learn.microsoft.com","titulo":"Exibição e monitor","texto":"O monitor é o dispositivo de saída que mostra imagens geradas pelo computador. Ele recebe o sinal da placa de vídeo e exibe tudo o que acontece na tela.","realce":"recebe o sinal da placa","em":"aparece","rodape":"Fonte: texto de exemplo para teste"},
+ {"modelo":"rede3d","cenario":"palco","nos":[{"id":"pc","tipo":"pc","x":-450,"z":0},{"id":"rot","tipo":"roteador","x":0,"z":0},{"id":"nuv","tipo":"nuvem","x":450,"z":100},{"id":"fw","tipo":"firewall","x":220,"z":40}],"ligacoes":[["pc","rot"],["rot","nuv"]],"eventos":[{"acao":"pacote","rota":["pc","rot","fw"],"perde":true,"em":"digitar"},{"acao":"falha","alvo":"fw","em":"números"},{"acao":"anel","alvo":"pc","em":"teclado"}],"pilulas":[{"texto":"bloqueado no firewall","tipo":"erro","em":"comandos"}]}
+]}

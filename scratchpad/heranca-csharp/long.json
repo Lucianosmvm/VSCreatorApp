@@ -1,0 +1,439 @@
+{
+  "nome": "Herança em C# com Resident Evil 4 — Completo",
+  "resolucao": "1920x1080",
+  "cenas": [
+    {
+      "texto": "Reescrever a vida de cada inimigo de Resident Evil 4? Seu código merece sobreviver.",
+      "titulo": "O pesadelo do copiar/colar",
+      "mascote": "desconfiado",
+      "visual": {
+        "tipo": "duplicacao",
+        "codigo": "int Vida = 100;\nvoid ReceberDano(int dano)\n{ Vida -= dano; }"
+      }
+    },
+    {
+      "texto": "Imagine nosso jogo de sobrevivência, inspirado naquela vila. Ganados diferentes compartilham algumas características.",
+      "titulo": "Uma vila, vários inimigos",
+      "mascote": "frente",
+      "visual": {
+        "tipo": "arena",
+        "codigo": "Ganado aldeão\nGanado com escudo\nGanado da motosserra"
+      }
+    },
+    {
+      "texto": "O jogo é uma analogia. Não estamos descrevendo o código original de Resident Evil.",
+      "titulo": "Nosso modelo didático",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "arena",
+        "codigo": "MODELO DIDÁTICO\nInspirado em Resident Evil 4"
+      }
+    },
+    {
+      "texto": "Todos têm vida, recebem dano e atacam. Repetir essas regras espalha manutenção pelo projeto.",
+      "titulo": "O que existe em comum?",
+      "mascote": "pensando",
+      "visual": {
+        "tipo": "duplicacao",
+        "codigo": "Vida\nReceberDano(dano)\nAtacar()"
+      }
+    },
+    {
+      "texto": "Você corrige o dano numa classe, mas esquece outra. Nasce um bug para caçar.",
+      "titulo": "Um bug se multiplica",
+      "mascote": "lupa",
+      "visual": {
+        "tipo": "duplicacao",
+        "codigo": "Aldeão: corrigido ✓\nEscudo: esquecido ✗\nMotosserra: esquecido ✗"
+      }
+    },
+    {
+      "texto": "Herança cria uma classe especializada a partir de outra, reaproveitando membros definidos na base.",
+      "titulo": "Herança em C#",
+      "mascote": "ideia",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "class Ganado : Inimigo\n{\n    // especialização\n}"
+      }
+    },
+    {
+      "texto": "Nossa base será Inimigo. Ela concentra o que faz sentido para qualquer inimigo.",
+      "titulo": "A classe base",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "base",
+        "codigo": "class Inimigo\n{\n    public int Vida { get; protected set; } = 100;\n}"
+      }
+    },
+    {
+      "texto": "Vida permite leitura pública. O setter protected limita quem pode alterar seu valor.",
+      "titulo": "Estado compartilhado",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "base",
+        "codigo": "public int Vida\n{ get; protected set; } = 100;"
+      }
+    },
+    {
+      "texto": "A própria classe e suas derivadas podem alterar Vida. Código externo não pode atribuí-la.",
+      "titulo": "Controle de acesso",
+      "mascote": "bracos",
+      "visual": {
+        "tipo": "acesso",
+        "codigo": "inimigo.Vida = 999; // não compila\n// setter: base e derivadas"
+      }
+    },
+    {
+      "texto": "ReceberDano reduz a vida. Math Max impede que o resultado fique abaixo de zero.",
+      "titulo": "Uma regra, um lugar",
+      "mascote": "digitando",
+      "visual": {
+        "tipo": "dano",
+        "codigo": "public void ReceberDano(int dano)\n{\n    Vida = Math.Max(0, Vida - dano);\n}"
+      }
+    },
+    {
+      "texto": "A vida começa em 100. Recebemos 30 de dano. Agora restam 70 pontos.",
+      "titulo": "Veja o estado mudar",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "dano",
+        "codigo": "inimigo.ReceberDano(30);\n// Vida: 100 → 70"
+      }
+    },
+    {
+      "texto": "Ganado herda de Inimigo usando dois pontos. Leia assim: Ganado é um Inimigo.",
+      "titulo": "É um Inimigo",
+      "mascote": "confiante",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "class Ganado : Inimigo\n{\n}"
+      }
+    },
+    {
+      "texto": "A derivada usa os membros permitidos da base, sem copiar o código para outro arquivo.",
+      "titulo": "Reutilizar sem duplicar",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "var ganado = new Ganado();\nganado.ReceberDano(30);\nConsole.WriteLine(ganado.Vida); // 70"
+      }
+    },
+    {
+      "texto": "Isso não mistura objetos. Cada instância continua tendo seu próprio estado e sua própria vida.",
+      "titulo": "Estado de cada objeto",
+      "mascote": "pensando",
+      "visual": {
+        "tipo": "instancias",
+        "codigo": "var a = new Ganado();\nvar b = new Ganado();\na.ReceberDano(30);\n// a.Vida = 70; b.Vida = 100"
+      }
+    },
+    {
+      "texto": "Acertar um aldeão não diminui automaticamente a vida do outro. São objetos independentes.",
+      "titulo": "Dois inimigos independentes",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "instancias",
+        "codigo": "Ganado A: 70 HP\nGanado B: 100 HP"
+      }
+    },
+    {
+      "texto": "Herdamos comportamento igual. Mas aldeão e inimigo de motosserra não atacam da mesma maneira.",
+      "titulo": "Ataques diferentes",
+      "mascote": "surpreso",
+      "visual": {
+        "tipo": "ataque",
+        "codigo": "Aldeão → golpe\nMotosserra → investida"
+      }
+    },
+    {
+      "texto": "Na base, virtual marca um método cuja implementação pode ser substituída pela derivada.",
+      "titulo": "Abra espaço com virtual",
+      "mascote": "digitando",
+      "visual": {
+        "tipo": "virtual",
+        "codigo": "public virtual string Atacar()\n{\n    return \"Golpe comum\";\n}"
+      }
+    },
+    {
+      "texto": "Na classe da motosserra, override mantém a assinatura e oferece um ataque específico.",
+      "titulo": "Especialize com override",
+      "mascote": "determinado",
+      "visual": {
+        "tipo": "override",
+        "codigo": "class GanadoMotosserra : Inimigo\n{\n    public override string Atacar()\n        => \"Investida de motosserra\";\n}"
+      }
+    },
+    {
+      "texto": "Virtual fornece um padrão substituível. Override participa desse contrato, especializando o comportamento herdado.",
+      "titulo": "Um contrato de comportamento",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "override",
+        "codigo": "virtual → implementação padrão\noverride → implementação especializada"
+      }
+    },
+    {
+      "texto": "Agora uma variável Inimigo recebe um GanadoMotosserra. A referência base aponta para um objeto derivado.",
+      "titulo": "Referência base, objeto derivado",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "polimorfismo",
+        "codigo": "Inimigo alvo = new GanadoMotosserra();"
+      }
+    },
+    {
+      "texto": "Chamamos Atacar e executamos a versão do objeto real. Essa escolha é o polimorfismo.",
+      "titulo": "Quem decide o ataque?",
+      "mascote": "ideia",
+      "visual": {
+        "tipo": "polimorfismo",
+        "codigo": "Console.WriteLine(alvo.Atacar());\n// Investida de motosserra"
+      }
+    },
+    {
+      "texto": "Uma lista de inimigos reúne tipos diferentes. Podemos enviar o mesmo comando para todos.",
+      "titulo": "Uma lista, várias respostas",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "lista",
+        "codigo": "Inimigo[] horda =\n{ new Ganado(), new GanadoMotosserra() };"
+      }
+    },
+    {
+      "texto": "Percorremos a horda: o aldeão usa o padrão; a motosserra responde com sua investida.",
+      "titulo": "Polimorfismo em ação",
+      "mascote": "digitando",
+      "visual": {
+        "tipo": "lista",
+        "codigo": "foreach (Inimigo inimigo in horda)\n    Console.WriteLine(inimigo.Atacar());"
+      }
+    },
+    {
+      "texto": "O sistema trabalha com Inimigo, sem precisar conhecer todos os detalhes de cada especialização.",
+      "titulo": "Menos decisões espalhadas",
+      "mascote": "confiante",
+      "visual": {
+        "tipo": "lista",
+        "codigo": "Sistema da horda\n        ↓ Atacar()\nImplementação do objeto real"
+      }
+    },
+    {
+      "texto": "O construtor prepara o estado inicial. Atenção: construtores não são herdados pelas classes derivadas.",
+      "titulo": "Construtores não são herdados",
+      "mascote": "pensando",
+      "visual": {
+        "tipo": "construtor",
+        "codigo": "public Inimigo(int vida)\n{\n    Vida = vida;\n}"
+      }
+    },
+    {
+      "texto": "Se a base exige vida inicial, usamos base para encaminhar esse valor ao construtor dela.",
+      "titulo": "Inicialize a base",
+      "mascote": "digitando",
+      "visual": {
+        "tipo": "construtor",
+        "codigo": "class Ganado : Inimigo\n{\n    public Ganado() : base(100) { }\n}"
+      }
+    },
+    {
+      "texto": "O construtor da base executa antes do corpo do construtor derivado. Primeiro, o estado comum.",
+      "titulo": "A ordem importa",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "construtor",
+        "codigo": "1. Inimigo(100)\n2. corpo de Ganado()"
+      }
+    },
+    {
+      "texto": "Base também chama uma implementação herdada. Podemos acrescentar comportamento ao que ela já faz.",
+      "titulo": "Estender o comportamento",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "override",
+        "codigo": "public override string Atacar()\n    => base.Atacar() + \" com escudo\";"
+      }
+    },
+    {
+      "texto": "Membros private não podem ser acessados diretamente pela derivada. São detalhes internos da base.",
+      "titulo": "Private continua privado",
+      "mascote": "bracos",
+      "visual": {
+        "tipo": "acesso",
+        "codigo": "private int danoRecebido;\n// Ganado não acessa diretamente"
+      }
+    },
+    {
+      "texto": "Protected permite acesso na hierarquia. Public permite acesso externo. Escolha conforme a responsabilidade.",
+      "titulo": "Escolha a visibilidade",
+      "mascote": "placa",
+      "placa": "ACESSO",
+      "visual": {
+        "tipo": "acesso",
+        "codigo": "private: própria classe\nprotected: classe e derivadas\npublic: acesso externo"
+      }
+    },
+    {
+      "texto": "Uma classe abstract representa uma categoria. Não podemos instanciar esse Inimigo genérico diretamente.",
+      "titulo": "Uma categoria abstrata",
+      "mascote": "pensando",
+      "visual": {
+        "tipo": "abstract",
+        "codigo": "abstract class Inimigo\n{\n    public abstract string Atacar();\n}"
+      }
+    },
+    {
+      "texto": "Um método abstract não tem implementação. Uma derivada concreta precisa implementá-lo usando override.",
+      "titulo": "Obrigação da derivada concreta",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "abstract",
+        "codigo": "class Ganado : Inimigo\n{\n    public override string Atacar()\n        => \"Golpe do aldeão\";\n}"
+      }
+    },
+    {
+      "texto": "Não confunda: virtual oferece uma implementação padrão. Abstract exige implementação nas classes concretas.",
+      "titulo": "Abstract ou virtual?",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "abstract",
+        "codigo": "virtual: tem corpo padrão\nabstract: sem corpo"
+      }
+    },
+    {
+      "texto": "Uma classe em C sharp tem somente uma classe base direta. Não duas classes.",
+      "titulo": "Uma base direta",
+      "mascote": "determinado",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "class Ganado : Inimigo // ✓\n// duas classes base: ✗"
+      }
+    },
+    {
+      "texto": "Mas pode implementar várias interfaces. Elas expressam contratos, como a capacidade de patrulhar.",
+      "titulo": "Interfaces são contratos",
+      "mascote": "ideia",
+      "visual": {
+        "tipo": "interface",
+        "codigo": "class Ganado : Inimigo, IPatrulhavel\n{\n    public void Patrulhar() { }\n}"
+      }
+    },
+    {
+      "texto": "Para escolher herança, pergunte: isso é um tipo daquilo? Ganado é um Inimigo.",
+      "titulo": "Faça a pergunta certa",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "Ganado É UM Inimigo ✓"
+      }
+    },
+    {
+      "texto": "Leon possui um inventário. Ele não é um tipo de inventário. A relação muda.",
+      "titulo": "Leon tem um inventário",
+      "mascote": "pensando",
+      "visual": {
+        "tipo": "composicao",
+        "codigo": "Leon TEM UM Inventario\nLeon NÃO É UM Inventario"
+      }
+    },
+    {
+      "texto": "Aqui, prefira composição: uma propriedade guarda outro objeto. Você conecta responsabilidades sem forçar herança.",
+      "titulo": "Aqui entra composição",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "composicao",
+        "codigo": "class Sobrevivente\n{\n    public Inventario Mochila { get; } = new();\n}"
+      }
+    },
+    {
+      "texto": "Evite subclasses para cada equipamento. Escudo e arma podem ser objetos associados ao inimigo.",
+      "titulo": "Evite subclasses demais",
+      "mascote": "desconfiado",
+      "visual": {
+        "tipo": "composicao",
+        "codigo": "Inimigo\n  + Arma\n  + Equipamento"
+      }
+    },
+    {
+      "texto": "Herança não resolve todo reaproveitamento. Árvores enormes criam dependências e dificultam mudanças no sistema.",
+      "titulo": "Não transforme tudo em herança",
+      "mascote": "bracos",
+      "visual": {
+        "tipo": "arvore",
+        "codigo": "Herança: relação É UM\nComposição: relação TEM UM"
+      }
+    },
+    {
+      "texto": "Voltando à vila: a base guarda vida e dano. Derivações representam especializações coerentes.",
+      "titulo": "Monte a horda com intenção",
+      "mascote": "explicando",
+      "visual": {
+        "tipo": "resumo",
+        "codigo": "Inimigo → Vida + ReceberDano\nGanado → especialização\nGanadoMotosserra → ataque próprio"
+      }
+    },
+    {
+      "texto": "Virtual e override permitem ataques diferentes. A referência base chama o comportamento do objeto real.",
+      "titulo": "O ataque acompanha o objeto",
+      "mascote": "apontando",
+      "visual": {
+        "tipo": "polimorfismo",
+        "codigo": "Inimigo alvo = new GanadoMotosserra();\nalvo.Atacar(); // versão especializada"
+      }
+    },
+    {
+      "texto": "Base inicializa o estado comum. Protected abre a hierarquia; private mantém detalhes internos.",
+      "titulo": "As ferramentas da hierarquia",
+      "mascote": "confiante",
+      "visual": {
+        "tipo": "resumo",
+        "codigo": "base → construtor da base\nprotected → hierarquia\nprivate → detalhe interno"
+      }
+    },
+    {
+      "texto": "Abstract define uma categoria. Composição encaixa equipamentos sem criar uma subclasse para cada acessório.",
+      "titulo": "Modele cada relação",
+      "mascote": "ideia",
+      "visual": {
+        "tipo": "resumo",
+        "codigo": "abstract → categoria\ncomposição → objetos associados"
+      }
+    },
+    {
+      "texto": "Sua missão: criar um inimigo de escudo. Reutilize ReceberDano e sobrescreva apenas seu ataque.",
+      "titulo": "Sua próxima missão",
+      "mascote": "digitando",
+      "visual": {
+        "tipo": "desafio",
+        "codigo": "class GanadoEscudo : Inimigo\n{\n    // implemente Atacar com override\n}"
+      }
+    },
+    {
+      "texto": "Crie dois objetos. Aplique dano em apenas um e confira se as vidas continuam independentes.",
+      "titulo": "Teste sua implementação",
+      "mascote": "lupa",
+      "visual": {
+        "tipo": "instancias",
+        "codigo": "escudoA.ReceberDano(30);\n// escudoB deve continuar intacto"
+      }
+    },
+    {
+      "texto": "Ganado é um Inimigo. Leon tem um inventário. Explicou essa diferença? Você sobreviveu à herança.",
+      "titulo": "Você sobreviveu à herança",
+      "mascote": "comemorando",
+      "visual": {
+        "tipo": "resumo",
+        "codigo": "É UM → herança\nTEM UM → composição"
+      }
+    },
+    {
+      "texto": "Salve esta missão do Dev Sobrevivente. Qual conceito de C sharp enfrenta a próxima horda?",
+      "titulo": "Próxima missão?",
+      "mascote": "acenando",
+      "visual": {
+        "tipo": "cta",
+        "codigo": "DEV SOBREVIVENTE\nSalve • pratique • acompanhe"
+      }
+    }
+  ]
+}

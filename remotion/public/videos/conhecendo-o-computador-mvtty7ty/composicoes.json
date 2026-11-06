@@ -1,4 +1,21 @@
 [
- {"id": "conhecendo-computador", "titulo": "Vídeo longo (YouTube)", "formato": "16:9", "duracao": 153.52},
- {"id": "conhecendo-computador-short", "titulo": "Short (Shorts, Reels, TikTok)", "formato": "9:16", "duracao": 64.36}
+  {
+    "id": "conhecendo-o-computador-mvtty7ty-ec",
+    "titulo": "Vídeo estilo TI (EffectCraft)",
+    "formato": "16:9",
+    "duracao": 153.52,
+    "motor": "effectcraft"
+  },
+  {
+    "id": "conhecendo-computador",
+    "titulo": "Vídeo longo (YouTube)",
+    "formato": "16:9",
+    "duracao": 153.52
+  },
+  {
+    "id": "conhecendo-computador-short",
+    "titulo": "Short (Shorts, Reels, TikTok)",
+    "formato": "9:16",
+    "duracao": 64.36
+  }
 ]

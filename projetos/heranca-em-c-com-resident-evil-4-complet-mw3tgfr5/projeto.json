@@ -1,0 +1,436 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1920x1080",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "nome": "Herança em C# com Resident Evil 4 — Completo",
+ "frames": [
+  {
+   "id": "fmw3tgfr5-0",
+   "prompt": "",
+   "text": "Reescrever a vida de cada inimigo de Resident Evil 4? Seu código merece sobreviver.",
+   "narration": "",
+   "mascote": "desconfiado",
+   "titulo": "O pesadelo do copiar/colar"
+  },
+  {
+   "id": "fmw3tgfr5-1",
+   "prompt": "",
+   "text": "Imagine nosso jogo de sobrevivência, inspirado naquela vila. Ganados diferentes compartilham algumas características.",
+   "narration": "",
+   "mascote": "frente",
+   "titulo": "Uma vila, vários inimigos"
+  },
+  {
+   "id": "fmw3tgfr5-2",
+   "prompt": "",
+   "text": "O jogo é uma analogia. Não estamos descrevendo o código original de Resident Evil.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Nosso modelo didático"
+  },
+  {
+   "id": "fmw3tgfr5-3",
+   "prompt": "",
+   "text": "Todos têm vida, recebem dano e atacam. Repetir essas regras espalha manutenção pelo projeto.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "O que existe em comum?"
+  },
+  {
+   "id": "fmw3tgfr5-4",
+   "prompt": "",
+   "text": "Você corrige o dano numa classe, mas esquece outra. Nasce um bug para caçar.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Um bug se multiplica"
+  },
+  {
+   "id": "fmw3tgfr5-5",
+   "prompt": "",
+   "text": "Herança cria uma classe especializada a partir de outra, reaproveitando membros definidos na base.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Herança em C#"
+  },
+  {
+   "id": "fmw3tgfr5-6",
+   "prompt": "",
+   "text": "Nossa base será Inimigo. Ela concentra o que faz sentido para qualquer inimigo.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "A classe base"
+  },
+  {
+   "id": "fmw3tgfr5-7",
+   "prompt": "",
+   "text": "Vida permite leitura pública. O setter protected limita quem pode alterar seu valor.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Estado compartilhado"
+  },
+  {
+   "id": "fmw3tgfr5-8",
+   "prompt": "",
+   "text": "A própria classe e suas derivadas podem alterar Vida. Código externo não pode atribuí-la.",
+   "narration": "",
+   "mascote": "bracos",
+   "titulo": "Controle de acesso"
+  },
+  {
+   "id": "fmw3tgfr5-9",
+   "prompt": "",
+   "text": "ReceberDano reduz a vida. Math Max impede que o resultado fique abaixo de zero.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Uma regra, um lugar"
+  },
+  {
+   "id": "fmw3tgfr5-10",
+   "prompt": "",
+   "text": "A vida começa em 100. Recebemos 30 de dano. Agora restam 70 pontos.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Veja o estado mudar"
+  },
+  {
+   "id": "fmw3tgfr5-11",
+   "prompt": "",
+   "text": "Ganado herda de Inimigo usando dois pontos. Leia assim: Ganado é um Inimigo.",
+   "narration": "",
+   "mascote": "confiante",
+   "titulo": "É um Inimigo"
+  },
+  {
+   "id": "fmw3tgfr5-12",
+   "prompt": "",
+   "text": "A derivada usa os membros permitidos da base, sem copiar o código para outro arquivo.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Reutilizar sem duplicar"
+  },
+  {
+   "id": "fmw3tgfr5-13",
+   "prompt": "",
+   "text": "Isso não mistura objetos. Cada instância continua tendo seu próprio estado e sua própria vida.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Estado de cada objeto"
+  },
+  {
+   "id": "fmw3tgfr5-14",
+   "prompt": "",
+   "text": "Acertar um aldeão não diminui automaticamente a vida do outro. São objetos independentes.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Dois inimigos independentes"
+  },
+  {
+   "id": "fmw3tgfr5-15",
+   "prompt": "",
+   "text": "Herdamos comportamento igual. Mas aldeão e inimigo de motosserra não atacam da mesma maneira.",
+   "narration": "",
+   "mascote": "surpreso",
+   "titulo": "Ataques diferentes"
+  },
+  {
+   "id": "fmw3tgfr5-16",
+   "prompt": "",
+   "text": "Na base, virtual marca um método cuja implementação pode ser substituída pela derivada.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Abra espaço com virtual"
+  },
+  {
+   "id": "fmw3tgfr5-17",
+   "prompt": "",
+   "text": "Na classe da motosserra, override mantém a assinatura e oferece um ataque específico.",
+   "narration": "",
+   "mascote": "determinado",
+   "titulo": "Especialize com override"
+  },
+  {
+   "id": "fmw3tgfr5-18",
+   "prompt": "",
+   "text": "Virtual fornece um padrão substituível. Override participa desse contrato, especializando o comportamento herdado.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Um contrato de comportamento"
+  },
+  {
+   "id": "fmw3tgfr5-19",
+   "prompt": "",
+   "text": "Agora uma variável Inimigo recebe um GanadoMotosserra. A referência base aponta para um objeto derivado.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Referência base, objeto derivado"
+  },
+  {
+   "id": "fmw3tgfr5-20",
+   "prompt": "",
+   "text": "Chamamos Atacar e executamos a versão do objeto real. Essa escolha é o polimorfismo.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Quem decide o ataque?"
+  },
+  {
+   "id": "fmw3tgfr5-21",
+   "prompt": "",
+   "text": "Uma lista de inimigos reúne tipos diferentes. Podemos enviar o mesmo comando para todos.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Uma lista, várias respostas"
+  },
+  {
+   "id": "fmw3tgfr5-22",
+   "prompt": "",
+   "text": "Percorremos a horda: o aldeão usa o padrão; a motosserra responde com sua investida.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Polimorfismo em ação"
+  },
+  {
+   "id": "fmw3tgfr5-23",
+   "prompt": "",
+   "text": "O sistema trabalha com Inimigo, sem precisar conhecer todos os detalhes de cada especialização.",
+   "narration": "",
+   "mascote": "confiante",
+   "titulo": "Menos decisões espalhadas"
+  },
+  {
+   "id": "fmw3tgfr5-24",
+   "prompt": "",
+   "text": "O construtor prepara o estado inicial. Atenção: construtores não são herdados pelas classes derivadas.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Construtores não são herdados"
+  },
+  {
+   "id": "fmw3tgfr5-25",
+   "prompt": "",
+   "text": "Se a base exige vida inicial, usamos base para encaminhar esse valor ao construtor dela.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Inicialize a base"
+  },
+  {
+   "id": "fmw3tgfr5-26",
+   "prompt": "",
+   "text": "O construtor da base executa antes do corpo do construtor derivado. Primeiro, o estado comum.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "A ordem importa"
+  },
+  {
+   "id": "fmw3tgfr5-27",
+   "prompt": "",
+   "text": "Base também chama uma implementação herdada. Podemos acrescentar comportamento ao que ela já faz.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Estender o comportamento"
+  },
+  {
+   "id": "fmw3tgfr5-28",
+   "prompt": "",
+   "text": "Membros private não podem ser acessados diretamente pela derivada. São detalhes internos da base.",
+   "narration": "",
+   "mascote": "bracos",
+   "titulo": "Private continua privado"
+  },
+  {
+   "id": "fmw3tgfr5-29",
+   "prompt": "",
+   "text": "Protected permite acesso na hierarquia. Public permite acesso externo. Escolha conforme a responsabilidade.",
+   "narration": "",
+   "mascote": "placa",
+   "titulo": "Escolha a visibilidade",
+   "placa": "ACESSO"
+  },
+  {
+   "id": "fmw3tgfr5-30",
+   "prompt": "",
+   "text": "Uma classe abstract representa uma categoria. Não podemos instanciar esse Inimigo genérico diretamente.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Uma categoria abstrata"
+  },
+  {
+   "id": "fmw3tgfr5-31",
+   "prompt": "",
+   "text": "Um método abstract não tem implementação. Uma derivada concreta precisa implementá-lo usando override.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Obrigação da derivada concreta"
+  },
+  {
+   "id": "fmw3tgfr5-32",
+   "prompt": "",
+   "text": "Não confunda: virtual oferece uma implementação padrão. Abstract exige implementação nas classes concretas.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Abstract ou virtual?"
+  },
+  {
+   "id": "fmw3tgfr5-33",
+   "prompt": "",
+   "text": "Uma classe em C sharp tem somente uma classe base direta. Não duas classes.",
+   "narration": "",
+   "mascote": "determinado",
+   "titulo": "Uma base direta"
+  },
+  {
+   "id": "fmw3tgfr5-34",
+   "prompt": "",
+   "text": "Mas pode implementar várias interfaces. Elas expressam contratos, como a capacidade de patrulhar.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Interfaces são contratos"
+  },
+  {
+   "id": "fmw3tgfr5-35",
+   "prompt": "",
+   "text": "Para escolher herança, pergunte: isso é um tipo daquilo? Ganado é um Inimigo.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Faça a pergunta certa"
+  },
+  {
+   "id": "fmw3tgfr5-36",
+   "prompt": "",
+   "text": "Leon possui um inventário. Ele não é um tipo de inventário. A relação muda.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Leon tem um inventário"
+  },
+  {
+   "id": "fmw3tgfr5-37",
+   "prompt": "",
+   "text": "Aqui, prefira composição: uma propriedade guarda outro objeto. Você conecta responsabilidades sem forçar herança.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Aqui entra composição"
+  },
+  {
+   "id": "fmw3tgfr5-38",
+   "prompt": "",
+   "text": "Evite subclasses para cada equipamento. Escudo e arma podem ser objetos associados ao inimigo.",
+   "narration": "",
+   "mascote": "desconfiado",
+   "titulo": "Evite subclasses demais"
+  },
+  {
+   "id": "fmw3tgfr5-39",
+   "prompt": "",
+   "text": "Herança não resolve todo reaproveitamento. Árvores enormes criam dependências e dificultam mudanças no sistema.",
+   "narration": "",
+   "mascote": "bracos",
+   "titulo": "Não transforme tudo em herança"
+  },
+  {
+   "id": "fmw3tgfr5-40",
+   "prompt": "",
+   "text": "Voltando à vila: a base guarda vida e dano. Derivações representam especializações coerentes.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Monte a horda com intenção"
+  },
+  {
+   "id": "fmw3tgfr5-41",
+   "prompt": "",
+   "text": "Virtual e override permitem ataques diferentes. A referência base chama o comportamento do objeto real.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "O ataque acompanha o objeto"
+  },
+  {
+   "id": "fmw3tgfr5-42",
+   "prompt": "",
+   "text": "Base inicializa o estado comum. Protected abre a hierarquia; private mantém detalhes internos.",
+   "narration": "",
+   "mascote": "confiante",
+   "titulo": "As ferramentas da hierarquia"
+  },
+  {
+   "id": "fmw3tgfr5-43",
+   "prompt": "",
+   "text": "Abstract define uma categoria. Composição encaixa equipamentos sem criar uma subclasse para cada acessório.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Modele cada relação"
+  },
+  {
+   "id": "fmw3tgfr5-44",
+   "prompt": "",
+   "text": "Sua missão: criar um inimigo de escudo. Reutilize ReceberDano e sobrescreva apenas seu ataque.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Sua próxima missão"
+  },
+  {
+   "id": "fmw3tgfr5-45",
+   "prompt": "",
+   "text": "Crie dois objetos. Aplique dano em apenas um e confira se as vidas continuam independentes.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Teste sua implementação"
+  },
+  {
+   "id": "fmw3tgfr5-46",
+   "prompt": "",
+   "text": "Ganado é um Inimigo. Leon tem um inventário. Explicou essa diferença? Você sobreviveu à herança.",
+   "narration": "",
+   "mascote": "comemorando",
+   "titulo": "Você sobreviveu à herança"
+  },
+  {
+   "id": "fmw3tgfr5-47",
+   "prompt": "",
+   "text": "Salve esta missão do Dev Sobrevivente. Qual conceito de C sharp enfrenta a próxima horda?",
+   "narration": "",
+   "mascote": "acenando",
+   "titulo": "Próxima missão?"
+  }
+ ],
+ "frameCount": "48",
+ "salvoEm": "2026-11-05T17:25:19.000Z"
+}
