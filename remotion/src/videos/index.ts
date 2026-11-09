@@ -10,6 +10,8 @@ import { ConhecendoComputador, ConhecendoComputadorShort, timelineShortComputado
 import tlComputador from "../../public/videos/conhecendo-o-computador-mvtty7ty/timeline.json";
 import { ClassesObjetosCSharp, ClassesObjetosShort, timelineShortClasses } from "./ClassesObjetosCSharp";
 import tlClasses from "../../public/videos/classes-e-objetos-em-c-com-resident-evil-mw0m04aw/timeline.json";
+import { PolimorfismoCSharp, PolimorfismoShort, timelineShortPolimorfismo } from "./PolimorfismoCSharp";
+import tlPolimorfismo from "../../public/videos/polimorfismo-em-c-com-resident-evil-4-mw94fzna/timeline.json";
 
 // Um vídeo por projeto do app. Para cada um o Claude Code cria
 // src/videos/<Nome>.tsx e registra aqui. A timeline (tempo de cada cena e de
@@ -32,4 +34,6 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "conhecendo-computador-short", timeline: timelineShortComputador(tlComputador as Timeline), componente: ConhecendoComputadorShort },
   { id: "classes-objetos-csharp", timeline: tlClasses as Timeline, componente: ClassesObjetosCSharp },
   { id: "classes-objetos-csharp-short", timeline: timelineShortClasses(tlClasses as Timeline), componente: ClassesObjetosShort },
+  { id: "polimorfismo-csharp", timeline: tlPolimorfismo as Timeline, componente: PolimorfismoCSharp },
+  { id: "polimorfismo-csharp-short", timeline: timelineShortPolimorfismo(tlPolimorfismo as Timeline), componente: PolimorfismoShort },
 ];

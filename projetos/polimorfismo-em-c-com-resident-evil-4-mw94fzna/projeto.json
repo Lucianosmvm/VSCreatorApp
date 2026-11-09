@@ -1,0 +1,387 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1920x1080",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "56",
+ "nome": "Polimorfismo em C# com Resident Evil 4",
+ "frames": [
+  {
+   "id": "fmw94fzna-0",
+   "prompt": "",
+   "text": "Três inimigos cercam o Leon, e o seu código dá uma única ordem: ataquem.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-1",
+   "prompt": "",
+   "text": "O aldeão joga a foice. O motosserra avança. O cultista lança uma maldição.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-2",
+   "prompt": "",
+   "text": "Um comando só, três ataques diferentes. Como o programa sabe o que fazer?",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-3",
+   "prompt": "",
+   "text": "A resposta é uma das ideias mais importantes da programação: polimorfismo.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-4",
+   "prompt": "",
+   "text": "Hoje você vai entender polimorfismo em C sharp, com exemplos inspirados em Resident Evil 4.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-5",
+   "prompt": "",
+   "text": "Polimorfismo parece palavra difícil, mas quer dizer apenas muitas formas.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-6",
+   "prompt": "",
+   "text": "Pense no botão de atacar do controle. O botão é um só, mas cada personagem reage do seu jeito.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-7",
+   "prompt": "",
+   "text": "No código é igual: a mesma chamada muda de forma, dependendo do objeto real.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-8",
+   "prompt": "",
+   "text": "Primeiro, veja o código sem polimorfismo. Para cada inimigo, você pergunta qual é o tipo dele.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-9",
+   "prompt": "",
+   "text": "Se for aldeão, joga a foice. Se for motosserra, avança. Se for cultista, amaldiçoa.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-10",
+   "prompt": "",
+   "text": "Agora imagine o jogo com 50 tipos de inimigos.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-11",
+   "prompt": "",
+   "text": "Seriam 50 condições, repetidas em todos os lugares que usam inimigos.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-12",
+   "prompt": "",
+   "text": "E cada inimigo novo obrigaria você a caçar e alterar todas essas partes.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-13",
+   "prompt": "",
+   "text": "O polimorfismo resolve isso, apoiado em duas coisas que você já viu no canal: classes e herança.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-14",
+   "prompt": "",
+   "text": "Vamos começar pela classe base, chamada Inimigo, com o método Atacar.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-15",
+   "prompt": "",
+   "text": "Repare na palavra virtual, escrita antes do tipo de retorno.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-16",
+   "prompt": "",
+   "text": "Virtual avisa que as classes filhas têm permissão para trocar esse comportamento.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-17",
+   "prompt": "",
+   "text": "Agora criamos a classe Aldeao, que herda de Inimigo.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-18",
+   "prompt": "",
+   "text": "Dentro dela, escrevemos Atacar outra vez, usando a palavra override.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-19",
+   "prompt": "",
+   "text": "Override significa: ignore a versão da classe pai, e use a minha.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-20",
+   "prompt": "",
+   "text": "Fazemos o mesmo com o Motosserra, que avança ligando a serra.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-21",
+   "prompt": "",
+   "text": "E com o Cultista, que lança uma maldição.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-22",
+   "prompt": "",
+   "text": "Repare que os três métodos têm exatamente o mesmo nome e os mesmos parâmetros.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-23",
+   "prompt": "",
+   "text": "Agora vem a parte mais legal. Criamos uma lista do tipo Inimigo.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-24",
+   "prompt": "",
+   "text": "Dentro dela, colocamos um Aldeao, um Motosserra e um Cultista.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-25",
+   "prompt": "",
+   "text": "Isso é permitido porque todos herdam de Inimigo. Um Motosserra é um Inimigo.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-26",
+   "prompt": "",
+   "text": "Agora fazemos um foreach, e chamamos Atacar em cada inimigo da lista.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-27",
+   "prompt": "",
+   "text": "Repare: dentro do foreach não existe nenhum if.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-28",
+   "prompt": "",
+   "text": "Na primeira volta, o aldeão joga a foice.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-29",
+   "prompt": "",
+   "text": "Na segunda volta, o motosserra avança com a serra ligada.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-30",
+   "prompt": "",
+   "text": "Na terceira volta, o cultista lança a maldição.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-31",
+   "prompt": "",
+   "text": "A variável é do tipo Inimigo, mas quem responde é o objeto real.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-32",
+   "prompt": "",
+   "text": "O tipo da variável define o que você pode chamar.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-33",
+   "prompt": "",
+   "text": "E o objeto criado com new decide qual versão vai rodar.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-34",
+   "prompt": "",
+   "text": "Mesmo guardado numa variável do tipo Inimigo, o motosserra continua sendo um motosserra.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-35",
+   "prompt": "",
+   "text": "E o melhor: para criar um Regenerador, você escreve só uma classe nova.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-36",
+   "prompt": "",
+   "text": "O foreach continua igual. Nenhuma linha antiga precisa mudar.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-37",
+   "prompt": "",
+   "text": "Esse é um princípio famoso: código aberto para novidades, e fechado para alterações.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-38",
+   "prompt": "",
+   "text": "Agora, os quatro erros mais comuns.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-39",
+   "prompt": "",
+   "text": "Primeiro erro: esquecer o virtual. Sem ele, o compilador não deixa você usar override.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-40",
+   "prompt": "",
+   "text": "Segundo erro: trocar override por new. Com new, a filha só esconde o método do pai.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-41",
+   "prompt": "",
+   "text": "Aí, na lista de Inimigo, roda o ataque padrão, e o motosserra perde a serra.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-42",
+   "prompt": "",
+   "text": "Terceiro erro: mudar o nome ou os parâmetros. Aí não existe o que sobrescrever, e o compilador reclama.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-43",
+   "prompt": "",
+   "text": "Quarto erro: voltar a testar o tipo com if. Muitas vezes, é sinal de que faltou um método.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-44",
+   "prompt": "",
+   "text": "E polimorfismo não serve só para jogos.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-45",
+   "prompt": "",
+   "text": "Num sistema de pagamento, cartão, Pix e boleto podem ter o mesmo método Pagar.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-46",
+   "prompt": "",
+   "text": "A tela só chama Pagar, e cada forma de pagamento resolve do seu jeito.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-47",
+   "prompt": "",
+   "text": "Para aceitar uma forma nova, basta criar mais uma classe.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-48",
+   "prompt": "",
+   "text": "Também dá para aproveitar a versão do pai, chamando base ponto Atacar dentro da filha.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-49",
+   "prompt": "",
+   "text": "Assim, o motosserra faz o ataque padrão, e depois liga a serra.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-50",
+   "prompt": "",
+   "text": "Resumindo: virtual libera a troca na classe base.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-51",
+   "prompt": "",
+   "text": "Override faz a troca na classe filha.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-52",
+   "prompt": "",
+   "text": "E a variável do tipo base executa a versão do objeto real.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-53",
+   "prompt": "",
+   "text": "Um comando, muitas formas. Isso é polimorfismo.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-54",
+   "prompt": "",
+   "text": "No próximo vídeo, vamos ver encapsulamento, e por que o Leon não pode editar a própria vida.",
+   "narration": ""
+  },
+  {
+   "id": "fmw94fzna-55",
+   "prompt": "",
+   "text": "Se esse vídeo te ajudou, deixe seu gostei, inscreva-se no Dev Sobrevivente e compartilhe com quem está aprendendo C sharp.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-09T10:31:44.000Z"
+}
