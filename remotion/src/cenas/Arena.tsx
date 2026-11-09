@@ -182,8 +182,44 @@ const Leon: React.FC<Membros> = ({ passo, braco }) => (
   </g>
 );
 
-const Ganado: React.FC<Membros & { tom: number }> = ({ passo, braco, tom }) => {
-  const camisa = ["#5b4a33", "#44503a", "#60402f"][tom % 3];
+export type Arma = "forcado" | "foice" | "motosserra" | "cajado";
+
+// Arma na mão direita (a origem do braço é o ombro; a mão fica em 68,-176).
+const ArmaGanado: React.FC<{ arma: Arma }> = ({ arma }) => {
+  const { f } = useT();
+  if (arma === "foice") return (
+    <>
+      <path d="M68-322v220" stroke="#3a2a17" strokeWidth={10} strokeLinecap="round" />
+      <path d="M62-326c58-44 142-26 164 42-44-38-104-46-162-18z" fill="#c9cdc0" stroke="#6f7468" strokeWidth={3} />
+    </>
+  );
+  if (arma === "motosserra") return (
+    <>
+      <path d="M108-206h156c12 0 20 8 20 16s-8 16-20 16H108z" fill="#aeb4aa" stroke="#555a50" strokeWidth={3} />
+      <path d="M108-210h172M108-170h172" stroke="#20231e" strokeWidth={8} strokeDasharray="12 9" strokeDashoffset={-f * 6} />
+      <path d="M36-222h78v76H36z" fill="#d9661f" stroke="#7d3610" strokeWidth={4} />
+      <path d="M50-222c0-34 52-34 52 0" fill="none" stroke="#20231e" strokeWidth={10} />
+      <path d="M48-196h54M48-178h54" stroke="#7d3610" strokeWidth={5} />
+    </>
+  );
+  if (arma === "cajado") return (
+    <>
+      <path d="M68-352c-8 60 8 120 0 180s6 100 0 132" stroke="#4a331c" strokeWidth={11} fill="none" strokeLinecap="round" />
+      <path d="M40-370c0 40 56 40 56 0" fill="none" stroke="#4a331c" strokeWidth={9} strokeLinecap="round" />
+      <circle cx="68" cy="-386" r={44 + Math.sin(f * 0.25) * 6} fill="#a56bff" opacity={0.28} />
+      <circle cx="68" cy="-386" r="23" fill="#c9a2ff" stroke="#6b39bd" strokeWidth={4} />
+    </>
+  );
+  return (
+    <>
+      <path d="M68-330v290" stroke="#3a2a17" strokeWidth={10} strokeLinecap="round" />
+      <path d="M44-390v50h48v-50M68-394v54" stroke="#9aa090" strokeWidth={8} fill="none" strokeLinecap="round" />
+    </>
+  );
+};
+
+const Ganado: React.FC<Membros & { tom: number; arma: Arma }> = ({ passo, braco, tom, arma }) => {
+  const camisa = arma === "cajado" ? "#34264d" : ["#5b4a33", "#44503a", "#60402f"][tom % 3];
   return (
     <g strokeLinejoin="round" transform="rotate(4 0 -180)">
       <g transform={`rotate(${passo} -22 -170)`}><path d="M-44-176h40l-6 150h-30z" fill="#2b2519" /><path d="M-42-34h34v34h-44z" fill="#14100a" /></g>
@@ -191,15 +227,20 @@ const Ganado: React.FC<Membros & { tom: number }> = ({ passo, braco, tom }) => {
       <path d="M-58-302c30-14 86-14 116 0l8 136-20-8-18 10-24-10-20 10-22-10-20 8z" fill={camisa} />
       <path d="M-20-302l12 60-14 40" stroke="#1d170f" strokeWidth={5} fill="none" />
       <g transform="rotate(6 -58 -290)"><path d="M-78-296h32l-4 110h-26z" fill={camisa} /><circle cx="-62" cy="-176" r="14" fill="#9aa377" /></g>
-      <g transform={`rotate(${braco} 58 -290)`}>
+      <g transform={`rotate(${arma === "foice" || arma === "cajado" ? -16 - braco : braco} 58 -290)`}>
         <path d="M46-296h32l4 110h-26z" fill={camisa} /><circle cx="68" cy="-176" r="15" fill="#9aa377" />
-        <path d="M68-330v290" stroke="#3a2a17" strokeWidth={10} strokeLinecap="round" />
-        <path d="M44-390v50h48v-50M68-394v54" stroke="#9aa090" strokeWidth={8} fill="none" strokeLinecap="round" />
+        <ArmaGanado arma={arma} />
       </g>
+      {arma === "motosserra" && <path d="M-38-290h76l8 126H-46z" fill="#77725f" stroke="#3a372b" strokeWidth={4} />}
+      {arma === "cajado" && <path d="M-60-196h120l14 186H-74z" fill="#34264d" />}
+      {arma === "cajado" && <path d="M-62-292c-20-136 144-136 124 0z" fill="#241a38" />}
       <path d="M-30-306h60v-22h-60z" fill="#858e65" />
       <path d="M-40-376c0-24 80-24 80 0v30c0 26-22 40-40 40s-40-14-40-40z" fill="#9aa377" />
-      <path d="M-44-368c-4-34 24-44 46-42 26 2 46 14 42 42-10-16-30-20-46-18s-34 4-42 18z" fill="#211b12" />
-      <path d="M-38-338c6 30 20 40 38 40s32-10 38-40c-10 10-20 12-38 12s-28-2-38-12z" fill="#2c2418" />
+      {arma !== "cajado" && <path d="M-44-368c-4-34 24-44 46-42 26 2 46 14 42 42-10-16-30-20-46-18s-34 4-42 18z" fill="#211b12" />}
+      {arma !== "cajado" && <path d="M-38-338c6 30 20 40 38 40s32-10 38-40c-10 10-20 12-38 12s-28-2-38-12z" fill="#2c2418" />}
+      {arma === "motosserra" && <path d="M-46-386c20-30 72-30 92 0l-4 74c-24 22-60 22-84 0z" fill="#9c8558" stroke="#5e4f32" strokeWidth={4} />}
+      {arma === "motosserra" && <path d="M-34-322h68" stroke="#5e4f32" strokeWidth={5} strokeDasharray="8 6" />}
+      {arma === "cajado" && <path d="M-46-380c20-52 72-52 92 0-24-20-68-20-92 0z" fill="#241a38" />}
       <circle cx="-16" cy="-350" r="7" fill="#ff3b2f" /><circle cx="18" cy="-350" r="7" fill="#ff3b2f" />
       <circle cx="-16" cy="-350" r="14" fill="#ff3b2f" opacity={0.25} /><circle cx="18" cy="-350" r="14" fill="#ff3b2f" opacity={0.25} />
     </g>
@@ -226,8 +267,8 @@ const brilho = (t: number, x: number) => t >= x && t < x + 0.12;
 
 export const Boneco: React.FC<{
   tipo: TipoBoneco; x: number; y?: number; h?: number; t?: number; de?: "baixo" | "zoom" | "dir" | "esq"; vira?: boolean; tom?: number;
-  ataca?: number[]; dano?: number[]; cai?: number; anda?: [number, number, number]; molde?: number; molde0?: boolean; sai?: number;
-}> = ({ tipo, x, y = 836, h = 420, t = -1, de = "baixo", vira, tom = 0, ataca = [], dano = [], cai, anda, molde, molde0, sai }) => {
+  ataca?: number[]; dano?: number[]; cai?: number; anda?: [number, number, number]; molde?: number; molde0?: boolean; sai?: number; arma?: Arma;
+}> = ({ arma = "forcado", tipo, x, y = 836, h = 420, t = -1, de = "baixo", vira, tom = 0, ataca = [], dano = [], cai, anda, molde, molde0, sai }) => {
   const { t: agora, f } = useT();
   const s = useSurge(t, 160, 12);
   if (agora < t) return null;
@@ -250,7 +291,7 @@ export const Boneco: React.FC<{
   const corpo = (
     <g transform={`scale(${vira ? -k : k} ${k * (1 + resp)})`}>
       {tipo === "leon" && <Leon passo={passo} braco={braco} />}
-      {tipo === "ganado" && <Ganado passo={passo} braco={braco} tom={tom} />}
+      {tipo === "ganado" && <Ganado passo={passo} braco={braco} tom={tom} arma={arma} />}
       {tipo === "ashley" && <Ashley passo={passo} braco={braco} />}
     </g>
   );

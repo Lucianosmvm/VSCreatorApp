@@ -14,9 +14,9 @@ const OK = "rgba(40,200,64,.18)";
 const pop = (...t: number[]) => t.map((x) => ({ t: x, tipo: "pop" as const }));
 
 const INIMIGOS = [
-  { nome: "ALDEÃO", golpe: "FOICE!", tom: 0, cor: COR.ama },
-  { nome: "MOTOSSERRA", golpe: "SERRA!", tom: 1, cor: COR.ver },
-  { nome: "CULTISTA", golpe: "MALDIÇÃO!", tom: 2, cor: COR.azul },
+  { nome: "ALDEÃO", golpe: "FOICE!", tom: 0, arma: "foice" as const, cor: COR.ama },
+  { nome: "MOTOSSERRA", golpe: "SERRA!", tom: 1, arma: "motosserra" as const, cor: COR.ver },
+  { nome: "CULTISTA", golpe: "MALDIÇÃO!", tom: 2, arma: "cajado" as const, cor: COR.azul },
 ];
 const layout = (V: boolean) => ({
   x: V ? [190, 540, 890] : [380, 960, 1540],
@@ -38,7 +38,7 @@ const Trio: React.FC<{ V: boolean; tempos?: number[]; ataques?: number[]; ativo?
         const apagado = ativo !== undefined && ativo !== i;
         return (
           <div key={n.nome} style={{ position: "absolute", left: 0, top: 0, opacity: apagado ? 0.35 : 1 }}>
-            <Boneco tipo="ganado" tom={n.tom} x={g.x[i]} y={g.chao} h={g.h} t={tempos[i]} de="baixo" ataca={ta !== undefined ? [ta, ta + 0.7] : []} />
+            <Boneco tipo="ganado" tom={n.tom} arma={n.arma} x={g.x[i]} y={g.chao} h={g.h} t={tempos[i]} de="baixo" ataca={ta !== undefined ? [ta, ta + 0.7] : []} />
             <Entra t={tempos[i]} x={g.x[i]} y={g.nomeY}><Rotulo txt={n.nome} fundo={n.cor} tam={g.tamNome} /></Entra>
             {ta !== undefined && <Carimbo txt={n.golpe} t={ta} x={g.x[i]} y={g.golpeY} cor={n.cor} tam={V ? 44 : 76} />}
             {ta !== undefined && <Clarao t={ta} x={g.x[i]} y={g.chao - g.h * 0.6} />}
@@ -74,9 +74,9 @@ const Cerco = (V: boolean): CenaEspecial => ({ cena: c, indice }) => {
   const t = em(c, "ataquem");
   return (
     <Arena cena={c} indice={indice} tremor={[t]} sons={pop(em(c, "cercam"), t)} zoom={0.1}>
-      <Boneco tipo="ganado" tom={0} x={V ? 170 : 300} y={V ? 1000 : 836} h={V ? 400 : 440} de="esq" t={em(c, "cercam")} />
-      <Boneco tipo="ganado" tom={1} x={V ? 910 : 1620} y={V ? 1000 : 836} h={V ? 400 : 440} de="dir" vira t={em(c, "cercam")} />
-      <Boneco tipo="ganado" tom={2} x={V ? 540 : 1280} y={V ? 880 : 836} h={V ? 340 : 400} de="dir" vira t={em(c, "cercam")} />
+      <Boneco tipo="ganado" tom={0} arma="foice" x={V ? 170 : 300} y={V ? 1000 : 836} h={V ? 400 : 440} de="esq" t={em(c, "cercam")} />
+      <Boneco tipo="ganado" tom={1} arma="motosserra" x={V ? 910 : 1620} y={V ? 1000 : 836} h={V ? 400 : 440} de="dir" vira t={em(c, "cercam")} />
+      <Boneco tipo="ganado" tom={2} arma="cajado" x={V ? 540 : 1280} y={V ? 880 : 836} h={V ? 340 : 400} de="dir" vira t={em(c, "cercam")} />
       <Boneco tipo="leon" x={V ? 540 : 800} y={V ? 1400 : 836} h={V ? 620 : 500} dano={[t + 0.1]} />
       <Entra t={em(c, "ordem")} x={g.cx} y={V ? 360 : 170}><Rotulo txt="inimigo.Atacar();" mono fundo={COR.ama} tam={V ? 72 : 66} /></Entra>
       <Carimbo txt="ATAQUEM!" t={t} x={g.cx} y={V ? 580 : 400} tam={V ? 120 : 130} />
@@ -338,7 +338,7 @@ const especiais: Record<number, CenaEspecial> = {
       <Arena cena={c} indice={indice} tremor={[t]} sons={pop(em(c, "guardado"), t)}>
         <Entra t={em(c, "guardado")} x={520} y={320}><Rotulo txt="Inimigo i" mono fundo={COR.beg} tam={84} /></Entra>
         <Seta t={em(c, "variavel")} x1={760} y1={330} x2={1130} y2={520} />
-        <Boneco tipo="ganado" tom={1} x={1400} h={560} ataca={[t]} />
+        <Boneco tipo="ganado" tom={1} arma="motosserra" x={1400} h={560} ataca={[t]} />
         <Carimbo txt="SEGUE MOTOSSERRA" t={t} x={1320} y={190} tam={68} cor={COR.ver} />
       </Arena>
     );
@@ -437,7 +437,7 @@ const VariavelObjeto: React.FC<{ c: Cena; indice: number; V: boolean }> = ({ c, 
     <Arena cena={c} indice={indice} tremor={[r]} sons={pop(em(c, "variavel"), r)}>
       <Entra t={em(c, "variavel")} x={V ? 540 : 480} y={V ? 340 : 330}><Rotulo txt="variável: Inimigo" mono fundo={COR.beg} tam={V ? 68 : 62} /></Entra>
       <Seta t={em(c, "responde")} x1={V ? 540 : 800} y1={V ? 430 : 340} x2={V ? 540 : 1160} y2={V ? 620 : 500} />
-      <Boneco tipo="ganado" tom={1} x={V ? 540 : 1420} y={V ? 1400 : 836} h={V ? 700 : 560} ataca={[r]} />
+      <Boneco tipo="ganado" tom={1} arma="motosserra" x={V ? 540 : 1420} y={V ? 1400 : 836} h={V ? 700 : 560} ataca={[r]} />
       <Carimbo txt="OBJETO REAL" t={r} x={V ? 540 : 1400} y={V ? 700 : 190} tam={V ? 92 : 76} cor={COR.ama} />
     </Arena>
   );
