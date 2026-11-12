@@ -1,0 +1,459 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1920x1080",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "51",
+ "nome": "Encapsulamento em C# com Resident Evil 4",
+ "frames": [
+  {
+   "id": "fmwc6ogy3-0",
+   "prompt": "",
+   "text": "Você colocaria a vida do Leon em 999 com uma linha de código? Então temos um problema.",
+   "narration": "",
+   "mascote": "surpreso",
+   "titulo": "Vida infinita?"
+  },
+  {
+   "id": "fmwc6ogy3-1",
+   "prompt": "",
+   "text": "Imagine um jogo inspirado em Resident Evil 4. Leon enfrenta a vila com 100 pontos de vida.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Vida do Leon"
+  },
+  {
+   "id": "fmwc6ogy3-2",
+   "prompt": "",
+   "text": "Se qualquer parte do jogo puder escrever nesse valor, um bug pode deixar o Leon imortal.",
+   "narration": "",
+   "mascote": "desconfiado",
+   "titulo": "Acesso sem controle"
+  },
+  {
+   "id": "fmwc6ogy3-3",
+   "prompt": "",
+   "text": "Encapsulamento protege o estado do personagem e dá ao resto do jogo operações seguras para interagir.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Encapsulamento em C#"
+  },
+  {
+   "id": "fmwc6ogy3-4",
+   "prompt": "",
+   "text": "Na aula anterior, cada inimigo respondeu à mesma ordem com um ataque próprio. Isso é polimorfismo.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Da aula anterior"
+  },
+  {
+   "id": "fmwc6ogy3-5",
+   "prompt": "",
+   "text": "Agora, do outro lado da luta: quem pode mudar a vida de quem recebe dano?",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Quem muda a vida?"
+  },
+  {
+   "id": "fmwc6ogy3-6",
+   "prompt": "",
+   "text": "Comece pelo exemplo mais simples: uma classe Personagem com um campo público chamado vida.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Campo público"
+  },
+  {
+   "id": "fmwc6ogy3-7",
+   "prompt": "",
+   "text": "Um campo público permite que código externo leia e escreva diretamente nele.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Leitura e escrita"
+  },
+  {
+   "id": "fmwc6ogy3-8",
+   "prompt": "",
+   "text": "O combate pode tirar 30 pontos. O menu também consegue gravar um valor absurdo.",
+   "narration": "",
+   "mascote": "desconfiado",
+   "titulo": "O menu também altera"
+  },
+  {
+   "id": "fmwc6ogy3-9",
+   "prompt": "",
+   "text": "Com menos 40, a barra recebe vida negativa. O campo aceitou o valor.",
+   "narration": "",
+   "mascote": "surpreso",
+   "titulo": "Vida negativa"
+  },
+  {
+   "id": "fmwc6ogy3-10",
+   "prompt": "",
+   "text": "Com 999, a vida ultrapassa o máximo. O problema começa na escrita sem controle.",
+   "narration": "",
+   "mascote": "bracos",
+   "titulo": "Acima do máximo"
+  },
+  {
+   "id": "fmwc6ogy3-11",
+   "prompt": "",
+   "text": "Se cada lugar verificar a vida por conta própria, basta esquecer uma verificação para o erro voltar.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Validação espalhada"
+  },
+  {
+   "id": "fmwc6ogy3-12",
+   "prompt": "",
+   "text": "Reúna a proteção dentro da classe Personagem. A regra acompanha cada instância.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Regra na classe"
+  },
+  {
+   "id": "fmwc6ogy3-13",
+   "prompt": "",
+   "text": "Coloque a vida em uma propriedade pública com leitura livre e escrita privada.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Leitura pública"
+  },
+  {
+   "id": "fmwc6ogy3-14",
+   "prompt": "",
+   "text": "O get permite consultar a vida. O private set limita a escrita à classe.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Get e private set"
+  },
+  {
+   "id": "fmwc6ogy3-15",
+   "prompt": "",
+   "text": "A interface ainda consegue desenhar a barra: basta ler a propriedade Vida do personagem.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "A barra pode ler"
+  },
+  {
+   "id": "fmwc6ogy3-16",
+   "prompt": "",
+   "text": "Se o menu atribuir 999 diretamente, o compilador bloqueia a escrita.",
+   "narration": "",
+   "mascote": "determinado",
+   "titulo": "Escrita bloqueada"
+  },
+  {
+   "id": "fmwc6ogy3-17",
+   "prompt": "",
+   "text": "Para aplicar dano, o jogo chama ReceberDano e informa a quantidade.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "ReceberDano"
+  },
+  {
+   "id": "fmwc6ogy3-18",
+   "prompt": "",
+   "text": "O personagem calcula a perda e guarda a nova vida dentro do método.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "O personagem decide"
+  },
+  {
+   "id": "fmwc6ogy3-19",
+   "prompt": "",
+   "text": "Rejeite dano negativo. Subtrair um número negativo acabaria curando o personagem.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Valide a entrada"
+  },
+  {
+   "id": "fmwc6ogy3-20",
+   "prompt": "",
+   "text": "Math Max compara o resultado da subtração com zero e guarda o maior valor.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Piso de zero"
+  },
+  {
+   "id": "fmwc6ogy3-21",
+   "prompt": "",
+   "text": "Com 100 de vida e 30 de dano, Leon fica com 70. A barra acompanha a mudança.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "De 100 para 70"
+  },
+  {
+   "id": "fmwc6ogy3-22",
+   "prompt": "",
+   "text": "O próximo golpe causa 90. A conta daria menos 20, mas a vida fica em zero.",
+   "narration": "",
+   "mascote": "surpreso",
+   "titulo": "Dano acima da vida"
+  },
+  {
+   "id": "fmwc6ogy3-23",
+   "prompt": "",
+   "text": "Zero representa derrota nesse exemplo. A barra continua válida porque a classe impôs o limite.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Zero é o limite"
+  },
+  {
+   "id": "fmwc6ogy3-24",
+   "prompt": "",
+   "text": "E se Leon usar uma erva? Recuperar vida tem a própria operação, chamada Curar.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Operação Curar"
+  },
+  {
+   "id": "fmwc6ogy3-25",
+   "prompt": "",
+   "text": "Curar também recusa números negativos. Cada método expressa uma ação diferente.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Duas operações claras"
+  },
+  {
+   "id": "fmwc6ogy3-26",
+   "prompt": "",
+   "text": "Na cura, Math Min escolhe o menor valor entre a soma e a vida máxima.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Teto de vida"
+  },
+  {
+   "id": "fmwc6ogy3-27",
+   "prompt": "",
+   "text": "Se Leon tiver 70 pontos e usar uma erva que recupera 50, a vida para em 100.",
+   "narration": "",
+   "mascote": "comemorando",
+   "titulo": "Cura até 100"
+  },
+  {
+   "id": "fmwc6ogy3-28",
+   "prompt": "",
+   "text": "Dano usa um piso. Cura usa um teto. A vida fica no intervalo permitido.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Piso e teto"
+  },
+  {
+   "id": "fmwc6ogy3-29",
+   "prompt": "",
+   "text": "A regra vale em todo estado válido do personagem. Isso é uma invariante.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "O que é invariante?"
+  },
+  {
+   "id": "fmwc6ogy3-30",
+   "prompt": "",
+   "text": "O construtor também precisa respeitar a regra. Comece verificando se a vida máxima é maior que zero.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Construtor seguro"
+  },
+  {
+   "id": "fmwc6ogy3-31",
+   "prompt": "",
+   "text": "Depois, guarde o máximo em uma propriedade somente leitura e inicialize a vida com esse valor.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Estado inicial válido"
+  },
+  {
+   "id": "fmwc6ogy3-32",
+   "prompt": "",
+   "text": "Você pode criar Leon com máximo de 100 e Ashley com máximo de 60. Cada objeto guarda seus valores.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Valores por personagem"
+  },
+  {
+   "id": "fmwc6ogy3-33",
+   "prompt": "",
+   "text": "Quando Leon toma dano, só o objeto dele muda. Ashley continua com a mesma vida.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Cada objeto tem estado"
+  },
+  {
+   "id": "fmwc6ogy3-34",
+   "prompt": "",
+   "text": "Para consultar a derrota, exponha uma propriedade calculada chamada Derrotado.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Estado calculado"
+  },
+  {
+   "id": "fmwc6ogy3-35",
+   "prompt": "",
+   "text": "Derrotado é verdadeiro quando Vida vale zero. Um único valor determina os dois resultados.",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Uma fonte de verdade"
+  },
+  {
+   "id": "fmwc6ogy3-36",
+   "prompt": "",
+   "text": "Imagine um campo público dizendo que Leon está de pé, enquanto a vida está zerada. É uma contradição.",
+   "narration": "",
+   "mascote": "desconfiado",
+   "titulo": "Estado inconsistente"
+  },
+  {
+   "id": "fmwc6ogy3-37",
+   "prompt": "",
+   "text": "Calcule na leitura. O jogo pode consultar a derrota sem sincronizar um segundo estado.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Calcule na leitura"
+  },
+  {
+   "id": "fmwc6ogy3-38",
+   "prompt": "",
+   "text": "O mesmo raciocínio vale para munição. Recarregar controla o limite do carregador e impede quantidades inválidas.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Munição no jogo"
+  },
+  {
+   "id": "fmwc6ogy3-39",
+   "prompt": "",
+   "text": "Vale também para inventário. Adicionar um item é uma ação que pode verificar se ainda existe espaço.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Inventário com limite"
+  },
+  {
+   "id": "fmwc6ogy3-40",
+   "prompt": "",
+   "text": "Numa conta, depósito e saque concentram as regras de alteração do saldo.",
+   "narration": "",
+   "mascote": "confiante",
+   "titulo": "Exemplo fora do jogo"
+  },
+  {
+   "id": "fmwc6ogy3-41",
+   "prompt": "",
+   "text": "Prefira operações que expressem a intenção. Receber dano explica por que o valor muda.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Métodos com intenção"
+  },
+  {
+   "id": "fmwc6ogy3-42",
+   "prompt": "",
+   "text": "Se a mudança não quebra nenhuma regra, um setter público pode fazer sentido.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Quando usar public set"
+  },
+  {
+   "id": "fmwc6ogy3-43",
+   "prompt": "",
+   "text": "Para a vida do Leon, existe um intervalo obrigatório. Por isso a escrita fica reservada à classe.",
+   "narration": "",
+   "mascote": "determinado",
+   "titulo": "Por que usar private set"
+  },
+  {
+   "id": "fmwc6ogy3-44",
+   "prompt": "",
+   "text": "Proteja os dados, exponha operações claras e teste os limites de cada uma.",
+   "narration": "",
+   "mascote": "digitando",
+   "titulo": "Três passos práticos"
+  },
+  {
+   "id": "fmwc6ogy3-45",
+   "prompt": "",
+   "text": "Teste a sequência. Comece em 100, aplique 30 de dano e depois cure 50 pontos.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Teste a sequência"
+  },
+  {
+   "id": "fmwc6ogy3-46",
+   "prompt": "",
+   "text": "Você deve observar 70 depois do dano e 100 depois da cura. A regra segura os dois lados.",
+   "narration": "",
+   "mascote": "comemorando",
+   "titulo": "Resultado esperado"
+  },
+  {
+   "id": "fmwc6ogy3-47",
+   "prompt": "",
+   "text": "Agora teste dano maior que a vida. O personagem deve ficar com zero, e Derrotado deve retornar verdadeiro.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Teste o limite inferior"
+  },
+  {
+   "id": "fmwc6ogy3-48",
+   "prompt": "",
+   "text": "Desafio: crie uma classe Carregador. Como você impediria disparar com zero munição e recarregar acima do máximo?",
+   "narration": "",
+   "mascote": "ideia",
+   "titulo": "Desafio do carregador"
+  },
+  {
+   "id": "fmwc6ogy3-49",
+   "prompt": "",
+   "text": "Encapsulamento é isso: o jogo pede uma ação, e o próprio objeto protege suas regras.",
+   "narration": "",
+   "mascote": "confiante",
+   "titulo": "O objeto protege as regras"
+  },
+  {
+   "id": "fmwc6ogy3-50",
+   "prompt": "",
+   "text": "Curta o vídeo, inscreva-se no Dev Sobrevivente e tente o desafio antes da próxima aula.",
+   "narration": "",
+   "mascote": "acenando",
+   "titulo": "Continue a missão"
+  }
+ ],
+ "salvoEm": "2026-11-11T14:03:12.697Z"
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "switch-roteador",
+    "titulo": "Vídeo longo (YouTube)",
+    "formato": "16:9",
+    "duracao": 250.16
+  },
+  {
+    "id": "switch-roteador-short",
+    "titulo": "Short (Shorts, Reels, TikTok)",
+    "formato": "9:16",
+    "duracao": 70.64
+  }
+]

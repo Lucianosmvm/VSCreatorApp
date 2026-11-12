@@ -1,0 +1,314 @@
+{
+  "nome": "Switch vs. roteador: por onde seus dados passam?",
+  "resolucao": "1920x1080",
+  "cenas": [
+    {
+      "texto": "Já tentou abrir um site sem internet e, mesmo assim, conseguiu imprimir pela rede?",
+      "titulo": "Impressora sem internet?",
+      "mascote": "lupa",
+      "visual": "queda",
+      "palavra": "internet"
+    },
+    {
+      "texto": "Imprimir e abrir um site podem usar caminhos diferentes, mesmo saindo do mesmo computador.",
+      "titulo": "Dois trajetos",
+      "mascote": "explicando",
+      "visual": "comparacao",
+      "palavra": "caminhos"
+    },
+    {
+      "texto": "Imagine uma casa com computador, impressora, switch e roteador. Lá fora, existe o servidor do site.",
+      "titulo": "Mapa da rede",
+      "mascote": "explicando",
+      "visual": "mapa",
+      "palavra": "servidor"
+    },
+    {
+      "texto": "Se a impressora está na mesma rede local do computador, a impressão pode ficar inteiramente dentro de casa.",
+      "titulo": "Imprimir na rede local",
+      "mascote": "apontando",
+      "visual": "local",
+      "palavra": "impressão"
+    },
+    {
+      "texto": "O servidor do site fica em outra rede. O computador precisa de uma saída.",
+      "titulo": "Para abrir um site",
+      "mascote": "apontando",
+      "visual": "internet",
+      "palavra": "saída"
+    },
+    {
+      "texto": "Vamos seguir os dois trajetos para descobrir qual aparelho procurar quando uma conexão falhar.",
+      "titulo": "Switch ou roteador?",
+      "mascote": "explicando",
+      "visual": "comparacao",
+      "palavra": "aparelho"
+    },
+    {
+      "texto": "A rede local, ou LAN, conecta equipamentos próximos, como os de uma casa ou escritório.",
+      "titulo": "Rede local",
+      "mascote": "explicando",
+      "visual": "mapa",
+      "palavra": "LAN"
+    },
+    {
+      "texto": "Ligue o computador ao switch com um cabo. Em outra porta, ligue a impressora.",
+      "titulo": "Uma tomada de rede",
+      "mascote": "apontando",
+      "visual": "local",
+      "palavra": "impressora"
+    },
+    {
+      "texto": "Ao mandar imprimir, o computador envia dados pelo cabo. O switch recebe esses dados.",
+      "titulo": "O switch recebe",
+      "mascote": "apontando",
+      "visual": "local",
+      "palavra": "switch"
+    },
+    {
+      "texto": "O switch precisa decidir em qual porta entregar o quadro Ethernet. Para isso, ele consulta o endereço MAC de destino.",
+      "titulo": "Para qual porta?",
+      "mascote": "explicando",
+      "visual": "mac",
+      "palavra": "destino"
+    },
+    {
+      "texto": "O MAC identifica uma interface de rede no enlace. Pense nele como a etiqueta da entrega local.",
+      "titulo": "Endereço MAC",
+      "mascote": "explicando",
+      "visual": "mac",
+      "palavra": "etiqueta"
+    },
+    {
+      "texto": "Quando recebe um quadro, o switch observa o MAC de origem e associa esse endereço à porta de entrada.",
+      "titulo": "Como o switch aprende",
+      "mascote": "explicando",
+      "visual": "tabela",
+      "palavra": "origem"
+    },
+    {
+      "texto": "Se conhece o MAC da impressora, o switch encaminha o quadro somente à porta dela.",
+      "titulo": "Porta da impressora",
+      "mascote": "explicando",
+      "visual": "tabela",
+      "palavra": "somente"
+    },
+    {
+      "texto": "Se não conhece o destino, ele replica o quadro pelas demais portas da rede local, exceto a de entrada.",
+      "titulo": "Destino desconhecido",
+      "mascote": "explicando",
+      "visual": "tabela",
+      "palavra": "replica"
+    },
+    {
+      "texto": "Quando a impressora responde, o switch aprende a porta dela. As próximas entregas vão direto.",
+      "titulo": "Resposta da impressora",
+      "mascote": "apontando",
+      "visual": "local",
+      "palavra": "direto"
+    },
+    {
+      "texto": "O computador passa pelo switch e chega à impressora. O roteador fica fora desse trajeto.",
+      "titulo": "O trajeto local",
+      "mascote": "apontando",
+      "visual": "local",
+      "palavra": "impressora"
+    },
+    {
+      "texto": "Se apenas a conexão com o provedor cair, o switch continua operando. A impressora local pode continuar funcionando.",
+      "titulo": "E se a internet cair?",
+      "mascote": "lupa",
+      "visual": "queda",
+      "palavra": "provedor"
+    },
+    {
+      "texto": "Isso vale para impressão direta. Se a impressão depender de um serviço na nuvem, o cenário muda.",
+      "titulo": "Um detalhe da impressão",
+      "mascote": "explicando",
+      "visual": "nota",
+      "palavra": "nuvem"
+    },
+    {
+      "texto": "O servidor do site está fora da rede local. O switch sozinho não escolhe caminhos entre redes.",
+      "titulo": "Agora, abra um site",
+      "mascote": "apontando",
+      "visual": "internet",
+      "palavra": "servidor"
+    },
+    {
+      "texto": "O roteador conecta redes diferentes. Em casa, ele costuma ligar sua rede local à rede do provedor.",
+      "titulo": "O roteador liga redes",
+      "mascote": "apontando",
+      "visual": "internet",
+      "palavra": "provedor"
+    },
+    {
+      "texto": "O roteador olha o endereço IP de destino do pacote e consulta a tabela de rotas.",
+      "titulo": "IP de destino",
+      "mascote": "explicando",
+      "visual": "rotas",
+      "palavra": "destino"
+    },
+    {
+      "texto": "No caminho até o roteador, o quadro vai ao MAC do roteador. O pacote leva o IP do servidor.",
+      "titulo": "Dois endereços",
+      "mascote": "explicando",
+      "visual": "mac",
+      "palavra": "servidor"
+    },
+    {
+      "texto": "A rota indica a interface de saída e, quando necessário, o próximo roteador.",
+      "titulo": "Um próximo passo",
+      "mascote": "explicando",
+      "visual": "rotas",
+      "palavra": "saída"
+    },
+    {
+      "texto": "O computador usa o gateway padrão quando o destino é remoto e não existe uma rota mais específica.",
+      "titulo": "Gateway padrão",
+      "mascote": "explicando",
+      "visual": "rotas",
+      "palavra": "gateway"
+    },
+    {
+      "texto": "A solicitação sai do computador, passa pelo switch e roteador, e segue pelo provedor até o servidor.",
+      "titulo": "O caminho até o site",
+      "mascote": "apontando",
+      "visual": "internet",
+      "palavra": "servidor"
+    },
+    {
+      "texto": "A resposta percorre a internet até o computador. Então o navegador exibe a página.",
+      "titulo": "O caminho de volta",
+      "mascote": "explicando",
+      "visual": "volta",
+      "palavra": "computador"
+    },
+    {
+      "texto": "O switch olha o MAC na rede local. O roteador olha o IP para encaminhar entre redes.",
+      "titulo": "Quem decide o quê?",
+      "mascote": "explicando",
+      "visual": "comparacao",
+      "palavra": "roteador"
+    },
+    {
+      "texto": "Wi-Fi é uma forma de se conectar sem cabo. O ponto de acesso conecta os dispositivos sem fio à rede.",
+      "titulo": "E o Wi-Fi?",
+      "mascote": "explicando",
+      "visual": "wifi",
+      "palavra": "sem"
+    },
+    {
+      "texto": "Em casa, uma caixa costuma reunir roteador, switch e ponto de acesso. Por isso, os nomes acabam se misturando.",
+      "titulo": "Tudo na mesma caixa",
+      "mascote": "explicando",
+      "visual": "wifi",
+      "palavra": "caixa"
+    },
+    {
+      "texto": "As portas LAN ligam equipamentos locais. A porta WAN costuma ligar ao provedor ou a outro equipamento.",
+      "titulo": "Portas LAN e WAN",
+      "mascote": "explicando",
+      "visual": "portas",
+      "palavra": "WAN"
+    },
+    {
+      "texto": "Acabaram as portas LAN? Ligue um switch a uma delas para conectar mais equipamentos por cabo.",
+      "titulo": "Preciso de mais portas?",
+      "mascote": "explicando",
+      "visual": "portas",
+      "palavra": "switch"
+    },
+    {
+      "texto": "O switch aumenta a quantidade de portas. A saída para outras redes continua passando pelo roteador.",
+      "titulo": "O switch não contrata internet",
+      "mascote": "explicando",
+      "visual": "comparacao",
+      "palavra": "saída"
+    },
+    {
+      "texto": "Sua impressora funciona, mas nenhum aparelho da casa abre sites. O que isso sugere?",
+      "titulo": "Diagnóstico de verdade",
+      "mascote": "pensando",
+      "visual": "teste",
+      "palavra": "sugere"
+    },
+    {
+      "texto": "A impressão funciona, então esse trecho da rede local está ativo. Agora investigue a saída.",
+      "titulo": "A rede local responde",
+      "mascote": "apontando",
+      "visual": "local",
+      "palavra": "saída"
+    },
+    {
+      "texto": "Confira a conexão do roteador com o provedor. Falha de DNS ou configuração também pode impedir que os sites abram.",
+      "titulo": "O que conferir",
+      "mascote": "lupa",
+      "visual": "queda",
+      "palavra": "DNS"
+    },
+    {
+      "texto": "Agora só um computador perdeu conexão. Os outros imprimem e acessam sites normalmente.",
+      "titulo": "Um caso diferente",
+      "mascote": "pensando",
+      "visual": "teste",
+      "palavra": "computador"
+    },
+    {
+      "texto": "Confira o cabo, a porta do switch e a configuração do computador. Compare com outro aparelho.",
+      "titulo": "Comece pelo equipamento",
+      "mascote": "explicando",
+      "visual": "portas",
+      "palavra": "porta"
+    },
+    {
+      "texto": "A luz indica conexão física. Uma luz acesa não garante que a internet funciona.",
+      "titulo": "Luzes de conexão",
+      "mascote": "explicando",
+      "visual": "portas",
+      "palavra": "luz"
+    },
+    {
+      "texto": "Imagine dois computadores na mesma rede local copiando um arquivo. Qual equipamento encaminha os quadros entre eles?",
+      "titulo": "Desafio rápido",
+      "mascote": "pensando",
+      "visual": "teste",
+      "palavra": "quadros"
+    },
+    {
+      "texto": "Nesse exemplo, o switch faz a entrega local. O roteador entra quando é preciso sair para outra rede.",
+      "titulo": "Resposta do desafio",
+      "mascote": "explicando",
+      "visual": "comparacao",
+      "palavra": "roteador"
+    },
+    {
+      "texto": "A impressora está na rede local. Para um site externo, o computador envia o pacote ao gateway.",
+      "titulo": "O mapa completo",
+      "mascote": "apontando",
+      "visual": "internet",
+      "palavra": "gateway"
+    },
+    {
+      "texto": "Mais aparelhos por cabo na mesma rede? Switch. Precisa conectar redes diferentes? Essa é a função do roteador.",
+      "titulo": "Uma regra prática",
+      "mascote": "explicando",
+      "visual": "comparacao",
+      "palavra": "roteador"
+    },
+    {
+      "texto": "Na próxima aula, veja o que é IP e como o computador identifica destinos locais.",
+      "titulo": "Próxima aula",
+      "mascote": "explicando",
+      "visual": "rotas",
+      "palavra": "IP"
+    },
+    {
+      "texto": "Se a diferença ficou clara, salve este vídeo e acompanhe a série de redes do Dev Sobrevivente.",
+      "titulo": "Siga a série",
+      "mascote": "acenando",
+      "visual": "cta",
+      "palavra": "Dev"
+    }
+  ]
+}

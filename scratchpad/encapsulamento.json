@@ -1,0 +1,261 @@
+{
+  "nome": "Encapsulamento em C# com Resident Evil 4",
+  "resolucao": "1920x1080",
+  "cenas": [
+    {
+      "texto": "Você colocaria a vida do Leon em 999 com uma linha de código? Então temos um problema.",
+      "titulo": "Vida infinita?",
+      "mascote": "surpreso"
+    },
+    {
+      "texto": "Imagine um jogo inspirado em Resident Evil 4. Leon enfrenta a vila com 100 pontos de vida.",
+      "titulo": "Vida do Leon",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "Se qualquer parte do jogo puder escrever nesse valor, um bug pode deixar o Leon imortal.",
+      "titulo": "Acesso sem controle",
+      "mascote": "desconfiado"
+    },
+    {
+      "texto": "Encapsulamento protege o estado do personagem e dá ao resto do jogo operações seguras para interagir.",
+      "titulo": "Encapsulamento em C#",
+      "mascote": "ideia"
+    },
+    {
+      "texto": "Na aula anterior, cada inimigo respondeu à mesma ordem com um ataque próprio. Isso é polimorfismo.",
+      "titulo": "Da aula anterior",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "Agora, do outro lado da luta: quem pode mudar a vida de quem recebe dano?",
+      "titulo": "Quem muda a vida?",
+      "mascote": "pensando"
+    },
+    {
+      "texto": "Comece pelo exemplo mais simples: uma classe Personagem com um campo público chamado vida.",
+      "titulo": "Campo público",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Um campo público permite que código externo leia e escreva diretamente nele.",
+      "titulo": "Leitura e escrita",
+      "mascote": "apontando"
+    },
+    {
+      "texto": "O combate pode tirar 30 pontos. O menu também consegue gravar um valor absurdo.",
+      "titulo": "O menu também altera",
+      "mascote": "desconfiado"
+    },
+    {
+      "texto": "Com menos 40, a barra recebe vida negativa. O campo aceitou o valor.",
+      "titulo": "Vida negativa",
+      "mascote": "surpreso"
+    },
+    {
+      "texto": "Com 999, a vida ultrapassa o máximo. O problema começa na escrita sem controle.",
+      "titulo": "Acima do máximo",
+      "mascote": "bracos"
+    },
+    {
+      "texto": "Se cada lugar verificar a vida por conta própria, basta esquecer uma verificação para o erro voltar.",
+      "titulo": "Validação espalhada",
+      "mascote": "lupa"
+    },
+    {
+      "texto": "Reúna a proteção dentro da classe Personagem. A regra acompanha cada instância.",
+      "titulo": "Regra na classe",
+      "mascote": "ideia"
+    },
+    {
+      "texto": "Coloque a vida em uma propriedade pública com leitura livre e escrita privada.",
+      "titulo": "Leitura pública",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "O get permite consultar a vida. O private set limita a escrita à classe.",
+      "titulo": "Get e private set",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "A interface ainda consegue desenhar a barra: basta ler a propriedade Vida do personagem.",
+      "titulo": "A barra pode ler",
+      "mascote": "apontando"
+    },
+    {
+      "texto": "Se o menu atribuir 999 diretamente, o compilador bloqueia a escrita.",
+      "titulo": "Escrita bloqueada",
+      "mascote": "determinado"
+    },
+    {
+      "texto": "Para aplicar dano, o jogo chama ReceberDano e informa a quantidade.",
+      "titulo": "ReceberDano",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "O personagem calcula a perda e guarda a nova vida dentro do método.",
+      "titulo": "O personagem decide",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "Rejeite dano negativo. Subtrair um número negativo acabaria curando o personagem.",
+      "titulo": "Valide a entrada",
+      "mascote": "lupa"
+    },
+    {
+      "texto": "Math Max compara o resultado da subtração com zero e guarda o maior valor.",
+      "titulo": "Piso de zero",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Com 100 de vida e 30 de dano, Leon fica com 70. A barra acompanha a mudança.",
+      "titulo": "De 100 para 70",
+      "mascote": "apontando"
+    },
+    {
+      "texto": "O próximo golpe causa 90. A conta daria menos 20, mas a vida fica em zero.",
+      "titulo": "Dano acima da vida",
+      "mascote": "surpreso"
+    },
+    {
+      "texto": "Zero representa derrota nesse exemplo. A barra continua válida porque a classe impôs o limite.",
+      "titulo": "Zero é o limite",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "E se Leon usar uma erva? Recuperar vida tem a própria operação, chamada Curar.",
+      "titulo": "Operação Curar",
+      "mascote": "ideia"
+    },
+    {
+      "texto": "Curar também recusa números negativos. Cada método expressa uma ação diferente.",
+      "titulo": "Duas operações claras",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Na cura, Math Min escolhe o menor valor entre a soma e a vida máxima.",
+      "titulo": "Teto de vida",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Se Leon tiver 70 pontos e usar uma erva que recupera 50, a vida para em 100.",
+      "titulo": "Cura até 100",
+      "mascote": "comemorando"
+    },
+    {
+      "texto": "Dano usa um piso. Cura usa um teto. A vida fica no intervalo permitido.",
+      "titulo": "Piso e teto",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "A regra vale em todo estado válido do personagem. Isso é uma invariante.",
+      "titulo": "O que é invariante?",
+      "mascote": "pensando"
+    },
+    {
+      "texto": "O construtor também precisa respeitar a regra. Comece verificando se a vida máxima é maior que zero.",
+      "titulo": "Construtor seguro",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Depois, guarde o máximo em uma propriedade somente leitura e inicialize a vida com esse valor.",
+      "titulo": "Estado inicial válido",
+      "mascote": "apontando"
+    },
+    {
+      "texto": "Você pode criar Leon com máximo de 100 e Ashley com máximo de 60. Cada objeto guarda seus valores.",
+      "titulo": "Valores por personagem",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "Quando Leon toma dano, só o objeto dele muda. Ashley continua com a mesma vida.",
+      "titulo": "Cada objeto tem estado",
+      "mascote": "apontando"
+    },
+    {
+      "texto": "Para consultar a derrota, exponha uma propriedade calculada chamada Derrotado.",
+      "titulo": "Estado calculado",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Derrotado é verdadeiro quando Vida vale zero. Um único valor determina os dois resultados.",
+      "titulo": "Uma fonte de verdade",
+      "mascote": "ideia"
+    },
+    {
+      "texto": "Imagine um campo público dizendo que Leon está de pé, enquanto a vida está zerada. É uma contradição.",
+      "titulo": "Estado inconsistente",
+      "mascote": "desconfiado"
+    },
+    {
+      "texto": "Calcule na leitura. O jogo pode consultar a derrota sem sincronizar um segundo estado.",
+      "titulo": "Calcule na leitura",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "O mesmo raciocínio vale para munição. Recarregar controla o limite do carregador e impede quantidades inválidas.",
+      "titulo": "Munição no jogo",
+      "mascote": "apontando"
+    },
+    {
+      "texto": "Vale também para inventário. Adicionar um item é uma ação que pode verificar se ainda existe espaço.",
+      "titulo": "Inventário com limite",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "Numa conta, depósito e saque concentram as regras de alteração do saldo.",
+      "titulo": "Exemplo fora do jogo",
+      "mascote": "confiante"
+    },
+    {
+      "texto": "Prefira operações que expressem a intenção. Receber dano explica por que o valor muda.",
+      "titulo": "Métodos com intenção",
+      "mascote": "explicando"
+    },
+    {
+      "texto": "Se a mudança não quebra nenhuma regra, um setter público pode fazer sentido.",
+      "titulo": "Quando usar public set",
+      "mascote": "pensando"
+    },
+    {
+      "texto": "Para a vida do Leon, existe um intervalo obrigatório. Por isso a escrita fica reservada à classe.",
+      "titulo": "Por que usar private set",
+      "mascote": "determinado"
+    },
+    {
+      "texto": "Proteja os dados, exponha operações claras e teste os limites de cada uma.",
+      "titulo": "Três passos práticos",
+      "mascote": "digitando"
+    },
+    {
+      "texto": "Teste a sequência. Comece em 100, aplique 30 de dano e depois cure 50 pontos.",
+      "titulo": "Teste a sequência",
+      "mascote": "lupa"
+    },
+    {
+      "texto": "Você deve observar 70 depois do dano e 100 depois da cura. A regra segura os dois lados.",
+      "titulo": "Resultado esperado",
+      "mascote": "comemorando"
+    },
+    {
+      "texto": "Agora teste dano maior que a vida. O personagem deve ficar com zero, e Derrotado deve retornar verdadeiro.",
+      "titulo": "Teste o limite inferior",
+      "mascote": "lupa"
+    },
+    {
+      "texto": "Desafio: crie uma classe Carregador. Como você impediria disparar com zero munição e recarregar acima do máximo?",
+      "titulo": "Desafio do carregador",
+      "mascote": "ideia"
+    },
+    {
+      "texto": "Encapsulamento é isso: o jogo pede uma ação, e o próprio objeto protege suas regras.",
+      "titulo": "O objeto protege as regras",
+      "mascote": "confiante"
+    },
+    {
+      "texto": "Curta o vídeo, inscreva-se no Dev Sobrevivente e tente o desafio antes da próxima aula.",
+      "titulo": "Continue a missão",
+      "mascote": "acenando"
+    }
+  ]
+}

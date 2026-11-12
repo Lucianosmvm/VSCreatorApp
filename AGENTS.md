@@ -3,6 +3,11 @@
 App de Shorts (9:16) com narração ElevenLabs e animação no Remotion. O usuário
 fala em português; responda em português.
 
+## Estilo visual dos próximos vídeos
+
+- Use o 3D isométrico do último vídeo de redes como padrão em todos os novos vídeos do Dev Sobrevivente, no formato longo e no Short, inclusive em outros temas. A referência técnica está em `ferramentas/effectcraft/prototipo-rede.mjs`.
+- Crie as imagens e animações principais no MCP do EffectCraft, com câmera isométrica, objetos com volume, iluminação e movimento que explique o conteúdo de cada cena. Use o Remotion para montar as cenas com o mascote, as legendas e a narração.
+
 ## Fluxo (tema → vídeo)
 
 1. **Usuário passa o tema** ("faz um vídeo sobre a armadilha das parcelas").

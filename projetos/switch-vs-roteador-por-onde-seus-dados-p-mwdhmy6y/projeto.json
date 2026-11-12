@@ -1,0 +1,403 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1920x1080",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "44",
+ "nome": "Switch vs. roteador: por onde seus dados passam?",
+ "frames": [
+  {
+   "id": "fmwdhmy6y-0",
+   "prompt": "",
+   "text": "Já tentou abrir um site sem internet e, mesmo assim, conseguiu imprimir pela rede?",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "Impressora sem internet?"
+  },
+  {
+   "id": "fmwdhmy6y-1",
+   "prompt": "",
+   "text": "Imprimir e abrir um site podem usar caminhos diferentes, mesmo saindo do mesmo computador.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Dois trajetos"
+  },
+  {
+   "id": "fmwdhmy6y-2",
+   "prompt": "",
+   "text": "Imagine uma casa com computador, impressora, switch e roteador. Lá fora, existe o servidor do site.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Mapa da rede"
+  },
+  {
+   "id": "fmwdhmy6y-3",
+   "prompt": "",
+   "text": "Se a impressora está na mesma rede local do computador, a impressão pode ficar inteiramente dentro de casa.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Imprimir na rede local"
+  },
+  {
+   "id": "fmwdhmy6y-4",
+   "prompt": "",
+   "text": "O servidor do site fica em outra rede. O computador precisa de uma saída.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Para abrir um site"
+  },
+  {
+   "id": "fmwdhmy6y-5",
+   "prompt": "",
+   "text": "Vamos seguir os dois trajetos para descobrir qual aparelho procurar quando uma conexão falhar.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Switch ou roteador?"
+  },
+  {
+   "id": "fmwdhmy6y-6",
+   "prompt": "",
+   "text": "A rede local, ou LAN, conecta equipamentos próximos, como os de uma casa ou escritório.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Rede local"
+  },
+  {
+   "id": "fmwdhmy6y-7",
+   "prompt": "",
+   "text": "Ligue o computador ao switch com um cabo. Em outra porta, ligue a impressora.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Uma tomada de rede"
+  },
+  {
+   "id": "fmwdhmy6y-8",
+   "prompt": "",
+   "text": "Ao mandar imprimir, o computador envia dados pelo cabo. O switch recebe esses dados.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "O switch recebe"
+  },
+  {
+   "id": "fmwdhmy6y-9",
+   "prompt": "",
+   "text": "O switch precisa decidir em qual porta entregar o quadro Ethernet. Para isso, ele consulta o endereço MAC de destino.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Para qual porta?"
+  },
+  {
+   "id": "fmwdhmy6y-10",
+   "prompt": "",
+   "text": "O MAC identifica uma interface de rede no enlace. Pense nele como a etiqueta da entrega local.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Endereço MAC"
+  },
+  {
+   "id": "fmwdhmy6y-11",
+   "prompt": "",
+   "text": "Quando recebe um quadro, o switch observa o MAC de origem e associa esse endereço à porta de entrada.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Como o switch aprende"
+  },
+  {
+   "id": "fmwdhmy6y-12",
+   "prompt": "",
+   "text": "Se conhece o MAC da impressora, o switch encaminha o quadro somente à porta dela.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Porta da impressora"
+  },
+  {
+   "id": "fmwdhmy6y-13",
+   "prompt": "",
+   "text": "Se não conhece o destino, ele replica o quadro pelas demais portas da rede local, exceto a de entrada.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Destino desconhecido"
+  },
+  {
+   "id": "fmwdhmy6y-14",
+   "prompt": "",
+   "text": "Quando a impressora responde, o switch aprende a porta dela. As próximas entregas vão direto.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Resposta da impressora"
+  },
+  {
+   "id": "fmwdhmy6y-15",
+   "prompt": "",
+   "text": "O computador passa pelo switch e chega à impressora. O roteador fica fora desse trajeto.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "O trajeto local"
+  },
+  {
+   "id": "fmwdhmy6y-16",
+   "prompt": "",
+   "text": "Se apenas a conexão com o provedor cair, o switch continua operando. A impressora local pode continuar funcionando.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "E se a internet cair?"
+  },
+  {
+   "id": "fmwdhmy6y-17",
+   "prompt": "",
+   "text": "Isso vale para impressão direta. Se a impressão depender de um serviço na nuvem, o cenário muda.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Um detalhe da impressão"
+  },
+  {
+   "id": "fmwdhmy6y-18",
+   "prompt": "",
+   "text": "O servidor do site está fora da rede local. O switch sozinho não escolhe caminhos entre redes.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "Agora, abra um site"
+  },
+  {
+   "id": "fmwdhmy6y-19",
+   "prompt": "",
+   "text": "O roteador conecta redes diferentes. Em casa, ele costuma ligar sua rede local à rede do provedor.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "O roteador liga redes"
+  },
+  {
+   "id": "fmwdhmy6y-20",
+   "prompt": "",
+   "text": "O roteador olha o endereço IP de destino do pacote e consulta a tabela de rotas.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "IP de destino"
+  },
+  {
+   "id": "fmwdhmy6y-21",
+   "prompt": "",
+   "text": "No caminho até o roteador, o quadro vai ao MAC do roteador. O pacote leva o IP do servidor.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Dois endereços"
+  },
+  {
+   "id": "fmwdhmy6y-22",
+   "prompt": "",
+   "text": "A rota indica a interface de saída e, quando necessário, o próximo roteador.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Um próximo passo"
+  },
+  {
+   "id": "fmwdhmy6y-23",
+   "prompt": "",
+   "text": "O computador usa o gateway padrão quando o destino é remoto e não existe uma rota mais específica.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Gateway padrão"
+  },
+  {
+   "id": "fmwdhmy6y-24",
+   "prompt": "",
+   "text": "A solicitação sai do computador, passa pelo switch e roteador, e segue pelo provedor até o servidor.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "O caminho até o site"
+  },
+  {
+   "id": "fmwdhmy6y-25",
+   "prompt": "",
+   "text": "A resposta percorre a internet até o computador. Então o navegador exibe a página.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "O caminho de volta"
+  },
+  {
+   "id": "fmwdhmy6y-26",
+   "prompt": "",
+   "text": "O switch olha o MAC na rede local. O roteador olha o IP para encaminhar entre redes.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Quem decide o quê?"
+  },
+  {
+   "id": "fmwdhmy6y-27",
+   "prompt": "",
+   "text": "Wi-Fi é uma forma de se conectar sem cabo. O ponto de acesso conecta os dispositivos sem fio à rede.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "E o Wi-Fi?"
+  },
+  {
+   "id": "fmwdhmy6y-28",
+   "prompt": "",
+   "text": "Em casa, uma caixa costuma reunir roteador, switch e ponto de acesso. Por isso, os nomes acabam se misturando.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Tudo na mesma caixa"
+  },
+  {
+   "id": "fmwdhmy6y-29",
+   "prompt": "",
+   "text": "As portas LAN ligam equipamentos locais. A porta WAN costuma ligar ao provedor ou a outro equipamento.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Portas LAN e WAN"
+  },
+  {
+   "id": "fmwdhmy6y-30",
+   "prompt": "",
+   "text": "Acabaram as portas LAN? Ligue um switch a uma delas para conectar mais equipamentos por cabo.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Preciso de mais portas?"
+  },
+  {
+   "id": "fmwdhmy6y-31",
+   "prompt": "",
+   "text": "O switch aumenta a quantidade de portas. A saída para outras redes continua passando pelo roteador.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "O switch não contrata internet"
+  },
+  {
+   "id": "fmwdhmy6y-32",
+   "prompt": "",
+   "text": "Sua impressora funciona, mas nenhum aparelho da casa abre sites. O que isso sugere?",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Diagnóstico de verdade"
+  },
+  {
+   "id": "fmwdhmy6y-33",
+   "prompt": "",
+   "text": "A impressão funciona, então esse trecho da rede local está ativo. Agora investigue a saída.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "A rede local responde"
+  },
+  {
+   "id": "fmwdhmy6y-34",
+   "prompt": "",
+   "text": "Confira a conexão do roteador com o provedor. Falha de DNS ou configuração também pode impedir que os sites abram.",
+   "narration": "",
+   "mascote": "lupa",
+   "titulo": "O que conferir"
+  },
+  {
+   "id": "fmwdhmy6y-35",
+   "prompt": "",
+   "text": "Agora só um computador perdeu conexão. Os outros imprimem e acessam sites normalmente.",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Um caso diferente"
+  },
+  {
+   "id": "fmwdhmy6y-36",
+   "prompt": "",
+   "text": "Confira o cabo, a porta do switch e a configuração do computador. Compare com outro aparelho.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Comece pelo equipamento"
+  },
+  {
+   "id": "fmwdhmy6y-37",
+   "prompt": "",
+   "text": "A luz indica conexão física. Uma luz acesa não garante que a internet funciona.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Luzes de conexão"
+  },
+  {
+   "id": "fmwdhmy6y-38",
+   "prompt": "",
+   "text": "Imagine dois computadores na mesma rede local copiando um arquivo. Qual equipamento encaminha os quadros entre eles?",
+   "narration": "",
+   "mascote": "pensando",
+   "titulo": "Desafio rápido"
+  },
+  {
+   "id": "fmwdhmy6y-39",
+   "prompt": "",
+   "text": "Nesse exemplo, o switch faz a entrega local. O roteador entra quando é preciso sair para outra rede.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Resposta do desafio"
+  },
+  {
+   "id": "fmwdhmy6y-40",
+   "prompt": "",
+   "text": "A impressora está na rede local. Para um site externo, o computador envia o pacote ao gateway.",
+   "narration": "",
+   "mascote": "apontando",
+   "titulo": "O mapa completo"
+  },
+  {
+   "id": "fmwdhmy6y-41",
+   "prompt": "",
+   "text": "Mais aparelhos por cabo na mesma rede? Switch. Precisa conectar redes diferentes? Essa é a função do roteador.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Uma regra prática"
+  },
+  {
+   "id": "fmwdhmy6y-42",
+   "prompt": "",
+   "text": "Na próxima aula, veja o que é IP e como o computador identifica destinos locais.",
+   "narration": "",
+   "mascote": "explicando",
+   "titulo": "Próxima aula"
+  },
+  {
+   "id": "fmwdhmy6y-43",
+   "prompt": "",
+   "text": "Se a diferença ficou clara, salve este vídeo e acompanhe a série de redes do Dev Sobrevivente.",
+   "narration": "",
+   "mascote": "acenando",
+   "titulo": "Siga a série"
+  }
+ ],
+ "salvoEm": "2026-11-12T11:52:42.573Z"
+}
