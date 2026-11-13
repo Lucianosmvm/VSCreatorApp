@@ -1,0 +1,17 @@
+{
+  "nome": "RPG Code 06 — A cerca parou o Artur",
+  "resolucao": "1080x1920",
+  "cenas": [
+    {"texto":"No último episódio, Artur aprendeu a andar com as setas."},
+    {"texto":"Só que ele atravessou a cerca! O movimento ainda mexia direto na posição."},
+    {"texto":"Primeiro, adicione um Box Collider dois D na cerca, com Is Trigger desligado."},
+    {"texto":"Artur também precisa de um Collider dois D. Agora os dois têm uma forma de colisão."},
+    {"texto":"No Artur, adicione um Rigidbody dois D. Use Dynamic e deixe a gravidade em zero."},
+    {"texto":"Continue lendo as setas no Update e guarde a direção para a física usar."},
+    {"texto":"No Fixed Update, aplique a velocidade ao Rigidbody no lugar do Translate."},
+    {"texto":"A velocidade já está em unidades por segundo. Aqui, não multiplique por delta time."},
+    {"texto":"Segure a seta de novo. Agora Artur bate na cerca e para!"},
+    {"texto":"Collider define a forma. Rigidbody permite que a física mova Artur e resolva a colisão."},
+    {"texto":"Espera. O que é aquilo brilhando na grama? A gente pega no próximo episódio."}
+  ]
+}

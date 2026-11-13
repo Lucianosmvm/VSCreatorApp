@@ -8,6 +8,11 @@ fala em português; responda em português.
 - Use o 3D isométrico do último vídeo de redes como padrão em todos os novos vídeos do Dev Sobrevivente, no formato longo e no Short, inclusive em outros temas. A referência técnica está em `ferramentas/effectcraft/prototipo-rede.mjs`.
 - Crie as imagens e animações principais no MCP do EffectCraft, com câmera isométrica, objetos com volume, iluminação e movimento que explique o conteúdo de cada cena. Use o Remotion para montar as cenas com o mascote, as legendas e a narração.
 
+## Continuidade das séries
+
+- Para RPG Code, consulte `docs/rpg-code-roteiro.md` antes de criar um episódio e atualize o ponto de retomada após a exportação. Mantenha o estilo próprio da série: Shorts 9:16 em pixel art 16-bit, Artur como protagonista e código C# para Unity 6. Use o episódio anterior como referência de montagem e voz.
+- Para a sequência de conteúdos do Dev Sobrevivente, consulte `docs/roteiro-canal.md`.
+
 ## Fluxo (tema → vídeo)
 
 1. **Usuário passa o tema** ("faz um vídeo sobre a armadilha das parcelas").
@@ -22,7 +27,7 @@ fala em português; responda em português.
    Codex NÃO gera narração: a chave da ElevenLabs fica no navegador do usuário.
 4. **Codex monta o vídeo** a partir de `remotion/public/videos/<id>/timeline.json`
    (tempo real de cada cena e de cada palavra) — seção "Montar o vídeo".
-5. **Codex publica no app** (não renderiza o vídeo inteiro): grava
+5. **Codex publica no app e exporta o vídeo final**: grava
    `remotion/public/videos/<id>/composicoes.json`:
    ```json
    [{"id": "<comp-id>", "titulo": "Vídeo longo (YouTube)", "formato": "16:9", "duracao": 264.9},
@@ -33,13 +38,18 @@ fala em português; responda em português.
    cd remotion && node cenas.mjs <comp-id> <id-do-projeto>            # todas
    cd remotion && node cenas.mjs <comp-id> <id-do-projeto> 3 7 12     # só essas (índices 0-based)
    ```
-   No app, cada card mostra a animação da cena + campo **💬 Ajuste pro Codex**; o passo 5
-   tem **🎬 Longo / 📱 Short** para o usuário renderizar quando aprovar (MP4 em
-   `remotion/out/<comp-id>.mp4`, ⬇ para baixar).
+   No app, cada card mostra a animação da cena + campo **💬 Ajuste pro Codex**.
+   Quando a montagem estiver pronta, Codex renderiza todos os formatos solicitados,
+   verifica os MP4 em `remotion/out/<comp-id>.mp4` e entrega os links dos arquivos.
+   Entregue também o título, a descrição e as tags do YouTube para cada vídeo
+   exportado. Prepare os textos de cada formato para copiar no YouTube Studio.
+   Reserve `remotion/out/` para os vídeos finais. Grave imagens de conferência,
+   prévias e arquivos intermediários em `remotion/jobs/`.
+   Os botões **🎬 Longo / 📱 Short** também permitem exportar pelo app.
 6. **"aplica a revisão"**: ler `projetos/<id>/revisao.json` (`[{cena: n|"geral", fala, texto}]`,
    cena 1-based = índice+1 na timeline do vídeo longo), aplicar, conferir com stills,
    regerar os clipes SÓ das cenas mudadas (`node cenas.mjs ... <índices>`), limpar os itens
-   aplicados do revisao.json e avisar para o usuário conferir nos cards e renderizar. Se o comentário muda a FALA, editar `projeto.json`
+   aplicados do revisao.json e reexportar os formatos afetados quando a revisão estiver pronta. Se o comentário muda a FALA, editar `projeto.json`
    (atualizar `salvoEm`) e pedir para narrar e enviar de novo.
 
 Ao editar um `projetos/<id>/projeto.json` existente, **sempre atualize `salvoEm`**
@@ -140,7 +150,7 @@ Para cada projeto:
    com plural). Não crie ícone para ideia abstrata. Confira num still.
 5. Conferir: `cd remotion && npx tsc -p .`, depois quadros soltos das cenas especiais:
    ```bash
-   cd remotion && npx remotion still src/index.ts <comp-id> out/q.png --frame=<n>
+   cd remotion && npx remotion still src/index.ts <comp-id> jobs/<comp-id>/q.png --frame=<n>
    ```
    Olhar a imagem antes de renderizar o vídeo inteiro.
 6. Render:
