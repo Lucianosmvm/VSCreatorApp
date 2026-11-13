@@ -19,6 +19,8 @@ import tlSwitchRoteador from "../../public/videos/switch-vs-roteador-por-onde-se
 import { RpgEp01 } from "../rpg/Ep01Menu";
 import { RpgEp02 } from "../rpg/Ep02Classe";
 import { RpgEp03 } from "../rpg/Ep03Nome";
+import { RpgEp04 } from "../rpg/Ep04Passo";
+import tlRpg04 from "../../public/videos/rpg-code-04-o-primeiro-passo-mwey4rdo/timeline.json";
 import tlRpg03 from "../../public/videos/rpg-code-03-o-nome-do-heroi-mwewnug7/timeline.json";
 import tlRpg02 from "../../public/videos/rpg-code-02-classe-e-objeto-mwevyeqc/timeline.json";
 import tlRpg01 from "../../public/videos/rpg-code-01-o-menu-e-o-switch-mweva89w/timeline.json";
@@ -49,6 +51,7 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "rpg-code-01", timeline: tlRpg01 as Timeline, componente: RpgEp01 },
   { id: "rpg-code-02", timeline: tlRpg02 as Timeline, componente: RpgEp02 },
   { id: "rpg-code-03", timeline: tlRpg03 as Timeline, componente: RpgEp03 },
+  { id: "rpg-code-04", timeline: tlRpg04 as Timeline, componente: RpgEp04 },
   { id: "encapsulamento-csharp", timeline: tlEncapsulamento as Timeline, componente: EncapsulamentoCSharp },
   { id: "encapsulamento-csharp-short", timeline: timelineShortEncapsulamento(tlEncapsulamento as Timeline), componente: EncapsulamentoShort },
   { id: "switch-roteador", timeline: tlSwitchRoteador as Timeline, componente: SwitchRoteador },
