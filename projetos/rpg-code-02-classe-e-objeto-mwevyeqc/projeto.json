@@ -1,0 +1,117 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1080x1920",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "11",
+ "nome": "RPG Code 02 - Classe e objeto",
+ "frames": [
+  {
+   "id": "fmwevyeqc-0",
+   "prompt": "",
+   "text": "No episódio passado, o jogador apertou novo jogo. Agora ele precisa escolher uma classe.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-1",
+   "prompt": "",
+   "text": "Guerreiro, mago ou arqueiro. Os três são heróis, mas com valores diferentes.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-2",
+   "prompt": "",
+   "text": "Todo herói tem um nome, uma vida e um ataque.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-3",
+   "prompt": "",
+   "text": "Em vez de escrever isso três vezes, criamos um molde: a classe Heroi.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-4",
+   "prompt": "",
+   "text": "A classe diz quais dados todo herói tem: nome, vida e ataque.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-5",
+   "prompt": "",
+   "text": "E o construtor recebe esses valores na hora de criar o herói.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-6",
+   "prompt": "",
+   "text": "O jogador escolheu o guerreiro. Agora usamos new para criar o objeto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-7",
+   "prompt": "",
+   "text": "New Heroi, com nome Guerreiro, vida 120 e ataque 8.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-8",
+   "prompt": "",
+   "text": "O mago usa o mesmo molde, mas com vida 70 e ataque 14.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-9",
+   "prompt": "",
+   "text": "A classe é o molde. O objeto é o herói de verdade, com os seus próprios valores.",
+   "narration": ""
+  },
+  {
+   "id": "fmwevyeqc-10",
+   "prompt": "",
+   "text": "Nosso guerreiro foi criado. Mas qual vai ser o nome dele? Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-13T11:20:44.000Z"
+}

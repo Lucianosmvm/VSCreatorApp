@@ -1,0 +1,117 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1080x1920",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "11",
+ "nome": "RPG Code 01 - O menu e o switch",
+ "frames": [
+  {
+   "id": "fmweva89w-0",
+   "prompt": "",
+   "text": "Todo jogo começa com um menu. E por trás dele, existe código.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-1",
+   "prompt": "",
+   "text": "Novo jogo, continuar ou sair. Cada opção leva a um caminho diferente.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-2",
+   "prompt": "",
+   "text": "O jogador escolhe: novo jogo.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-3",
+   "prompt": "",
+   "text": "Mas como o programa sabe qual opção foi escolhida?",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-4",
+   "prompt": "",
+   "text": "Ele guarda a escolha numa variável. Aqui, opção vale 1.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-5",
+   "prompt": "",
+   "text": "Em C sharp, o switch compara essa variável com cada caso.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-6",
+   "prompt": "",
+   "text": "Caso 1, novo jogo. Caso 2, continuar. Caso 3, sair.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-7",
+   "prompt": "",
+   "text": "Como opção vale 1, só o primeiro caso roda. O break encerra o switch.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-8",
+   "prompt": "",
+   "text": "E se o jogador apertar outra tecla? O default trata a opção inválida.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-9",
+   "prompt": "",
+   "text": "Pronto: a tela muda para a seleção de personagem.",
+   "narration": ""
+  },
+  {
+   "id": "fmweva89w-10",
+   "prompt": "",
+   "text": "Nosso aventureiro está pronto. Mas qual classe ele vai escolher? Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-13T11:01:56.000Z"
+}

@@ -16,6 +16,12 @@ import { EncapsulamentoCSharp, EncapsulamentoShort, timelineShortEncapsulamento 
 import tlEncapsulamento from "../../public/videos/encapsulamento-em-c-com-resident-evil-4-mwc6ogy3/timeline.json";
 import { SwitchRoteador, SwitchRoteadorShort, timelineShortSwitchRoteador } from "./SwitchRoteador";
 import tlSwitchRoteador from "../../public/videos/switch-vs-roteador-por-onde-seus-dados-p-mwdhmy6y/timeline.json";
+import { RpgEp01 } from "../rpg/Ep01Menu";
+import { RpgEp02 } from "../rpg/Ep02Classe";
+import { RpgEp03 } from "../rpg/Ep03Nome";
+import tlRpg03 from "../../public/videos/rpg-code-03-o-nome-do-heroi-mwewnug7/timeline.json";
+import tlRpg02 from "../../public/videos/rpg-code-02-classe-e-objeto-mwevyeqc/timeline.json";
+import tlRpg01 from "../../public/videos/rpg-code-01-o-menu-e-o-switch-mweva89w/timeline.json";
 
 // Um vídeo por projeto do app. Para cada um o Claude Code cria
 // src/videos/<Nome>.tsx e registra aqui. A timeline (tempo de cada cena e de
@@ -40,6 +46,9 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "classes-objetos-csharp-short", timeline: timelineShortClasses(tlClasses as Timeline), componente: ClassesObjetosShort },
   { id: "polimorfismo-csharp", timeline: tlPolimorfismo as Timeline, componente: PolimorfismoCSharp },
   { id: "polimorfismo-csharp-short", timeline: timelineShortPolimorfismo(tlPolimorfismo as Timeline), componente: PolimorfismoShort },
+  { id: "rpg-code-01", timeline: tlRpg01 as Timeline, componente: RpgEp01 },
+  { id: "rpg-code-02", timeline: tlRpg02 as Timeline, componente: RpgEp02 },
+  { id: "rpg-code-03", timeline: tlRpg03 as Timeline, componente: RpgEp03 },
   { id: "encapsulamento-csharp", timeline: tlEncapsulamento as Timeline, componente: EncapsulamentoCSharp },
   { id: "encapsulamento-csharp-short", timeline: timelineShortEncapsulamento(tlEncapsulamento as Timeline), componente: EncapsulamentoShort },
   { id: "switch-roteador", timeline: tlSwitchRoteador as Timeline, componente: SwitchRoteador },
