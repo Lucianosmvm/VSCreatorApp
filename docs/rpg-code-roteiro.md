@@ -15,6 +15,8 @@ Kit: `remotion/src/rpg/`. Um episódio = um projeto + `remotion/src/rpg/EpNN<Nom
 - **O código é Unity de verdade** (`MonoBehaviour`, `Update`, `Input`, `Debug.Log`...), mas o
   conceito é sempre de C#, que também vale fora da Unity.
 - **A história continua:** Artur atravessa o reino; cada temporada termina num chefe.
+- **Padrão de entrada:** Input System novo (`Keyboard.current...isPressed`, `using UnityEngine.InputSystem`),
+  padrão da Unity 6; Rigidbody2D com `linearVelocity` (Unity 6). Definido no EP. 05.
 - **Antes de cada temporada nova**, revisar o que o código usa (por exemplo, o Input System
   novo da Unity × o `Input.GetAxis` antigo) e manter um padrão na série toda.
 

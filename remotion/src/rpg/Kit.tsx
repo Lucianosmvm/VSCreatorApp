@@ -176,7 +176,7 @@ export const Faixa: React.FC<{ ep: string; acao: string; destaque: string }> = (
 // ── painel de código ─────────────────────────────────────────────────────
 export type LinhaRpg = { txt: string; t?: number; marca?: number; ate?: number; apaga?: number; cor?: string };
 const CHAVES = new Set(["switch", "case", "break", "default", "int", "void", "public", "private", "class", "if", "else", "return", "new", "string", "bool", "true", "false", "enum", "var"]);
-const TIPOS = new Set(["SceneManager", "Application", "Debug", "MonoBehaviour", "GameObject", "Input", "Vector2", "Vector3", "Time", "Random", "TMP_InputField", "TMP_Text"]);
+const TIPOS = new Set(["SceneManager", "Application", "Debug", "MonoBehaviour", "GameObject", "Input", "Vector2", "Vector3", "Time", "Random", "TMP_InputField", "TMP_Text", "Keyboard"]);
 const pinta = (txt: string) =>
   (txt.match(/"[^"]*"|\/\/.*$|\d+|[A-Za-z_]\w*|\s+|./g) ?? []).map((s, i, arr) => {
     const c = s.startsWith('"') ? RPG.laranja : s.startsWith("//") ? RPG.cinza : /^\d/.test(s) ? RPG.verde
