@@ -1,0 +1,159 @@
+{
+  "cenas": [
+    {
+      "nome": "abertura",
+      "camera": "estrada",
+      "dur": 5.12,
+      "linhas": [
+        "📺 Mundo Pixelândia #2\nninguém chegou… ainda 😢"
+      ],
+      "fala": [
+        "Mundo Pixelândia, episódio dois. E ninguém chegou... ainda."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "praca",
+      "camera": "multidao",
+      "dur": 6.16,
+      "linhas": [
+        "Os 19 moradores esperaram\no dia inteiro na praça",
+        "Esperando quem?\nvocê 👀"
+      ],
+      "fala": [
+        "Os dezenove moradores passaram o dia inteiro na praça, esperando.",
+        "Esperando quem? Você."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_001.wav",
+      "tempos": [
+        0,
+        4.16
+      ]
+    },
+    {
+      "nome": "zhero",
+      "seguir": 1,
+      "dur": 2.16,
+      "linhas": [
+        "zHero ficou de olho\nna estrada 🏹"
+      ],
+      "fala": [
+        "O Z-Hero ficou de olho na estrada."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_002.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "pedro",
+      "seguir": 4,
+      "dur": 2.56,
+      "linhas": [
+        "Pedro já separou\nterreno pra casa nova 🔨"
+      ],
+      "fala": [
+        "O Pedro já separou terreno pra casa nova."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "latifa",
+      "seguir": 12,
+      "dur": 2.8,
+      "linhas": [
+        "Latifa ainda é\na única moradora 👀"
+      ],
+      "fala": [
+        "A Latifa ainda é a única moradora da vila."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "luiz",
+      "seguir": 16,
+      "dur": 2.72,
+      "linhas": [
+        "Os dois Luiz perguntam:\ncadê o terceiro? 📚"
+      ],
+      "sair": true,
+      "fala": [
+        "E os dois Luiz perguntam: cadê o terceiro?"
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_005.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "meta",
+      "camera": "vazio",
+      "dur": 3.08,
+      "clima": "misterio",
+      "linhas": [
+        "Faltam só 11 moradores\npara ganhar um PARQUE 🌳"
+      ],
+      "fala": [
+        "Faltam só onze moradores para a vila ganhar um parque."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "convite",
+      "camera": "final",
+      "dur": 6.28,
+      "cta": true,
+      "linhas": [
+        "Quer ser o 20º morador?\nComente NOME + PROFISSÃO 👇",
+        "Quem comentar\naparece no #3 ✨"
+      ],
+      "fala": [
+        "Quer ser o vigésimo morador? Comente seu nome e sua profissão.",
+        "Quem comentar aparece no episódio três."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_007.wav",
+      "tempos": [
+        0,
+        3.6
+      ]
+    },
+    {
+      "nome": "astro",
+      "seguir": 2,
+      "z": 5,
+      "hora": 23.5,
+      "dur": 6.52,
+      "clima": "misterio",
+      "linhas": [
+        "Mas de madrugada…\no Astro viu uma luz no céu 👀",
+        "O que era aquilo?\nDescubra no #3"
+      ],
+      "durante": {
+        "t": 1.2,
+        "js": "const n=npcs.find(m=>m.id===2);if(n){for(let i=0;i<4;i++)firework(n.x+rnd(-50,50),n.y-rnd(45,85))}"
+      },
+      "sair": true,
+      "fala": [
+        "Mas, de madrugada, o Astro viu uma luz no céu.",
+        "O que era aquilo? Descubra no episódio três."
+      ],
+      "audio": "videos/mundo-pixelandia-02-voz/cena_008.wav",
+      "tempos": [
+        0,
+        3.16
+      ]
+    }
+  ]
+}

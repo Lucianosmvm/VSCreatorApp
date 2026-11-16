@@ -1,0 +1,111 @@
+{
+  "id": "mundo-pixelandia-01",
+  "episodio": 1,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 28.6,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 40,
+    "prontas": 6,
+    "fila": 14,
+    "destaque": {
+      "id": 1,
+      "nome": "Ana",
+      "prof": "Pedreira"
+    },
+    "alvosObra": [
+      {
+        "x": 1328,
+        "y": 1064
+      },
+      {
+        "x": 1216,
+        "y": 1064
+      },
+      {
+        "x": 1384,
+        "y": 1128
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "dia": 2
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-01/cena-1.mp4",
+      "inicio": 0,
+      "dur": 3.6,
+      "linhas": [
+        "📺 Mundo Pixelândia #1\nCada inscrito vira um morador"
+      ],
+      "clima": null,
+      "cta": false
+    },
+    {
+      "nome": "multidao",
+      "video": "pixelandia/mundo-pixelandia-01/cena-2.mp4",
+      "inicio": 3.6,
+      "dur": 5.2,
+      "linhas": [
+        "Hoje a vila já tem\n40 moradores",
+        "E cada um é\num inscrito de verdade"
+      ],
+      "clima": null,
+      "cta": false
+    },
+    {
+      "nome": "morador",
+      "video": "pixelandia/mundo-pixelandia-01/cena-3.mp4",
+      "inicio": 8.8,
+      "dur": 5.2,
+      "linhas": [
+        "Ana chegou\ncomo Pedreira",
+        "Cada morador\ntem uma profissão"
+      ],
+      "clima": null,
+      "cta": false
+    },
+    {
+      "nome": "obras",
+      "video": "pixelandia/mundo-pixelandia-01/cena-4.mp4",
+      "inicio": 14,
+      "dur": 5.2,
+      "linhas": [
+        "E juntos já construíram\n6 obras 🔨",
+        "Ainda faltam\n14 construções na fila"
+      ],
+      "clima": null,
+      "cta": false
+    },
+    {
+      "nome": "vazio",
+      "video": "pixelandia/mundo-pixelandia-01/cena-5.mp4",
+      "inicio": 19.2,
+      "dur": 3.8,
+      "linhas": [
+        "Mas olha quanto espaço\nainda vazio 👀"
+      ],
+      "clima": "misterio",
+      "cta": false
+    },
+    {
+      "nome": "final",
+      "video": "pixelandia/mundo-pixelandia-01/cena-6.mp4",
+      "inicio": 23,
+      "dur": 5.6,
+      "linhas": [
+        "Quer morar aqui?\nComente NOME + PROFISSÃO 👇",
+        "Segue pra ver\no episódio #2"
+      ],
+      "clima": "vitoria",
+      "cta": true
+    }
+  ]
+}

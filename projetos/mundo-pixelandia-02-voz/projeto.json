@@ -1,0 +1,60 @@
+{
+  "nome": "Mundo Pixelândia #2 (narração)",
+  "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+  "elModel": "eleven_v4",
+  "elVelocidade": "0.92",
+  "elModo": "faixa",
+  "fps": "30",
+  "resolution": "1080x1920",
+  "transition": "0",
+  "globalPos": 80,
+  "globalStyle": "outline",
+  "salvoEm": "2026-11-16T17:32:22.355Z",
+  "frames": [
+    {
+      "id": "px02-0",
+      "text": "Mundo Pixelândia, episódio dois. E ninguém chegou... ainda.",
+      "narration": "Mundo Pixelândia, episódio dois. E ninguém chegou... ainda."
+    },
+    {
+      "id": "px02-1",
+      "text": "Os dezenove moradores passaram o dia inteiro na praça, esperando. Esperando quem? Você.",
+      "narration": "Os dezenove moradores passaram o dia inteiro na praça, esperando. Esperando quem? Você."
+    },
+    {
+      "id": "px02-2",
+      "text": "O Z-Hero ficou de olho na estrada.",
+      "narration": "O Z-Hero ficou de olho na estrada."
+    },
+    {
+      "id": "px02-3",
+      "text": "O Pedro já separou terreno pra casa nova.",
+      "narration": "O Pedro já separou terreno pra casa nova."
+    },
+    {
+      "id": "px02-4",
+      "text": "A Latifa ainda é a única moradora da vila.",
+      "narration": "A Latifa ainda é a única moradora da vila."
+    },
+    {
+      "id": "px02-5",
+      "text": "E os dois Luiz perguntam: cadê o terceiro?",
+      "narration": "E os dois Luiz perguntam: cadê o terceiro?"
+    },
+    {
+      "id": "px02-6",
+      "text": "Faltam só onze moradores para a vila ganhar um parque.",
+      "narration": "Faltam só onze moradores para a vila ganhar um parque."
+    },
+    {
+      "id": "px02-7",
+      "text": "Quer ser o vigésimo morador? Comente seu nome e sua profissão. Quem comentar aparece no episódio três.",
+      "narration": "Quer ser o vigésimo morador? Comente seu nome e sua profissão. Quem comentar aparece no episódio três."
+    },
+    {
+      "id": "px02-8",
+      "text": "Mas, de madrugada, o Astro viu uma luz no céu. O que era aquilo? Descubra no episódio três.",
+      "narration": "Mas, de madrugada, o Astro viu uma luz no céu. O que era aquilo? Descubra no episódio três."
+    }
+  ]
+}

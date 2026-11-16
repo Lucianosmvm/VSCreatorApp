@@ -1,0 +1,42 @@
+[
+  {
+    "cena": "abertura",
+    "linhas": [
+      "📺 Mundo Pixelândia #1\nCada inscrito vira um morador"
+    ]
+  },
+  {
+    "cena": "multidao",
+    "linhas": [
+      "Hoje a vila já tem\n40 moradores",
+      "E cada um é\num inscrito de verdade"
+    ]
+  },
+  {
+    "cena": "morador",
+    "linhas": [
+      "Ana chegou\ncomo Pedreira",
+      "Cada morador\ntem uma profissão"
+    ]
+  },
+  {
+    "cena": "obras",
+    "linhas": [
+      "E juntos já construíram\n6 obras 🔨",
+      "Ainda faltam\n14 construções na fila"
+    ]
+  },
+  {
+    "cena": "vazio",
+    "linhas": [
+      "Mas olha quanto espaço\nainda vazio 👀"
+    ]
+  },
+  {
+    "cena": "final",
+    "linhas": [
+      "Quer morar aqui?\nComente NOME + PROFISSÃO 👇",
+      "Segue pra ver\no episódio #2"
+    ]
+  }
+]

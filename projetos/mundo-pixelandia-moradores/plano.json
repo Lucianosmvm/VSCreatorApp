@@ -1,0 +1,29 @@
+{
+  "cenas": [
+    { "nome": "abertura", "camera": "abertura", "dur": 3.4, "linhas": ["📺 Mundo Pixelândia\nconheça quem mora aqui"] },
+    { "nome": "vila", "camera": "multidao", "dur": 4.4, "linhas": ["6 dias de vila e já são\n19 moradores", "Cada um é um inscrito\nde verdade 👀"] },
+    { "nome": "obras", "camera": "obras", "dur": 3.2, "linhas": ["Juntos eles ergueram\n18 construções 🏠"] },
+
+    { "nome": "zhero", "seguir": 1, "dur": 2.5, "linhas": ["zHero · caçador\nfundador nº 1 da vila 🏹"] },
+    { "nome": "astro", "seguir": 2, "dur": 2.5, "linhas": ["Astro Novalite · polissonografista\ntrabalha enquanto todos dormem 😴"] },
+    { "nome": "bruno", "seguir": 3, "dur": 2.5, "linhas": ["Bruno · lenhador\na madeira da vila é dele 🪓"] },
+    { "nome": "pedro", "seguir": 4, "dur": 2.5, "linhas": ["Pedro · pedreiro\najudou a erguer tudo isso 🔨"] },
+    { "nome": "antenna", "seguir": 5, "dur": 2.5, "linhas": ["An tenna · apresentador de TV\nao vivo direto da praça 📺"] },
+    { "nome": "kyle", "seguir": 6, "dur": 2.5, "linhas": ["Kyle · advogado\nresolve toda treta da vila ⚖️"] },
+    { "nome": "dandy", "seguir": 7, "dur": 2.5, "linhas": ["Dandy · youtuber\ngrava tudo pro canal 🎥"] },
+    { "nome": "neguin", "seguir": 8, "dur": 2.5, "linhas": ["Neguin · vendedor de brechó\nveste a vila inteira 👕"] },
+    { "nome": "soluco", "seguir": 9, "dur": 2.5, "linhas": ["Soluco · domador de dragões\nainda procura o primeiro 🐉"] },
+    { "nome": "robson", "seguir": 10, "dur": 2.5, "linhas": ["Robson · criador de robôs\njura que o próximo funciona 🤖"] },
+    { "nome": "stanley", "seguir": 11, "dur": 2.5, "linhas": ["Stanley · pescador\no peixe da peixaria é dele 🎣"] },
+    { "nome": "latifa", "seguir": 12, "dur": 2.5, "linhas": ["Latifa · cuidadora de pet\nnenhum bichinho fica sozinho 🐾"] },
+    { "nome": "previseg", "seguir": 13, "dur": 2.5, "linhas": ["Previseg · corretor de seguros\nquer segurar a vila inteira 📄"] },
+    { "nome": "sprout", "seguir": 14, "dur": 2.5, "linhas": ["Sprout · médico\nde plantão na clínica 🩺"] },
+    { "nome": "phil", "seguir": 15, "dur": 2.5, "linhas": ["Phil · operador de serra\na serraria não para 🪚"] },
+    { "nome": "luiz", "seguir": 16, "dur": 2.7, "linhas": ["Luiz e Luiz · professores\ndois Luiz, uma escola 📚"] },
+    { "nome": "victor", "seguir": 18, "dur": 2.5, "linhas": ["Victor · minerador\npedra pra obra? é com ele ⛏️"] },
+    { "nome": "rian", "seguir": 19, "dur": 2.5, "linhas": ["Rian · fazendeiro\no pão começa na roça dele 🌾"] },
+
+    { "nome": "vazio", "camera": "vazio", "dur": 3.8, "clima": "misterio", "linhas": ["Mas ainda tem muito terreno\nesperando por você 👀"] },
+    { "nome": "final", "camera": "final", "dur": 6.4, "clima": "vitoria", "cta": true, "linhas": ["Quer morar aqui?\nComente NOME + PROFISSÃO 👇", "No próximo vídeo\nvocê pode aparecer ✨"] }
+  ]
+}

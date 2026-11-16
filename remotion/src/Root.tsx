@@ -2,6 +2,8 @@ import { Composition } from "remotion";
 import { Shorts } from "./Shorts";
 import { TIMELINE_VAZIA, type Timeline } from "./tipos";
 import { VIDEOS } from "./videos";
+import { PIXELANDIA } from "./pixelandia/registro";
+import { PixelandiaVideo } from "./pixelandia/Pixelandia";
 
 const metadados = ({ props }: { props: Timeline }) => ({
   fps: props.fps,
@@ -34,6 +36,19 @@ export const Root: React.FC = () => (
       height={v.timeline.altura}
       fps={v.timeline.fps}
       durationInFrames={Math.max(1, Math.round(v.timeline.duracao * v.timeline.fps))}
+    />
+  ))}
+  {/* Estilo "Mundo Pixelândia" (ferramentas/pixelandia/filmar.mjs) */}
+  {PIXELANDIA.map((d) => (
+    <Composition
+      key={d.id}
+      id={d.id}
+      component={PixelandiaVideo}
+      defaultProps={d}
+      width={d.largura}
+      height={d.altura}
+      fps={d.fps}
+      durationInFrames={Math.max(1, Math.round(d.duracao * d.fps))}
     />
   ))}
   </>

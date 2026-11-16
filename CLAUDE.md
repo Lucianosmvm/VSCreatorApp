@@ -172,3 +172,9 @@ Guia do estilo, roteiro e formato do plano: `docs/estilo-ti-ninja.md`.
 - Pegadinhas da API: `comp.new` usa `background` e `renderer: "advanced3D"`; cor sempre `#rrggbb`;
   `plane` nasce em pé (girar `transform/rotationX` 90); Y cresce para baixo; Z menor = mais perto da
   câmera; giros em `transform/rotationX|rotationY|rotation`; fontes: `Segoe UI` Black e `JetBrains Mono`.
+
+## Estilo "Mundo Pixelândia"
+
+Quando o usuário pedir vídeo da vila / Mundo Pixelândia: sem narração, cenas filmadas do jogo
+(`node ferramentas/pixelandia/filmar.mjs`) e montadas em `remotion/src/pixelandia/`. Guia e continuação
+(novos inscritos sobre a vila salva): `docs/estilo-pixelandia.md`.

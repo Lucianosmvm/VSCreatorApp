@@ -1,0 +1,293 @@
+{
+  "id": "mundo-pixelandia-moradores",
+  "episodio": 1,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 66.4,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 19,
+    "prontas": 18,
+    "fila": 0,
+    "destaque": {
+      "id": 11,
+      "nome": "Stanley",
+      "prof": "Pescador"
+    },
+    "alvosObra": [
+      {
+        "x": 1328,
+        "y": 1160
+      },
+      {
+        "x": 1184,
+        "y": 792
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "dia": 6
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-1.mp4",
+      "inicio": 0,
+      "dur": 3.4,
+      "linhas": [
+        "📺 Mundo Pixelândia\nconheça quem mora aqui"
+      ],
+      "clima": null,
+      "foco": false
+    },
+    {
+      "nome": "vila",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-2.mp4",
+      "inicio": 3.4,
+      "dur": 4.4,
+      "linhas": [
+        "6 dias de vila e já são\n19 moradores",
+        "Cada um é um inscrito\nde verdade 👀"
+      ],
+      "clima": null,
+      "foco": false
+    },
+    {
+      "nome": "obras",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-3.mp4",
+      "inicio": 7.8,
+      "dur": 3.2,
+      "linhas": [
+        "Juntos eles ergueram\n18 construções 🏠"
+      ],
+      "clima": null,
+      "foco": false
+    },
+    {
+      "nome": "zhero",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-4.mp4",
+      "inicio": 11,
+      "dur": 2.5,
+      "linhas": [
+        "zHero · caçador\nfundador nº 1 da vila 🏹"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "astro",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-5.mp4",
+      "inicio": 13.5,
+      "dur": 2.5,
+      "linhas": [
+        "Astro Novalite · polissonografista\ntrabalha enquanto todos dormem 😴"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "bruno",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-6.mp4",
+      "inicio": 16,
+      "dur": 2.5,
+      "linhas": [
+        "Bruno · lenhador\na madeira da vila é dele 🪓"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "pedro",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-7.mp4",
+      "inicio": 18.5,
+      "dur": 2.5,
+      "linhas": [
+        "Pedro · pedreiro\najudou a erguer tudo isso 🔨"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "antenna",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-8.mp4",
+      "inicio": 21,
+      "dur": 2.5,
+      "linhas": [
+        "An tenna · apresentador de TV\nao vivo direto da praça 📺"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "kyle",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-9.mp4",
+      "inicio": 23.5,
+      "dur": 2.5,
+      "linhas": [
+        "Kyle · advogado\nresolve toda treta da vila ⚖️"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "dandy",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-10.mp4",
+      "inicio": 26,
+      "dur": 2.5,
+      "linhas": [
+        "Dandy · youtuber\ngrava tudo pro canal 🎥"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "neguin",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-11.mp4",
+      "inicio": 28.5,
+      "dur": 2.5,
+      "linhas": [
+        "Neguin · vendedor de brechó\nveste a vila inteira 👕"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "soluco",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-12.mp4",
+      "inicio": 31,
+      "dur": 2.5,
+      "linhas": [
+        "Soluco · domador de dragões\nainda procura o primeiro 🐉"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "robson",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-13.mp4",
+      "inicio": 33.5,
+      "dur": 2.5,
+      "linhas": [
+        "Robson · criador de robôs\njura que o próximo funciona 🤖"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "stanley",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-14.mp4",
+      "inicio": 36,
+      "dur": 2.5,
+      "linhas": [
+        "Stanley · pescador\no peixe da peixaria é dele 🎣"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "latifa",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-15.mp4",
+      "inicio": 38.5,
+      "dur": 2.5,
+      "linhas": [
+        "Latifa · cuidadora de pet\nnenhum bichinho fica sozinho 🐾"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "previseg",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-16.mp4",
+      "inicio": 41,
+      "dur": 2.5,
+      "linhas": [
+        "Previseg · corretor de seguros\nquer segurar a vila inteira 📄"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "sprout",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-17.mp4",
+      "inicio": 43.5,
+      "dur": 2.5,
+      "linhas": [
+        "Sprout · médico\nde plantão na clínica 🩺"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "phil",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-18.mp4",
+      "inicio": 46,
+      "dur": 2.5,
+      "linhas": [
+        "Phil · operador de serra\na serraria não para 🪚"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "luiz",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-19.mp4",
+      "inicio": 48.5,
+      "dur": 2.7,
+      "linhas": [
+        "Luiz e Luiz · professores\ndois Luiz, uma escola 📚"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "victor",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-20.mp4",
+      "inicio": 51.2,
+      "dur": 2.5,
+      "linhas": [
+        "Victor · minerador\npedra pra obra? é com ele ⛏️"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "rian",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-21.mp4",
+      "inicio": 53.7,
+      "dur": 2.5,
+      "linhas": [
+        "Rian · fazendeiro\no pão começa na roça dele 🌾"
+      ],
+      "clima": null,
+      "foco": true
+    },
+    {
+      "nome": "vazio",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-22.mp4",
+      "inicio": 56.2,
+      "dur": 3.8,
+      "linhas": [
+        "Mas ainda tem muito terreno\nesperando por você 👀"
+      ],
+      "clima": "misterio",
+      "foco": false
+    },
+    {
+      "nome": "final",
+      "video": "pixelandia/mundo-pixelandia-moradores/cena-23.mp4",
+      "inicio": 60,
+      "dur": 6.4,
+      "linhas": [
+        "Quer morar aqui?\nComente NOME + PROFISSÃO 👇",
+        "No próximo vídeo\nvocê pode aparecer ✨"
+      ],
+      "clima": "vitoria",
+      "cta": true,
+      "foco": false
+    }
+  ]
+}

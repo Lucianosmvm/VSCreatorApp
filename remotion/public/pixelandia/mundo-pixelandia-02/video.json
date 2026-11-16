@@ -1,0 +1,183 @@
+{
+  "id": "mundo-pixelandia-02",
+  "episodio": 2,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 37.4,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 19,
+    "prontas": 18,
+    "fila": 0,
+    "destaque": {
+      "id": 11,
+      "nome": "Stanley",
+      "prof": "Pescador"
+    },
+    "alvosObra": [
+      {
+        "x": 1328,
+        "y": 1160
+      },
+      {
+        "x": 1184,
+        "y": 792
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "chegada": {
+      "x": 1256,
+      "y": 1304
+    },
+    "dia": 7
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-02/cena-1.mp4",
+      "inicio": 0,
+      "dur": 5.12,
+      "linhas": [
+        "📺 Mundo Pixelândia #2\nninguém chegou… ainda 😢"
+      ],
+      "clima": null,
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "praca",
+      "video": "pixelandia/mundo-pixelandia-02/cena-2.mp4",
+      "inicio": 5.12,
+      "dur": 6.16,
+      "linhas": [
+        "Os 19 moradores esperaram\no dia inteiro na praça",
+        "Esperando quem?\nvocê 👀"
+      ],
+      "clima": null,
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_001.wav",
+      "tempos": [
+        0,
+        4.16
+      ]
+    },
+    {
+      "nome": "zhero",
+      "video": "pixelandia/mundo-pixelandia-02/cena-3.mp4",
+      "inicio": 11.28,
+      "dur": 2.16,
+      "linhas": [
+        "zHero ficou de olho\nna estrada 🏹"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_002.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "pedro",
+      "video": "pixelandia/mundo-pixelandia-02/cena-4.mp4",
+      "inicio": 13.44,
+      "dur": 2.56,
+      "linhas": [
+        "Pedro já separou\nterreno pra casa nova 🔨"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "latifa",
+      "video": "pixelandia/mundo-pixelandia-02/cena-5.mp4",
+      "inicio": 16,
+      "dur": 2.8,
+      "linhas": [
+        "Latifa ainda é\na única moradora 👀"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "luiz",
+      "video": "pixelandia/mundo-pixelandia-02/cena-6.mp4",
+      "inicio": 18.8,
+      "dur": 2.72,
+      "linhas": [
+        "Os dois Luiz perguntam:\ncadê o terceiro? 📚"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_005.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "meta",
+      "video": "pixelandia/mundo-pixelandia-02/cena-7.mp4",
+      "inicio": 21.52,
+      "dur": 3.08,
+      "linhas": [
+        "Faltam só 11 moradores\npara ganhar um PARQUE 🌳"
+      ],
+      "clima": "misterio",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "convite",
+      "video": "pixelandia/mundo-pixelandia-02/cena-8.mp4",
+      "inicio": 24.6,
+      "dur": 6.28,
+      "linhas": [
+        "Quer ser o 20º morador?\nComente NOME + PROFISSÃO 👇",
+        "Quem comentar\naparece no #3 ✨"
+      ],
+      "clima": null,
+      "cta": true,
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_007.wav",
+      "tempos": [
+        0,
+        3.6
+      ]
+    },
+    {
+      "nome": "astro",
+      "video": "pixelandia/mundo-pixelandia-02/cena-9.mp4",
+      "inicio": 30.88,
+      "dur": 6.52,
+      "linhas": [
+        "Mas de madrugada…\no Astro viu uma luz no céu 👀",
+        "O que era aquilo?\nDescubra no #3"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-02-voz/cena_008.wav",
+      "tempos": [
+        0,
+        3.16
+      ]
+    }
+  ]
+}

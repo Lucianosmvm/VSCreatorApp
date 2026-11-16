@@ -86,3 +86,6 @@ ferramentas/effectcraft/portable.zip
 exportacoes/
 ferramentas/effectcraft/test.ecproj
 ferramentas/effectcraft/teste.png
+
+# Mundo Pixelândia: cenas filmadas são regeradas pelo filmar.mjs
+remotion/public/pixelandia/*/*.mp4
