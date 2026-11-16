@@ -7,10 +7,8 @@ Kit: `remotion/src/rpg/`. Um episódio = um projeto + `remotion/src/rpg/EpNN<Nom
 **Episódios publicados:** 01 menu (`switch`) · 02 criar o herói (classe e objeto) ·
 03 nome do herói (`string`, interpolação).
 
-**Ponto de retomada:** EP. 06 — A cerca parou o Artur, produzido e exportado.
-Os episódios 04 a 06 têm produção registrada no projeto, com publicação no YouTube
-a confirmar. O próximo a produzir é o **EP. 07 — Artur encontra uma moeda**:
-retome o brilho na grama do EP. 06 e mostre o contador subir com `moedas += 1`.
+**Ponto de retomada:** EP. 09 — O ferreiro, produzido e exportado (Artur comprou a espada de madeira
+de 60 e ficou com 39 moedas). O próximo a produzir é o **EP. 10 — Dano e peso da espada** (`float` × `int`).
 
 ## Regras de cada episódio
 

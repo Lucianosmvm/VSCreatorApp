@@ -1,0 +1,117 @@
+{
+ "autoMeta": null,
+ "frameDuration": "3",
+ "tailPause": "0.25",
+ "transition": "0.25",
+ "globalFont": "poppins",
+ "globalStyle": "outline",
+ "globalAnim": "single",
+ "globalPos": 80,
+ "renderServidor": true,
+ "motorRemotion": true,
+ "elVelocidade": "0.92",
+ "modoMascote": true,
+ "vidOn": false,
+ "vidModel": "bytedance/seedance-1-lite",
+ "vidRes": "480p",
+ "vidMotion": "subtle cinematic camera movement, natural motion",
+ "vidEngine": "depthflow",
+ "dfEfeito": "horizontal",
+ "dfTrajeto": "ida",
+ "dfIntensidade": "35",
+ "dfRef": "5",
+ "dfQualidade": "70",
+ "parallel": "4",
+ "fps": "24",
+ "resolution": "1080x1920",
+ "elModel": "eleven_v4",
+ "elModo": "faixa",
+ "elCont": true,
+ "gmModel": "gemini-3.6-flash",
+ "textModel25": true,
+ "useTranslate": true,
+ "imgSource": "replicate",
+ "repModel": "black-forest-labs/flux-2-klein-9b",
+ "repExtra": "{\"aspect_ratio\":\"16:9\"}",
+ "repStyle": "Hand-drawn colorful horror doodle illustration, creepy dark cartoon doodle style, rough black ink drawing on white paper, \nhandmade sketch aesthetic, thick irregular black outlines, scratchy linework, cross-hatching, chaotic scribbles, messy hatching, ink stains, \nimperfect brush strokes and small ink splatters, unsettling creepy atmosphere, grotesque cartoon characters, \nexaggerated faces and disturbing expressions, strange anatomy, vintage horror notebook drawing, minimalist white paper background, \nhigh contrast, vibrant saturated horror colors, blood red, toxic green, deep purple, electric blue, orange and yellow accents, \nrough imperfect coloring that stays inside and slightly outside the ink lines, strong black shadows, vivid highlights, \nlimited color palette, eerie combination of cute cartoon shapes and disturbing horror elements, amateur sketchbook feeling, \nexpressive handmade imperfections, creepy but visually captivating, 2D illustration, no 3D, no photorealism, no realistic textures, \nno smooth digital painting, no vector graphics, no polished clean artwork.",
+ "repPersonagem": "",
+ "repProxy": "/replicate",
+ "modoDidatico": false,
+ "vmCenas": "6",
+ "vmEstilo": "",
+ "vmRequisito": "",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "voiceManual": "",
+ "appVersao": 2,
+ "frameCount": "11",
+ "nome": "RPG Code 09 - O ferreiro",
+ "frames": [
+  {
+   "id": "fmwj4fp8p-0",
+   "prompt": "",
+   "text": "No último episódio, a bolsa do Artur encheu: 99 moedas. Agora ele chega ao ferreiro.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-1",
+   "prompt": "",
+   "text": "A espada de ferro custa 120 moedas. Será que dá para comprar?",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-2",
+   "prompt": "",
+   "text": "O jogo testa com if: as moedas são maiores ou iguais ao preço?",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-3",
+   "prompt": "",
+   "text": "Se forem, o bloco do if roda: tira o preço das moedas e entrega a espada.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-4",
+   "prompt": "",
+   "text": "Mas 99 maior ou igual a 120 é falso. Então o bloco do if é pulado.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-5",
+   "prompt": "",
+   "text": "E aí entra o else, que significa senão. Ele roda quando a condição é falsa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-6",
+   "prompt": "",
+   "text": "O ferreiro avisa: moedas insuficientes. E nada é descontado.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-7",
+   "prompt": "",
+   "text": "Então o Artur escolhe a espada de madeira, que custa 60.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-8",
+   "prompt": "",
+   "text": "Agora, 99 maior ou igual a 60 é verdadeiro. O if roda, e sobram 39 moedas.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-9",
+   "prompt": "",
+   "text": "If e else são dois caminhos: um para verdadeiro, outro para falso. E sempre roda um só.",
+   "narration": ""
+  },
+  {
+   "id": "fmwj4fp8p-10",
+   "prompt": "",
+   "text": "Artur tem uma espada! Mas quanto dano ela causa? Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-16T10:29:13.000Z"
+}
