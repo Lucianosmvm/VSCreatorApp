@@ -22,6 +22,12 @@ import { RpgEp03 } from "../rpg/Ep03Nome";
 import { RpgEp04 } from "../rpg/Ep04Passo";
 import { RpgEp05 } from "../rpg/Ep05Setas";
 import { RpgEp06 } from "../rpg/Ep06Cerca";
+import { RpgEp07 } from "../rpg/Ep07Moeda";
+import { RpgEp08 } from "../rpg/Ep08Bolsa";
+import { RpgEp09 } from "../rpg/Ep09Ferreiro";
+import tlRpg09 from "../../public/videos/rpg-code-09-o-ferreiro-mwj4fp8p/timeline.json";
+import tlRpg08 from "../../public/videos/rpg-code-08-a-bolsa-cheia-mwj3znis/timeline.json";
+import tlRpg07 from "../../public/videos/rpg-code-07-a-primeira-moeda-mwj3piwm/timeline.json";
 import tlRpg06 from "../../public/videos/rpg-code-06-a-cerca-parou-o-artur-mwfawv18/timeline.json";
 import tlRpg05 from "../../public/videos/rpg-code-05-andando-com-as-setas-mweyvx5j/timeline.json";
 import tlRpg04 from "../../public/videos/rpg-code-04-o-primeiro-passo-mwey4rdo/timeline.json";
@@ -58,6 +64,9 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "rpg-code-04", timeline: tlRpg04 as Timeline, componente: RpgEp04 },
   { id: "rpg-code-05", timeline: tlRpg05 as Timeline, componente: RpgEp05 },
   { id: "rpg-code-06", timeline: tlRpg06 as Timeline, componente: RpgEp06 },
+  { id: "rpg-code-07", timeline: tlRpg07 as Timeline, componente: RpgEp07 },
+  { id: "rpg-code-08", timeline: tlRpg08 as Timeline, componente: RpgEp08 },
+  { id: "rpg-code-09", timeline: tlRpg09 as Timeline, componente: RpgEp09 },
   { id: "encapsulamento-csharp", timeline: tlEncapsulamento as Timeline, componente: EncapsulamentoCSharp },
   { id: "encapsulamento-csharp-short", timeline: timelineShortEncapsulamento(tlEncapsulamento as Timeline), componente: EncapsulamentoShort },
   { id: "switch-roteador", timeline: tlSwitchRoteador as Timeline, componente: SwitchRoteador },
