@@ -1,0 +1,473 @@
+{
+  "id": "mundo-pixelandia-03",
+  "episodio": 3,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 95.28,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 35,
+    "prontas": 18,
+    "fila": 9,
+    "destaque": {
+      "id": 4,
+      "nome": "Pedro",
+      "prof": "Pedreiro"
+    },
+    "alvosObra": [
+      {
+        "x": 1328,
+        "y": 1160
+      },
+      {
+        "x": 1184,
+        "y": 792
+      },
+      {
+        "x": 1488,
+        "y": 928
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "chegada": {
+      "x": 1256,
+      "y": 1368
+    },
+    "dia": 7
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-03/cena-1.mp4",
+      "inicio": 0,
+      "dur": 4.96,
+      "linhas": [
+        "📺 Mundo Pixelândia #3\nA ESTRADA ENCHEU! 🎉"
+      ],
+      "clima": "vitoria",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "chegada",
+      "video": "pixelandia/mundo-pixelandia-03/cena-2.mp4",
+      "inicio": 4.96,
+      "dur": 6.48,
+      "linhas": [
+        "Vocês comentaram…\ne 16 vieram morar aqui!",
+        "Um por um:\nSEJAM BEM-VINDOS! 🥳"
+      ],
+      "clima": "vitoria",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_001.wav",
+      "tempos": [
+        0,
+        3.6
+      ]
+    },
+    {
+      "nome": "lucas",
+      "video": "pixelandia/mundo-pixelandia-03/cena-3.mp4",
+      "inicio": 11.44,
+      "dur": 2.48,
+      "linhas": [
+        "Lucas chegou\n🚑 SOCORRISTA DO SAMU"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_002.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "isaac",
+      "video": "pixelandia/mundo-pixelandia-03/cena-4.mp4",
+      "inicio": 13.92,
+      "dur": 3.68,
+      "linhas": [
+        "Isaac chegou\n🔨 PEDREIRO",
+        "O Pedro ganhou\nUM PARCEIRO DE OBRA 🤝"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_003.wav",
+      "tempos": [
+        0,
+        1.6
+      ]
+    },
+    {
+      "nome": "elias",
+      "video": "pixelandia/mundo-pixelandia-03/cena-5.mp4",
+      "inicio": 17.6,
+      "dur": 1.92,
+      "linhas": [
+        "Elias chegou\n📐 ENGENHEIRO CIVIL"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "luiz",
+      "video": "pixelandia/mundo-pixelandia-03/cena-6.mp4",
+      "inicio": 19.52,
+      "dur": 4.4,
+      "linhas": [
+        "E chegou mais um Luiz…\n📐 ENGENHEIRO CIVIL",
+        "Agora são\nTRÊS LUIZ 😂"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_005.wav",
+      "tempos": [
+        0,
+        2.72
+      ]
+    },
+    {
+      "nome": "jean",
+      "video": "pixelandia/mundo-pixelandia-03/cena-7.mp4",
+      "inicio": 23.92,
+      "dur": 1.84,
+      "linhas": [
+        "Jean chegou\n⚔️ GUERREIRO"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "ana",
+      "video": "pixelandia/mundo-pixelandia-03/cena-8.mp4",
+      "inicio": 25.76,
+      "dur": 3.84,
+      "linhas": [
+        "Ana chegou\n🩺 MÉDICA",
+        "A Latifa não é mais\na única moradora 💜"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_007.wav",
+      "tempos": [
+        0,
+        1.36
+      ]
+    },
+    {
+      "nome": "alex",
+      "video": "pixelandia/mundo-pixelandia-03/cena-9.mp4",
+      "inicio": 29.6,
+      "dur": 1.48,
+      "linhas": [
+        "Alex chegou\n🩺 MÉDICO"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_008.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "diogo",
+      "video": "pixelandia/mundo-pixelandia-03/cena-10.mp4",
+      "inicio": 31.08,
+      "dur": 1.76,
+      "linhas": [
+        "Diogo chegou\n🩺 MÉDICO"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_009.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "pedro",
+      "video": "pixelandia/mundo-pixelandia-03/cena-11.mp4",
+      "inicio": 32.84,
+      "dur": 5.04,
+      "linhas": [
+        "Mais um Pedro!\n🩺 MÉDICO",
+        "4 médicos novos:\nA CLÍNICA LOTOU 🏥"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_010.wav",
+      "tempos": [
+        0,
+        2.24
+      ]
+    },
+    {
+      "nome": "gideão",
+      "video": "pixelandia/mundo-pixelandia-03/cena-12.mp4",
+      "inicio": 37.88,
+      "dur": 1.77,
+      "linhas": [
+        "Gideão chegou\n🌾 AGRICULTOR"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_011.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "stan",
+      "video": "pixelandia/mundo-pixelandia-03/cena-13.mp4",
+      "inicio": 39.65,
+      "dur": 1.55,
+      "linhas": [
+        "Stan chegou\n🦷 DENTISTA"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_012.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "abner",
+      "video": "pixelandia/mundo-pixelandia-03/cena-14.mp4",
+      "inicio": 41.2,
+      "dur": 3.56,
+      "linhas": [
+        "Abner chegou\n🍕 PIZZAIOLO",
+        "Sexta-feira\nTEM PIZZA NA VILA 🍕"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_013.wav",
+      "tempos": [
+        0,
+        1.68
+      ]
+    },
+    {
+      "nome": "josé-alvaro",
+      "video": "pixelandia/mundo-pixelandia-03/cena-15.mp4",
+      "inicio": 44.76,
+      "dur": 3.56,
+      "linhas": [
+        "José Alvaro chegou\n🚒 BOMBEIRO",
+        "O 1º bombeiro\nDA VILA 🔥"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_014.wav",
+      "tempos": [
+        0,
+        1.8
+      ]
+    },
+    {
+      "nome": "jefingomesrs",
+      "video": "pixelandia/mundo-pixelandia-03/cena-16.mp4",
+      "inicio": 48.32,
+      "dur": 2.4,
+      "linhas": [
+        "Jefingomesrs chegou\n🧹 GARI"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_015.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "lago",
+      "video": "pixelandia/mundo-pixelandia-03/cena-17.mp4",
+      "inicio": 50.72,
+      "dur": 1.92,
+      "linhas": [
+        "Lago chegou\n🌙 GUARDA NOTURNO"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_016.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "parque",
+      "video": "pixelandia/mundo-pixelandia-03/cena-18.mp4",
+      "inicio": 52.64,
+      "dur": 4.32,
+      "linhas": [
+        "Com vocês, somos 35!\n🌳 PARQUE LIBERADO"
+      ],
+      "clima": "vitoria",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_017.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "prefeito",
+      "video": "pixelandia/mundo-pixelandia-03/cena-19.mp4",
+      "inicio": 56.96,
+      "dur": 2.48,
+      "linhas": [
+        "E tem mais…\n🎖️ TEMOS UM PREFEITO!"
+      ],
+      "clima": "vitoria",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_018.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "samuel",
+      "video": "pixelandia/mundo-pixelandia-03/cena-20.mp4",
+      "inicio": 59.44,
+      "dur": 6.32,
+      "linhas": [
+        "Samuel 🎩\nPRIMEIRO PREFEITO",
+        "Primeiro discurso:\nBEM-VINDOS À VILA! 🎤"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_019.wav",
+      "tempos": [
+        0,
+        2.96
+      ]
+    },
+    {
+      "nome": "estatua",
+      "video": "pixelandia/mundo-pixelandia-03/cena-21.mp4",
+      "inicio": 65.76,
+      "dur": 5.68,
+      "linhas": [
+        "A vila fez festa 🎉\ne ergueu uma ESTÁTUA",
+        "Estátua do 1º Prefeito\nSAMUEL 🗿"
+      ],
+      "clima": "vitoria",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_020.wav",
+      "tempos": [
+        0,
+        2.56
+      ]
+    },
+    {
+      "nome": "mandato",
+      "video": "pixelandia/mundo-pixelandia-03/cena-22.mp4",
+      "inicio": 71.44,
+      "dur": 3.68,
+      "linhas": [
+        "O mandato tem prazo:\nDEPOIS TEM NOVA ELEIÇÃO 🗳"
+      ],
+      "clima": null,
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_021.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "astro",
+      "video": "pixelandia/mundo-pixelandia-03/cena-23.mp4",
+      "inicio": 75.12,
+      "dur": 3.2,
+      "linhas": [
+        "Enquanto a vila dormia…\no Astro viu a luz DE NOVO 👀"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_022.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "lago-noite",
+      "video": "pixelandia/mundo-pixelandia-03/cena-24.mp4",
+      "inicio": 78.32,
+      "dur": 3.68,
+      "linhas": [
+        "Dessa vez com testemunha:\nLago, o GUARDA NOTURNO 🌙"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_023.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "floresta",
+      "video": "pixelandia/mundo-pixelandia-03/cena-25.mp4",
+      "inicio": 82,
+      "dur": 4.16,
+      "linhas": [
+        "A luz desceu\natrás da floresta…",
+        "e deixou MARCAS\nna grama 😨"
+      ],
+      "clima": "misterio",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_024.wav",
+      "tempos": [
+        0,
+        2.36
+      ]
+    },
+    {
+      "nome": "convite",
+      "video": "pixelandia/mundo-pixelandia-03/cena-26.mp4",
+      "inicio": 86.16,
+      "dur": 5.89,
+      "linhas": [
+        "Quer morar aqui?\nComente NOME + PROFISSÃO 👇",
+        "Curta e se inscreva\npra não perder a vila 👍🔔"
+      ],
+      "clima": null,
+      "cta": true,
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_025.wav",
+      "tempos": [
+        0,
+        3.08
+      ]
+    },
+    {
+      "nome": "gancho",
+      "video": "pixelandia/mundo-pixelandia-03/cena-27.mp4",
+      "inicio": 92.05,
+      "dur": 3.23,
+      "linhas": [
+        "O que caiu na floresta?\ndescubra no #4 👀"
+      ],
+      "clima": "misterio",
+      "foco": false,
+      "audio": "videos/mundo-pixelandia-03-voz/cena_026.wav",
+      "tempos": [
+        0
+      ]
+    }
+  ]
+}

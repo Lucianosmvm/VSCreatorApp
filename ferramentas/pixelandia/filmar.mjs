@@ -127,6 +127,9 @@ try {
   }
   const novos = novosMoradores();
   await cr.js(`(()=>{const lista=${JSON.stringify(novos)};for(const m of lista)addNPC(m.nome,PROF[m.prof]?m.prof:'pedreiro',m.sexo,m.custom,true);assignHomes&&assignHomes();return npcs.length})()`);
+  // "seguir" no plano aceita o nome do morador; com nomes repetidos, vale o mais novo.
+  const idsPorNome = JSON.parse(await cr.js(`JSON.stringify(npcs.map(m=>[m.id,m.name]))`));
+  const idDe = (s) => (typeof s === "string" ? (idsPorNome.filter(([, n]) => n === s).pop() ?? [null])[0] : s);
 
   // Avança a simulação para a vila trabalhar e construir.
   const passos = Math.ceil(AVANCAR / 0.4);
@@ -168,7 +171,7 @@ try {
     final: { de: { ...P, z: 3.4 }, para: { ...P, z: 2.5 }, reunir: true },
   };
   const plano = PLANO ? JSON.parse(fs.readFileSync(path.resolve(PLANO), "utf8")) : null;
-  const cenas = plano ? plano.cenas.map((c) => ({ ...c, ...(c.seguir != null ? { seguir: c.seguir, z: c.z || 6 } : TOMADAS[c.camera || "abertura"]) })) : [
+  const cenas = plano ? plano.cenas.map((c) => ({ ...c, ...(c.seguir != null ? { seguir: idDe(c.seguir), z: c.z || 6 } : TOMADAS[c.camera || "abertura"]) })) : [
     { nome: "abertura", dur: 3.6, de: { ...P, z: 2.2 }, para: { ...P, z: 3.2 }, reunir: true },
     { nome: "multidao", dur: 5.2, de: { x: P.x - 50, y: P.y + 30, z: 3.5 }, para: { x: P.x + 50, y: P.y - 20, z: 3.8 }, reunir: true },
     { nome: "morador", dur: 5.2, seguir: st.destaque.id, z: 4.4 },
@@ -180,6 +183,11 @@ try {
   const suave = (t) => t * t * (3 - 2 * t);
   for (const [i, c] of cenas.entries()) {
     // "hora": muda o relógio do jogo (ex.: 23.5 = madrugada) e deixa a vila reagir.
+    // "estatua": "Nome" ergue uma estátua pronta perto da praça e mira a câmera nela.
+    if (c.estatua) {
+      const e = JSON.parse(await cr.js(`(()=>{const d=BT.estatua;const s=findSpot(d.w,d.h);if(!s)return JSON.stringify(null);const b={id:nextBid++,type:'estatua',x:s.x,y:s.y,w:d.w,h:d.h,done:true,progress:d.time,need:d.time,manual:true,owner:null,startedAt:gtime,nome:${JSON.stringify(c.estatua)}};placeBuilding(b);buildings.push(b);bById.set(b.id,b);EV.party=Math.max(EV.party||0,30);window.__ff(40,50,1);return JSON.stringify({x:(s.x+1)*T,y:(s.y+1)*T})})()`));
+      if (e) { c.de = { x: e.x, y: e.y + 10, z: 4.6 }; c.para = { x: e.x, y: e.y, z: 3.4 }; delete c.caminho; }
+    }
     if (c.hora != null) await cr.js(`mins=Math.floor(mins/1440)*1440+${c.hora}*60;window.__ff(160,50,1);true`);
     // "antes": JS rodado no jogo logo antes de filmar a cena (efeitos pontuais do episódio).
     if (c.antes) await cr.js(`(()=>{${c.antes}})();true`);

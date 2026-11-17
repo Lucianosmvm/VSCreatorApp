@@ -56,10 +56,21 @@ Prévias e quadros em `remotion/jobs/<id>/`; vídeo final em `remotion/out/<id>.
 
 Roteiro, elenco e ponto de retomada: `docs/pixelandia-roteiro.md` (consultar antes de cada episódio e atualizar depois).
 
-## Com narração (voz do usuário)
+## Com narração (padrão desde o #3)
 
-Quando o usuário pedir narração: escrever `fala` (um trecho por legenda) em cada cena do `plano.json`,
-criar `projetos/<id>-voz/projeto.json` (voz `BY2YHOQTNuJ2oMUKv3Kg`, `eleven_v4`, velocidade `0.92`,
-frames com `narration`) e rodar `python ferramentas/narrar.py <id>-voz`. Depois copiar para o plano
-a `dur` de cada cena, o `audio` (`videos/<id>-voz/cena_NNN.wav`) e os `tempos` em que cada legenda
-entra (início do trecho na `timeline.json`), refilmar e renderizar. Exemplo: `projetos/mundo-pixelandia-02/plano.json`.
+Escrever `fala` (uma frase por legenda) em cada cena do `plano.json` e rodar:
+
+```bash
+python ferramentas/pixelandia/voz.py preparar NN      # cria projetos/mundo-pixelandia-NN-voz (voz BY2YHOQTNuJ2oMUKv3Kg, eleven_v4, 0.92)
+python ferramentas/narrar.py mundo-pixelandia-NN-voz  # ElevenLabs
+python ferramentas/pixelandia/voz.py tempos NN        # copia dur, audio e tempos de cada legenda para o plano
+```
+
+Depois filmar e renderizar. Exemplo: `projetos/mundo-pixelandia-03/plano.json`.
+
+## Extras do plano
+
+- `seguir: "Nome"` (ou id): câmera acompanha o morador; nome repetido → o mais novo.
+- `estatua: "Nome"`: ergue uma estátua pronta perto da praça e mira a câmera nela.
+- `hora: 23.5`: madrugada (as cenas seguintes continuam à noite).
+- `durante: {t, js}`: efeito no meio da cena (fogos `firework(x,y)`, discurso `work(9,'speech',...)`).

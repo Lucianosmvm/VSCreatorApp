@@ -1,0 +1,18 @@
+[
+ {"nome": "Lucas", "prof": "enfermeiro", "sexo": "m", "custom": "Socorrista do SAMU"},
+ {"nome": "Isaac", "prof": "pedreiro", "sexo": "m"},
+ {"nome": "Elias", "prof": "pedreiro", "sexo": "m", "custom": "Engenheiro civil"},
+ {"nome": "Jean", "prof": "cacador", "sexo": "m", "custom": "Guerreiro"},
+ {"nome": "Ana", "prof": "medico", "sexo": "f"},
+ {"nome": "Alex", "prof": "medico", "sexo": "m"},
+ {"nome": "Diogo", "prof": "medico", "sexo": "m"},
+ {"nome": "Luiz", "prof": "pedreiro", "sexo": "m", "custom": "Engenheiro civil"},
+ {"nome": "Gideão", "prof": "fazendeiro", "sexo": "m", "custom": "Agricultor"},
+ {"nome": "Stan", "prof": "medico", "sexo": "m", "custom": "Dentista"},
+ {"nome": "Abner", "prof": "cozinheiro", "sexo": "m", "custom": "Pizzaiolo"},
+ {"nome": "José Alvaro", "prof": "bombeiro", "sexo": "m"},
+ {"nome": "Pedro", "prof": "medico", "sexo": "m"},
+ {"nome": "Jefingomesrs", "prof": "jardineiro", "sexo": "m", "custom": "Gari"},
+ {"nome": "Lago", "prof": "policial", "sexo": "m", "custom": "Guarda noturno"},
+ {"nome": "Samuel", "prof": "prefeito", "sexo": "m"}
+]

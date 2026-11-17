@@ -1,0 +1,150 @@
+{
+ "nome": "Mundo Pixelândia #3 (narração)",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "salvoEm": "2026-11-17T10:23:12.000Z",
+ "frames": [
+  {
+   "id": "px03-0",
+   "text": "Mundo Pixelândia, episódio três. E dessa vez, a estrada encheu!",
+   "narration": "Mundo Pixelândia, episódio três. E dessa vez, a estrada encheu!"
+  },
+  {
+   "id": "px03-1",
+   "text": "Vocês comentaram, e dezesseis pessoas vieram morar aqui! Então, um por um: sejam bem-vindos!",
+   "narration": "Vocês comentaram, e dezesseis pessoas vieram morar aqui! Então, um por um: sejam bem-vindos!"
+  },
+  {
+   "id": "px03-2",
+   "text": "O Lucas chegou: socorrista do Samu.",
+   "narration": "O Lucas chegou: socorrista do Samu."
+  },
+  {
+   "id": "px03-3",
+   "text": "O Isaac é pedreiro. O Pedro ganhou um parceiro de obra.",
+   "narration": "O Isaac é pedreiro. O Pedro ganhou um parceiro de obra."
+  },
+  {
+   "id": "px03-4",
+   "text": "O Elias é engenheiro civil.",
+   "narration": "O Elias é engenheiro civil."
+  },
+  {
+   "id": "px03-5",
+   "text": "E chegou mais um Luiz, também engenheiro. Agora são três Luiz!",
+   "narration": "E chegou mais um Luiz, também engenheiro. Agora são três Luiz!"
+  },
+  {
+   "id": "px03-6",
+   "text": "O Jean chegou como guerreiro.",
+   "narration": "O Jean chegou como guerreiro."
+  },
+  {
+   "id": "px03-7",
+   "text": "A Ana é médica. E a Latifa não é mais a única moradora!",
+   "narration": "A Ana é médica. E a Latifa não é mais a única moradora!"
+  },
+  {
+   "id": "px03-8",
+   "text": "O Alex é médico.",
+   "narration": "O Alex é médico."
+  },
+  {
+   "id": "px03-9",
+   "text": "O Diogo também é médico.",
+   "narration": "O Diogo também é médico."
+  },
+  {
+   "id": "px03-10",
+   "text": "E mais um Pedro, esse é médico. Quatro médicos novos: a clínica lotou!",
+   "narration": "E mais um Pedro, esse é médico. Quatro médicos novos: a clínica lotou!"
+  },
+  {
+   "id": "px03-11",
+   "text": "O Gideão é agricultor.",
+   "narration": "O Gideão é agricultor."
+  },
+  {
+   "id": "px03-12",
+   "text": "O Stén é dentista.",
+   "narration": "O Stén é dentista."
+  },
+  {
+   "id": "px03-13",
+   "text": "O Abner é pizzaiolo. Sexta-feira tem pizza na vila!",
+   "narration": "O Abner é pizzaiolo. Sexta-feira tem pizza na vila!"
+  },
+  {
+   "id": "px03-14",
+   "text": "O José Álvaro é bombeiro. O primeiro bombeiro da vila!",
+   "narration": "O José Álvaro é bombeiro. O primeiro bombeiro da vila!"
+  },
+  {
+   "id": "px03-15",
+   "text": "O Jéfin Gomes é o gari da vila.",
+   "narration": "O Jéfin Gomes é o gari da vila."
+  },
+  {
+   "id": "px03-16",
+   "text": "E o Lago é guarda noturno.",
+   "narration": "E o Lago é guarda noturno."
+  },
+  {
+   "id": "px03-17",
+   "text": "Com vocês, somos trinta e cinco. E o parque foi liberado!",
+   "narration": "Com vocês, somos trinta e cinco. E o parque foi liberado!"
+  },
+  {
+   "id": "px03-18",
+   "text": "E tem mais: temos um prefeito!",
+   "narration": "E tem mais: temos um prefeito!"
+  },
+  {
+   "id": "px03-19",
+   "text": "O Samuel é o primeiro prefeito de Pixelândia. E no primeiro discurso, deu boas-vindas a todos!",
+   "narration": "O Samuel é o primeiro prefeito de Pixelândia. E no primeiro discurso, deu boas-vindas a todos!"
+  },
+  {
+   "id": "px03-20",
+   "text": "A vila fez festa e ergueu uma estátua. A estátua do primeiro prefeito: Samuel!",
+   "narration": "A vila fez festa e ergueu uma estátua. A estátua do primeiro prefeito: Samuel!"
+  },
+  {
+   "id": "px03-21",
+   "text": "Mas o mandato tem prazo. Depois, a vila vota de novo.",
+   "narration": "Mas o mandato tem prazo. Depois, a vila vota de novo."
+  },
+  {
+   "id": "px03-22",
+   "text": "Enquanto a vila dormia, o Astro viu a luz de novo.",
+   "narration": "Enquanto a vila dormia, o Astro viu a luz de novo."
+  },
+  {
+   "id": "px03-23",
+   "text": "E dessa vez, com testemunha: o Lago, o guarda noturno.",
+   "narration": "E dessa vez, com testemunha: o Lago, o guarda noturno."
+  },
+  {
+   "id": "px03-24",
+   "text": "A luz desceu atrás da floresta... e deixou marcas na grama.",
+   "narration": "A luz desceu atrás da floresta... e deixou marcas na grama."
+  },
+  {
+   "id": "px03-25",
+   "text": "Quer morar aqui? Comente seu nome e sua profissão. E curta e se inscreva, pra não perder a vila.",
+   "narration": "Quer morar aqui? Comente seu nome e sua profissão. E curta e se inscreva, pra não perder a vila."
+  },
+  {
+   "id": "px03-26",
+   "text": "O que caiu na floresta? Descubra no episódio quatro.",
+   "narration": "O que caiu na floresta? Descubra no episódio quatro."
+  }
+ ]
+}
