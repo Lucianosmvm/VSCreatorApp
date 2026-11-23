@@ -32,7 +32,7 @@ const IF = [2, 3, 4, 5, 6], ELSE = [7, 8, 9, 10];
 
 const ITENS = [{ nome: "ESPADA FERRO", preco: 120 }, { nome: "ESPADA MADEIRA", preco: 60 }];
 
-const Espada: React.FC<{ x: number; y: number; madeira?: boolean }> = ({ x, y, madeira }) => (
+export const Espada: React.FC<{ x: number; y: number; madeira?: boolean }> = ({ x, y, madeira }) => (
   <g>
     <rect x={x} y={y} width={1.6} height={9} fill={madeira ? "#b07a3a" : "#dfe6ee"} />
     <rect x={x - 1.6} y={y + 9} width={4.8} height={1.2} fill="#e8b830" />

@@ -60,14 +60,14 @@ const CORES_CLASSE: Record<Classe, Paleta> = {
   arqueiro: { k: "#1b1020", h: "#e0a040", s: "#f2c29a", e: "#1b1020", a: "#1b1020", r: "#2f6b34", b: "#4caf50", g: "#8b5a2b", p: "#3a2a18" },
   misterio: { k: "#2a2240", h: "#2a2240", s: "#2a2240", e: "#8b5cf6", a: "#8b5cf6", r: "#2a2240", b: "#2a2240", g: "#2a2240", p: "#2a2240" },
 };
-export const Heroi: React.FC<{ x: number; y: number; classe?: Classe; flip?: boolean; pulo?: number }> = ({ x, y, classe = "guerreiro", flip, pulo = 0 }) => {
+export const Heroi: React.FC<{ x: number; y: number; classe?: Classe; flip?: boolean; pulo?: number; semArma?: boolean }> = ({ x, y, classe = "guerreiro", flip, pulo = 0, semArma }) => {
   const { f } = useT();
   const resp = Math.round(Math.sin(f * 0.18 + x) * 0.6);
   return (
     <g>
       <Sprite mapa={HEROI} cores={CORES_CLASSE[classe]} x={x} y={y + resp - pulo} flip={flip} />
       {classe === "mago" && <Sprite mapa={CHAPEU} cores={CORES_CLASSE.mago} x={x + 1} y={y - 4 + resp - pulo} />}
-      {classe === "guerreiro" && <rect x={x + 11} y={y + 5 + resp - pulo} width={1} height={7} fill="#dfe6ee" />}
+      {classe === "guerreiro" && !semArma && <rect x={x + 11} y={y + 5 + resp - pulo} width={1} height={7} fill="#dfe6ee" />}
       {classe === "arqueiro" && <path d={`M${x + 11} ${y + 4 + resp - pulo}q3 4 0 8`} stroke="#8b5a2b" strokeWidth={0.8} fill="none" />}
     </g>
   );

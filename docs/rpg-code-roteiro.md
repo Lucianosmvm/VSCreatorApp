@@ -6,10 +6,10 @@ Kit: `remotion/src/rpg/`. Um episódio = um projeto + `remotion/src/rpg/EpNN<Nom
 
 **Episódios produzidos:** 01 menu (`switch`) · 02 criar o herói (classe e objeto) ·
 03 nome do herói (`string`, interpolação) · 04 `Vector2` · 05 `Update` e `deltaTime` · 06 colisão ·
-07 `int` e `+=` · 08 comparação · 09 `if / else` · 10 `int` × `float`.
+07 `int` e `+=` · 08 comparação · 09 `if / else` · 10 `int` × `float` · 11 `bool` · 12 operadores aritméticos.
 
-**Ponto de retomada:** EP. 10 — Dano e peso, produzido e exportado (espada de madeira: `int dano = 5`,
-`float peso = 1.5f`; Artur anda a 2.7 com ela). O próximo a produzir é o **EP. 11 — Equipar a espada** (`bool`).
+**Ponto de retomada:** EP. 12 — A armadura, produzido e exportado (DEF 3 × ATQ 8 do slime, `dano = ataque - defesa`,
+vida do Artur 100 → 95 → 85 com o crítico). O próximo a produzir é o **EP. 13 — Dano nunca é negativo** (`Mathf.Max`).
 
 ## Regras de cada episódio
 

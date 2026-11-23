@@ -44,7 +44,7 @@ export const MoedaPixel: React.FC<{ x: number; y: number; grande?: boolean }> = 
 };
 
 // Campo com cerca, moedas e o contador no canto; `ini` + trechos movem o Artur.
-export const Campo: React.FC<{ moedas: Moeda[]; ini?: [number, number]; trechos?: Trecho[]; total0?: number; contador?: boolean; ajuste?: (total: number, t: number) => number; limite?: number }> = ({ moedas, ini = [28, 62], trechos = [], total0 = 0, contador = true, ajuste, limite }) => {
+export const Campo: React.FC<{ moedas: Moeda[]; ini?: [number, number]; trechos?: Trecho[]; total0?: number; contador?: boolean; ajuste?: (total: number, t: number) => number; limite?: number; semArma?: boolean }> = ({ semArma, moedas, ini = [28, 62], trechos = [], total0 = 0, contador = true, ajuste, limite }) => {
   const { t, f } = useT();
   let [x, y] = ini;
   let andando = false, esquerda = false;
@@ -72,7 +72,7 @@ export const Campo: React.FC<{ moedas: Moeda[]; ini?: [number, number]; trechos?
         }
         return <MoedaPixel key={i} x={m.x} y={m.y} grande={(m.valor ?? 1) > 1} />;
       })}
-      <g transform={`translate(${x - 6} ${y - 15 - pulo})`}><Heroi x={0} y={0} classe="guerreiro" flip={esquerda} /></g>
+      <g transform={`translate(${x - 6} ${y - 15 - pulo})`}><Heroi x={0} y={0} classe="guerreiro" flip={esquerda} semArma={semArma} /></g>
       {contador && (
         <Caixa x={3} y={3} w={limite !== undefined ? 58 : 30} h={11}>
           <rect x={7} y={6} width={5} height={5} fill="#e8b830" />

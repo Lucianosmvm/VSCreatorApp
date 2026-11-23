@@ -1,0 +1,87 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "nome": "RPG Code 11 - Equipar a espada",
+ "frames": [
+  {
+   "id": "fmwt4rmjz-0",
+   "prompt": "",
+   "text": "No último episódio, a espada ganhou dano e peso. Mas ela está na mão do Artur ou na bolsa?",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-1",
+   "prompt": "",
+   "text": "Só existem duas respostas: sim ou não. E para isso existe o tipo bool.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-2",
+   "prompt": "",
+   "text": "Um bool guarda apenas true, que é verdadeiro, ou false, que é falso.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-3",
+   "prompt": "",
+   "text": "Bool equipada igual a false: o Artur começa com a espada guardada.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-4",
+   "prompt": "",
+   "text": "Quando o jogador aperta a tecla E, o jogo inverte esse valor.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-5",
+   "prompt": "",
+   "text": "O ponto de exclamação significa não. Não false vira true, e não true vira false.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-6",
+   "prompt": "",
+   "text": "Agora o SetActive recebe o bool e mostra a espada na mão do Artur.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-7",
+   "prompt": "",
+   "text": "Apertou E de novo? Equipada volta a ser false, e a espada some da mão.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-8",
+   "prompt": "",
+   "text": "E no if, não precisa escrever igual a true. Só if equipada já basta.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-9",
+   "prompt": "",
+   "text": "Bool é um interruptor: liga e desliga. Serve para equipada, porta aberta ou jogo pausado.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt4rmjz-10",
+   "prompt": "",
+   "text": "A espada está na mão. Mas e quando o slime atacar? Artur precisa de uma armadura. Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "frameCount": "11",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "salvoEm": "2026-11-23T10:36:11.000Z"
+}

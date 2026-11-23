@@ -1,0 +1,87 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "11",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "RPG Code 12 - A armadura",
+ "frames": [
+  {
+   "id": "fmwt55ovz-0",
+   "prompt": "",
+   "text": "No último episódio, o Artur equipou a espada. Mas agora ele precisa se proteger.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-1",
+   "prompt": "",
+   "text": "Ele veste uma armadura de couro, que tem 3 de defesa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-2",
+   "prompt": "",
+   "text": "Um slime ataca com 8 de força. Quanto de dano o Artur recebe?",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-3",
+   "prompt": "",
+   "text": "Usamos o sinal de menos: dano é igual a ataque menos defesa. 8 menos 3 dá 5.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-4",
+   "prompt": "",
+   "text": "Depois, a vida do Artur perde esse dano: 100 menos 5, sobram 95.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-5",
+   "prompt": "",
+   "text": "O C sharp tem cinco operadores: mais, menos, vezes, dividido e resto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-6",
+   "prompt": "",
+   "text": "Um golpe crítico usa o vezes: o dano dobra, e 5 vira 10.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-7",
+   "prompt": "",
+   "text": "Mas cuidado com a divisão: com int, 5 dividido por 2 dá 2, e não 2,5.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-8",
+   "prompt": "",
+   "text": "O int joga fora a parte quebrada. Para ter 2,5, um dos números precisa ser float.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-9",
+   "prompt": "",
+   "text": "Os operadores aritméticos fazem as contas do jogo: dano, vida, crítico e defesa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt55ovz-10",
+   "prompt": "",
+   "text": "Mas e se a defesa for maior que o ataque? O dano fica negativo? Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-23T10:47:07.000Z"
+}
