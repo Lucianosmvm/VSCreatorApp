@@ -65,11 +65,12 @@ export const Boneco3D: React.FC<{
   pernaE?: number; pernaD?: number; cabeca?: [number, number]; // [inclina, gira]
   olhosBrilho?: number; segura?: React.ReactNode; seguraE?: React.ReactNode;
   gelo?: boolean; pele?: string; boca?: number; // boca: 0 fechada .. 1 aberta (fala)
+  coroa?: boolean; casaco?: boolean; disfarce?: boolean;
 }> = ({ tipo, pos = [0, 0, 0], rotY = 0, esc = 1, expr = "feliz", bracoE = [0, -0.12], bracoD = [0, 0.12], pernaE = 0, pernaD = 0,
-  cabeca = [0, 0], olhosBrilho = 0, segura, seguraE, gelo = false, pele: peleCor, boca = 0 }) => {
+  cabeca = [0, 0], olhosBrilho = 0, segura, seguraE, gelo = false, pele: peleCor, boca = 0, coroa = false, casaco = false, disfarce = false }) => {
   const mae = tipo === "mae";
   const G = (c: string) => (gelo ? "#bfe9ff" : c);
-  const camisa = G(mae ? C3.rosa : C3.azul);
+  const camisa = G(casaco ? "#c9a46b" : mae ? C3.rosa : C3.azul);
   const calca = G(mae ? C3.rosaEsc : C3.azulEsc);
   const pele = G(peleCor ?? C3.pele);
   const cabelo = G(C3.cabelo);
@@ -89,7 +90,15 @@ export const Boneco3D: React.FC<{
       {/* tronco */}
       <Caixa p={[0, 1.42, 0]} s={[1.12, 1.05, 0.6]} cor={camisa} />
       {mae && <Caixa p={[0, 1.5, 0.31]} s={[0.5, 0.6, 0.04]} cor="#ffffff" contorno={0.02} />}
-      {!mae && <Caixa p={[0, 1.6, 0.31]} s={[0.22, 0.22, 0.04]} cor={C3.amarelo} contorno={0.02} rot={[0, 0, Math.PI / 4]} />}
+      {!mae && !casaco && <Caixa p={[0, 1.6, 0.31]} s={[0.22, 0.22, 0.04]} cor={C3.amarelo} contorno={0.02} rot={[0, 0, Math.PI / 4]} />}
+      {casaco && (
+        <group>
+          <Caixa p={[0, 1.98, 0]} s={[1.2, 0.26, 0.72]} cor="#e0364f" contorno={0.035} />
+          <Caixa p={[0.3, 1.55, 0.38]} s={[0.24, 0.7, 0.1]} cor="#e0364f" contorno={0.03} />
+          {[0, 1, 2].map((i) => <Caixa key={i} p={[0.3, 1.35 + i * 0.2, 0.44]} s={[0.25, 0.05, 0.02]} cor="#ffffff" contorno={0} sombra={false} />)}
+          {[1.2, 1.45, 1.7].map((y) => <Caixa key={y} p={[-0.05, y, 0.31]} s={[0.1, 0.1, 0.04]} cor="#7a4a2a" contorno={0.015} />)}
+        </group>
+      )}
       {/* braços (pivô no ombro) */}
       {([[-0.8, bracoE], [0.8, bracoD]] as const).map(([x, b], i) => (
         <group key={i} position={[x, 1.88, 0]} rotation={[b[0], 0, b[1]]}>
@@ -137,6 +146,20 @@ export const Boneco3D: React.FC<{
             <Caixa p={[0, 0.62, 0]} s={[1.18, 0.28, 1.08]} cor={bone} />
             <Caixa p={[0, 0.52, 0.72]} s={[1.0, 0.08, 0.52]} cor={bone} />
             <Caixa p={[0, 0.64, 0.55]} s={[0.2, 0.16, 0.03]} cor={C3.amarelo} contorno={0.015} />
+          </group>
+        )}
+        {coroa && (
+          <group position={[0, 0.85, 0]}>
+            <Caixa s={[1.0, 0.3, 0.9]} cor={C3.amarelo} brilho="#ffb000" forca={0.35} contorno={0.04} />
+            {[-0.38, 0, 0.38].map((x) => <Caixa key={x} p={[x, 0.28, 0]} s={[0.2, 0.3, 0.2]} cor={C3.amarelo} brilho="#ffb000" forca={0.35} contorno={0.035} />)}
+            <Caixa p={[0, 0.02, 0.46]} s={[0.18, 0.14, 0.03]} cor={C3.vermelho} contorno={0.015} />
+          </group>
+        )}
+        {disfarce && (
+          <group>
+            {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.24, 0.05, z + 0.04]} s={[0.34, 0.24, 0.05]} cor="#111111" contorno={0.02} />)}
+            <Caixa p={[0, 0.1, z + 0.04]} s={[0.16, 0.05, 0.04]} cor="#111111" contorno={0} />
+            <Caixa p={[0, -0.14, z + 0.03]} s={[0.4, 0.09, 0.05]} cor="#3a2414" contorno={0.015} />
           </group>
         )}
       </group>

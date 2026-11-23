@@ -1,0 +1,87 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "11",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 02 - Mae dona do Roblox",
+ "frames": [
+  {
+   "id": "fmwtmul0g-0",
+   "prompt": "",
+   "text": "Imagina só se a sua mãe fosse a dona do Roblox.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-1",
+   "prompt": "",
+   "text": "Regra número um: o servidor fecha às 10 da noite. Em ponto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-2",
+   "prompt": "",
+   "text": "Quer Robux? Primeiro come o brócolis. Todinho.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-3",
+   "prompt": "",
+   "text": "Não arrumou o quarto? Banido por 3 dias.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-4",
+   "prompt": "",
+   "text": "Ela lê o seu chat inteiro. Até o que você apagou.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-5",
+   "prompt": "",
+   "text": "Skin nova? Só a que ela escolheu: casaco e cachecol.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-6",
+   "prompt": "",
+   "text": "E toda semana tem atualização obrigatória: modo dever de casa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-7",
+   "prompt": "",
+   "text": "Aí você cria uma conta nova para fugir dela.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-8",
+   "prompt": "",
+   "text": "Só que a moderadora do jogo era ela o tempo todo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-9",
+   "prompt": "",
+   "text": "O único jeito de ganhar Robux? Lavar a louça sem ela pedir.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtmul0g-10",
+   "prompt": "",
+   "text": "E a sua mãe, qual seria a primeira regra? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-23T19:02:22.000Z"
+}
