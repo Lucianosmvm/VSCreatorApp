@@ -1,6 +1,6 @@
 # Refúgio 13
 
-**Ponto de retomada:** Dia 03 — A cisterna da estação, exportado com narração em 19/11/2026. Arquivo: `remotion/out/refugio-13-03.mp4`, 96 s, 1080x1920. Apuração do EP02: A = 0, B = 1 (cisterna). Cisterna recuperada com calha; barreira de tábuas na rua leste (tábuas acabaram); filtro de baldes e fogueira. Água segura até a noite do dia 4; comida acaba na noite do dia 3. Elenco sem mudança: Lia, Nilo, Eva, ULISSES e Velho Giu. Diretor `ferramentas/refugio-13/mundo/dia03.js`, filmar com `node ferramentas/refugio-13/filmar.mjs --dia 03`, composição `refugio-13-03` (`remotion/src/refugio/RefugioDia03.tsx`). Estado em `projetos/refugio-13-03/estado.json` e `mundo.json`. Publicação pendente. Próximo: Dia 04, dependendo da votação do EP03: A = mercado (comida, rua com infectados), B = rádio (trocar água por comida, revela o abrigo). Para o Dia 04, criar `dia04.js` no mesmo molde e `--dia 04`.
+**Ponto de retomada:** Dia 04 — O mercado, exportado com narração em 23/11/2026. Arquivo: `remotion/out/refugio-13-04.mp4`, 87 s, 1080x1920. Apuração do EP03: A = 1, B = 1 (empate); a liderança decidiu A (mercado) pela necessidade imediata, com o argumento do Velho Giu de que o rádio só traria mais gente e dobraria os problemas. Velho Giu atraiu os infectados com uma lata e uma mentira; Nilo forçou a porta lateral; Eva trouxe latas, arroz e sal; um infectado voltou e Nilo o derrubou com um carrinho (sem morte confirmada); Ulisses examinou todos, ninguém mordido. Comida para 3 dias; água filtrada acaba na noite do dia 4; céu fechando. Elenco sem mudança: Lia, Nilo, Eva, ULISSES e Velho Giu. Diretor `ferramentas/refugio-13/mundo/dia04.js`, filmar com `node ferramentas/refugio-13/filmar.mjs --dia 04`, composição `refugio-13-04` (`remotion/src/refugio/RefugioDia04.tsx`). Estado em `projetos/refugio-13-04/estado.json` e `mundo.json`; texto do YouTube em `projetos/refugio-13-04/youtube.md`. Publicação pendente. Próximo: Dia 05, dependendo da votação do EP04: A = esperar a chuva (todos seguros; se não chover, sem água), B = ir ao rio (água garantida; grupo dividido e margem com infectados). Para o Dia 05, criar `dia05.js` no mesmo molde, carregar no `mundo/index.html` e filmar com `--dia 05`.
 
 Uma estação de trem abandonada começa com três sobreviventes durante um surto zumbi; o elenco cresce pelas participações e acontecimentos confirmados. A câmera vê de cima um mapa em pixel art com a estação, o mercado e a oficina. De dia, acompanhe os personagens trabalhando. À noite, a iluminação da estação, o rádio e os ruídos da cidade criam tensão. Mostre os zumbis como silhuetas ou sprites distantes. Use o painel de dia, sobreviventes e suprimentos apenas quando a informação mudar ou explicar uma escolha.
 
@@ -44,3 +44,11 @@ B venceu (1 voto). Nilo, Eva e Lia recuperam a cisterna com as peças da oficina
 
 **A — Ir ao mercado buscar comida** (rua com infectados).  
 **B — Chamar no rádio e trocar água por comida** (revela onde fica o abrigo).
+
+
+## Dia 04 — O mercado ✅
+
+Empate 1 × 1 no EP03; a liderança escolheu A (mercado) pela comida, convencida pelo Velho Giu ("o rádio só dobra os problemas"). Nilo, Eva e Velho Giu vão; Lia e Ulisses guardam a estação. Velho Giu usa sua habilidade (mentira e barulho com uma lata) para tirar três infectados da porta; Nilo força a porta lateral; Eva escolhe latas, arroz e sal. Um infectado volta, e Nilo o derruba com um carrinho de compras; o grupo foge. Ulisses confirma que ninguém foi mordido. Comida para três dias; a água filtrada acaba hoje à noite e o céu fecha.
+
+**A — Esperar a chuva encher a cisterna** (todos seguros; se não chover, amanhã sem água).  
+**B — Ir ao rio buscar água** (água para vários dias; o grupo se divide e a margem tem infectados).

@@ -2,6 +2,8 @@ import type React from "react";
 import type { Timeline } from "../tipos";
 import { Refugio13Filmado } from "../refugio/RefugioFilmado";
 import { Refugio13Dia03 } from "../refugio/RefugioDia03";
+import { Refugio13Dia04 } from "../refugio/RefugioDia04";
+import tlRefugio04 from "../../public/videos/refugio-13-04/timeline.json";
 import tlRefugio03 from "../../public/videos/refugio-13-03/timeline.json";
 import tlRefugio02 from "../../public/videos/refugio-13-02/timeline.json";
 import { Refugio13Dia01 } from "./Refugio13Dia01";
@@ -34,6 +36,8 @@ import { RpgEp09 } from "../rpg/Ep09Ferreiro";
 import { RpgEp10 } from "../rpg/Ep10Peso";
 import { RpgEp11 } from "../rpg/Ep11Equipar";
 import { RpgEp12 } from "../rpg/Ep12Armadura";
+import { RpgEp13 } from "../rpg/Ep13Max";
+import tlRpg13 from "../../public/videos/rpg-code-13-dano-nunca-negativo-mwt5y2x5/timeline.json";
 import tlRpg12 from "../../public/videos/rpg-code-12-a-armadura-mwt55ovz/timeline.json";
 import tlRpg11 from "../../public/videos/rpg-code-11-equipar-a-espada-mwt4rmjz/timeline.json";
 import tlRpg10 from "../../public/videos/rpg-code-10-dano-e-peso-mwkkq4dv/timeline.json";
@@ -60,6 +64,7 @@ export type VideoRegistrado = {
 export const VIDEOS: VideoRegistrado[] = [
   { id: "refugio-13-02", timeline: tlRefugio02 as Timeline, componente: Refugio13Filmado },
   { id: "refugio-13-03", timeline: tlRefugio03 as Timeline, componente: Refugio13Dia03 },
+  { id: "refugio-13-04", timeline: tlRefugio04 as Timeline, componente: Refugio13Dia04 },
   {
     id: "refugio-13-01",
     timeline: {
@@ -94,6 +99,7 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "rpg-code-10", timeline: tlRpg10 as Timeline, componente: RpgEp10 },
   { id: "rpg-code-11", timeline: tlRpg11 as Timeline, componente: RpgEp11 },
   { id: "rpg-code-12", timeline: tlRpg12 as Timeline, componente: RpgEp12 },
+  { id: "rpg-code-13", timeline: tlRpg13 as Timeline, componente: RpgEp13 },
   { id: "encapsulamento-csharp", timeline: tlEncapsulamento as Timeline, componente: EncapsulamentoCSharp },
   { id: "encapsulamento-csharp-short", timeline: timelineShortEncapsulamento(tlEncapsulamento as Timeline), componente: EncapsulamentoShort },
   { id: "switch-roteador", timeline: tlSwitchRoteador as Timeline, componente: SwitchRoteador },

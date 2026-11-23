@@ -1,0 +1,111 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": 18,
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Refúgio 13 — Dia 04",
+ "frames": [
+  {
+   "id": "r13d4-0",
+   "text": "Deu empate: um voto no mercado, um no rádio. Então o abrigo decidiu.",
+   "narration": "Deu empate: um voto no mercado, um no rádio. Então o abrigo decidiu."
+  },
+  {
+   "id": "r13d4-1",
+   "text": "Velho Jiu bateu o pé: chamar no rádio só ia trazer mais gente, e dobrar os problemas.",
+   "narration": "Velho Jiu bateu o pé: chamar no rádio só ia trazer mais gente, e dobrar os problemas."
+  },
+  {
+   "id": "r13d4-2",
+   "text": "Nilo, Eva e Velho Jiu foram ao mercado. Lia e Ulisses ficaram guardando a estação.",
+   "narration": "Nilo, Eva e Velho Jiu foram ao mercado. Lia e Ulisses ficaram guardando a estação."
+  },
+  {
+   "id": "r13d4-3",
+   "text": "Eles seguiram pelo caminho dos trilhos, sem fazer barulho.",
+   "narration": "Eles seguiram pelo caminho dos trilhos, sem fazer barulho."
+  },
+  {
+   "id": "r13d4-4",
+   "text": "Na porta do mercado, três infectados bloqueavam a entrada.",
+   "narration": "Na porta do mercado, três infectados bloqueavam a entrada."
+  },
+  {
+   "id": "r13d4-5",
+   "text": "Velho Jiu jogou uma lata do outro lado da rua e gritou que tinha comida lá. Os infectados foram atrás do barulho.",
+   "narration": "Velho Jiu jogou uma lata do outro lado da rua e gritou que tinha comida lá. Os infectados foram atrás do barulho."
+  },
+  {
+   "id": "r13d4-6",
+   "text": "Nilo forçou a porta lateral com a alavanca da oficina.",
+   "narration": "Nilo forçou a porta lateral com a alavanca da oficina."
+  },
+  {
+   "id": "r13d4-7",
+   "text": "Eva sabia o que levar: latas, arroz e sal. Nada de peso à toa.",
+   "narration": "Eva sabia o que levar: latas, arroz e sal. Nada de peso à toa."
+  },
+  {
+   "id": "r13d4-8",
+   "text": "Mas um infectado não caiu na mentira e voltou para a porta.",
+   "narration": "Mas um infectado não caiu na mentira e voltou para a porta."
+  },
+  {
+   "id": "r13d4-9",
+   "text": "Nilo empurrou um carrinho de compras contra ele. O infectado caiu, e o grupo saiu correndo.",
+   "narration": "Nilo empurrou um carrinho de compras contra ele. O infectado caiu, e o grupo saiu correndo."
+  },
+  {
+   "id": "r13d4-10",
+   "text": "Eles voltaram pelos trilhos com as caixas nas costas.",
+   "narration": "Eles voltaram pelos trilhos com as caixas nas costas."
+  },
+  {
+   "id": "r13d4-11",
+   "text": "Na estação, Ulisses examinou um por um. Ninguém foi mordido.",
+   "narration": "Na estação, Ulisses examinou um por um. Ninguém foi mordido."
+  },
+  {
+   "id": "r13d4-12",
+   "text": "Eva contou as caixas: comida para três dias. A missão deu certo.",
+   "narration": "Eva contou as caixas: comida para três dias. A missão deu certo."
+  },
+  {
+   "id": "r13d4-13",
+   "text": "Só que a água filtrada acaba hoje à noite. E o céu começou a fechar.",
+   "narration": "Só que a água filtrada acaba hoje à noite. E o céu começou a fechar."
+  },
+  {
+   "id": "r13d4-14",
+   "text": "A: esperar a chuva encher a cisterna. Todos ficam seguros, mas se não chover, amanhã não tem água.",
+   "narration": "A: esperar a chuva encher a cisterna. Todos ficam seguros, mas se não chover, amanhã não tem água."
+  },
+  {
+   "id": "r13d4-15",
+   "text": "B: ir ao rio buscar água. É água para vários dias, mas o grupo se divide e a margem tem infectados.",
+   "narration": "B: ir ao rio buscar água. É água para vários dias, mas o grupo se divide e a margem tem infectados."
+  },
+  {
+   "id": "r13d4-16",
+   "text": "O que o abrigo faz? Comente A para esperar a chuva ou B para ir ao rio.",
+   "narration": "O que o abrigo faz? Comente A para esperar a chuva ou B para ir ao rio."
+  },
+  {
+   "id": "r13d4-17",
+   "text": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar o abrigo.",
+   "narration": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar o abrigo."
+  }
+ ],
+ "salvoEm": "2026-11-23T11:38:15.000Z"
+}

@@ -27,7 +27,7 @@ const de = (f: (i: number) => Partial<LinhaRpg> | null): LinhaRpg[] =>
     return r === null ? [] : [{ txt, ...r }];
   });
 
-type Golpe = { t: number; dano: number; cor?: string };
+export type Golpe = { t: number; dano: number; cor?: string; txt?: string };
 
 // Barra de vida em pixel art (coordenadas da grade).
 const Barra: React.FC<{ x: number; y: number; vida: number; max: number; rotulo: string }> = ({ x, y, vida, max, rotulo }) => (
@@ -39,7 +39,7 @@ const Barra: React.FC<{ x: number; y: number; vida: number; max: number; rotulo:
 );
 
 // Batalha: Artur com espada e armadura à esquerda, slime à direita; cada golpe tira vida do Artur.
-const Batalha: React.FC<{ armadura?: number; golpes?: Golpe[]; vida0?: number }> = ({ armadura, golpes = [], vida0 = 100 }) => {
+export const Batalha: React.FC<{ armadura?: number; golpes?: Golpe[]; vida0?: number; def?: number; corArmadura?: string }> = ({ armadura, golpes = [], vida0 = 100, def = 3, corArmadura = "#8b5a2b" }) => {
   const { t } = useT();
   const vida = golpes.reduce((v, g) => v - (t >= g.t ? g.dano : 0), vida0);
   const atual = golpes.filter((g) => t >= g.t && t < g.t + 0.9).pop();
@@ -51,15 +51,15 @@ const Batalha: React.FC<{ armadura?: number; golpes?: Golpe[]; vida0?: number }>
       <g transform="translate(46 48) rotate(-20)"><Espada x={0} y={0} madeira /></g>
       {armadura !== undefined && t >= armadura && (
         <g opacity={rampa(t, armadura, armadura + 0.3)}>
-          <rect x={36.5} y={56} width={7} height={5} fill="#8b5a2b" stroke="#3a2418" strokeWidth={0.4} />
-          <Caixa x={20} y={22} w={22} h={9}><TextoPixel x={31} y={28.4} txt="DEF 3" tam={3.4} cor={RPG.azul} meio /></Caixa>
+          <rect x={36.5} y={56} width={7} height={5} fill={corArmadura} stroke="#3a2418" strokeWidth={0.4} />
+          <Caixa x={18} y={22} w={27} h={9}><TextoPixel x={31.5} y={28.4} txt={`DEF ${def}`} tam={3.4} cor={RPG.azul} meio /></Caixa>
         </g>
       )}
       <g transform="translate(78 52) scale(1.4)"><Slime x={0} y={0} /></g>
       <Caixa x={79} y={22} w={22} h={9}><TextoPixel x={90} y={28.4} txt="ATQ 8" tam={3.4} cor={RPG.vermelho} meio /></Caixa>
       <Barra x={4} y={4} vida={vida} max={100} rotulo="ARTUR" />
       {golpes.map((g, i) => (t >= g.t && t < g.t + 0.9 ? (
-        <TextoPixel key={i} x={40} y={46 - salto(g) * 10} txt={`-${g.dano}`} tam={7} cor={g.cor ?? RPG.vermelho} meio />
+        <TextoPixel key={i} x={40} y={46 - salto(g) * 10} txt={g.txt ?? `-${g.dano}`} tam={7} cor={g.cor ?? RPG.vermelho} meio />
       ) : null))}
     </>
   );

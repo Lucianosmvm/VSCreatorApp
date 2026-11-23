@@ -1,0 +1,87 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "11",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "RPG Code 13 - Dano nunca negativo",
+ "frames": [
+  {
+   "id": "fmwt5y2x5-0",
+   "prompt": "",
+   "text": "No último episódio, a armadura reduziu o dano. Mas e se a defesa for maior que o ataque?",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-1",
+   "prompt": "",
+   "text": "O Artur troca para uma armadura de ferro, com 10 de defesa. O slime ainda ataca com 8.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-2",
+   "prompt": "",
+   "text": "8 menos 10 dá menos 2. Um dano negativo!",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-3",
+   "prompt": "",
+   "text": "E vida menos menos 2 vira vida mais 2. O ataque do slime cura o Artur!",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-4",
+   "prompt": "",
+   "text": "Isso é um bug. O dano nunca pode ficar abaixo de zero.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-5",
+   "prompt": "",
+   "text": "Dá para resolver com if: se o dano for menor que zero, o dano vira zero.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-6",
+   "prompt": "",
+   "text": "Mas a Unity já tem um método pronto para isso: o Mathf ponto Max.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-7",
+   "prompt": "",
+   "text": "O Max recebe dois números e devolve o maior. Entre menos 2 e 0, o maior é 0.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-8",
+   "prompt": "",
+   "text": "E se o dano for 5, o Max entre 5 e 0 devolve 5. O dano normal continua igual.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-9",
+   "prompt": "",
+   "text": "Métodos prontos economizam código. O Mathf também tem Min, Abs, Round e muitos outros.",
+   "narration": ""
+  },
+  {
+   "id": "fmwt5y2x5-10",
+   "prompt": "",
+   "text": "Agora o Artur está protegido. Mas um slime bloqueia a ponte. Como atacar ele? Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-23T11:09:12.000Z"
+}

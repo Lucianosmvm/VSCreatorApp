@@ -1,0 +1,252 @@
+{
+ "episodio": 4,
+ "titulo": "O mercado",
+ "composicao": "refugio-13-04",
+ "status": "narrado",
+ "apuracaoAnterior": {
+  "A": 1,
+  "B": 1,
+  "vencedora": "A",
+  "empate": true,
+  "decisao": "Empate 1 × 1. A liderança do abrigo decidiu pela necessidade imediata (a comida acabou na noite do dia 3) e escolheu A, depois que o Velho Giu argumentou que chamar no rádio só traria mais gente e dobraria os problemas.",
+  "fonte": "Informado pelo usuário em 23/11/2026: um voto em B e um voto em A do Velho Giu."
+ },
+ "novos": [],
+ "narracao": {
+  "status": "concluida",
+  "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+  "modelo": "eleven_v4",
+  "velocidade": "0.92",
+  "projeto": "refugio-13-04-voz"
+ },
+ "opcoes": {
+  "A": {
+   "acao": "Esperar a chuva na cisterna",
+   "beneficio": "Todos ficam seguros na estação",
+   "custo": "Se não chover, amanhã não tem água"
+  },
+  "B": {
+   "acao": "Ir ao rio buscar água",
+   "beneficio": "Água garantida para vários dias",
+   "custo": "O grupo se divide e a margem tem infectados"
+  }
+ },
+ "opcoesTela": [
+  {
+   "letra": "A",
+   "nome": "CHUVA",
+   "texto": "Todos seguros.\nSe não chover, seca.",
+   "cor": "#ffd23f"
+  },
+  {
+   "letra": "B",
+   "nome": "RIO",
+   "texto": "Água garantida.\nGrupo dividido.",
+   "cor": "#8fe6d3"
+  }
+ ],
+ "cenas": [
+  {
+   "acao": "resultado",
+   "dur": 5.04,
+   "titulo": "EMPATE: A 1 · B 1",
+   "destaque": "O ABRIGO DECIDIU.",
+   "fala": "Deu empate: um voto no mercado, um no rádio. Então o abrigo decidiu.",
+   "audio": "videos/refugio-13-04-voz/cena_000.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "giu",
+   "dur": 5.44,
+   "titulo": "VELHO GIU BATEU O PÉ",
+   "destaque": "RÁDIO SÓ DOBRA OS PROBLEMAS.",
+   "fala": "Velho Jiu bateu o pé: chamar no rádio só ia trazer mais gente, e dobrar os problemas.",
+   "audio": "videos/refugio-13-04-voz/cena_001.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "equipe",
+   "dur": 5.28,
+   "titulo": "NILO, EVA E VELHO GIU",
+   "destaque": "VÃO AO MERCADO.",
+   "fala": "Nilo, Eva e Velho Jiu foram ao mercado. Lia e Ulisses ficaram guardando a estação.",
+   "audio": "videos/refugio-13-04-voz/cena_002.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "saida",
+   "dur": 3.6,
+   "titulo": "PELO CAMINHO DOS TRILHOS",
+   "destaque": "SEM FAZER BARULHO.",
+   "fala": "Eles seguiram pelo caminho dos trilhos, sem fazer barulho.",
+   "audio": "videos/refugio-13-04-voz/cena_003.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "ameaca",
+   "dur": 3.52,
+   "titulo": "NA PORTA DO MERCADO",
+   "destaque": "TRÊS INFECTADOS.",
+   "fala": "Na porta do mercado, três infectados bloqueavam a entrada.",
+   "clima": "ameaca",
+   "audio": "videos/refugio-13-04-voz/cena_004.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "distracao",
+   "dur": 6.32,
+   "titulo": "VELHO GIU INVENTOU UM BARULHO",
+   "destaque": "E ELES FORAM ATRÁS.",
+   "fala": "Velho Jiu jogou uma lata do outro lado da rua e gritou que tinha comida lá. Os infectados foram atrás do barulho.",
+   "audio": "videos/refugio-13-04-voz/cena_005.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "entrada",
+   "dur": 3.8,
+   "titulo": "NILO FORÇOU A PORTA",
+   "destaque": "COM A ALAVANCA DA OFICINA.",
+   "fala": "Nilo forçou a porta lateral com a alavanca da oficina.",
+   "audio": "videos/refugio-13-04-voz/cena_006.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "saque",
+   "dur": 5.2,
+   "titulo": "EVA ESCOLHEU RÁPIDO",
+   "destaque": "LATAS, ARROZ E SAL.",
+   "fala": "Eva sabia o que levar: latas, arroz e sal. Nada de peso à toa.",
+   "audio": "videos/refugio-13-04-voz/cena_007.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "volta",
+   "dur": 3.6,
+   "titulo": "UM DELES VOLTOU",
+   "destaque": "NÃO CAIU NA MENTIRA.",
+   "fala": "Mas um infectado não caiu na mentira e voltou para a porta.",
+   "clima": "ameaca",
+   "audio": "videos/refugio-13-04-voz/cena_008.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "golpe",
+   "dur": 5.28,
+   "titulo": "NILO EMPURROU O CARRINHO",
+   "destaque": "E ELE CAIU.",
+   "fala": "Nilo empurrou um carrinho de compras contra ele. O infectado caiu, e o grupo saiu correndo.",
+   "clima": "ameaca",
+   "audio": "videos/refugio-13-04-voz/cena_009.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "fuga",
+   "dur": 3.6,
+   "titulo": "DE VOLTA PELOS TRILHOS",
+   "destaque": "COM AS CAIXAS NAS COSTAS.",
+   "fala": "Eles voltaram pelos trilhos com as caixas nas costas.",
+   "audio": "videos/refugio-13-04-voz/cena_010.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "exame",
+   "dur": 4.08,
+   "titulo": "ULISSES EXAMINOU TODOS",
+   "destaque": "NINGUÉM FOI MORDIDO.",
+   "fala": "Na estação, Ulisses examinou um por um. Ninguém foi mordido.",
+   "audio": "videos/refugio-13-04-voz/cena_011.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "reservas",
+   "dur": 4.48,
+   "titulo": "COMIDA PARA TRÊS DIAS",
+   "destaque": "A MISSÃO DEU CERTO.",
+   "fala": "Eva contou as caixas: comida para três dias. A missão deu certo.",
+   "clima": "vitoria",
+   "audio": "videos/refugio-13-04-voz/cena_012.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "agua",
+   "dur": 4.32,
+   "titulo": "MAS A ÁGUA FILTRADA",
+   "destaque": "ACABA HOJE À NOITE.",
+   "fala": "Só que a água filtrada acaba hoje à noite. E o céu começou a fechar.",
+   "audio": "videos/refugio-13-04-voz/cena_013.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "opcao-a",
+   "dur": 6.32,
+   "titulo": "A · ESPERAR A CHUVA",
+   "destaque": "TODOS SEGUROS. SE NÃO CHOVER, SECA.",
+   "fala": "A: esperar a chuva encher a cisterna. Todos ficam seguros, mas se não chover, amanhã não tem água.",
+   "audio": "videos/refugio-13-04-voz/cena_014.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "opcao-b",
+   "dur": 6.24,
+   "titulo": "B · IR AO RIO",
+   "destaque": "ÁGUA GARANTIDA. GRUPO DIVIDIDO.",
+   "fala": "B: ir ao rio buscar água. É água para vários dias, mas o grupo se divide e a margem tem infectados.",
+   "audio": "videos/refugio-13-04-voz/cena_015.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "votacao",
+   "dur": 4.88,
+   "titulo": "O QUE O ABRIGO FAZ?",
+   "destaque": "A: CHUVA | B: RIO",
+   "fala": "O que o abrigo faz? Comente A para esperar a chuva ou B para ir ao rio.",
+   "audio": "videos/refugio-13-04-voz/cena_016.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "convite",
+   "dur": 6.32,
+   "titulo": "SEU NOME PODE ESTAR AQUI",
+   "destaque": "APELIDO + HABILIDADE + VOTO",
+   "fala": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar o abrigo.",
+   "audio": "videos/refugio-13-04-voz/cena_017.wav",
+   "tempos": [
+    0
+   ]
+  }
+ ]
+}
