@@ -1,0 +1,111 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "15",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 03 - Pai 10 mil Robux",
+ "frames": [
+  {
+   "id": "fmwtnfzd3-0",
+   "prompt": "",
+   "text": "Imagina só se o seu pai te desse 10 mil Robux.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-1",
+   "prompt": "",
+   "text": "Só tem um detalhe: ele nunca jogou Roblox na vida.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-2",
+   "prompt": "",
+   "text": "Primeiro, ele quer saber se Robux rende na poupança.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-3",
+   "prompt": "",
+   "text": "Depois, ele lê os termos de uso. Todos. Em voz alta.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-4",
+   "prompt": "",
+   "text": "Aí ele cria a própria conta, só pra te ajudar.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-5",
+   "prompt": "",
+   "text": "Em 5 minutos, ele já adicionou todos os seus amigos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-6",
+   "prompt": "",
+   "text": "E mandou no grupo: bom dia, grupo! Com figurinha de flor.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-7",
+   "prompt": "",
+   "text": "No jogo de luta, ele fica parado no meio, de braços cruzados.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-8",
+   "prompt": "",
+   "text": "Mas aí ele descobre o modo churrasco. E não sai mais.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-9",
+   "prompt": "",
+   "text": "E gasta os 10 mil Robux numa churrasqueira virtual.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-10",
+   "prompt": "",
+   "text": "Você fica com zero. Ele, com a melhor churrasqueira do servidor.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-11",
+   "prompt": "",
+   "text": "Agora ele é o jogador mais famoso do jogo: o tiozão do churrasco.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-12",
+   "prompt": "",
+   "text": "E toda noite é ele quem pergunta: filho, bora jogar?",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-13",
+   "prompt": "",
+   "text": "E a mãe? Só quer saber quem vai lavar a louça.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtnfzd3-14",
+   "prompt": "",
+   "text": "E o seu pai, gastaria os Robux em quê? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-23T19:19:00.000Z"
+}
