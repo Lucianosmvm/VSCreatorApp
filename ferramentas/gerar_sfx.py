@@ -12,6 +12,9 @@ Saída: remotion/public/sfx/*.wav (44,1 kHz, mono, 16 bits)
   erro      "bzzt" grave (✗, bug, exceção)
   whoosh    abertura de cena com título
   contagem  tic-tic subindo (cartão de número contando)
+  impacto   pancada grave (chinelo, pouso)
+  aura      brilho subindo (poder ativado)
+  musica    batida curta em loop para fundo de gancho
 """
 
 import os
@@ -117,6 +120,51 @@ def contagem():
     return total
 
 
+def impacto():
+    """pancada grave com estalo (chinelo batendo, pouso)"""
+    x = t(0.7)
+    freq = 140 * np.exp(-x * 9) + 42
+    fase = 2 * np.pi * np.cumsum(freq) / TAXA
+    corpo = np.sin(fase) * env(len(x), 0.001, 6)
+    estalo = rng.normal(0, 1, len(x)) * env(len(x), 0.0005, 60)
+    return corpo + estalo * 0.6
+
+
+def aura():
+    """brilho subindo (poder ativado)"""
+    x = t(0.9)
+    freq = 300 + 1500 * (x / x[-1]) ** 2
+    fase = 2 * np.pi * np.cumsum(freq) / TAXA
+    tremolo = 0.75 + 0.25 * np.sin(2 * np.pi * 18 * x)
+    forma = np.sin(np.pi * x / x[-1]) ** 0.6
+    return (np.sin(fase) + 0.35 * np.sin(2 * fase)) * tremolo * forma
+
+
+def musica():
+    """batida curta em loop (2 compassos, 140 bpm) para fundo de gancho"""
+    bpm = 140
+    tempo = 60 / bpm
+    total = np.zeros(int(TAXA * tempo * 8))
+    for k in range(8):
+        i = int(k * tempo * TAXA)
+        if k % 2 == 0:   # bumbo
+            b = impacto()[: int(TAXA * 0.3)] * 0.7
+        else:            # caixa
+            xx = t(0.18)
+            b = rng.normal(0, 1, len(xx)) * env(len(xx), 0.001, 25) * 0.5
+        total[i:i + len(b)] += b[: len(total) - i]
+        h = clique(dur=0.03, tom=7000) * 0.25   # chimbal no contratempo
+        j = int((k + 0.5) * tempo * TAXA)
+        total[j:j + len(h)] += h[: len(total) - j]
+    notas = [220, 220, 261.6, 196]
+    xx = t(tempo * 2)
+    for k, f in enumerate(notas):
+        i = int(k * tempo * 2 * TAXA)
+        baixo = np.sign(np.sin(2 * np.pi * f / 2 * xx)) * env(len(xx), 0.005, 3) * 0.18
+        total[i:i + len(baixo)] += baixo[: len(total) - i]
+    return total
+
+
 if __name__ == "__main__":
     salvar("tecla", tecla(), 0.55)
     salvar("pop", pop(), 0.7)
@@ -124,3 +172,6 @@ if __name__ == "__main__":
     salvar("erro", erro(), 0.55)
     salvar("whoosh", whoosh(), 0.6)
     salvar("contagem", contagem(), 0.5)
+    salvar("impacto", impacto(), 0.8)
+    salvar("aura", aura(), 0.5)
+    salvar("musica", musica(), 0.6)

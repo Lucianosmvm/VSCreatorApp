@@ -1,0 +1,93 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "12",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 01 - Mae RPG",
+ "frames": [
+  {
+   "id": "fmwtkctmd-0",
+   "prompt": "",
+   "text": "Imagina só se a sua mãe fosse uma personagem de RPG.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-1",
+   "prompt": "",
+   "text": "Para começar, ela já nasce no nível máximo: nível 99.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-2",
+   "prompt": "",
+   "text": "Habilidade número um: encontrar qualquer coisa que você jura que sumiu.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-3",
+   "prompt": "",
+   "text": "Habilidade dois: o olhar que paralisa à distância.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-4",
+   "prompt": "",
+   "text": "E a arma lendária, que nunca erra o alvo: o chinelo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-5",
+   "prompt": "",
+   "text": "Alcance infinito. Faz curva. E volta para a mão dela.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-6",
+   "prompt": "",
+   "text": "A comida dela recupera cem por cento da vida. Até de quem está doente.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-7",
+   "prompt": "",
+   "text": "Mas cuidado com a frase de ativação: a gente conversa em casa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-8",
+   "prompt": "",
+   "text": "Isso inicia uma batalha que ninguém nunca venceu.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-9",
+   "prompt": "",
+   "text": "O único jeito de sobreviver? Lavar a louça sem ela pedir.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-10",
+   "prompt": "",
+   "text": "Isso dá bônus de amor, e ainda libera o videogame por mais uma hora.",
+   "narration": ""
+  },
+  {
+   "id": "fmwtkctmd-11",
+   "prompt": "",
+   "text": "E a sua mãe, qual é a habilidade secreta dela? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-23T17:52:34.000Z"
+}

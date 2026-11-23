@@ -4,6 +4,7 @@ import { TIMELINE_VAZIA, type Timeline } from "./tipos";
 import { VIDEOS } from "./videos";
 import { PIXELANDIA } from "./pixelandia/registro";
 import { PixelandiaVideo } from "./pixelandia/Pixelandia";
+import { ImaginaSoMae3D, MAE_3D_DUR } from "./imaginaso/MaeRpg3D";
 
 const metadados = ({ props }: { props: Timeline }) => ({
   fps: props.fps,
@@ -26,6 +27,8 @@ export const Root: React.FC = () => (
     durationInFrames={90}
     calculateMetadata={metadados}
   />
+  <Composition id="imagina-so-01-3d" component={ImaginaSoMae3D} width={1080} height={1920} fps={30}
+    durationInFrames={Math.round(MAE_3D_DUR * 30)} />
   {VIDEOS.map((v) => (
     <Composition
       key={v.id}

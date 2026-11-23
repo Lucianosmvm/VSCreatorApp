@@ -3,6 +3,9 @@ import type { Timeline } from "../tipos";
 import { Refugio13Filmado } from "../refugio/RefugioFilmado";
 import { Refugio13Dia03 } from "../refugio/RefugioDia03";
 import { Refugio13Dia04 } from "../refugio/RefugioDia04";
+import { ImaginaSoMae } from "../imaginaso/MaeRpg";
+import { ImaginaSoMaeBloco } from "../imaginaso/MaeBloco";
+import tlImaginaMae from "../../public/videos/imagina-so-01-mae-rpg-mwtkctmd/timeline.json";
 import tlRefugio04 from "../../public/videos/refugio-13-04/timeline.json";
 import tlRefugio03 from "../../public/videos/refugio-13-03/timeline.json";
 import tlRefugio02 from "../../public/videos/refugio-13-02/timeline.json";
@@ -65,6 +68,8 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "refugio-13-02", timeline: tlRefugio02 as Timeline, componente: Refugio13Filmado },
   { id: "refugio-13-03", timeline: tlRefugio03 as Timeline, componente: Refugio13Dia03 },
   { id: "refugio-13-04", timeline: tlRefugio04 as Timeline, componente: Refugio13Dia04 },
+  { id: "imagina-so-01", timeline: tlImaginaMae as Timeline, componente: ImaginaSoMae },
+  { id: "imagina-so-01-bloco", timeline: tlImaginaMae as Timeline, componente: ImaginaSoMaeBloco },
   {
     id: "refugio-13-01",
     timeline: {
