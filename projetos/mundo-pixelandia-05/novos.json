@@ -1,0 +1,44 @@
+[
+ {
+  "nome": "Abraão",
+  "prof": "bombeiro",
+  "sexo": "m",
+  "custom": ""
+ },
+ {
+  "nome": "Pietro",
+  "prof": "policial",
+  "sexo": "m",
+  "custom": "Guarda noturno"
+ },
+ {
+  "nome": "João Pedro",
+  "prof": "policial",
+  "sexo": "m",
+  "custom": "Policial do BOPE"
+ },
+ {
+  "nome": "Davi",
+  "prof": "cacador",
+  "sexo": "m",
+  "custom": "Assassino furtivo"
+ },
+ {
+  "nome": "Vicente",
+  "prof": "minerador",
+  "sexo": "m",
+  "custom": "Explorador de cavernas"
+ },
+ {
+  "nome": "Brites",
+  "prof": "comerciante",
+  "sexo": "m",
+  "custom": "Empresário"
+ },
+ {
+  "nome": "Laura",
+  "prof": "jardineiro",
+  "sexo": "f",
+  "custom": "Florista"
+ }
+]

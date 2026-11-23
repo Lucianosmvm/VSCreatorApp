@@ -1,10 +1,15 @@
 # Estilo "Mundo Pixelândia"
 
 Shorts 9:16 da vila pixel art do jogo **Mundo Pixelândia** (`D:/Nova pasta/mundo-pixelandia`).
-Não usa narração nem mascote: as cenas são filmadas do próprio jogo e o Remotion põe
+Usa a voz do usuário desde o #3, sem mascote: as cenas são filmadas do próprio jogo e o Remotion põe
 legendas de impacto por cima (frase branca com contorno e faixa amarela, faixa vermelha
 no convite final), clima por cena (mistério, vitória, ameaça), selo `#N` e efeitos sonoros.
 Não mexe nos estilos Dev Sobrevivente nem RPG Code.
+
+**Direção principal:** evoluir o mundo com novas criações, construções, recursos, serviços
+e eventos. A narrativa conecta a evolução do jogo. Após concluir o caso do Astro, voltar
+aos avanços concretos da vila, com participação dos moradores e decisões do público.
+Não reduzir a série à contação de histórias nem prolongar mistérios como foco permanente.
 
 ## Peças
 
@@ -24,6 +29,12 @@ cd remotion && node node_modules/@remotion/cli/remotion-cli.js render src/index.
 ```
 
 ## Continuação (próximo episódio)
+
+Antes de cadastrar nomes, consulte `docs/pixelandia-moradores.md` e
+`docs/pixelandia-moradores.json`. Compare nome e profissão com o estado salvo:
+não recadastre um morador existente, e mantenha separados homônimos com profissões
+ou perfis distintos. Atualize o cadastro quando incluir moradores. As inclusões do
+remake do #4 estão marcadas como publicação pendente.
 
 O usuário passa os novos inscritos (nome + profissão). Salvar em `novos.json`:
 
@@ -70,7 +81,16 @@ Depois filmar e renderizar. Exemplo: `projetos/mundo-pixelandia-03/plano.json`.
 
 ## Extras do plano
 
+- **Setas apenas para os novos moradores do episódio**, para que se reconheçam na vila.
+  Moradores antigos não recebem seta, mesmo quando citados ou acompanhados pela câmera.
+  Consulte `novos.json` e o cadastro; diferencie homônimos pela profissão/ID.
 - `seguir: "Nome"` (ou id): câmera acompanha o morador; nome repetido → o mais novo.
+- `focos: [{t: 0, nome: "Julia Marina"}, {t: 4.5, nome: "ArthurMendes_"}]`:
+  define quem a seta aponta em cada trecho. O filmador registra a posição real da
+  cabeça em `rastreioFoco`, quadro a quadro. Use `nome: null` para ocultar a seta
+  e `focos: []` para uma cena inteira sem destaque individual. Não confundir o
+  alvo da câmera (`seguir`) com o alvo da seta. Na prévia, tempos estimados;
+  depois da narração, alinhar as trocas com os nomes no áudio real.
 - `estatua: "Nome"`: ergue uma estátua pronta perto da praça e mira a câmera nela.
 - `hora: 23.5`: madrugada (as cenas seguintes continuam à noite).
 - `durante: {t, js}`: efeito no meio da cena (fogos `firework(x,y)`, discurso `work(9,'speech',...)`).

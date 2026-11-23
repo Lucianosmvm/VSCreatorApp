@@ -1,0 +1,62 @@
+[
+  {
+    "nome": "Thiago",
+    "prof": "comerciante",
+    "sexo": "m",
+    "custom": "Fotógrafo"
+  },
+  {
+    "nome": "Livinha",
+    "prof": "cacador",
+    "sexo": "f",
+    "custom": "Caçadora de aranhas"
+  },
+  {
+    "nome": "Buzz",
+    "prof": "pedreiro",
+    "sexo": "m",
+    "custom": "Arquiteto"
+  },
+  {
+    "nome": "Molossi",
+    "prof": "pescador",
+    "sexo": "m",
+    "custom": ""
+  },
+  {
+    "nome": "Pedro",
+    "prof": "policial",
+    "sexo": "m",
+    "custom": "Policial do BOPE"
+  },
+  {
+    "nome": "Jefferson",
+    "prof": "marinheiro",
+    "sexo": "m",
+    "custom": "Almirante"
+  },
+  {
+    "nome": "Arthur",
+    "prof": "professor",
+    "sexo": "m",
+    "custom": "Biólogo"
+  },
+  {
+    "nome": "Durplejoga",
+    "prof": "cacador",
+    "sexo": "m",
+    "custom": "Aventureiro"
+  },
+  {
+    "nome": "Julia Marina",
+    "prof": "jardineiro",
+    "sexo": "f",
+    "custom": "Gestora Ambiental"
+  },
+  {
+    "nome": "ArthurMendes_",
+    "prof": "custom",
+    "sexo": "m",
+    "custom": "Sem profissão"
+  }
+]

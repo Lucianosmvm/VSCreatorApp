@@ -1,0 +1,105 @@
+[
+  {
+    "cena": "abertura",
+    "linhas": [
+      "A entrada entre as raízes…\nVICTOR CHEGOU."
+    ]
+  },
+  {
+    "cena": "reconhece",
+    "linhas": [
+      "Victor reconheceu na hora:\nA MINA ANTIGA DA VILA!"
+    ]
+  },
+  {
+    "cena": "vicente",
+    "linhas": [
+      "Vicente, explorador de cavernas!\nO AMIGO DO VICTOR CHEGOU. 🔦"
+    ]
+  },
+  {
+    "cena": "abraao",
+    "linhas": [
+      "Abraão, bombeiro! 🧯\nSEGURANÇA PRIMEIRO."
+    ]
+  },
+  {
+    "cena": "joao-pedro",
+    "linhas": [
+      "João Pedro, policial do BOPE!\nAGORA SÃO QUATRO PEDROS."
+    ]
+  },
+  {
+    "cena": "davi",
+    "linhas": [
+      "Davi, assassino furtivo 🥷\nNINGUÉM VIU ELE CHEGAR."
+    ]
+  },
+  {
+    "cena": "dentro",
+    "linhas": [
+      "Vicente acendeu a lanterna.\nO TRIO ENTROU NA MINA."
+    ]
+  },
+  {
+    "cena": "pedras",
+    "linhas": [
+      "Lá dentro, nada assustador:\nPEDRA BOA E FERRAMENTAS ANTIGAS!"
+    ]
+  },
+  {
+    "cena": "encerrado",
+    "linhas": [
+      "Caso do Astro: ENCERRADO! ✅\nA LUZ ERA O DRONE. A ENTRADA, A MINA."
+    ]
+  },
+  {
+    "cena": "pietro",
+    "linhas": [
+      "Pietro, guarda noturno 🌙\nO LAGO GANHOU PARCEIRO."
+    ]
+  },
+  {
+    "cena": "brites",
+    "linhas": [
+      "Brites, empresário 💼\nQUER INVESTIR NA PEDRA DA MINA."
+    ]
+  },
+  {
+    "cena": "laura",
+    "linhas": [
+      "Laura, da floricultura 🌷\nFLORES NOVAS PARA A PRAÇA."
+    ]
+  },
+  {
+    "cena": "arthurs",
+    "linhas": [
+      "ArthurMendes_, o biólogo do #4 🔬\nVAI ESTUDAR AS PLANTAS DA MINA."
+    ]
+  },
+  {
+    "cena": "meta",
+    "linhas": [
+      "51 moradores! 🎉\nA META DA ESTÁTUA FOI BATIDA!"
+    ]
+  },
+  {
+    "cena": "destino",
+    "linhas": [
+      "A pedra da mina tem destino:\nA PRÓXIMA ESTÁTUA DA PRAÇA. 🗿"
+    ]
+  },
+  {
+    "cena": "convite",
+    "linhas": [
+      "De quem vai ser a estátua?\nVOTE NOS COMENTÁRIOS!",
+      "Comente APELIDO + PROFISSÃO\nCURTA E SE INSCREVA."
+    ]
+  },
+  {
+    "cena": "gancho",
+    "linhas": [
+      "No #6, a obra começa.\nDE QUEM SERÁ A ESTÁTUA?"
+    ]
+  }
+]

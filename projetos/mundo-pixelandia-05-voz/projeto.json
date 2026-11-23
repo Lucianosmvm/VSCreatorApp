@@ -1,0 +1,100 @@
+{
+ "nome": "Mundo Pixelândia #5 (narração)",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "salvoEm": "2026-11-19T10:28:19.000Z",
+ "frames": [
+  {
+   "id": "px05-0",
+   "text": "Victor chegou à clareira para ver a entrada de pedra.",
+   "narration": "Victor chegou à clareira para ver a entrada de pedra."
+  },
+  {
+   "id": "px05-1",
+   "text": "Victor reconheceu na hora: era a entrada da mina antiga, fechada desde a fundação da vila.",
+   "narration": "Victor reconheceu na hora: era a entrada da mina antiga, fechada desde a fundação da vila."
+  },
+  {
+   "id": "px05-2",
+   "text": "Victor não veio sozinho. Vicente, explorador de cavernas, é amigo dele e veio entrar junto.",
+   "narration": "Victor não veio sozinho. Vicente, explorador de cavernas, é amigo dele e veio entrar junto."
+  },
+  {
+   "id": "px05-3",
+   "text": "Abraão, bombeiro, conferiu a entrada com o José Alvaro antes de todo mundo. Segurança primeiro.",
+   "narration": "Abraão, bombeiro, conferiu a entrada com o José Alvaro antes de todo mundo. Segurança primeiro."
+  },
+  {
+   "id": "px05-4",
+   "text": "João Pedro, policial do Bope, reforçou a equipe do Jean. Agora a vila tem quatro Pedros!",
+   "narration": "João Pedro, policial do Bope, reforçou a equipe do Jean. Agora a vila tem quatro Pedros!"
+  },
+  {
+   "id": "px05-5",
+   "text": "E o Davi, assassino furtivo? Ninguém viu ele chegar. Quando perceberam, já estava na equipe.",
+   "narration": "E o Davi, assassino furtivo? Ninguém viu ele chegar. Quando perceberam, já estava na equipe."
+  },
+  {
+   "id": "px05-6",
+   "text": "Vicente acendeu a lanterna, e o trio entrou devagar pela boca da mina.",
+   "narration": "Vicente acendeu a lanterna, e o trio entrou devagar pela boca da mina."
+  },
+  {
+   "id": "px05-7",
+   "text": "Lá dentro não havia nada assustador: só pedra de ótima qualidade e as ferramentas dos fundadores.",
+   "narration": "Lá dentro não havia nada assustador: só pedra de ótima qualidade e as ferramentas dos fundadores."
+  },
+  {
+   "id": "px05-8",
+   "text": "O caso do Astro estava encerrado. A luz era o drone, e a entrada era a velha mina da vila.",
+   "narration": "O caso do Astro estava encerrado. A luz era o drone, e a entrada era a velha mina da vila."
+  },
+  {
+   "id": "px05-9",
+   "text": "Na volta, Pietro, guarda noturno, assumiu a vigia da mina com o Lago. Finalmente, companhia na madrugada!",
+   "narration": "Na volta, Pietro, guarda noturno, assumiu a vigia da mina com o Lago. Finalmente, companhia na madrugada!"
+  },
+  {
+   "id": "px05-10",
+   "text": "Brites, empresário, foi direto falar com o prefeito Samuel: quer investir na pedra da mina.",
+   "narration": "Brites, empresário, foi direto falar com o prefeito Samuel: quer investir na pedra da mina."
+  },
+  {
+   "id": "px05-11",
+   "text": "Laura, da floricultura, já planeja flores novas para a praça, com a ajuda da Julia Marina.",
+   "narration": "Laura, da floricultura, já planeja flores novas para a praça, com a ajuda da Julia Marina."
+  },
+  {
+   "id": "px05-12",
+   "text": "E o Arthur Mendes, o biólogo que chegou no episódio quatro, já quer estudar as plantas da mina.",
+   "narration": "E o Arthur Mendes, o biólogo que chegou no episódio quatro, já quer estudar as plantas da mina."
+  },
+  {
+   "id": "px05-13",
+   "text": "Com os sete novos, a vila chegou a cinquenta e um moradores. A meta da estátua foi batida!",
+   "narration": "Com os sete novos, a vila chegou a cinquenta e um moradores. A meta da estátua foi batida!"
+  },
+  {
+   "id": "px05-14",
+   "text": "E a pedra da mina já tem destino: Isaac e Elias vão usar para erguer a próxima estátua da praça.",
+   "narration": "E a pedra da mina já tem destino: Isaac e Elias vão usar para erguer a próxima estátua da praça."
+  },
+  {
+   "id": "px05-15",
+   "text": "Mas de quem vai ser a estátua? Vote nos comentários com o nome do morador. E para morar na vila, comente seu apelido e sua profissão. Curta e se inscreva.",
+   "narration": "Mas de quem vai ser a estátua? Vote nos comentários com o nome do morador. E para morar na vila, comente seu apelido e sua profissão. Curta e se inscreva."
+  },
+  {
+   "id": "px05-16",
+   "text": "No episódio seis, a obra começa. De quem será a estátua?",
+   "narration": "No episódio seis, a obra começa. De quem será a estátua?"
+  }
+ ]
+}

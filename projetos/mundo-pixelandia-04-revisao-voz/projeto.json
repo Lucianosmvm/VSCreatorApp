@@ -1,0 +1,41 @@
+{
+  "nome": "Mundo Pixelândia #4 — falas novas do remake",
+  "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+  "elModel": "eleven_v4",
+  "elVelocidade": "0.92",
+  "elModo": "faixa",
+  "fps": "30",
+  "resolution": "1080x1920",
+  "transition": "0",
+  "globalPos": 80,
+  "globalStyle": "outline",
+  "salvoEm": "2026-11-18T10:35:10.723Z",
+  "frames": [
+    {
+      "id": "encontro",
+      "text": "Na entrada da floresta, encontraram dez pessoas chegando para morar na vila.",
+      "narration": "Na entrada da floresta, encontraram dez pessoas chegando para morar na vila."
+    },
+    {
+      "id": "julia-arthurmendes",
+      "text": "Julia Marina, gestora ambiental, ajudou Elias a escolher um caminho seguro, preservando a floresta. Arthur Mendes ainda não escolheu profissão, mas já ajudou com o equipamento.",
+      "narration": "Julia Marina, gestora ambiental, ajudou Elias a escolher um caminho seguro, preservando a floresta. Arthur Mendes ainda não escolheu profissão, mas já ajudou com o equipamento."
+    },
+    {
+      "id": "durplejoga",
+      "text": "Durplejoga chegou com uma promessa: vim proteger essa cidade! Jean ganhou mais um aliado.",
+      "narration": "Durplejoga chegou com uma promessa: vim proteger essa cidade! Jean ganhou mais um aliado."
+    },
+    {
+      "id": "volta-dos-novos",
+      "text": "Elias, engenheiro civil, recebeu Buzz, Molossi e Jefferson. A expedição seguiu pela floresta.",
+      "narration": "Elias, engenheiro civil, recebeu Buzz, Molossi e Jefferson. A expedição seguiu pela floresta."
+    },
+    {
+      "id": "convite",
+      "text": "Agora somos quarenta e cinco moradores! Quer chegar no próximo episódio? Comente seu apelido e sua profissão. Curta e se inscreva para acompanhar o que essa equipe vai encontrar.",
+      "narration": "Agora somos quarenta e cinco moradores! Quer chegar no próximo episódio? Comente seu apelido e sua profissão. Curta e se inscreva para acompanhar o que essa equipe vai encontrar."
+    }
+  ],
+  "frameCount": 5
+}

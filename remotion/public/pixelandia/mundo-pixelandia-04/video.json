@@ -1,0 +1,9326 @@
+{
+  "id": "mundo-pixelandia-04",
+  "episodio": 4,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 136.3,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 45,
+    "prontas": 18,
+    "fila": 12,
+    "destaque": {
+      "id": 4,
+      "nome": "Pedro",
+      "prof": "Pedreiro"
+    },
+    "alvosObra": [
+      {
+        "x": 1328,
+        "y": 1160
+      },
+      {
+        "x": 1184,
+        "y": 792
+      },
+      {
+        "x": 1488,
+        "y": 928
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "chegada": {
+      "x": 1256,
+      "y": 1384
+    },
+    "dia": 7
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-04/cena-1.mp4",
+      "inicio": 0,
+      "dur": 2.1,
+      "linhas": [
+        "Astro não voltou a dormir…\nELE SABIA ONDE A LUZ CAIU."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "testemunhas",
+      "video": "pixelandia/mundo-pixelandia-04/cena-2.mp4",
+      "inicio": 2.1,
+      "dur": 4.4,
+      "linhas": [
+        "Lago confirmou o lugar.\nSAMUEL CHAMOU O JEAN."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_001.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "partida",
+      "video": "pixelandia/mundo-pixelandia-04/cena-3.mp4",
+      "inicio": 6.5,
+      "dur": 4.666666666666667,
+      "linhas": [
+        "Jean abriu o caminho.\nASTRO GUIOU A EQUIPE."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_002.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "encontro",
+      "video": "pixelandia/mundo-pixelandia-04/cena-4.mp4",
+      "inicio": 11.167,
+      "dur": 4.5,
+      "linhas": [
+        "Na entrada da floresta…\nDEZ NOVOS VIZINHOS!"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "thiago-arthur",
+      "video": "pixelandia/mundo-pixelandia-04/cena-5.mp4",
+      "inicio": 15.667,
+      "dur": 6.266666666666667,
+      "linhas": [
+        "Thiago, fotógrafo 📸\nARTHUR, BIÓLOGO 🔬"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "julia-arthurmendes",
+      "video": "pixelandia/mundo-pixelandia-04/cena-6.mp4",
+      "inicio": 21.933,
+      "dur": 9.933333333333334,
+      "linhas": [
+        "Julia Marina, gestora ambiental!\nCUIDADO COM A FLORESTA.",
+        "ArthurMendes_ ainda sem profissão.\nJÁ AJUDOU COM O EQUIPAMENTO!"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        {
+          "nome": "Julia Marina",
+          "x": 0.5,
+          "y": 0.451042
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        },
+        {
+          "nome": "ArthurMendes_",
+          "x": 0.682778,
+          "y": 0.451042
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_005.wav",
+      "tempos": [
+        0,
+        5.76
+      ]
+    },
+    {
+      "nome": "livinha-pedro",
+      "video": "pixelandia/mundo-pixelandia-04/cena-7.mp4",
+      "inicio": 31.867,
+      "dur": 6.666666666666667,
+      "linhas": [
+        "Livinha caça aranhas 🕷️\nPEDRO É POLICIAL DO BOPE"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "durplejoga",
+      "video": "pixelandia/mundo-pixelandia-04/cena-8.mp4",
+      "inicio": 38.533,
+      "dur": 6.266666666666667,
+      "linhas": [
+        "Durplejoga, aventureiro!\n“VIM PROTEGER ESSA CIDADE!”"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Durplejoga",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_007.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "buzz-molossi-jefferson",
+      "video": "pixelandia/mundo-pixelandia-04/cena-9.mp4",
+      "inicio": 44.8,
+      "dur": 6.4,
+      "linhas": [
+        "Buzz, arquiteto. Molossi, pescador.\nJEFFERSON, ALMIRANTE ⚓"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.694444,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_008.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "volta-dos-novos",
+      "video": "pixelandia/mundo-pixelandia-04/cena-10.mp4",
+      "inicio": 51.2,
+      "dur": 6.4,
+      "linhas": [
+        "Elias recebeu o trio na vila.\nA EXPEDIÇÃO CONTINUOU."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Buzz",
+          "x": 0.332778,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Molossi",
+          "x": 0.5,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        },
+        {
+          "nome": "Jefferson",
+          "x": 0.667222,
+          "y": 0.39474
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_009.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "clareira",
+      "video": "pixelandia/mundo-pixelandia-04/cena-11.mp4",
+      "inicio": 57.6,
+      "dur": 4.966666666666667,
+      "linhas": [
+        "Astro reconheceu a clareira.\nFOI EXATAMENTE AQUI."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_010.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "vestigios",
+      "video": "pixelandia/mundo-pixelandia-04/cena-12.mp4",
+      "inicio": 62.567,
+      "dur": 5.366666666666666,
+      "linhas": [
+        "Lago encontrou as marcas.\nGALHOS QUEBRADOS NO CHÃO."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_011.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "exame",
+      "video": "pixelandia/mundo-pixelandia-04/cena-13.mp4",
+      "inicio": 67.933,
+      "dur": 5.366666666666666,
+      "linhas": [
+        "Arthur examinou o rastro.\nTINHA CAÍDO DO CÉU."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Arthur",
+          "x": 0.305556,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_012.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "revelacao",
+      "video": "pixelandia/mundo-pixelandia-04/cena-14.mp4",
+      "inicio": 73.3,
+      "dur": 5.3,
+      "linhas": [
+        "Jean encontrou o objeto.\nUM DRONE AVARIADO!"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_013.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "robo",
+      "video": "pixelandia/mundo-pixelandia-04/cena-15.mp4",
+      "inicio": 78.6,
+      "dur": 5.766666666666667,
+      "linhas": [
+        "Thiago fotografou a peça.\nHAVIA UM R NA CARCAÇA."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_014.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "robson",
+      "video": "pixelandia/mundo-pixelandia-04/cena-16.mp4",
+      "inicio": 84.367,
+      "dur": 6,
+      "linhas": [
+        "Robson veio buscar o drone.\nO INVENTOR TINHA UMA EXPLICAÇÃO."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_015.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "resposta",
+      "video": "pixelandia/mundo-pixelandia-04/cena-17.mp4",
+      "inicio": 90.367,
+      "dur": 6.1,
+      "linhas": [
+        "O mistério da luz resolvido!\nERA A LÂMPADA DO DRONE."
+      ],
+      "clima": "vitoria",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_016.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "livinha-aranha",
+      "video": "pixelandia/mundo-pixelandia-04/cena-18.mp4",
+      "inicio": 96.467,
+      "dur": 5.533333333333333,
+      "linhas": [
+        "Mas algo saiu da carcaça…\nLIVINHA RESOLVEU RAPIDINHO. 🕷️"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Livinha",
+          "x": 0.305556,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_017.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "registro",
+      "video": "pixelandia/mundo-pixelandia-04/cena-19.mp4",
+      "inicio": 102,
+      "dur": 5.533333333333333,
+      "linhas": [
+        "A câmera ainda tinha bateria.\nROBSON ABRIU O ÚLTIMO REGISTRO."
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Thiago",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_018.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "porta",
+      "video": "pixelandia/mundo-pixelandia-04/cena-20.mp4",
+      "inicio": 107.533,
+      "dur": 6.266666666666667,
+      "linhas": [
+        "Entre as raízes das árvores…\nUMA ENTRADA DE PEDRA."
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_019.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "victor",
+      "video": "pixelandia/mundo-pixelandia-04/cena-21.mp4",
+      "inicio": 113.8,
+      "dur": 6.566666666666666,
+      "linhas": [
+        "Jean pediu ajuda ao Victor.\nO MINERADOR VAI RECONHECER?"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_020.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "convite",
+      "video": "pixelandia/mundo-pixelandia-04/cena-22.mp4",
+      "inicio": 120.367,
+      "dur": 9.133333333333333,
+      "linhas": [
+        "Agora somos 45 moradores!\nAPELIDO + PROFISSÃO PARA ENTRAR.",
+        "Curta e se inscreva.\nA EXPEDIÇÃO VAI CONTINUAR!"
+      ],
+      "clima": null,
+      "cta": true,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_021.wav",
+      "tempos": [
+        0,
+        6.08
+      ]
+    },
+    {
+      "nome": "gancho",
+      "video": "pixelandia/mundo-pixelandia-04/cena-23.mp4",
+      "inicio": 129.5,
+      "dur": 6.8,
+      "linhas": [
+        "A luz tinha uma explicação.\nMAS QUEM CONSTRUIU A ENTRADA?"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-04-final-voz/cena_022.wav",
+      "tempos": [
+        0
+      ]
+    }
+  ]
+}

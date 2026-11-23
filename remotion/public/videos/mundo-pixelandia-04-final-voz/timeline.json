@@ -1,0 +1,1667 @@
+{
+  "fps": 30,
+  "largura": 1080,
+  "altura": 1920,
+  "duracao": 136.29999999999998,
+  "projeto": {
+    "id": "mundo-pixelandia-04-final-voz",
+    "nome": "Mundo Pixelândia #4 — narração final"
+  },
+  "legenda": {
+    "pos": 80,
+    "estilo": "outline"
+  },
+  "cenas": [
+    {
+      "inicio": 0,
+      "dur": 2.1,
+      "janela": 0,
+      "texto": "Astro sabia onde a luz caiu.",
+      "palavras": [
+        {
+          "w": "Astro",
+          "t": 0
+        },
+        {
+          "w": "sabia",
+          "t": 0.4
+        },
+        {
+          "w": "onde",
+          "t": 0.88
+        },
+        {
+          "w": "a",
+          "t": 1.067
+        },
+        {
+          "w": "luz",
+          "t": 1.12
+        },
+        {
+          "w": "caiu.",
+          "t": 1.36
+        }
+      ],
+      "audio": "cena_000.wav"
+    },
+    {
+      "inicio": 2.1,
+      "dur": 4.4,
+      "janela": 0,
+      "texto": "Lago confirmou o lugar. Samuel chamou o Jean para acompanhar os dois.",
+      "palavras": [
+        {
+          "w": "Lago",
+          "t": 0
+        },
+        {
+          "w": "confirmou",
+          "t": 0.52
+        },
+        {
+          "w": "o",
+          "t": 0.84
+        },
+        {
+          "w": "lugar.",
+          "t": 0.92
+        },
+        {
+          "w": "Samuel",
+          "t": 1.76
+        },
+        {
+          "w": "chamou",
+          "t": 2.16
+        },
+        {
+          "w": "o",
+          "t": 2.44
+        },
+        {
+          "w": "Jean",
+          "t": 2.64
+        },
+        {
+          "w": "para",
+          "t": 2.88
+        },
+        {
+          "w": "acompanhar",
+          "t": 3.08
+        },
+        {
+          "w": "os",
+          "t": 3.48
+        },
+        {
+          "w": "dois.",
+          "t": 3.6
+        }
+      ],
+      "audio": "cena_001.wav"
+    },
+    {
+      "inicio": 6.5,
+      "dur": 4.666666666666667,
+      "janela": 0,
+      "texto": "Jean abriu o caminho, e Astro guiou a equipe pela mesma trilha da noite anterior.",
+      "palavras": [
+        {
+          "w": "Jean",
+          "t": 0
+        },
+        {
+          "w": "abriu",
+          "t": 0.32
+        },
+        {
+          "w": "o",
+          "t": 0.533
+        },
+        {
+          "w": "caminho,",
+          "t": 0.64
+        },
+        {
+          "w": "e",
+          "t": 1.24
+        },
+        {
+          "w": "Astro",
+          "t": 1.36
+        },
+        {
+          "w": "guiou",
+          "t": 1.76
+        },
+        {
+          "w": "a",
+          "t": 2
+        },
+        {
+          "w": "equipe",
+          "t": 2.08
+        },
+        {
+          "w": "pela",
+          "t": 2.44
+        },
+        {
+          "w": "mesma",
+          "t": 2.72
+        },
+        {
+          "w": "trilha",
+          "t": 3.12
+        },
+        {
+          "w": "da",
+          "t": 3.44
+        },
+        {
+          "w": "noite",
+          "t": 3.56
+        },
+        {
+          "w": "anterior.",
+          "t": 3.8
+        }
+      ],
+      "audio": "cena_002.wav"
+    },
+    {
+      "inicio": 11.166666666666668,
+      "dur": 4.5,
+      "janela": 0,
+      "texto": "Na entrada da floresta, encontraram dez pessoas chegando para morar na vila.",
+      "palavras": [
+        {
+          "w": "Na",
+          "t": 0
+        },
+        {
+          "w": "entrada",
+          "t": 0.16
+        },
+        {
+          "w": "da",
+          "t": 0.56
+        },
+        {
+          "w": "floresta,",
+          "t": 0.64
+        },
+        {
+          "w": "encontraram",
+          "t": 1.36
+        },
+        {
+          "w": "dez",
+          "t": 2.04
+        },
+        {
+          "w": "pessoas",
+          "t": 2.24
+        },
+        {
+          "w": "chegando",
+          "t": 2.72
+        },
+        {
+          "w": "para",
+          "t": 3.2
+        },
+        {
+          "w": "morar",
+          "t": 3.36
+        },
+        {
+          "w": "na",
+          "t": 3.6
+        },
+        {
+          "w": "vila.",
+          "t": 3.76
+        }
+      ],
+      "audio": "cena_003.wav"
+    },
+    {
+      "inicio": 15.666666666666668,
+      "dur": 6.266666666666667,
+      "janela": 0,
+      "texto": "Thiago era fotógrafo, e Arthur, biólogo. Lago pediu ajuda para registrar e examinar as marcas.",
+      "palavras": [
+        {
+          "w": "Thiago",
+          "t": 0
+        },
+        {
+          "w": "era",
+          "t": 0.4
+        },
+        {
+          "w": "fotógrafo,",
+          "t": 0.52
+        },
+        {
+          "w": "e",
+          "t": 1.32
+        },
+        {
+          "w": "Arthur,",
+          "t": 1.56
+        },
+        {
+          "w": "biólogo.",
+          "t": 2.04
+        },
+        {
+          "w": "Lago",
+          "t": 2.88
+        },
+        {
+          "w": "pediu",
+          "t": 3.2
+        },
+        {
+          "w": "ajuda",
+          "t": 3.52
+        },
+        {
+          "w": "para",
+          "t": 3.84
+        },
+        {
+          "w": "registrar",
+          "t": 4.08
+        },
+        {
+          "w": "e",
+          "t": 4.68
+        },
+        {
+          "w": "examinar",
+          "t": 4.8
+        },
+        {
+          "w": "as",
+          "t": 5.24
+        },
+        {
+          "w": "marcas.",
+          "t": 5.36
+        }
+      ],
+      "audio": "cena_004.wav"
+    },
+    {
+      "inicio": 21.933333333333334,
+      "dur": 9.933333333333334,
+      "janela": 0,
+      "texto": "Julia Marina, gestora ambiental, ajudou Elias a escolher um caminho seguro, preservando a floresta. Arthur Mendes ainda não escolheu profissão, mas já ajudou com o equipamento.",
+      "palavras": [
+        {
+          "w": "Julia",
+          "t": 0
+        },
+        {
+          "w": "Marina,",
+          "t": 0.32
+        },
+        {
+          "w": "gestora",
+          "t": 0.92
+        },
+        {
+          "w": "ambiental,",
+          "t": 1.32
+        },
+        {
+          "w": "ajudou",
+          "t": 2
+        },
+        {
+          "w": "Elias",
+          "t": 2.36
+        },
+        {
+          "w": "a",
+          "t": 2.747
+        },
+        {
+          "w": "escolher",
+          "t": 2.8
+        },
+        {
+          "w": "um",
+          "t": 3.16
+        },
+        {
+          "w": "caminho",
+          "t": 3.24
+        },
+        {
+          "w": "seguro,",
+          "t": 3.6
+        },
+        {
+          "w": "preservando",
+          "t": 4.28
+        },
+        {
+          "w": "a",
+          "t": 4.76
+        },
+        {
+          "w": "floresta.",
+          "t": 4.88
+        },
+        {
+          "w": "Arthur",
+          "t": 5.76
+        },
+        {
+          "w": "Mendes",
+          "t": 6.12
+        },
+        {
+          "w": "ainda",
+          "t": 6.64
+        },
+        {
+          "w": "não",
+          "t": 6.88
+        },
+        {
+          "w": "escolheu",
+          "t": 7.04
+        },
+        {
+          "w": "profissão,",
+          "t": 7.44
+        },
+        {
+          "w": "mas",
+          "t": 8.16
+        },
+        {
+          "w": "já",
+          "t": 8.32
+        },
+        {
+          "w": "ajudou",
+          "t": 8.48
+        },
+        {
+          "w": "com",
+          "t": 8.88
+        },
+        {
+          "w": "o",
+          "t": 9.02
+        },
+        {
+          "w": "equipamento.",
+          "t": 9.14
+        }
+      ],
+      "audio": "cena_005.wav"
+    },
+    {
+      "inicio": 31.866666666666667,
+      "dur": 6.666666666666667,
+      "janela": 0,
+      "texto": "Livinha caçava aranhas. Pedro era policial do Bope. Jean ganhou companhia para proteger o caminho.",
+      "palavras": [
+        {
+          "w": "Livinha",
+          "t": 0
+        },
+        {
+          "w": "caçava",
+          "t": 0.56
+        },
+        {
+          "w": "aranhas.",
+          "t": 1.04
+        },
+        {
+          "w": "Pedro",
+          "t": 1.84
+        },
+        {
+          "w": "era",
+          "t": 2.32
+        },
+        {
+          "w": "policial",
+          "t": 2.48
+        },
+        {
+          "w": "do",
+          "t": 2.96
+        },
+        {
+          "w": "Bope.",
+          "t": 3.12
+        },
+        {
+          "w": "Jean",
+          "t": 3.84
+        },
+        {
+          "w": "ganhou",
+          "t": 4.24
+        },
+        {
+          "w": "companhia",
+          "t": 4.64
+        },
+        {
+          "w": "para",
+          "t": 5.04
+        },
+        {
+          "w": "proteger",
+          "t": 5.28
+        },
+        {
+          "w": "o",
+          "t": 5.72
+        },
+        {
+          "w": "caminho.",
+          "t": 5.8
+        }
+      ],
+      "audio": "cena_006.wav"
+    },
+    {
+      "inicio": 38.53333333333333,
+      "dur": 6.266666666666667,
+      "janela": 0,
+      "texto": "Durplejoga chegou com uma promessa: vim proteger essa cidade! Jean ganhou mais um aliado.",
+      "palavras": [
+        {
+          "w": "Durplejoga",
+          "t": 0
+        },
+        {
+          "w": "chegou",
+          "t": 0.76
+        },
+        {
+          "w": "com",
+          "t": 1.08
+        },
+        {
+          "w": "uma",
+          "t": 1.2
+        },
+        {
+          "w": "promessa:",
+          "t": 1.36
+        },
+        {
+          "w": "vim",
+          "t": 2.32
+        },
+        {
+          "w": "proteger",
+          "t": 2.6
+        },
+        {
+          "w": "essa",
+          "t": 3.12
+        },
+        {
+          "w": "cidade!",
+          "t": 3.36
+        },
+        {
+          "w": "Jean",
+          "t": 4.24
+        },
+        {
+          "w": "ganhou",
+          "t": 4.72
+        },
+        {
+          "w": "mais",
+          "t": 5.12
+        },
+        {
+          "w": "um",
+          "t": 5.4
+        },
+        {
+          "w": "aliado.",
+          "t": 5.52
+        }
+      ],
+      "audio": "cena_007.wav"
+    },
+    {
+      "inicio": 44.8,
+      "dur": 6.4,
+      "janela": 0,
+      "texto": "Buzz era arquiteto, Molossi, pescador. E Jefferson já sonhava em comandar a marinha de Pixelândia.",
+      "palavras": [
+        {
+          "w": "Buzz",
+          "t": 0
+        },
+        {
+          "w": "era",
+          "t": 0.4
+        },
+        {
+          "w": "arquiteto,",
+          "t": 0.56
+        },
+        {
+          "w": "Molossi,",
+          "t": 1.4
+        },
+        {
+          "w": "pescador.",
+          "t": 2.04
+        },
+        {
+          "w": "E",
+          "t": 2.96
+        },
+        {
+          "w": "Jefferson",
+          "t": 3.12
+        },
+        {
+          "w": "já",
+          "t": 3.68
+        },
+        {
+          "w": "sonhava",
+          "t": 3.84
+        },
+        {
+          "w": "em",
+          "t": 4.36
+        },
+        {
+          "w": "comandar",
+          "t": 4.48
+        },
+        {
+          "w": "a",
+          "t": 4.88
+        },
+        {
+          "w": "marinha",
+          "t": 4.96
+        },
+        {
+          "w": "de",
+          "t": 5.32
+        },
+        {
+          "w": "Pixelândia.",
+          "t": 5.44
+        }
+      ],
+      "audio": "cena_008.wav"
+    },
+    {
+      "inicio": 51.199999999999996,
+      "dur": 6.4,
+      "janela": 0,
+      "texto": "Elias, engenheiro civil, recebeu Buzz, Molossi e Jefferson. A expedição seguiu pela floresta.",
+      "palavras": [
+        {
+          "w": "Elias,",
+          "t": 0
+        },
+        {
+          "w": "engenheiro",
+          "t": 0.72
+        },
+        {
+          "w": "civil,",
+          "t": 1.12
+        },
+        {
+          "w": "recebeu",
+          "t": 1.72
+        },
+        {
+          "w": "Buzz,",
+          "t": 2.08
+        },
+        {
+          "w": "Molossi",
+          "t": 2.64
+        },
+        {
+          "w": "e",
+          "t": 3.28
+        },
+        {
+          "w": "Jefferson.",
+          "t": 3.44
+        },
+        {
+          "w": "A",
+          "t": 4.267
+        },
+        {
+          "w": "expedição",
+          "t": 4.32
+        },
+        {
+          "w": "seguiu",
+          "t": 4.88
+        },
+        {
+          "w": "pela",
+          "t": 5.333
+        },
+        {
+          "w": "floresta.",
+          "t": 5.52
+        }
+      ],
+      "audio": "cena_009.wav"
+    },
+    {
+      "inicio": 57.599999999999994,
+      "dur": 4.966666666666667,
+      "janela": 0,
+      "texto": "Astro reconheceu a clareira. Foi exatamente aqui que aquela luz desapareceu.",
+      "palavras": [
+        {
+          "w": "Astro",
+          "t": 0
+        },
+        {
+          "w": "reconheceu",
+          "t": 0.4
+        },
+        {
+          "w": "a",
+          "t": 1
+        },
+        {
+          "w": "clareira.",
+          "t": 1.2
+        },
+        {
+          "w": "Foi",
+          "t": 1.92
+        },
+        {
+          "w": "exatamente",
+          "t": 2.08
+        },
+        {
+          "w": "aqui",
+          "t": 2.88
+        },
+        {
+          "w": "que",
+          "t": 3.2
+        },
+        {
+          "w": "aquela",
+          "t": 3.36
+        },
+        {
+          "w": "luz",
+          "t": 3.6
+        },
+        {
+          "w": "desapareceu.",
+          "t": 3.84
+        }
+      ],
+      "audio": "cena_010.wav"
+    },
+    {
+      "inicio": 62.56666666666666,
+      "dur": 5.366666666666666,
+      "janela": 0,
+      "texto": "Lago encontrou galhos quebrados e marcas no chão. Jean afastou os ramos para enxergar melhor.",
+      "palavras": [
+        {
+          "w": "Lago",
+          "t": 0
+        },
+        {
+          "w": "encontrou",
+          "t": 0.32
+        },
+        {
+          "w": "galhos",
+          "t": 0.8
+        },
+        {
+          "w": "quebrados",
+          "t": 1.12
+        },
+        {
+          "w": "e",
+          "t": 1.64
+        },
+        {
+          "w": "marcas",
+          "t": 1.76
+        },
+        {
+          "w": "no",
+          "t": 2.12
+        },
+        {
+          "w": "chão.",
+          "t": 2.24
+        },
+        {
+          "w": "Jean",
+          "t": 2.88
+        },
+        {
+          "w": "afastou",
+          "t": 3.2
+        },
+        {
+          "w": "os",
+          "t": 3.68
+        },
+        {
+          "w": "ramos",
+          "t": 3.84
+        },
+        {
+          "w": "para",
+          "t": 4.16
+        },
+        {
+          "w": "enxergar",
+          "t": 4.28
+        },
+        {
+          "w": "melhor.",
+          "t": 4.72
+        }
+      ],
+      "audio": "cena_011.wav"
+    },
+    {
+      "inicio": 67.93333333333332,
+      "dur": 5.366666666666666,
+      "janela": 0,
+      "texto": "Arthur examinou o rastro. Alguma coisa tinha caído do céu e deslizado pela grama.",
+      "palavras": [
+        {
+          "w": "Arthur",
+          "t": 0
+        },
+        {
+          "w": "examinou",
+          "t": 0.44
+        },
+        {
+          "w": "o",
+          "t": 0.84
+        },
+        {
+          "w": "rastro.",
+          "t": 0.96
+        },
+        {
+          "w": "Alguma",
+          "t": 1.76
+        },
+        {
+          "w": "coisa",
+          "t": 2.4
+        },
+        {
+          "w": "tinha",
+          "t": 2.72
+        },
+        {
+          "w": "caído",
+          "t": 2.96
+        },
+        {
+          "w": "do",
+          "t": 3.28
+        },
+        {
+          "w": "céu",
+          "t": 3.44
+        },
+        {
+          "w": "e",
+          "t": 3.72
+        },
+        {
+          "w": "deslizado",
+          "t": 3.88
+        },
+        {
+          "w": "pela",
+          "t": 4.48
+        },
+        {
+          "w": "grama.",
+          "t": 4.72
+        }
+      ],
+      "audio": "cena_012.wav"
+    },
+    {
+      "inicio": 73.29999999999998,
+      "dur": 5.3,
+      "janela": 0,
+      "texto": "Debaixo dos galhos, Jean encontrou o objeto. Era um drone avariado, com uma lâmpada azul.",
+      "palavras": [
+        {
+          "w": "Debaixo",
+          "t": 0
+        },
+        {
+          "w": "dos",
+          "t": 0.48
+        },
+        {
+          "w": "galhos,",
+          "t": 0.64
+        },
+        {
+          "w": "Jean",
+          "t": 1.2
+        },
+        {
+          "w": "encontrou",
+          "t": 1.48
+        },
+        {
+          "w": "o",
+          "t": 1.88
+        },
+        {
+          "w": "objeto.",
+          "t": 2.04
+        },
+        {
+          "w": "Era",
+          "t": 2.8
+        },
+        {
+          "w": "um",
+          "t": 2.96
+        },
+        {
+          "w": "drone",
+          "t": 3.12
+        },
+        {
+          "w": "avariado,",
+          "t": 3.44
+        },
+        {
+          "w": "com",
+          "t": 4.16
+        },
+        {
+          "w": "uma",
+          "t": 4.32
+        },
+        {
+          "w": "lâmpada",
+          "t": 4.48
+        },
+        {
+          "w": "azul.",
+          "t": 4.92
+        }
+      ],
+      "audio": "cena_013.wav"
+    },
+    {
+      "inicio": 78.59999999999998,
+      "dur": 5.766666666666667,
+      "janela": 0,
+      "texto": "Thiago fotografou a peça. Havia um erre na carcaça. Astro reconheceu a marca do Robson!",
+      "palavras": [
+        {
+          "w": "Thiago",
+          "t": 0
+        },
+        {
+          "w": "fotografou",
+          "t": 0.36
+        },
+        {
+          "w": "a",
+          "t": 0.92
+        },
+        {
+          "w": "peça.",
+          "t": 1.04
+        },
+        {
+          "w": "Havia",
+          "t": 1.76
+        },
+        {
+          "w": "um",
+          "t": 2.08
+        },
+        {
+          "w": "erre",
+          "t": 2.28
+        },
+        {
+          "w": "na",
+          "t": 2.44
+        },
+        {
+          "w": "carcaça.",
+          "t": 2.56
+        },
+        {
+          "w": "Astro",
+          "t": 3.52
+        },
+        {
+          "w": "reconheceu",
+          "t": 3.92
+        },
+        {
+          "w": "a",
+          "t": 4.44
+        },
+        {
+          "w": "marca",
+          "t": 4.56
+        },
+        {
+          "w": "do",
+          "t": 4.84
+        },
+        {
+          "w": "Robson!",
+          "t": 4.96
+        }
+      ],
+      "audio": "cena_014.wav"
+    },
+    {
+      "inicio": 84.36666666666665,
+      "dur": 6,
+      "janela": 0,
+      "texto": "Chamaram Robson até a clareira. O inventor contou que tinha perdido o drone enquanto mapeava a floresta.",
+      "palavras": [
+        {
+          "w": "Chamaram",
+          "t": 0
+        },
+        {
+          "w": "Robson",
+          "t": 0.52
+        },
+        {
+          "w": "até",
+          "t": 0.88
+        },
+        {
+          "w": "a",
+          "t": 1.067
+        },
+        {
+          "w": "clareira.",
+          "t": 1.12
+        },
+        {
+          "w": "O",
+          "t": 2
+        },
+        {
+          "w": "inventor",
+          "t": 2.12
+        },
+        {
+          "w": "contou",
+          "t": 2.6
+        },
+        {
+          "w": "que",
+          "t": 2.92
+        },
+        {
+          "w": "tinha",
+          "t": 3.04
+        },
+        {
+          "w": "perdido",
+          "t": 3.28
+        },
+        {
+          "w": "o",
+          "t": 3.72
+        },
+        {
+          "w": "drone",
+          "t": 3.84
+        },
+        {
+          "w": "enquanto",
+          "t": 4.16
+        },
+        {
+          "w": "mapeava",
+          "t": 4.48
+        },
+        {
+          "w": "a",
+          "t": 4.907
+        },
+        {
+          "w": "floresta.",
+          "t": 4.96
+        }
+      ],
+      "audio": "cena_015.wav"
+    },
+    {
+      "inicio": 90.36666666666665,
+      "dur": 6.1,
+      "janela": 0,
+      "texto": "Astro e Lago tinham visto a lâmpada azul piscando durante a queda. O mistério da luz estava resolvido.",
+      "palavras": [
+        {
+          "w": "Astro",
+          "t": 0
+        },
+        {
+          "w": "e",
+          "t": 0.36
+        },
+        {
+          "w": "Lago",
+          "t": 0.44
+        },
+        {
+          "w": "tinham",
+          "t": 0.8
+        },
+        {
+          "w": "visto",
+          "t": 1.12
+        },
+        {
+          "w": "a",
+          "t": 1.4
+        },
+        {
+          "w": "lâmpada",
+          "t": 1.48
+        },
+        {
+          "w": "azul",
+          "t": 1.84
+        },
+        {
+          "w": "piscando",
+          "t": 2.08
+        },
+        {
+          "w": "durante",
+          "t": 2.64
+        },
+        {
+          "w": "a",
+          "t": 2.907
+        },
+        {
+          "w": "queda.",
+          "t": 2.96
+        },
+        {
+          "w": "O",
+          "t": 3.76
+        },
+        {
+          "w": "mistério",
+          "t": 4
+        },
+        {
+          "w": "da",
+          "t": 4.4
+        },
+        {
+          "w": "luz",
+          "t": 4.56
+        },
+        {
+          "w": "estava",
+          "t": 4.88
+        },
+        {
+          "w": "resolvido.",
+          "t": 5.2
+        }
+      ],
+      "audio": "cena_016.wav"
+    },
+    {
+      "inicio": 96.46666666666664,
+      "dur": 5.533333333333333,
+      "janela": 0,
+      "texto": "Quando Robson pegou o aparelho, uma aranha saiu da carcaça. Ainda bem que a Livinha estava ali.",
+      "palavras": [
+        {
+          "w": "Quando",
+          "t": 0
+        },
+        {
+          "w": "Robson",
+          "t": 0.24
+        },
+        {
+          "w": "pegou",
+          "t": 0.64
+        },
+        {
+          "w": "o",
+          "t": 0.92
+        },
+        {
+          "w": "aparelho,",
+          "t": 1.04
+        },
+        {
+          "w": "uma",
+          "t": 1.68
+        },
+        {
+          "w": "aranha",
+          "t": 1.92
+        },
+        {
+          "w": "saiu",
+          "t": 2.24
+        },
+        {
+          "w": "da",
+          "t": 2.52
+        },
+        {
+          "w": "carcaça.",
+          "t": 2.64
+        },
+        {
+          "w": "Ainda",
+          "t": 3.6
+        },
+        {
+          "w": "bem",
+          "t": 4
+        },
+        {
+          "w": "que",
+          "t": 4.16
+        },
+        {
+          "w": "a",
+          "t": 4.24
+        },
+        {
+          "w": "Livinha",
+          "t": 4.4
+        },
+        {
+          "w": "estava",
+          "t": 4.64
+        },
+        {
+          "w": "ali.",
+          "t": 5
+        }
+      ],
+      "audio": "cena_017.wav"
+    },
+    {
+      "inicio": 101.99999999999997,
+      "dur": 5.533333333333333,
+      "janela": 0,
+      "texto": "A câmera ainda tinha bateria. Robson abriu o último registro, e Thiago se aproximou para ver.",
+      "palavras": [
+        {
+          "w": "A",
+          "t": 0
+        },
+        {
+          "w": "câmera",
+          "t": 0.16
+        },
+        {
+          "w": "ainda",
+          "t": 0.48
+        },
+        {
+          "w": "tinha",
+          "t": 0.8
+        },
+        {
+          "w": "bateria.",
+          "t": 1.04
+        },
+        {
+          "w": "Robson",
+          "t": 1.84
+        },
+        {
+          "w": "abriu",
+          "t": 2.32
+        },
+        {
+          "w": "o",
+          "t": 2.56
+        },
+        {
+          "w": "último",
+          "t": 2.68
+        },
+        {
+          "w": "registro,",
+          "t": 3.24
+        },
+        {
+          "w": "e",
+          "t": 3.72
+        },
+        {
+          "w": "Thiago",
+          "t": 3.84
+        },
+        {
+          "w": "se",
+          "t": 4.2
+        },
+        {
+          "w": "aproximou",
+          "t": 4.28
+        },
+        {
+          "w": "para",
+          "t": 4.84
+        },
+        {
+          "w": "ver.",
+          "t": 5.08
+        }
+      ],
+      "audio": "cena_018.wav"
+    },
+    {
+      "inicio": 107.5333333333333,
+      "dur": 6.266666666666667,
+      "janela": 0,
+      "texto": "A imagem mostrava uma entrada de pedra entre as raízes das árvores. Lago nunca tinha visto aquele lugar.",
+      "palavras": [
+        {
+          "w": "A",
+          "t": 0
+        },
+        {
+          "w": "imagem",
+          "t": 0.08
+        },
+        {
+          "w": "mostrava",
+          "t": 0.56
+        },
+        {
+          "w": "uma",
+          "t": 1
+        },
+        {
+          "w": "entrada",
+          "t": 1.12
+        },
+        {
+          "w": "de",
+          "t": 1.56
+        },
+        {
+          "w": "pedra",
+          "t": 1.76
+        },
+        {
+          "w": "entre",
+          "t": 2.16
+        },
+        {
+          "w": "as",
+          "t": 2.4
+        },
+        {
+          "w": "raízes",
+          "t": 2.56
+        },
+        {
+          "w": "das",
+          "t": 2.96
+        },
+        {
+          "w": "árvores.",
+          "t": 3.2
+        },
+        {
+          "w": "Lago",
+          "t": 4.08
+        },
+        {
+          "w": "nunca",
+          "t": 4.48
+        },
+        {
+          "w": "tinha",
+          "t": 4.8
+        },
+        {
+          "w": "visto",
+          "t": 5.04
+        },
+        {
+          "w": "aquele",
+          "t": 5.28
+        },
+        {
+          "w": "lugar.",
+          "t": 5.52
+        }
+      ],
+      "audio": "cena_019.wav"
+    },
+    {
+      "inicio": 113.79999999999997,
+      "dur": 6.566666666666666,
+      "janela": 0,
+      "texto": "Jean pediu que chamassem Victor. O minerador talvez reconhecesse aquela entrada. A equipe decidiu esperar por ele.",
+      "palavras": [
+        {
+          "w": "Jean",
+          "t": 0
+        },
+        {
+          "w": "pediu",
+          "t": 0.32
+        },
+        {
+          "w": "que",
+          "t": 0.6
+        },
+        {
+          "w": "chamassem",
+          "t": 0.68
+        },
+        {
+          "w": "Victor.",
+          "t": 1.2
+        },
+        {
+          "w": "O",
+          "t": 1.84
+        },
+        {
+          "w": "minerador",
+          "t": 1.92
+        },
+        {
+          "w": "talvez",
+          "t": 2.48
+        },
+        {
+          "w": "reconhecesse",
+          "t": 2.84
+        },
+        {
+          "w": "aquela",
+          "t": 3.52
+        },
+        {
+          "w": "entrada.",
+          "t": 3.88
+        },
+        {
+          "w": "A",
+          "t": 4.56
+        },
+        {
+          "w": "equipe",
+          "t": 4.64
+        },
+        {
+          "w": "decidiu",
+          "t": 5.04
+        },
+        {
+          "w": "esperar",
+          "t": 5.44
+        },
+        {
+          "w": "por",
+          "t": 5.84
+        },
+        {
+          "w": "ele.",
+          "t": 6.08
+        }
+      ],
+      "audio": "cena_020.wav"
+    },
+    {
+      "inicio": 120.36666666666663,
+      "dur": 9.133333333333333,
+      "janela": 0,
+      "texto": "Agora somos quarenta e cinco moradores! Quer chegar no próximo episódio? Comente seu apelido e sua profissão. Curta e se inscreva para acompanhar o que essa equipe vai encontrar.",
+      "palavras": [
+        {
+          "w": "Agora",
+          "t": 0
+        },
+        {
+          "w": "somos",
+          "t": 0.4
+        },
+        {
+          "w": "quarenta",
+          "t": 0.68
+        },
+        {
+          "w": "e",
+          "t": 1.147
+        },
+        {
+          "w": "cinco",
+          "t": 1.24
+        },
+        {
+          "w": "moradores!",
+          "t": 1.44
+        },
+        {
+          "w": "Quer",
+          "t": 2.48
+        },
+        {
+          "w": "chegar",
+          "t": 2.64
+        },
+        {
+          "w": "no",
+          "t": 2.92
+        },
+        {
+          "w": "próximo",
+          "t": 3.04
+        },
+        {
+          "w": "episódio?",
+          "t": 3.32
+        },
+        {
+          "w": "Comente",
+          "t": 4.16
+        },
+        {
+          "w": "seu",
+          "t": 4.44
+        },
+        {
+          "w": "apelido",
+          "t": 4.68
+        },
+        {
+          "w": "e",
+          "t": 5
+        },
+        {
+          "w": "sua",
+          "t": 5.093
+        },
+        {
+          "w": "profissão.",
+          "t": 5.28
+        },
+        {
+          "w": "Curta",
+          "t": 6.08
+        },
+        {
+          "w": "e",
+          "t": 6.28
+        },
+        {
+          "w": "se",
+          "t": 6.36
+        },
+        {
+          "w": "inscreva",
+          "t": 6.48
+        },
+        {
+          "w": "para",
+          "t": 6.96
+        },
+        {
+          "w": "acompanhar",
+          "t": 7.12
+        },
+        {
+          "w": "o",
+          "t": 7.6
+        },
+        {
+          "w": "que",
+          "t": 7.72
+        },
+        {
+          "w": "essa",
+          "t": 7.84
+        },
+        {
+          "w": "equipe",
+          "t": 8.04
+        },
+        {
+          "w": "vai",
+          "t": 8.36
+        },
+        {
+          "w": "encontrar.",
+          "t": 8.48
+        }
+      ],
+      "audio": "cena_021.wav"
+    },
+    {
+      "inicio": 129.49999999999997,
+      "dur": 6.8,
+      "janela": 0,
+      "texto": "A luz tinha uma explicação. Mas quem construiu aquela entrada? A expedição continua no episódio cinco.",
+      "palavras": [
+        {
+          "w": "A",
+          "t": 0
+        },
+        {
+          "w": "luz",
+          "t": 0.16
+        },
+        {
+          "w": "tinha",
+          "t": 0.48
+        },
+        {
+          "w": "uma",
+          "t": 0.76
+        },
+        {
+          "w": "explicação.",
+          "t": 0.88
+        },
+        {
+          "w": "Mas",
+          "t": 1.92
+        },
+        {
+          "w": "quem",
+          "t": 2.24
+        },
+        {
+          "w": "construiu",
+          "t": 2.48
+        },
+        {
+          "w": "aquela",
+          "t": 3.04
+        },
+        {
+          "w": "entrada?",
+          "t": 3.44
+        },
+        {
+          "w": "A",
+          "t": 4.04
+        },
+        {
+          "w": "expedição",
+          "t": 4.16
+        },
+        {
+          "w": "continua",
+          "t": 4.84
+        },
+        {
+          "w": "no",
+          "t": 5.44
+        },
+        {
+          "w": "episódio",
+          "t": 5.6
+        },
+        {
+          "w": "cinco.",
+          "t": 6.24
+        }
+      ],
+      "audio": "cena_022.wav"
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+{
+  "atualizadoEm": "2026-11-23T10:20:04.180Z",
+  "episodio": 6,
+  "total": 54,
+  "regra": "Antes de adicionar, consultar nome e profissão. Homônimos existentes têm IDs diferentes. Elias/Engenheiro civil já existe: ID 22, episódio 03. Arthur/Biólogo (ID 42) e ArthurMendes_ eram a mesma pessoa: unidos no ID 42 com o nome ArthurMendes_. João Pedro/Policial do BOPE comentou de novo no #6: já existe (episódio 05), não duplicar. Pietro Oliveira (guardião) é outra pessoa que o Pietro guarda noturno.",
+  "moradores": [
+    {
+      "idJogo": 1,
+      "nome": "zHero",
+      "profissao": "cacador",
+      "profissaoJogo": "cacador",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 2,
+      "nome": "Astro Novalite",
+      "profissao": "polissonografista",
+      "profissaoJogo": "polissonografista",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 3,
+      "nome": "Bruno",
+      "profissao": "lenhador",
+      "profissaoJogo": "lenhador",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 4,
+      "nome": "Pedro",
+      "profissao": "pedreiro",
+      "profissaoJogo": "pedreiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 5,
+      "nome": "An tenna",
+      "profissao": "Apresentador de TV",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 6,
+      "nome": "Kyle",
+      "profissao": "Advogado",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 7,
+      "nome": "Dandy",
+      "profissao": "Youtuber",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 8,
+      "nome": "Neguin",
+      "profissao": "Vendedor de brechó",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 9,
+      "nome": "Soluco",
+      "profissao": "Domador de dragões",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 10,
+      "nome": "Robson",
+      "profissao": "Criador de robôs",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 11,
+      "nome": "Stanley",
+      "profissao": "Criador de robôs",
+      "profissaoJogo": "pescador",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 12,
+      "nome": "Latifa",
+      "profissao": "Cuidador de pet",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 13,
+      "nome": "Previseg",
+      "profissao": "Corretor de seguros",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 14,
+      "nome": "Sprout",
+      "profissao": "medico",
+      "profissaoJogo": "medico",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 15,
+      "nome": "Phil",
+      "profissao": "Operador de serra",
+      "profissaoJogo": "custom",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 16,
+      "nome": "Luiz",
+      "profissao": "professor",
+      "profissaoJogo": "professor",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 17,
+      "nome": "Luiz",
+      "profissao": "professor",
+      "profissaoJogo": "professor",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 18,
+      "nome": "Victor",
+      "profissao": "minerador",
+      "profissaoJogo": "minerador",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 19,
+      "nome": "Rian",
+      "profissao": "fazendeiro",
+      "profissaoJogo": "fazendeiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 20,
+      "nome": "Lucas",
+      "profissao": "Socorrista do SAMU",
+      "profissaoJogo": "enfermeiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 21,
+      "nome": "Isaac",
+      "profissao": "pedreiro",
+      "profissaoJogo": "pedreiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 22,
+      "nome": "Elias",
+      "profissao": "Engenheiro civil",
+      "profissaoJogo": "pedreiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 23,
+      "nome": "Jean",
+      "profissao": "Guerreiro",
+      "profissaoJogo": "cacador",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 24,
+      "nome": "Ana",
+      "profissao": "medico",
+      "profissaoJogo": "medico",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 25,
+      "nome": "Alex",
+      "profissao": "medico",
+      "profissaoJogo": "medico",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 26,
+      "nome": "Diogo",
+      "profissao": "medico",
+      "profissaoJogo": "medico",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 27,
+      "nome": "Luiz",
+      "profissao": "Engenheiro civil",
+      "profissaoJogo": "pedreiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 28,
+      "nome": "Gideão",
+      "profissao": "Agricultor",
+      "profissaoJogo": "fazendeiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 29,
+      "nome": "Stan",
+      "profissao": "Dentista",
+      "profissaoJogo": "medico",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 30,
+      "nome": "Abner",
+      "profissao": "Pizzaiolo",
+      "profissaoJogo": "cozinheiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 31,
+      "nome": "José Alvaro",
+      "profissao": "bombeiro",
+      "profissaoJogo": "bombeiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 32,
+      "nome": "Pedro",
+      "profissao": "medico",
+      "profissaoJogo": "medico",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 33,
+      "nome": "Jefingomesrs",
+      "profissao": "Gari",
+      "profissaoJogo": "jardineiro",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 34,
+      "nome": "Lago",
+      "profissao": "Guarda noturno",
+      "profissaoJogo": "policial",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "idJogo": 35,
+      "nome": "Samuel",
+      "profissao": "prefeito",
+      "profissaoJogo": "prefeito",
+      "situacao": "existente no estado do episódio 03"
+    },
+    {
+      "nome": "Thiago",
+      "profissao": "Fotógrafo",
+      "profissaoJogo": "comerciante",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 36
+    },
+    {
+      "nome": "Livinha",
+      "profissao": "Caçadora de aranhas",
+      "profissaoJogo": "cacador",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 37
+    },
+    {
+      "nome": "Buzz",
+      "profissao": "Arquiteto",
+      "profissaoJogo": "pedreiro",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 38
+    },
+    {
+      "nome": "Molossi",
+      "profissao": "pescador",
+      "profissaoJogo": "pescador",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 39
+    },
+    {
+      "nome": "Pedro",
+      "profissao": "Policial do BOPE",
+      "profissaoJogo": "policial",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 40
+    },
+    {
+      "nome": "Jefferson",
+      "profissao": "Almirante",
+      "profissaoJogo": "marinheiro",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 41
+    },
+    {
+      "nome": "ArthurMendes_",
+      "profissao": "Biólogo",
+      "profissaoJogo": "professor",
+      "situacao": "incluído no remake do episódio 04; publicação pendente; mesma pessoa que ArthurMendes_ (ID 45 removido no episódio 05)",
+      "idJogo": 42
+    },
+    {
+      "nome": "Durplejoga",
+      "profissao": "Aventureiro",
+      "profissaoJogo": "cacador",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 43
+    },
+    {
+      "nome": "Julia Marina",
+      "profissao": "Gestora Ambiental",
+      "profissaoJogo": "jardineiro",
+      "situacao": "incluído no remake do episódio 04; publicação pendente",
+      "idJogo": 44
+    },
+    {
+      "nome": "Abraão",
+      "profissao": "Bombeiro",
+      "profissaoJogo": "bombeiro",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 46
+    },
+    {
+      "nome": "Pietro",
+      "profissao": "Guarda noturno",
+      "profissaoJogo": "policial",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 47
+    },
+    {
+      "nome": "João Pedro",
+      "profissao": "Policial do BOPE",
+      "profissaoJogo": "policial",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 48
+    },
+    {
+      "nome": "Davi",
+      "profissao": "Assassino furtivo",
+      "profissaoJogo": "cacador",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 49
+    },
+    {
+      "nome": "Vicente",
+      "profissao": "Explorador de cavernas",
+      "profissaoJogo": "minerador",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 50
+    },
+    {
+      "nome": "Brites",
+      "profissao": "Empresário",
+      "profissaoJogo": "comerciante",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 51
+    },
+    {
+      "nome": "Laura",
+      "profissao": "Florista",
+      "profissaoJogo": "jardineiro",
+      "situacao": "chegou no episódio 05; publicação pendente",
+      "idJogo": 52
+    },
+    {
+      "nome": "Pietro Oliveira",
+      "profissao": "Guardião da vila",
+      "profissaoJogo": "cacador",
+      "situacao": "chegou no episódio 06; publicação pendente",
+      "idJogo": 55
+    },
+    {
+      "nome": "Gabriel",
+      "profissao": "Político",
+      "profissaoJogo": "comerciante",
+      "situacao": "chegou no episódio 06; publicação pendente",
+      "idJogo": 53
+    },
+    {
+      "nome": "Carlos",
+      "profissao": "Adolescente skatista",
+      "profissaoJogo": "jardineiro",
+      "situacao": "chegou no episódio 06; publicação pendente",
+      "idJogo": 54
+    }
+  ]
+}

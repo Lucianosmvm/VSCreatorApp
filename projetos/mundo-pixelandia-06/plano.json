@@ -1,0 +1,428 @@
+{
+ "episodio": 6,
+ "status": "plano",
+ "salvarDepois": true,
+ "historia": "A votação escolhe o Astro Novalite para a estátua. O prefeito Samuel manda a vila crescer: Bruno e Phil abrem a floresta, Pedro e Isaac fazem a estrada até a mina, que ganha postes e o Bairro da Mina com três casas. Chegam Pietro Oliveira (guardião), Gabriel (político) e Carlos (skatista). Isaac e Elias erguem a estátua de pedra do Astro. 54 moradores; no #7, eleição.",
+ "cenas": [
+  {
+   "nome": "abertura",
+   "seguir": "Samuel",
+   "z": 5,
+   "dur": 5.92,
+   "linhas": [
+    "Mundo Pixelândia #6 🗳️\nA ESTÁTUA SERÁ DO ASTRO!"
+   ],
+   "fala": [
+    "Episódio seis. A votação acabou: a estátua da praça vai ser do Astro Novalite!"
+   ],
+   "antes": "// EP. 06 — ampliação real da vila (fica salva no vila.json do episódio).\n// Bairro da Mina: floresta aberta a nordeste, estrada até a boca da mina, postes,\n// três casas novas, flores na praça e a estátua do Astro concluída com pedra da mina.\nwindow.__px6 = (() => {\n  const REG = { x0: CX + 19, x1: CX + 31, y0: CY - 21, y1: CY - 4 };\n  const ESTRADA_X = CX + 25;\n  const CASAS = [[CX + 21, CY - 9], [CX + 21, CY - 14], [CX + 27, CY - 11]];\n  const POSTES = [[CX + 24, CY - 6], [CX + 26, CY - 8], [CX + 24, CY - 12], [CX + 26, CY - 15], [CX + 24, CY - 18]];\n  const redraw = (x, y) => { try { drawGroundTile(x, y); } catch (e) {} };\n  const dentro = (x, y) => x >= 0 && y >= 0 && x < W && y < H;\n\n  // Árvores da região, da borda da vila para dentro da floresta.\n  const arvores = [];\n  for (let y = REG.y0; y <= REG.y1; y++) for (let x = REG.x0; x <= REG.x1; x++)\n    if (dentro(x, y) && obj[idx(x, y)] === O_TREE) arvores.push([x, y]);\n  arvores.sort((a, b) => Math.hypot(a[0] - (CX + 20), a[1] - (CY - 4)) - Math.hypot(b[0] - (CX + 20), b[1] - (CY - 4)));\n\n  // Estrada: sai da estrada leste (y = CY-3) e sobe até a mina (y = CY-18).\n  const estrada = [];\n  for (let x = CX + 21; x <= ESTRADA_X; x++) estrada.push([x, CY - 3]);\n  for (let y = CY - 4; y >= CY - 18; y--) estrada.push([ESTRADA_X, y]);\n\n  let abertas = 0, assentadas = 0;\n  return {\n    REG, ESTRADA_X,\n    abrir(f) {\n      const alvo = Math.round(arvores.length * Math.min(1, f));\n      for (; abertas < alvo; abertas++) {\n        const [x, y] = arvores[abertas]; obj[idx(x, y)] = 0; redraw(x, y);\n        if (abertas % 2 === 0) try { burst(x * T + 8, y * T + 2, '#6b8e23', 5); } catch (e) {}\n      }\n    },\n    estrada(f) {\n      const alvo = Math.round(estrada.length * Math.min(1, f));\n      for (; assentadas < alvo; assentadas++) {\n        const [x, y] = estrada[assentadas], i = idx(x, y);\n        if (obj[i] === O_TREE || obj[i] === O_ROCK || obj[i] === O_FLOWER) obj[i] = 0;\n        ground[i] = G_PATH; redraw(x, y);\n      }\n    },\n    postes() {\n      for (const [x, y] of POSTES) { const i = idx(x, y); if (bld[i] < 0 && obj[i] !== O_LAMP) { obj[i] = O_LAMP; lampCount++; redraw(x, y); } }\n    },\n    casas() {\n      const feitas = [];\n      for (const [x, y] of CASAS) {\n        if (buildings.some(b => b.x === x && b.y === y)) continue;\n        for (let yy = y; yy < y + 3; yy++) for (let xx = x; xx < x + 3; xx++) { const i = idx(xx, yy); obj[i] = 0; ground[i] = G_GRASS; redraw(xx, yy); }\n        const d = BT.casa;\n        const b = { id: nextBid++, type: 'casa', x, y, w: d.w, h: d.h, done: true, progress: d.time, need: d.time, manual: true, owner: null, startedAt: gtime, bairro: 'Bairro da Mina' };\n        placeBuilding(b); buildings.push(b); bById.set(b.id, b); feitas.push(b.id);\n      }\n      try { assignHomes(); } catch (e) {}\n      return feitas;\n    },\n    flores() {\n      let n = 0;\n      for (let r = 3; r <= 7 && n < 40; r++) for (let a = 0; a < 24 && n < 40; a++) {\n        const x = Math.round(CX + Math.cos(a / 24 * Math.PI * 2) * r), y = Math.round(CY + Math.sin(a / 24 * Math.PI * 2) * r), i = idx(x, y);\n        if (ground[i] === G_GRASS && obj[i] === 0 && bld[i] < 0 && (a + r) % 2 === 0) { obj[i] = O_FLOWER; flowerCount++; n++; redraw(x, y); }\n      }\n      return n;\n    },\n    estatua(nome) {\n      const b = buildings.find(b => b.type === 'estatua' && !b.done) || buildings.filter(b => b.type === 'estatua').at(-1);\n      if (!b) return null;\n      b.done = true; b.progress = b.need || BT.estatua.time; b.nome = nome; b.material = 'pedra da mina'; b._cache = null;\n      return { x: (b.x + 1) * T, y: (b.y + 1) * T, id: b.id };\n    },\n    tudo(nome) { this.abrir(1); this.estrada(1); this.postes(); this.casas(); this.flores(); return this.estatua(nome); },\n  };\n})();\ntrue;\n\n// Direção exclusiva do episódio 06, executada dentro da cópia filmada do jogo.\n// Mesmo esquema do #5: o grupo da cena fica num ponto (ou caminha), a câmera centraliza\n// nele e quem não está na cena sai do quadro. Novidades do #6:\n//  - nomes do grupo aceitam id (número) para separar homônimos (Pedro pedreiro = 4);\n//  - \"obra\": a ampliação acontece durante a cena (__px6, ver ampliacao.js);\n//  - adereços: boca da mina, estátua de pedra do Astro, espada/armadura do Pietro Oliveira\n//    e skate do Carlos.\nwindow.__ep6pump = window.__pump;\nwindow.__ep6hidden = [];\nconst ep6npc = (k) => (typeof k === \"number\" ? npcs.find((n) => n.id === k) : npcs.filter((n) => n.name === k).at(-1));\nwindow.__pump = function (ms) {\n  for (const n of window.__ep6hidden) n.inside = false;\n  window.__ep6hidden = [];\n  const scene = window.__ep6scene;\n  if (scene) {\n    const elapsed = Math.max(0, gtime - scene.started);\n    const walk = Math.min(1, elapsed / scene.travel);\n    const centerX = scene.x + (scene.endX - scene.x) * walk;\n    const centerY = scene.y + (scene.endY - scene.y) * walk;\n    if (scene.obra) {\n      const f = (a) => a[0] + (a[1] - a[0]) * walk;\n      if (scene.obra.abrir) window.__px6.abrir(f(scene.obra.abrir));\n      if (scene.obra.estrada) window.__px6.estrada(f(scene.obra.estrada));\n    }\n    cam.x = centerX;\n    cam.y = centerY + (scene.names.length ? 26 + Math.floor((scene.names.length - 1) / 3) * 13.5 : 0);\n    const ids = [];\n    for (const [i, name] of scene.names.entries()) {\n      const n = ep6npc(name);\n      if (!n) continue;\n      ids.push(n.id);\n      n.x = centerX + (i % 3 - 1) * 21;\n      n.y = centerY + 38 + Math.floor(i / 3) * 27;\n      n.inside = false;\n      n.sleeping = false;\n      n.active = true;\n      n.plan = [work(300, null, null)];\n      n.step = null;\n      const anda = scene.endX !== scene.x || scene.endY !== scene.y;\n      n.dir = anda && walk < 1 ? (scene.endY < scene.y ? \"up\" : scene.endX < scene.x ? \"left\" : \"right\") : \"down\";\n      n.walkT = anda && walk < 1 ? gtime * 7 : 0;\n    }\n    if (scene.names.length) {\n      for (const n of npcs) {\n        if (!ids.includes(n.id) && Math.abs(n.x - centerX) < 105 && Math.abs(n.y - centerY) < 145) {\n          window.__ep6hidden.push(n);\n          n.inside = true;\n        }\n      }\n    }\n  }\n  window.__ep6pump(ms);\n  ctx.save();\n  ctx.setTransform(cam.z * dpr, 0, 0, cam.z * dpr,\n    Math.round((cw / 2 - cam.x * cam.z) * dpr), Math.round((ch / 2 - cam.y * cam.z) * dpr));\n  ep6mina();\n  ep6estatua();\n  ep6adereco(\"Pietro Oliveira\", ep6espada);\n  ep6adereco(\"Carlos\", ep6skate);\n  ctx.restore();\n};\n\nfunction ep6visivel(x, y) {\n  return Math.abs(x - cam.x) * cam.z < cw / 2 + 80 && Math.abs(y - cam.y) * cam.z < ch / 2 + 80;\n}\n\n// Boca da mina no fim da estrada nova (mesmo ponto do #4 e #5).\nfunction ep6mina() {\n  const x = (CX + 25) * T + 8, y = (CY - 20) * T + 8;\n  if (!ep6visivel(x, y)) return;\n  ctx.strokeStyle = \"#5a3f24\";\n  ctx.lineWidth = 3;\n  for (const [a, b, c, d] of [[-30, 6, -14, -4], [30, 6, 14, -4], [-26, 14, -10, 8], [26, 14, 10, 8]]) {\n    ctx.beginPath(); ctx.moveTo(x + a, y + b); ctx.quadraticCurveTo(x + (a + c) / 2, y + Math.min(b, d) - 6, x + c, y + d); ctx.stroke();\n  }\n  ctx.fillStyle = \"#7d828a\"; ctx.fillRect(x - 18, y - 16, 36, 26);\n  ctx.fillStyle = \"#9aa0a8\";\n  for (const [dx, dy] of [[-18, -16], [-6, -18], [6, -16], [-18, -4], [12, -4]]) ctx.fillRect(x + dx, y + dy, 8, 6);\n  ctx.fillStyle = \"#2b2118\"; ctx.fillRect(x - 9, y - 8, 18, 18);\n  ctx.fillStyle = \"#ffd23f\"; ctx.fillRect(x - 2, y - 4, 4, 4);\n}\n\n// A estátua do Astro é de pedra da mina: cinza, com placa.\nfunction ep6estatua() {\n  const b = buildings.find((b) => b.type === \"estatua\" && b.done && b.nome === \"Astro Novalite\");\n  if (!b) return;\n  const x = b.x * T, y = b.y * T;\n  if (!ep6visivel(x + 16, y + 16)) return;\n  const g = \"#a9aeb6\", gd = \"#7d828a\", fx = x + 13;\n  ctx.fillStyle = \"#b5bac2\"; ctx.fillRect(x + 5, y + 16, 22, 3);\n  ctx.fillStyle = \"#949aa3\"; ctx.fillRect(x + 7, y + 19, 18, 10);\n  ctx.fillStyle = g; ctx.fillRect(fx, y - 6, 6, 6); ctx.fillRect(fx - 1, y, 8, 9); ctx.fillRect(fx, y + 9, 3, 7); ctx.fillRect(fx + 4, y + 9, 3, 7);\n  ctx.fillStyle = gd; ctx.fillRect(fx + 4, y - 6, 2, 6); ctx.fillRect(fx + 5, y, 2, 9);\n  // Braço apontando para o céu (o Astro viu a luz).\n  ctx.fillStyle = g; ctx.fillRect(fx + 7, y - 10, 2, 10); ctx.fillRect(fx + 8, y - 13, 2, 3);\n  // Placa\n  ctx.fillStyle = \"#5e3b1c\"; ctx.fillRect(x + 8, y + 21, 16, 6);\n  ctx.fillStyle = \"#ffd23f\"; ctx.font = \"bold 4px monospace\"; ctx.textAlign = \"center\"; ctx.fillText(\"ASTRO\", x + 16, y + 26);\n}\n\nfunction ep6adereco(nome, desenho) {\n  const n = ep6npc(nome);\n  if (!n || n.inside || !ep6visivel(n.x, n.y)) return;\n  desenho(n.x, n.y);\n}\n\n// Pietro Oliveira: espada grande nas costas e elmo prateado.\nfunction ep6espada(x, y) {\n  ctx.fillStyle = \"#c9ced6\"; ctx.fillRect(x + 4, y - 30, 2, 20);\n  ctx.fillStyle = \"#e8ecf2\"; ctx.fillRect(x + 4, y - 30, 1, 20);\n  ctx.fillStyle = \"#7a5530\"; ctx.fillRect(x + 2, y - 11, 6, 2); ctx.fillRect(x + 4, y - 9, 2, 4);\n  ctx.fillStyle = \"#ffd23f\"; ctx.fillRect(x + 4, y - 5, 2, 1);\n  ctx.fillStyle = \"rgba(200,206,214,.95)\"; ctx.fillRect(x - 4, y - 22, 8, 3);\n  ctx.fillStyle = \"#e8ecf2\"; ctx.fillRect(x - 1, y - 25, 2, 3);\n}\n\n// Carlos: skate debaixo dos pés.\nfunction ep6skate(x, y) {\n  ctx.fillStyle = \"#d63a2a\"; ctx.fillRect(x - 7, y + 1, 14, 2);\n  ctx.fillStyle = \"#222\"; ctx.fillRect(x - 6, y + 3, 2, 2); ctx.fillRect(x + 4, y + 3, 2, 2);\n}\n\nwindow.__ep6scene={...{\"names\": [\"Samuel\", \"Astro Novalite\", \"Lago\"], \"x\": 1488, \"y\": 1004, \"endX\": 1488, \"endY\": 1004, \"travel\": 5.88, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "hora": 10,
+   "durante": {
+    "t": 1.6,
+    "js": "firework(cam.x-40,cam.y-60);firework(cam.x+45,cam.y-75)"
+   },
+   "audio": "videos/mundo-pixelandia-06-voz/cena_000.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "astro",
+   "seguir": "Astro Novalite",
+   "z": 6.2,
+   "dur": 4.16,
+   "linhas": [
+    "Quem viu a luz primeiro…\nGANHOU UMA ESTÁTUA 🗿"
+   ],
+   "fala": [
+    "Logo ele, que viu a luz de madrugada e começou toda essa história."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Astro Novalite\", \"Lago\", \"Robson\"], \"x\": 1488, \"y\": 1004, \"endX\": 1488, \"endY\": 1004, \"travel\": 5.46, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_001.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "plano",
+   "seguir": "Samuel",
+   "z": 5,
+   "dur": 10.4,
+   "linhas": [
+    "O prefeito Samuel quis mais:\nA VILA VAI CRESCER!",
+    "Plano do Elias e do Buzz:\nESTRADA NOVA ATÉ A MINA 🛣️"
+   ],
+   "fala": [
+    "Mas o prefeito Samuel quis mais: a vila não cabe mais na clareira.",
+    "O engenheiro Elias e o arquiteto Buzz desenharam o plano: uma estrada nova até a mina."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Samuel\", \"Elias\", \"Buzz\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 12.18, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_002.wav",
+   "tempos": [
+    0,
+    4.72
+   ]
+  },
+  {
+   "nome": "floresta",
+   "seguir": "Bruno",
+   "z": 4.2,
+   "dur": 4.88,
+   "linhas": [
+    "Bruno e Phil 🪓\nABRIRAM A FLORESTA"
+   ],
+   "fala": [
+    "Bruno e Phil, da serraria, abriram caminho na floresta, árvore por árvore."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Bruno\", \"Phil\", \"Jean\"], \"x\": 1592, \"y\": 872, \"endX\": 1592, \"endY\": 872, \"travel\": 5.04, \"obra\": {\"abrir\": [0, 0.6]}},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_003.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "estrada",
+   "seguir": "Isaac",
+   "z": 4.2,
+   "dur": 5.44,
+   "linhas": [
+    "Pedro e Isaac 🔨\nASSENTARAM A ESTRADA"
+   ],
+   "fala": [
+    "Logo atrás, o Pedro pedreiro e o Isaac assentaram a estrada, pedra por pedra."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [4, \"Isaac\", \"Buzz\"], \"x\": 1688, \"y\": 904, \"endX\": 1688, \"endY\": 792, \"travel\": 5.88, \"obra\": {\"abrir\": [0.6, 1], \"estrada\": [0, 1]}},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_004.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "pietro-oliveira",
+   "seguir": "Pietro",
+   "z": 5,
+   "dur": 11.2,
+   "linhas": [
+    "Pietro Oliveira chegou ⚔️\nO GUARDIÃO DA VILA",
+    "Armadura top e espada grande:\nVAI GUARDAR A MINA"
+   ],
+   "fala": [
+    "Na boca da mina, chegou o Pietro Oliveira: o guardião da vila, de armadura top e espada grande.",
+    "Servo do rei e explorador, ele vai guardar a mina junto com o outro Pietro."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Pietro\", \"Pietro Oliveira\", \"Lago\"], \"x\": 1688, \"y\": 700, \"endX\": 1688, \"endY\": 700, \"travel\": 13.86, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 1.47,
+     "nome": "Pietro Oliveira"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_005.wav",
+   "tempos": [
+    0,
+    6.4
+   ]
+  },
+  {
+   "nome": "pedra",
+   "seguir": "Victor",
+   "z": 5,
+   "dur": 8.64,
+   "linhas": [
+    "Pedra da mina 🪨\nJOÃO PEDRO FEZ A ESCOLTA",
+    "Estrada com postes 💡\nVIGIA NOTURNA GARANTIDA"
+   ],
+   "fala": [
+    "Pela estrada nova, Victor e Vicente trouxeram a pedra, com escolta do João Pedro, do Bope.",
+    "E a estrada ganhou postes, para a vigia da madrugada."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Victor\", \"Vicente\", \"João Pedro\"], \"x\": 1688, \"y\": 792, \"endX\": 1688, \"endY\": 850, \"travel\": 10.92, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "durante": {
+    "t": 3.5,
+    "js": "window.__px6.postes()"
+   },
+   "audio": "videos/mundo-pixelandia-06-voz/cena_006.wav",
+   "tempos": [
+    0,
+    5.68
+   ]
+  },
+  {
+   "nome": "casas",
+   "seguir": "Isaac",
+   "z": 5,
+   "dur": 5.36,
+   "linhas": [
+    "Nasceu um bairro novo 🏘️\nO BAIRRO DA MINA!"
+   ],
+   "fala": [
+    "Na beira da estrada, nasceu um bairro novo: o Bairro da Mina, com três casas."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [4, \"Isaac\", \"Elias\"], \"x\": 1640, \"y\": 836, \"endX\": 1640, \"endY\": 836, \"travel\": 6.3, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "durante": {
+    "t": 1.0,
+    "js": "window.__px6.casas();firework(cam.x,cam.y-70)"
+   },
+   "audio": "videos/mundo-pixelandia-06-voz/cena_007.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "gabriel",
+   "seguir": "Gabriel",
+   "z": 5,
+   "dur": 6.08,
+   "linhas": [
+    "Gabriel, político 🎩\nJÁ CHEGOU FAZENDO CAMPANHA"
+   ],
+   "fala": [
+    "O primeiro morador do bairro é o Gabriel, político. Mal chegou e já apertou a mão do prefeito e do Kyle."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Gabriel\", \"Samuel\", \"Kyle\"], \"x\": 1640, \"y\": 836, \"endX\": 1640, \"endY\": 836, \"travel\": 8.82, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 1.52,
+     "nome": "Gabriel"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_008.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "carlos",
+   "seguir": "Carlos",
+   "z": 5,
+   "dur": 6.96,
+   "linhas": [
+    "Carlos, adolescente skatista 🛹\nESTREOU A ESTRADA NOVA"
+   ],
+   "fala": [
+    "E o Carlos, adolescente que adora skate, estreou a estrada nova antes de todo mundo. O Dandy gravou tudo."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Carlos\", \"Dandy\"], \"x\": 1688, \"y\": 700, \"endX\": 1688, \"endY\": 792, \"travel\": 7.98, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.24,
+     "nome": "Carlos"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_009.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "flores",
+   "seguir": "Laura",
+   "z": 5,
+   "dur": 3.6,
+   "linhas": [
+    "Flores novas na praça 🌷\nLAURA E JULIA MARINA"
+   ],
+   "fala": [
+    "Na praça, a Laura e a Julia Marina plantaram flores novas."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Laura\", \"Julia Marina\", \"Latifa\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 4.62, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "durante": {
+    "t": 0.6,
+    "js": "window.__px6.flores()"
+   },
+   "audio": "videos/mundo-pixelandia-06-voz/cena_010.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "estatua",
+   "seguir": "Isaac",
+   "z": 5,
+   "dur": 7.84,
+   "linhas": [
+    "Com a pedra da mina…\nA ESTÁTUA DO ASTRO FICOU PRONTA! 🗿"
+   ],
+   "fala": [
+    "Com a pedra da mina, Isaac e Elias ergueram a estátua. E lá está ela: o Astro Novalite, de pedra, na praça!"
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Isaac\", \"Elias\", \"Astro Novalite\"], \"x\": 1488, \"y\": 1004, \"endX\": 1488, \"endY\": 1004, \"travel\": 9.24, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "clima": "vitoria",
+   "durante": {
+    "t": 1.2,
+    "js": "window.__px6.estatua('Astro Novalite');firework(cam.x-40,cam.y-70);firework(cam.x+40,cam.y-80)"
+   },
+   "audio": "videos/mundo-pixelandia-06-voz/cena_011.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "visao",
+   "seguir": "Samuel",
+   "z": 2.2,
+   "dur": 5.32,
+   "linhas": [
+    "Onde era floresta…\nAGORA TEM ESTRADA E BAIRRO 🏘️"
+   ],
+   "fala": [
+    "Olha a diferença: onde era floresta, agora tem estrada, postes e um bairro inteiro."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [], \"x\": 1500, \"y\": 860, \"endX\": 1560, \"endY\": 820, \"travel\": 5.88, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_012.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "meta",
+   "seguir": "Samuel",
+   "z": 3.8,
+   "dur": 6.24,
+   "linhas": [
+    "54 moradores! 🎉\nPRÓXIMA META: O FAROL (100) 🗼"
+   ],
+   "fala": [
+    "Com os três novos, a vila chegou a cinquenta e quatro moradores. A próxima meta é cem, e o farol."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Samuel\", \"Gabriel\", \"Carlos\", \"Pietro Oliveira\", \"Astro Novalite\", \"Elias\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 8.4, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-06-voz/cena_013.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "convite",
+   "seguir": "Samuel",
+   "z": 3.8,
+   "dur": 7.52,
+   "linhas": [
+    "Quer uma casa no Bairro da Mina?\nCOMENTE APELIDO + PROFISSÃO",
+    "Curta e se inscreva!\nNO #7 VOCÊ PODE APARECER"
+   ],
+   "fala": [
+    "Quer uma casa no Bairro da Mina? Comente seu apelido e sua profissão.",
+    "Curta, se inscreva, e no episódio sete você pode aparecer."
+   ],
+   "antes": "window.__ep6scene={...{\"names\": [\"Samuel\", \"Gabriel\", \"Carlos\", \"Pietro Oliveira\", \"Victor\", \"Elias\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 9.66, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "cta": true,
+   "audio": "videos/mundo-pixelandia-06-voz/cena_014.wav",
+   "tempos": [
+    0,
+    3.84
+   ]
+  },
+  {
+   "nome": "gancho",
+   "seguir": "Samuel",
+   "z": 4.4,
+   "dur": 5.32,
+   "linhas": [
+    "No #7: ELEIÇÃO! 🗳️\nSAMUEL, ZHERO, KYLE… OU GABRIEL?"
+   ],
+   "fala": [
+    "No episódio sete tem eleição. Samuel, Z-Hero, Kyle… ou o Gabriel?"
+   ],
+   "antes": "window.__px6.tudo('Astro Novalite');window.__ep6scene={...{\"names\": [\"Samuel\", \"zHero\", \"Kyle\", \"Gabriel\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 4.62, \"obra\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 4.76,
+     "nome": "Gabriel"
+    }
+   ],
+   "clima": "misterio",
+   "audio": "videos/mundo-pixelandia-06-voz/cena_015.wav",
+   "tempos": [
+    0
+   ]
+  }
+ ]
+}

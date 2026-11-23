@@ -1,0 +1,8407 @@
+{
+  "id": "mundo-pixelandia-05",
+  "episodio": 5,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 95.52,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 51,
+    "prontas": 20,
+    "fila": 12,
+    "destaque": {
+      "id": 4,
+      "nome": "Pedro",
+      "prof": "Pedreiro"
+    },
+    "alvosObra": [
+      {
+        "x": 1488,
+        "y": 928
+      },
+      {
+        "x": 1128,
+        "y": 1120
+      },
+      {
+        "x": 1488,
+        "y": 1024
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "chegada": {
+      "x": 1240,
+      "y": 1384
+    },
+    "dia": 8
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-05/cena-1.mp4",
+      "inicio": 0,
+      "dur": 3.12,
+      "linhas": [
+        "A entrada entre as raízes…\nVICTOR CHEGOU."
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "reconhece",
+      "video": "pixelandia/mundo-pixelandia-05/cena-2.mp4",
+      "inicio": 3.12,
+      "dur": 5.84,
+      "linhas": [
+        "Victor reconheceu na hora:\nA MINA ANTIGA DA VILA!"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_001.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "vicente",
+      "video": "pixelandia/mundo-pixelandia-05/cena-3.mp4",
+      "inicio": 8.96,
+      "dur": 5.84,
+      "linhas": [
+        "Vicente, explorador de cavernas!\nO AMIGO DO VICTOR CHEGOU. 🔦"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_002.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "abraao",
+      "video": "pixelandia/mundo-pixelandia-05/cena-4.mp4",
+      "inicio": 14.8,
+      "dur": 6.08,
+      "linhas": [
+        "Abraão, bombeiro! 🧯\nSEGURANÇA PRIMEIRO."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Abraão",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "joao-pedro",
+      "video": "pixelandia/mundo-pixelandia-05/cena-5.mp4",
+      "inicio": 20.88,
+      "dur": 5.68,
+      "linhas": [
+        "João Pedro, policial do BOPE!\nAGORA SÃO QUATRO PEDROS."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "João Pedro",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "davi",
+      "video": "pixelandia/mundo-pixelandia-05/cena-6.mp4",
+      "inicio": 26.56,
+      "dur": 6.12,
+      "linhas": [
+        "Davi, assassino furtivo 🥷\nNINGUÉM VIU ELE CHEGAR."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Davi",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_005.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "dentro",
+      "video": "pixelandia/mundo-pixelandia-05/cena-7.mp4",
+      "inicio": 32.68,
+      "dur": 4.16,
+      "linhas": [
+        "Vicente acendeu a lanterna.\nO TRIO ENTROU NA MINA."
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Vicente",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "pedras",
+      "video": "pixelandia/mundo-pixelandia-05/cena-8.mp4",
+      "inicio": 36.84,
+      "dur": 5.96,
+      "linhas": [
+        "Lá dentro, nada assustador:\nPEDRA BOA E FERRAMENTAS ANTIGAS!"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_007.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "encerrado",
+      "video": "pixelandia/mundo-pixelandia-05/cena-9.mp4",
+      "inicio": 42.8,
+      "dur": 5.84,
+      "linhas": [
+        "Caso do Astro: ENCERRADO! ✅\nA LUZ ERA O DRONE. A ENTRADA, A MINA."
+      ],
+      "clima": "vitoria",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_008.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "pietro",
+      "video": "pixelandia/mundo-pixelandia-05/cena-10.mp4",
+      "inicio": 48.64,
+      "dur": 7.44,
+      "linhas": [
+        "Pietro, guarda noturno 🌙\nO LAGO GANHOU PARCEIRO."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_009.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "brites",
+      "video": "pixelandia/mundo-pixelandia-05/cena-11.mp4",
+      "inicio": 56.08,
+      "dur": 5.6,
+      "linhas": [
+        "Brites, empresário 💼\nQUER INVESTIR NA PEDRA DA MINA."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Brites",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_010.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "laura",
+      "video": "pixelandia/mundo-pixelandia-05/cena-12.mp4",
+      "inicio": 61.68,
+      "dur": 5.12,
+      "linhas": [
+        "Laura, da floricultura 🌷\nFLORES NOVAS PARA A PRAÇA."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Laura",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_011.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "arthurs",
+      "video": "pixelandia/mundo-pixelandia-05/cena-13.mp4",
+      "inicio": 66.8,
+      "dur": 5.04,
+      "linhas": [
+        "ArthurMendes_, o biólogo do #4 🔬\nVAI ESTUDAR AS PLANTAS DA MINA."
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_012.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "meta",
+      "video": "pixelandia/mundo-pixelandia-05/cena-14.mp4",
+      "inicio": 71.84,
+      "dur": 5.6,
+      "linhas": [
+        "51 moradores! 🎉\nA META DA ESTÁTUA FOI BATIDA!"
+      ],
+      "clima": "vitoria",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_013.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "destino",
+      "video": "pixelandia/mundo-pixelandia-05/cena-15.mp4",
+      "inicio": 77.44,
+      "dur": 5.92,
+      "linhas": [
+        "A pedra da mina tem destino:\nA PRÓXIMA ESTÁTUA DA PRAÇA. 🗿"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_014.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "convite",
+      "video": "pixelandia/mundo-pixelandia-05/cena-16.mp4",
+      "inicio": 83.36,
+      "dur": 8.52,
+      "linhas": [
+        "De quem vai ser a estátua?\nVOTE NOS COMENTÁRIOS!",
+        "Comente APELIDO + PROFISSÃO\nCURTA E SE INSCREVA."
+      ],
+      "clima": null,
+      "cta": true,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_015.wav",
+      "tempos": [
+        0,
+        4.08
+      ]
+    },
+    {
+      "nome": "gancho",
+      "video": "pixelandia/mundo-pixelandia-05/cena-17.mp4",
+      "inicio": 91.88,
+      "dur": 3.64,
+      "linhas": [
+        "No #6, a obra começa.\nDE QUEM SERÁ A ESTÁTUA?"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-05-voz/cena_016.wav",
+      "tempos": [
+        0
+      ]
+    }
+  ]
+}

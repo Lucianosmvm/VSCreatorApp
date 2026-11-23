@@ -1,0 +1,55 @@
+{
+  "episodio": 4,
+  "status": "exportado-narrado",
+  "publicacao": "pendente",
+  "video": "remotion/out/mundo-pixelandia-04.mp4",
+  "duracao": 136.32,
+  "base": "projetos/mundo-pixelandia-03/vila.json",
+  "moradores": 45,
+  "novos": [
+    "Thiago",
+    "Livinha",
+    "Buzz",
+    "Molossi",
+    "Pedro",
+    "Jefferson",
+    "Arthur",
+    "Durplejoga",
+    "Julia Marina",
+    "ArthurMendes_"
+  ],
+  "protagonistas": [
+    "Astro Novalite",
+    "Lago",
+    "Jean",
+    "Robson"
+  ],
+  "descoberta": "A luz era a lâmpada do drone perdido de Robson.",
+  "gancho": "O registro do drone mostra uma entrada de pedra entre raízes. Victor foi chamado.",
+  "proximo": "EP05: Victor ajuda a concluir o caso do Astro; depois priorizar o Parque já desbloqueado e novas construções, sem emendar outro mistério como foco principal.",
+  "duracaoPrevia": 133.803,
+  "previa": "remotion/jobs/mundo-pixelandia-04/previa-novos-moradores.mp4",
+  "revisaoVisual": "Câmera centralizada no grupo, caminhos livres de árvores e prédios.",
+  "narracao": {
+    "estado": "concluida",
+    "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": 0.92,
+    "falasNovas": 5,
+    "falasReaproveitadas": 18,
+    "timeline": "remotion/public/videos/mundo-pixelandia-04-final-voz/timeline.json"
+  },
+  "cadastro": "docs/pixelandia-moradores.json",
+  "duplicidadeEvitada": {
+    "nome": "Elias",
+    "profissao": "Engenheiro civil",
+    "idJogo": 22,
+    "episodioAnterior": 3
+  },
+  "previaExportadaEm": "2026-11-18T10:33:56.247Z",
+  "validacao": "MP4 1080x1920, H.264/AAC estéreo, 136.32 s; decodificação completa sem erros, pico -3.3 dBFS. 45 moradores, Elias sem duplicação.",
+  "direcaoPrincipal": "Evoluir o mundo com criações, construções, recursos, serviços e eventos. Concluir o caso do Astro e retomar avanços concretos da vila com participação do público.",
+  "revisaoSetas": "Setas exclusivamente nos 10 novos moradores, posição real da cabeça e tempo dos nomes no áudio. 23 cenas verificadas.",
+  "regraSetas": "Apenas nos 10 moradores novos deste episódio, para se reconhecerem. Nenhuma seta em moradores antigos; manter identificação por profissão/ID quando houver nomes iguais.",
+  "exportadoEm": "2026-11-18T10:44:01.118Z"
+}

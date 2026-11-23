@@ -1,0 +1,444 @@
+{
+ "episodio": 5,
+ "status": "plano",
+ "historia": "Victor reconhece a entrada: é a mina antiga dos fundadores. Vicente, Davi e Victor entram e acham pedra boa e ferramentas. O caso do Astro é encerrado. Sete novos chegam, a vila passa de 50 e libera a estátua; o público vota de quem será.",
+ "cenas": [
+  {
+   "nome": "abertura",
+   "seguir": "Victor",
+   "z": 5,
+   "dur": 3.12,
+   "linhas": [
+    "A entrada entre as raízes…\nVICTOR CHEGOU."
+   ],
+   "fala": [
+    "Victor chegou à clareira para ver a entrada de pedra."
+   ],
+   "antes": "for(let y=CY-23;y<=CY-15;y++)for(let x=CX+21;x<=CX+29;x++)obj[idx(x,y)]=0;\n// Direção exclusiva do episódio 05, executada dentro da cópia filmada do jogo.\n// Mesmo esquema do #4: o grupo da cena fica parado (ou caminha) num ponto fixo,\n// a câmera centraliza nele e moradores de fora da cena saem do quadro.\nwindow.__ep5pump = window.__pump;\nwindow.__ep5hidden = [];\nwindow.__pump = function (ms) {\n  for (const n of window.__ep5hidden) n.inside = false;\n  window.__ep5hidden = [];\n  const scene = window.__ep5scene;\n  if (scene) {\n    const elapsed = Math.max(0, gtime - scene.started);\n    const walk = Math.min(1, elapsed / scene.travel);\n    const centerX = scene.x + (scene.endX - scene.x) * walk;\n    const centerY = scene.y + (scene.endY - scene.y) * walk;\n    cam.x = centerX;\n    cam.y = centerY + 26 + Math.floor((scene.names.length - 1) / 3) * 13.5;\n    const ids = [];\n    for (const [i, name] of scene.names.entries()) {\n      const n = npcs.filter(n => n.name === name).at(-1);\n      if (!n) continue;\n      ids.push(n.id);\n      n.x = centerX + (i % 3 - 1) * 21;\n      n.y = centerY + 38 + Math.floor(i / 3) * 27;\n      const tileX = Math.floor(n.x / T);\n      const tileY = Math.floor(n.y / T);\n      for (let y = tileY - 3; y <= tileY + 6; y++) {\n        for (let x = tileX - 3; x <= tileX + 3; x++) {\n          if (x >= 0 && x < W && y >= 0 && y < H && obj[idx(x, y)] === O_TREE) obj[idx(x, y)] = 0;\n        }\n      }\n      n.inside = false;\n      n.sleeping = false;\n      n.active = true;\n      n.plan = [work(300, null, null)];\n      n.step = null;\n      n.dir = walk < 1 ? \"right\" : \"up\";\n      n.walkT = walk < 1 ? gtime * 7 : 0;\n    }\n    for (const n of npcs) {\n      if (!ids.includes(n.id) && Math.abs(n.x - centerX) < 105 && Math.abs(n.y - centerY) < 145) {\n        window.__ep5hidden.push(n);\n        n.inside = true;\n      }\n    }\n  }\n  window.__ep5pump(ms);\n  if (!scene?.prop) return;\n  // A entrada fica na mesma clareira do #4.\n  const x = (CX + 25) * T + 8;\n  const y = (CY - 20) * T + 8;\n  ctx.save();\n  ctx.setTransform(cam.z * dpr, 0, 0, cam.z * dpr,\n    Math.round((cw / 2 - cam.x * cam.z) * dpr), Math.round((ch / 2 - cam.y * cam.z) * dpr));\n  // Raízes em volta da entrada.\n  ctx.strokeStyle = \"#5a3f24\";\n  ctx.lineWidth = 3;\n  for (const [a, b, c, d] of [[-30, 6, -14, -4], [30, 6, 14, -4], [-26, 14, -10, 8], [26, 14, 10, 8], [-6, -22, -2, -14], [8, -22, 3, -14]]) {\n    ctx.beginPath();\n    ctx.moveTo(x + a, y + b);\n    ctx.quadraticCurveTo(x + (a + c) / 2, y + Math.min(b, d) - 6, x + c, y + d);\n    ctx.stroke();\n  }\n  // Arco de pedra com a boca da mina.\n  ctx.fillStyle = \"#7d828a\";\n  ctx.fillRect(x - 18, y - 16, 36, 26);\n  ctx.fillStyle = \"#9aa0a8\";\n  for (const [dx, dy] of [[-18, -16], [-6, -18], [6, -16], [-18, -4], [12, -4]]) ctx.fillRect(x + dx, y + dy, 8, 6);\n  ctx.fillStyle = scene.prop === \"aberta\" || scene.prop === \"pedras\" ? \"#2b2118\" : \"#121212\";\n  ctx.fillRect(x - 9, y - 8, 18, 18);\n  if (scene.prop === \"aberta\" || scene.prop === \"pedras\") {\n    // Lamparina dos fundadores acesa na boca da mina.\n    ctx.fillStyle = \"#ffd23f\";\n    ctx.fillRect(x - 2, y - 4, 4, 4);\n    ctx.globalAlpha = 0.25;\n    ctx.beginPath();\n    ctx.arc(x, y - 2, 10, 0, Math.PI * 2);\n    ctx.fill();\n    ctx.globalAlpha = 1;\n  }\n  if (scene.prop === \"pedras\") {\n    // Pedra de qualidade empilhada e uma picareta antiga.\n    for (const [dx, dy, c] of [[22, 6, \"#b9bec6\"], [30, 6, \"#9aa0a8\"], [26, 0, \"#c9ced6\"], [-34, 6, \"#b9bec6\"], [-26, 6, \"#9aa0a8\"]]) {\n      ctx.fillStyle = c;\n      ctx.fillRect(x + dx, y + dy, 8, 6);\n      ctx.fillStyle = \"#6b7078\";\n      ctx.fillRect(x + dx, y + dy + 5, 8, 1);\n    }\n    ctx.strokeStyle = \"#7a5530\";\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    ctx.moveTo(x - 40, y + 14);\n    ctx.lineTo(x - 30, y + 2);\n    ctx.stroke();\n    ctx.strokeStyle = \"#aab0b8\";\n    ctx.beginPath();\n    ctx.moveTo(x - 35, y);\n    ctx.quadraticCurveTo(x - 30, y - 1, x - 25, y + 4);\n    ctx.stroke();\n  }\n  ctx.restore();\n};\n\nwindow.__ep5scene={...{\"names\": [\"Victor\", \"Jean\", \"Astro Novalite\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 4.2, \"prop\": \"entrada\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "hora": 10,
+   "clima": "misterio",
+   "audio": "videos/mundo-pixelandia-05-voz/cena_000.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "reconhece",
+   "seguir": "Victor",
+   "z": 5,
+   "dur": 5.84,
+   "linhas": [
+    "Victor reconheceu na hora:\nA MINA ANTIGA DA VILA!"
+   ],
+   "fala": [
+    "Victor reconheceu na hora: era a entrada da mina antiga, fechada desde a fundação da vila."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Victor\", \"Jean\", \"Astro Novalite\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 6.72, \"prop\": \"entrada\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_001.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "vicente",
+   "seguir": "Vicente",
+   "z": 5,
+   "dur": 5.84,
+   "linhas": [
+    "Vicente, explorador de cavernas!\nO AMIGO DO VICTOR CHEGOU. 🔦"
+   ],
+   "fala": [
+    "Victor não veio sozinho. Vicente, explorador de cavernas, é amigo dele e veio entrar junto."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Victor\", \"Vicente\", \"Jean\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 6.3, \"prop\": \"entrada\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 1.64,
+     "nome": "Vicente"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_002.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "abraao",
+   "seguir": "Abraão",
+   "z": 5,
+   "dur": 6.08,
+   "linhas": [
+    "Abraão, bombeiro! 🧯\nSEGURANÇA PRIMEIRO."
+   ],
+   "fala": [
+    "Abraão, bombeiro, conferiu a entrada com o José Alvaro antes de todo mundo. Segurança primeiro."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"José Alvaro\", \"Abraão\", \"Victor\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 6.3, \"prop\": \"entrada\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.0,
+     "nome": "Abraão"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_003.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "joao-pedro",
+   "seguir": "João Pedro",
+   "z": 5,
+   "dur": 5.68,
+   "linhas": [
+    "João Pedro, policial do BOPE!\nAGORA SÃO QUATRO PEDROS."
+   ],
+   "fala": [
+    "João Pedro, policial do Bope, reforçou a equipe do Jean. Agora a vila tem quatro Pedros!"
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Pedro\", \"João Pedro\", \"Jean\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 6.72, \"prop\": \"entrada\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.0,
+     "nome": "João Pedro"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_004.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "davi",
+   "seguir": "Davi",
+   "z": 5,
+   "dur": 6.12,
+   "linhas": [
+    "Davi, assassino furtivo 🥷\nNINGUÉM VIU ELE CHEGAR."
+   ],
+   "fala": [
+    "E o Davi, assassino furtivo? Ninguém viu ele chegar. Quando perceberam, já estava na equipe."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Jean\", \"Davi\", \"Durplejoga\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 6.3, \"prop\": \"entrada\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.2,
+     "nome": "Davi"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_005.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "dentro",
+   "seguir": "Vicente",
+   "z": 5,
+   "dur": 4.16,
+   "linhas": [
+    "Vicente acendeu a lanterna.\nO TRIO ENTROU NA MINA."
+   ],
+   "fala": [
+    "Vicente acendeu a lanterna, e o trio entrou devagar pela boca da mina."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Victor\", \"Vicente\", \"Davi\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 5.46, \"prop\": \"aberta\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.0,
+     "nome": "Vicente"
+    }
+   ],
+   "clima": "misterio",
+   "audio": "videos/mundo-pixelandia-05-voz/cena_006.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "pedras",
+   "seguir": "Victor",
+   "z": 5,
+   "dur": 5.96,
+   "linhas": [
+    "Lá dentro, nada assustador:\nPEDRA BOA E FERRAMENTAS ANTIGAS!"
+   ],
+   "fala": [
+    "Lá dentro não havia nada assustador: só pedra de ótima qualidade e as ferramentas dos fundadores."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Victor\", \"Vicente\", \"Davi\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 6.72, \"prop\": \"pedras\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_007.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "encerrado",
+   "seguir": "Astro Novalite",
+   "z": 5,
+   "dur": 5.84,
+   "linhas": [
+    "Caso do Astro: ENCERRADO! ✅\nA LUZ ERA O DRONE. A ENTRADA, A MINA."
+   ],
+   "fala": [
+    "O caso do Astro estava encerrado. A luz era o drone, e a entrada era a velha mina da vila."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Astro Novalite\", \"Lago\", \"Victor\"], \"x\": 1688, \"y\": 648, \"endX\": 1688, \"endY\": 648, \"travel\": 8.4, \"prop\": \"pedras\"},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "clima": "vitoria",
+   "audio": "videos/mundo-pixelandia-05-voz/cena_008.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "pietro",
+   "seguir": "Pietro",
+   "z": 5,
+   "dur": 7.44,
+   "linhas": [
+    "Pietro, guarda noturno 🌙\nO LAGO GANHOU PARCEIRO."
+   ],
+   "fala": [
+    "Na volta, Pietro, guarda noturno, assumiu a vigia da mina com o Lago. Finalmente, companhia na madrugada!"
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Lago\", \"Pietro\", \"Victor\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 7.14, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.8,
+     "nome": "Pietro"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_009.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "brites",
+   "seguir": "Brites",
+   "z": 5,
+   "dur": 5.6,
+   "linhas": [
+    "Brites, empresário 💼\nQUER INVESTIR NA PEDRA DA MINA."
+   ],
+   "fala": [
+    "Brites, empresário, foi direto falar com o prefeito Samuel: quer investir na pedra da mina."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Samuel\", \"Brites\", \"Victor\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 6.3, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.0,
+     "nome": "Brites"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_010.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "laura",
+   "seguir": "Laura",
+   "z": 5,
+   "dur": 5.12,
+   "linhas": [
+    "Laura, da floricultura 🌷\nFLORES NOVAS PARA A PRAÇA."
+   ],
+   "fala": [
+    "Laura, da floricultura, já planeja flores novas para a praça, com a ajuda da Julia Marina."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Julia Marina\", \"Laura\", \"Latifa\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 6.72, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    },
+    {
+     "t": 0.0,
+     "nome": "Laura"
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_011.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "arthurs",
+   "seguir": "ArthurMendes_",
+   "z": 5,
+   "dur": 5.04,
+   "linhas": [
+    "ArthurMendes_, o biólogo do #4 🔬\nVAI ESTUDAR AS PLANTAS DA MINA."
+   ],
+   "fala": [
+    "E o Arthur Mendes, o biólogo que chegou no episódio quatro, já quer estudar as plantas da mina."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"ArthurMendes_\", \"Julia Marina\", \"Laura\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 7.56, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_012.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "meta",
+   "seguir": "Samuel",
+   "z": 3.6,
+   "dur": 5.6,
+   "linhas": [
+    "51 moradores! 🎉\nA META DA ESTÁTUA FOI BATIDA!"
+   ],
+   "fala": [
+    "Com os sete novos, a vila chegou a cinquenta e um moradores. A meta da estátua foi batida!"
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Samuel\", \"Abraão\", \"Pietro\", \"João Pedro\", \"Davi\", \"Vicente\", \"Brites\", \"Laura\", \"Victor\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 7.56, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "clima": "vitoria",
+   "durante": {
+    "t": 1.5,
+    "js": "firework(cam.x-40,cam.y-70);firework(cam.x+50,cam.y-80)"
+   },
+   "audio": "videos/mundo-pixelandia-05-voz/cena_013.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "destino",
+   "seguir": "Isaac",
+   "z": 5,
+   "dur": 5.92,
+   "linhas": [
+    "A pedra da mina tem destino:\nA PRÓXIMA ESTÁTUA DA PRAÇA. 🗿"
+   ],
+   "fala": [
+    "E a pedra da mina já tem destino: Isaac e Elias vão usar para erguer a próxima estátua da praça."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Isaac\", \"Elias\", \"Victor\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 8.4, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "audio": "videos/mundo-pixelandia-05-voz/cena_014.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "nome": "convite",
+   "seguir": "Samuel",
+   "z": 3.6,
+   "dur": 8.52,
+   "linhas": [
+    "De quem vai ser a estátua?\nVOTE NOS COMENTÁRIOS!",
+    "Comente APELIDO + PROFISSÃO\nCURTA E SE INSCREVA."
+   ],
+   "fala": [
+    "Mas de quem vai ser a estátua? Vote nos comentários com o nome do morador.",
+    "E para morar na vila, comente seu apelido e sua profissão. Curta e se inscreva."
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Samuel\", \"Victor\", \"Vicente\", \"Astro Novalite\", \"Lago\", \"Jean\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 12.6, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "cta": true,
+   "audio": "videos/mundo-pixelandia-05-voz/cena_015.wav",
+   "tempos": [
+    0,
+    4.08
+   ]
+  },
+  {
+   "nome": "gancho",
+   "seguir": "Victor",
+   "z": 5,
+   "dur": 3.64,
+   "linhas": [
+    "No #6, a obra começa.\nDE QUEM SERÁ A ESTÁTUA?"
+   ],
+   "fala": [
+    "No episódio seis, a obra começa. De quem será a estátua?"
+   ],
+   "antes": "window.__ep5scene={...{\"names\": [\"Victor\", \"Isaac\", \"Elias\"], \"x\": 1288, \"y\": 968, \"endX\": 1288, \"endY\": 968, \"travel\": 4.62, \"prop\": null},started:gtime};",
+   "focos": [
+    {
+     "t": 0,
+     "nome": null
+    }
+   ],
+   "clima": "misterio",
+   "audio": "videos/mundo-pixelandia-05-voz/cena_016.wav",
+   "tempos": [
+    0
+   ]
+  }
+ ]
+}

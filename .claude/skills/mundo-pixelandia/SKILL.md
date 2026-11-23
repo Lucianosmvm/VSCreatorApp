@@ -24,15 +24,27 @@ que o episódio pedido precisar (noite, evento, prefeito, votação...).
 
 ## 2. Plano do episódio
 
-Criar `projetos/mundo-pixelandia-NN/plano.json` (exemplo completo: `projetos/mundo-pixelandia-02/plano.json`):
+Criar `projetos/mundo-pixelandia-NN/plano.json` (exemplo completo e mais recente: `projetos/mundo-pixelandia-03/plano.json`).
+Duração: **até 2 min** (Shorts aceitam 3 min); não encurtar só para caber em 60 s.
 - Cena 1 = gancho (até 3 s) com `📺 Mundo Pixelândia #NN`.
-- Boas-vindas aos novos (`seguir: <id>`, 2–2,5 s cada; mais de 8 → grupos de 4).
+- Boas-vindas aos novos **um por um** (`seguir: "Nome"` — aceita o nome; com nome repetido vale o mais novo), ~2,5 s cada,
+  com uma piada quando houver gancho no elenco (ver "Fios abertos" em `docs/pixelandia-roteiro.md`).
 - Um acontecimento por episódio; contador da meta (30 parque, 50 estátua, 100 farol...).
-- CTA em faixa vermelha (`"cta": true`): "Comente NOME + PROFISSÃO" e "no #NN+1 você pode aparecer".
-- Terminar com o gancho do próximo episódio (tabela do roteiro).
+- CTA em faixa vermelha (`"cta": true`): "Comente NOME + PROFISSÃO" e "Curta e se inscreva".
+- Terminar com uma cena curta de gancho de mistério ("descubra no #NN+1").
 - Legenda: `"linha de cima\nfaixa em destaque"`. Câmeras: `abertura`, `estrada`, `multidao`, `obras`,
-  `vazio`, `final` ou `seguir`; extras: `hora`, `sair`, `durante`, `clima` (`misterio`, `vitoria`, `ameaca`).
-- Novos moradores em `novos.json` (`[{"nome","prof","sexo"}]`; profissão fora da lista → `"custom"`).
+  `vazio`, `final` ou `seguir`; extras: `hora`, `sair`, `durante`, `clima` (`misterio`, `vitoria`, `ameaca`),
+  `estatua: "Nome"` (ergue uma estátua pronta perto da praça e mira a câmera nela). Morador parado/discursando:
+  `durante` com `n.plan=[work(9,'speech',...)]` (ver cena `samuel` do #3). Clarão no céu: `durante` com `firework(cam.x+..., cam.y-...)`.
+- **Modelo mais recente: o #6** (`projetos/mundo-pixelandia-06/`): `montar_plano.py` (lista de cenas → plano,
+  setas alinhadas ao áudio com `focos`), `cenario.js` (grupo parado/caminhando num ponto, câmera nele, adereços;
+  nomes aceitam id para homônimos) e `ampliacao.js` (mudanças **reais** no mundo: abrir floresta, estrada,
+  postes, casas, flores, concluir obra). Com mudanças no mundo, pôr `"salvarDepois": true` no plano para o
+  `vila.json` sair com elas. A estátua do Astro é pintada de pedra pelo cenário (o jogo guarda a estátua padrão).
+- Antes de cadastrar, comparar com `docs/pixelandia-moradores.md`/`.json`: mesmo nome + mesma profissão = morador
+  que já existe (não duplicar; dar uma participação). Atualizar o cadastro depois.
+- Novos moradores em `projetos/mundo-pixelandia-NN/novos.json` (`[{"nome","prof","sexo","custom"}]`; profissão fora do
+  jogo → a mais parecida em `prof` e a real em `custom`; ver tabela do elenco no roteiro).
 
 ## 3. Filmar e montar
 
@@ -48,11 +60,14 @@ cd remotion && node node_modules/typescript/bin/tsc -p .
 cd remotion && node node_modules/@remotion/cli/remotion-cli.js render src/index.ts mundo-pixelandia-NN out/mundo-pixelandia-NN.mp4
 ```
 
-**Com narração** (só se o usuário pedir): seguir "Com narração" em `docs/estilo-pixelandia.md` —
-`fala` por legenda no plano, `projetos/mundo-pixelandia-NN-voz/projeto.json` com voz
-`BY2YHOQTNuJ2oMUKv3Kg`, `eleven_v4`, velocidade `0.92`, `python ferramentas/narrar.py`, copiar
-`dur`/`audio`/`tempos` para o plano e refilmar. Nomes difíceis: escrever como se fala só na `fala`
-(ex.: "Z-Hero"), a legenda mantém o nome real.
+**Narração** (padrão desde o #3, com a voz do usuário): `fala` = uma frase por legenda em cada cena, depois
+```bash
+python ferramentas/pixelandia/voz.py preparar NN
+python ferramentas/narrar.py mundo-pixelandia-NN-voz
+python ferramentas/pixelandia/voz.py tempos NN
+```
+e só então filmar (as cenas ficam com a duração da fala). Nomes difíceis: escrever como se fala só na
+`fala` ("Z-Hero", "Stén", "Jéfin Gomes"); a legenda mantém o nome real.
 
 ## 4. Entregar
 

@@ -10,6 +10,8 @@ export type CenaPixelandia = {
   audio?: string;         // narração da cena (dentro de public/)
   tempos?: number[];      // segundo em que cada legenda entra (sincronia com a fala)
   foco?: boolean;         // câmera segue um morador: seta no centro da tela
+  // Posição normalizada da cabeça, capturada no jogo a cada quadro. null oculta a seta.
+  rastreioFoco?: ({ nome: string; x: number; y: number } | null)[];
 };
 
 export type DadosPixelandia = {

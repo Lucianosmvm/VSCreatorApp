@@ -1,0 +1,6053 @@
+{
+  "id": "mundo-pixelandia-06",
+  "episodio": 6,
+  "vila": "Mundo Pixelândia",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 104.88,
+  "estatisticas": {
+    "vila": "Mundo Pixelândia",
+    "pop": 54,
+    "prontas": 20,
+    "fila": 12,
+    "destaque": {
+      "id": 4,
+      "nome": "Pedro",
+      "prof": "Pedreiro"
+    },
+    "alvosObra": [
+      {
+        "x": 1488,
+        "y": 928
+      },
+      {
+        "x": 1128,
+        "y": 1120
+      },
+      {
+        "x": 1488,
+        "y": 1024
+      }
+    ],
+    "praca": {
+      "x": 1288,
+      "y": 968
+    },
+    "chegada": {
+      "x": 1240,
+      "y": 1384
+    },
+    "dia": 8
+  },
+  "cenas": [
+    {
+      "nome": "abertura",
+      "video": "pixelandia/mundo-pixelandia-06/cena-1.mp4",
+      "inicio": 0,
+      "dur": 5.92,
+      "linhas": [
+        "Mundo Pixelândia #6 🗳️\nA ESTÁTUA SERÁ DO ASTRO!"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "astro",
+      "video": "pixelandia/mundo-pixelandia-06/cena-2.mp4",
+      "inicio": 5.92,
+      "dur": 4.16,
+      "linhas": [
+        "Quem viu a luz primeiro…\nGANHOU UMA ESTÁTUA 🗿"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_001.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "plano",
+      "video": "pixelandia/mundo-pixelandia-06/cena-3.mp4",
+      "inicio": 10.08,
+      "dur": 10.4,
+      "linhas": [
+        "O prefeito Samuel quis mais:\nA VILA VAI CRESCER!",
+        "Plano do Elias e do Buzz:\nESTRADA NOVA ATÉ A MINA 🛣️"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_002.wav",
+      "tempos": [
+        0,
+        4.72
+      ]
+    },
+    {
+      "nome": "floresta",
+      "video": "pixelandia/mundo-pixelandia-06/cena-4.mp4",
+      "inicio": 20.48,
+      "dur": 4.88,
+      "linhas": [
+        "Bruno e Phil 🪓\nABRIRAM A FLORESTA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "estrada",
+      "video": "pixelandia/mundo-pixelandia-06/cena-5.mp4",
+      "inicio": 25.36,
+      "dur": 5.44,
+      "linhas": [
+        "Pedro e Isaac 🔨\nASSENTARAM A ESTRADA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "pietro-oliveira",
+      "video": "pixelandia/mundo-pixelandia-06/cena-6.mp4",
+      "inicio": 30.8,
+      "dur": 11.2,
+      "linhas": [
+        "Pietro Oliveira chegou ⚔️\nO GUARDIÃO DA VILA",
+        "Armadura top e espada grande:\nVAI GUARDAR A MINA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        },
+        {
+          "nome": "Pietro Oliveira",
+          "x": 0.5,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_005.wav",
+      "tempos": [
+        0,
+        6.4
+      ]
+    },
+    {
+      "nome": "pedra",
+      "video": "pixelandia/mundo-pixelandia-06/cena-7.mp4",
+      "inicio": 42,
+      "dur": 8.64,
+      "linhas": [
+        "Pedra da mina 🪨\nJOÃO PEDRO FEZ A ESCOLTA",
+        "Estrada com postes 💡\nVIGIA NOTURNA GARANTIDA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_006.wav",
+      "tempos": [
+        0,
+        5.68
+      ]
+    },
+    {
+      "nome": "casas",
+      "video": "pixelandia/mundo-pixelandia-06/cena-8.mp4",
+      "inicio": 50.64,
+      "dur": 5.36,
+      "linhas": [
+        "Nasceu um bairro novo 🏘️\nO BAIRRO DA MINA!"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_007.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "gabriel",
+      "video": "pixelandia/mundo-pixelandia-06/cena-9.mp4",
+      "inicio": 56,
+      "dur": 6.08,
+      "linhas": [
+        "Gabriel, político 🎩\nJÁ CHEGOU FAZENDO CAMPANHA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.305556,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_008.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "carlos",
+      "video": "pixelandia/mundo-pixelandia-06/cena-10.mp4",
+      "inicio": 62.08,
+      "dur": 6.96,
+      "linhas": [
+        "Carlos, adolescente skatista 🛹\nESTREOU A ESTRADA NOVA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        },
+        {
+          "nome": "Carlos",
+          "x": 0.305556,
+          "y": 0.447917
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_009.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "flores",
+      "video": "pixelandia/mundo-pixelandia-06/cena-11.mp4",
+      "inicio": 69.04,
+      "dur": 3.6,
+      "linhas": [
+        "Flores novas na praça 🌷\nLAURA E JULIA MARINA"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_010.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "estatua",
+      "video": "pixelandia/mundo-pixelandia-06/cena-12.mp4",
+      "inicio": 72.64,
+      "dur": 7.84,
+      "linhas": [
+        "Com a pedra da mina…\nA ESTÁTUA DO ASTRO FICOU PRONTA! 🗿"
+      ],
+      "clima": "vitoria",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_011.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "visao",
+      "video": "pixelandia/mundo-pixelandia-06/cena-13.mp4",
+      "inicio": 80.48,
+      "dur": 5.32,
+      "linhas": [
+        "Onde era floresta…\nAGORA TEM ESTRADA E BAIRRO 🏘️"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_012.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "meta",
+      "video": "pixelandia/mundo-pixelandia-06/cena-14.mp4",
+      "inicio": 85.8,
+      "dur": 6.24,
+      "linhas": [
+        "54 moradores! 🎉\nPRÓXIMA META: O FAROL (100) 🗼"
+      ],
+      "clima": null,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_013.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "convite",
+      "video": "pixelandia/mundo-pixelandia-06/cena-15.mp4",
+      "inicio": 92.04,
+      "dur": 7.52,
+      "linhas": [
+        "Quer uma casa no Bairro da Mina?\nCOMENTE APELIDO + PROFISSÃO",
+        "Curta e se inscreva!\nNO #7 VOCÊ PODE APARECER"
+      ],
+      "clima": null,
+      "cta": true,
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_014.wav",
+      "tempos": [
+        0,
+        3.84
+      ]
+    },
+    {
+      "nome": "gancho",
+      "video": "pixelandia/mundo-pixelandia-06/cena-16.mp4",
+      "inicio": 99.56,
+      "dur": 5.32,
+      "linhas": [
+        "No #7: ELEIÇÃO! 🗳️\nSAMUEL, ZHERO, KYLE… OU GABRIEL?"
+      ],
+      "clima": "misterio",
+      "foco": true,
+      "rastreioFoco": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        },
+        {
+          "nome": "Gabriel",
+          "x": 0.328889,
+          "y": 0.516042
+        }
+      ],
+      "audio": "videos/mundo-pixelandia-06-voz/cena_015.wav",
+      "tempos": [
+        0
+      ]
+    }
+  ]
+}

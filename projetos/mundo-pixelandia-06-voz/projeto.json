@@ -1,0 +1,95 @@
+{
+ "nome": "Mundo Pixelândia #6 (narração)",
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "salvoEm": "2026-11-23T10:12:42.000Z",
+ "frames": [
+  {
+   "id": "px06-0",
+   "text": "Episódio seis. A votação acabou: a estátua da praça vai ser do Astro Novalite!",
+   "narration": "Episódio seis. A votação acabou: a estátua da praça vai ser do Astro Novalite!"
+  },
+  {
+   "id": "px06-1",
+   "text": "Logo ele, que viu a luz de madrugada e começou toda essa história.",
+   "narration": "Logo ele, que viu a luz de madrugada e começou toda essa história."
+  },
+  {
+   "id": "px06-2",
+   "text": "Mas o prefeito Samuel quis mais: a vila não cabe mais na clareira. O engenheiro Elias e o arquiteto Buzz desenharam o plano: uma estrada nova até a mina.",
+   "narration": "Mas o prefeito Samuel quis mais: a vila não cabe mais na clareira. O engenheiro Elias e o arquiteto Buzz desenharam o plano: uma estrada nova até a mina."
+  },
+  {
+   "id": "px06-3",
+   "text": "Bruno e Phil, da serraria, abriram caminho na floresta, árvore por árvore.",
+   "narration": "Bruno e Phil, da serraria, abriram caminho na floresta, árvore por árvore."
+  },
+  {
+   "id": "px06-4",
+   "text": "Logo atrás, o Pedro pedreiro e o Isaac assentaram a estrada, pedra por pedra.",
+   "narration": "Logo atrás, o Pedro pedreiro e o Isaac assentaram a estrada, pedra por pedra."
+  },
+  {
+   "id": "px06-5",
+   "text": "Na boca da mina, chegou o Pietro Oliveira: o guardião da vila, de armadura top e espada grande. Servo do rei e explorador, ele vai guardar a mina junto com o outro Pietro.",
+   "narration": "Na boca da mina, chegou o Pietro Oliveira: o guardião da vila, de armadura top e espada grande. Servo do rei e explorador, ele vai guardar a mina junto com o outro Pietro."
+  },
+  {
+   "id": "px06-6",
+   "text": "Pela estrada nova, Victor e Vicente trouxeram a pedra, com escolta do João Pedro, do Bope. E a estrada ganhou postes, para a vigia da madrugada.",
+   "narration": "Pela estrada nova, Victor e Vicente trouxeram a pedra, com escolta do João Pedro, do Bope. E a estrada ganhou postes, para a vigia da madrugada."
+  },
+  {
+   "id": "px06-7",
+   "text": "Na beira da estrada, nasceu um bairro novo: o Bairro da Mina, com três casas.",
+   "narration": "Na beira da estrada, nasceu um bairro novo: o Bairro da Mina, com três casas."
+  },
+  {
+   "id": "px06-8",
+   "text": "O primeiro morador do bairro é o Gabriel, político. Mal chegou e já apertou a mão do prefeito e do Kyle.",
+   "narration": "O primeiro morador do bairro é o Gabriel, político. Mal chegou e já apertou a mão do prefeito e do Kyle."
+  },
+  {
+   "id": "px06-9",
+   "text": "E o Carlos, adolescente que adora skate, estreou a estrada nova antes de todo mundo. O Dandy gravou tudo.",
+   "narration": "E o Carlos, adolescente que adora skate, estreou a estrada nova antes de todo mundo. O Dandy gravou tudo."
+  },
+  {
+   "id": "px06-10",
+   "text": "Na praça, a Laura e a Julia Marina plantaram flores novas.",
+   "narration": "Na praça, a Laura e a Julia Marina plantaram flores novas."
+  },
+  {
+   "id": "px06-11",
+   "text": "Com a pedra da mina, Isaac e Elias ergueram a estátua. E lá está ela: o Astro Novalite, de pedra, na praça!",
+   "narration": "Com a pedra da mina, Isaac e Elias ergueram a estátua. E lá está ela: o Astro Novalite, de pedra, na praça!"
+  },
+  {
+   "id": "px06-12",
+   "text": "Olha a diferença: onde era floresta, agora tem estrada, postes e um bairro inteiro.",
+   "narration": "Olha a diferença: onde era floresta, agora tem estrada, postes e um bairro inteiro."
+  },
+  {
+   "id": "px06-13",
+   "text": "Com os três novos, a vila chegou a cinquenta e quatro moradores. A próxima meta é cem, e o farol.",
+   "narration": "Com os três novos, a vila chegou a cinquenta e quatro moradores. A próxima meta é cem, e o farol."
+  },
+  {
+   "id": "px06-14",
+   "text": "Quer uma casa no Bairro da Mina? Comente seu apelido e sua profissão. Curta, se inscreva, e no episódio sete você pode aparecer.",
+   "narration": "Quer uma casa no Bairro da Mina? Comente seu apelido e sua profissão. Curta, se inscreva, e no episódio sete você pode aparecer."
+  },
+  {
+   "id": "px06-15",
+   "text": "No episódio sete tem eleição. Samuel, Z-Hero, Kyle… ou o Gabriel?",
+   "narration": "No episódio sete tem eleição. Samuel, Z-Hero, Kyle… ou o Gabriel?"
+  }
+ ]
+}

@@ -36,6 +36,13 @@ Duração: **até 2 min** (Shorts aceitam 3 min); não encurtar só para caber e
   `vazio`, `final` ou `seguir`; extras: `hora`, `sair`, `durante`, `clima` (`misterio`, `vitoria`, `ameaca`),
   `estatua: "Nome"` (ergue uma estátua pronta perto da praça e mira a câmera nela). Morador parado/discursando:
   `durante` com `n.plan=[work(9,'speech',...)]` (ver cena `samuel` do #3). Clarão no céu: `durante` com `firework(cam.x+..., cam.y-...)`.
+- **Modelo mais recente: o #6** (`projetos/mundo-pixelandia-06/`): `montar_plano.py` (lista de cenas → plano,
+  setas alinhadas ao áudio com `focos`), `cenario.js` (grupo parado/caminhando num ponto, câmera nele, adereços;
+  nomes aceitam id para homônimos) e `ampliacao.js` (mudanças **reais** no mundo: abrir floresta, estrada,
+  postes, casas, flores, concluir obra). Com mudanças no mundo, pôr `"salvarDepois": true` no plano para o
+  `vila.json` sair com elas. A estátua do Astro é pintada de pedra pelo cenário (o jogo guarda a estátua padrão).
+- Antes de cadastrar, comparar com `docs/pixelandia-moradores.md`/`.json`: mesmo nome + mesma profissão = morador
+  que já existe (não duplicar; dar uma participação). Atualizar o cadastro depois.
 - Novos moradores em `projetos/mundo-pixelandia-NN/novos.json` (`[{"nome","prof","sexo","custom"}]`; profissão fora do
   jogo → a mais parecida em `prof` e a real em `custom`; ver tabela do elenco no roteiro).
 

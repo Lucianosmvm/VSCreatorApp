@@ -1,0 +1,466 @@
+{
+  "episodio": 4,
+  "status": "aguardando-aprovacao-visual",
+  "historia": "Astro, Lago e Jean investigam a luz com os recém-chegados. Durplejoga, aventureiro, se junta à proteção da equipe. O drone de Robson revela uma entrada de pedra.",
+  "cenas": [
+    {
+      "nome": "abertura",
+      "seguir": "Astro Novalite",
+      "z": 5,
+      "dur": 2.08,
+      "linhas": [
+        "Astro não voltou a dormir…\nELE SABIA ONDE A LUZ CAIU."
+      ],
+      "fala": [
+        "Astro sabia onde a luz caiu."
+      ],
+      "antes": "for(let y=CY-23;y<=CY-15;y++)for(let x=CX+21;x<=CX+29;x++)obj[idx(x,y)]=0;\n// Direção exclusiva do episódio 04, executada dentro da cópia filmada do jogo.\nwindow.__ep4pump = window.__pump;\nwindow.__ep4hidden = [];\nwindow.__pump = function (ms) {\n  for (const n of window.__ep4hidden) n.inside = false;\n  window.__ep4hidden = [];\n  const scene = window.__ep4scene;\n  if (scene) {\n    const elapsed = Math.max(0, gtime - scene.started);\n    const walk = Math.min(1, elapsed / scene.travel);\n    const centerX = scene.x + (scene.endX - scene.x) * walk;\n    const centerY = scene.y + (scene.endY - scene.y) * walk;\n    cam.x = centerX;\n    cam.y = centerY + 26 + Math.floor((scene.names.length - 1) / 3) * 13.5;\n    const ids = [];\n    for (const [i, name] of scene.names.entries()) {\n      const n = npcs.filter(n => n.name === name).at(-1);\n      if (!n) continue;\n      ids.push(n.id);\n      n.x = centerX + (i % 3 - 1) * 21;\n      n.y = centerY + 38 + Math.floor(i / 3) * 27;\n      // Abra a área de filmagem em torno do corpo e das copas à frente dele.\n      // O arquivo do jogo e o estado salvo anterior permanecem independentes da tomada.\n      const tileX = Math.floor(n.x / T);\n      const tileY = Math.floor(n.y / T);\n      for (let y = tileY - 3; y <= tileY + 6; y++) {\n        for (let x = tileX - 3; x <= tileX + 3; x++) {\n          if (x >= 0 && x < W && y >= 0 && y < H && obj[idx(x, y)] === O_TREE) {\n            obj[idx(x, y)] = 0;\n          }\n        }\n      }\n      n.inside = false;\n      n.sleeping = false;\n      n.active = true;\n      n.plan = [work(300, null, null)];\n      n.step = null;\n      n.dir = walk < 1 ? \"right\" : \"up\";\n      n.walkT = walk < 1 ? gtime * 7 : 0;\n    }\n    for (const n of npcs) {\n      if (!ids.includes(n.id) && Math.abs(n.x - centerX) < 105 && Math.abs(n.y - centerY) < 145) {\n        window.__ep4hidden.push(n);\n        n.inside = true;\n      }\n    }\n  }\n  window.__ep4pump(ms);\n  if (!scene?.forest) return;\n  const x = (CX + 25) * T + 8;\n  const y = (CY - 20) * T + 8;\n  ctx.save();\n  ctx.setTransform(cam.z * dpr, 0, 0, cam.z * dpr,\n    Math.round((cw / 2 - cam.x * cam.z) * dpr), Math.round((ch / 2 - cam.y * cam.z) * dpr));\n  ctx.strokeStyle = \"#57462c\";\n  ctx.lineWidth = 2;\n  ctx.beginPath();\n  ctx.ellipse(x, y, 25, 12, 0, 0, Math.PI * 2);\n  ctx.stroke();\n  if (scene.prop !== \"marcas\") {\n    // Drone de reconhecimento: quatro braços, hélices, câmera e lâmpada avariada.\n    ctx.strokeStyle = \"#87959d\";\n    ctx.lineWidth = 3;\n    ctx.beginPath();\n    ctx.moveTo(x - 16, y - 11);\n    ctx.lineTo(x + 16, y + 8);\n    ctx.moveTo(x + 16, y - 11);\n    ctx.lineTo(x - 16, y + 8);\n    ctx.stroke();\n    for (const [dx, dy] of [[-18,-12],[18,-12],[-18,9],[18,9]]) {\n      ctx.fillStyle = \"#262e3d\";\n      ctx.fillRect(x + dx - 7, y + dy - 1, 14, 2);\n      ctx.fillStyle = \"#aab5b1\";\n      ctx.fillRect(x + dx - 1, y + dy - 2, 2, 4);\n    }\n    ctx.fillStyle = \"#71899b\";\n    ctx.fillRect(x - 9, y - 9, 18, 16);\n    ctx.fillStyle = \"#c5d0d1\";\n    ctx.fillRect(x - 6, y - 7, 12, 3);\n    ctx.fillStyle = \"#163244\";\n    ctx.fillRect(x - 3, y + 2, 6, 5);\n    ctx.fillStyle = \"#65eee7\";\n    ctx.fillRect(x + 4, y - 3, 3, 2);\n    ctx.fillStyle = \"#ffe46c\";\n    ctx.font = \"bold 5px monospace\";\n    ctx.textAlign = \"center\";\n    ctx.fillText(\"R\", x - 3, y - 1);\n    if (scene.prop === \"camera\") {\n      // Registro do voo mostrado na tela de campo de Robson.\n      const sy = y + 5;\n      ctx.fillStyle = \"#252732\";\n      ctx.fillRect(x - 29, sy - 31, 58, 33);\n      ctx.fillStyle = \"#3c584b\";\n      ctx.fillRect(x - 27, sy - 29, 54, 28);\n      ctx.fillStyle = \"#645b50\";\n      ctx.fillRect(x - 11, sy - 25, 22, 24);\n      ctx.fillStyle = \"#141d22\";\n      ctx.fillRect(x - 7, sy - 21, 14, 20);\n      ctx.strokeStyle = \"#8fbd79\";\n      ctx.lineWidth = 1;\n      ctx.beginPath();\n      ctx.moveTo(x - 16, sy - 27);\n      ctx.lineTo(x, sy - 9);\n      ctx.lineTo(x + 14, sy - 28);\n      ctx.stroke();\n    }\n  }\n  ctx.restore();\n};\n\nwindow.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\"],\"x\":1288,\"y\":968,\"endX\":1288,\"endY\":968,\"travel\":3.7857142857142856,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "hora": 9,
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "testemunhas",
+      "seguir": "Lago",
+      "z": 5,
+      "dur": 4.4,
+      "linhas": [
+        "Lago confirmou o lugar.\nSAMUEL CHAMOU O JEAN."
+      ],
+      "fala": [
+        "Lago confirmou o lugar. Samuel chamou o Jean para acompanhar os dois."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\",\"Samuel\"],\"x\":1288,\"y\":968,\"endX\":1288,\"endY\":968,\"travel\":3.7857142857142856,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        },
+        {
+          "t": 2,
+          "nome": null
+        },
+        {
+          "t": 3.5,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "partida",
+      "seguir": "Jean",
+      "z": 5,
+      "dur": 4.64,
+      "linhas": [
+        "Jean abriu o caminho.\nASTRO GUIOU A EQUIPE."
+      ],
+      "fala": [
+        "Jean abriu o caminho, e Astro guiou a equipe pela mesma trilha da noite anterior."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\",\"Jean\"],\"x\":1544,\"y\":864,\"endX\":1656,\"endY\":760,\"travel\":4.857142857142858,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        },
+        {
+          "t": 1.8,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "encontro",
+      "seguir": "Astro Novalite",
+      "z": 5,
+      "dur": 4.4,
+      "linhas": [
+        "Na entrada da floresta…\nDEZ NOVOS VIZINHOS!"
+      ],
+      "fala": [
+        "Na entrada da floresta, encontraram dez pessoas chegando para morar na vila."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\",\"Jean\"],\"x\":1544,\"y\":760,\"endX\":1656,\"endY\":696,\"travel\":3.7857142857142856,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": []
+    },
+    {
+      "nome": "thiago-arthur",
+      "seguir": "Thiago",
+      "z": 5,
+      "dur": 6.24,
+      "linhas": [
+        "Thiago, fotógrafo 📸\nARTHUR, BIÓLOGO 🔬"
+      ],
+      "fala": [
+        "Thiago era fotógrafo, e Arthur, biólogo. Lago pediu ajuda para registrar e examinar as marcas."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Thiago\",\"Arthur\",\"Lago\"],\"x\":1656,\"y\":696,\"endX\":1656,\"endY\":696,\"travel\":4.857142857142858,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Thiago"
+        },
+        {
+          "t": 2.5,
+          "nome": "Arthur"
+        }
+      ]
+    },
+    {
+      "nome": "julia-arthurmendes",
+      "seguir": "Julia Marina",
+      "z": 4.7,
+      "dur": 9,
+      "linhas": [
+        "Julia Marina, gestora ambiental!\nCUIDADO COM A FLORESTA.",
+        "ArthurMendes_ ainda sem profissão.\nJÁ AJUDOU COM O EQUIPAMENTO!"
+      ],
+      "fala": [
+        "Julia Marina, gestora ambiental, ajudou Elias a escolher um caminho seguro, preservando a floresta.",
+        "Arthur Mendes ainda não escolheu profissão, mas já ajudou com o equipamento."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Elias\",\"Julia Marina\",\"ArthurMendes_\"],\"x\":1656,\"y\":696,\"endX\":1656,\"endY\":696,\"travel\":9,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Julia Marina"
+        },
+        {
+          "t": 4.5,
+          "nome": "ArthurMendes_"
+        }
+      ]
+    },
+    {
+      "nome": "livinha-pedro",
+      "seguir": "Livinha",
+      "z": 5,
+      "dur": 6.64,
+      "linhas": [
+        "Livinha caça aranhas 🕷️\nPEDRO É POLICIAL DO BOPE"
+      ],
+      "fala": [
+        "Livinha caçava aranhas. Pedro era policial do Bope. Jean ganhou companhia para proteger o caminho."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Livinha\",\"Pedro\",\"Jean\"],\"x\":1656,\"y\":696,\"endX\":1656,\"endY\":696,\"travel\":4.857142857142858,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Livinha"
+        },
+        {
+          "t": 2,
+          "nome": "Pedro"
+        }
+      ]
+    },
+    {
+      "nome": "durplejoga",
+      "seguir": "Durplejoga",
+      "z": 5,
+      "dur": 5.2,
+      "linhas": [
+        "Durplejoga, aventureiro!\n“VIM PROTEGER ESSA CIDADE!”"
+      ],
+      "fala": [
+        "Durplejoga chegou com uma promessa: vim proteger essa cidade! Jean ganhou mais um aliado."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Jean\",\"Durplejoga\",\"Pedro\"],\"x\":1656,\"y\":696,\"endX\":1656,\"endY\":696,\"travel\":5.2,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Durplejoga"
+        }
+      ]
+    },
+    {
+      "nome": "buzz-molossi-jefferson",
+      "seguir": "Jefferson",
+      "z": 5,
+      "dur": 6.4,
+      "linhas": [
+        "Buzz, arquiteto. Molossi, pescador.\nJEFFERSON, ALMIRANTE ⚓"
+      ],
+      "fala": [
+        "Buzz era arquiteto, Molossi, pescador. E Jefferson já sonhava em comandar a marinha de Pixelândia."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Buzz\",\"Molossi\",\"Jefferson\"],\"x\":1656,\"y\":696,\"endX\":1656,\"endY\":696,\"travel\":4.857142857142858,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Buzz"
+        },
+        {
+          "t": 1.7,
+          "nome": "Molossi"
+        },
+        {
+          "t": 3.4,
+          "nome": "Jefferson"
+        }
+      ]
+    },
+    {
+      "nome": "volta-dos-novos",
+      "seguir": "Buzz",
+      "z": 4.3,
+      "dur": 5.68,
+      "linhas": [
+        "Elias recebeu o trio na vila.\nA EXPEDIÇÃO CONTINUOU."
+      ],
+      "fala": [
+        "Elias, engenheiro civil, recebeu Buzz, Molossi e Jefferson. A expedição seguiu pela floresta."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Buzz\",\"Molossi\",\"Jefferson\",\"Elias\"],\"x\":1656,\"y\":696,\"endX\":1656,\"endY\":696,\"travel\":5.68,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "clareira",
+      "seguir": "Astro Novalite",
+      "z": 3.6,
+      "dur": 4.96,
+      "linhas": [
+        "Astro reconheceu a clareira.\nFOI EXATAMENTE AQUI."
+      ],
+      "fala": [
+        "Astro reconheceu a clareira. Foi exatamente aqui que aquela luz desapareceu."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\",\"Jean\",\"Thiago\",\"Arthur\",\"Livinha\",\"Pedro\",\"Durplejoga\",\"Julia Marina\",\"ArthurMendes_\"],\"x\":1656,\"y\":696,\"endX\":1688,\"endY\":648,\"travel\":3.428571428571429,\"prop\":\"marcas\",\"forest\":false},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "vestigios",
+      "seguir": "Lago",
+      "z": 5,
+      "dur": 5.36,
+      "linhas": [
+        "Lago encontrou as marcas.\nGALHOS QUEBRADOS NO CHÃO."
+      ],
+      "fala": [
+        "Lago encontrou galhos quebrados e marcas no chão. Jean afastou os ramos para enxergar melhor."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Lago\",\"Astro Novalite\",\"Jean\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":4.857142857142858,\"prop\":\"marcas\",\"forest\":true},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "exame",
+      "seguir": "Arthur",
+      "z": 5,
+      "dur": 5.36,
+      "linhas": [
+        "Arthur examinou o rastro.\nTINHA CAÍDO DO CÉU."
+      ],
+      "fala": [
+        "Arthur examinou o rastro. Alguma coisa tinha caído do céu e deslizado pela grama."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Arthur\",\"Lago\",\"Astro Novalite\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":4.5,\"prop\":\"marcas\",\"forest\":true},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Arthur"
+        }
+      ]
+    },
+    {
+      "nome": "revelacao",
+      "seguir": "Jean",
+      "z": 5,
+      "dur": 5.28,
+      "linhas": [
+        "Jean encontrou o objeto.\nUM DRONE AVARIADO!"
+      ],
+      "fala": [
+        "Debaixo dos galhos, Jean encontrou o objeto. Era um drone avariado, com uma lâmpada azul."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Jean\",\"Astro Novalite\",\"Lago\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":4.857142857142858,\"prop\":\"drone\",\"forest\":true},started:gtime};",
+      "clima": "misterio",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "robo",
+      "seguir": "Thiago",
+      "z": 5,
+      "dur": 5.76,
+      "linhas": [
+        "Thiago fotografou a peça.\nHAVIA UM R NA CARCAÇA."
+      ],
+      "fala": [
+        "Thiago fotografou a peça. Havia um erre na carcaça. Astro reconheceu a marca do Robson!"
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Thiago\",\"Astro Novalite\",\"Lago\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":4.857142857142858,\"prop\":\"drone\",\"forest\":true},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Thiago"
+        }
+      ]
+    },
+    {
+      "nome": "robson",
+      "seguir": "Robson",
+      "z": 5,
+      "dur": 6,
+      "linhas": [
+        "Robson veio buscar o drone.\nO INVENTOR TINHA UMA EXPLICAÇÃO."
+      ],
+      "fala": [
+        "Chamaram Robson até a clareira. O inventor contou que tinha perdido o drone enquanto mapeava a floresta."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Robson\",\"Astro Novalite\",\"Lago\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.571428571428572,\"prop\":\"drone\",\"forest\":true},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "resposta",
+      "seguir": "Astro Novalite",
+      "z": 5,
+      "dur": 6.08,
+      "linhas": [
+        "O mistério da luz resolvido!\nERA A LÂMPADA DO DRONE."
+      ],
+      "fala": [
+        "Astro e Lago tinham visto a lâmpada azul piscando durante a queda. O mistério da luz estava resolvido."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\",\"Robson\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.928571428571429,\"prop\":\"drone\",\"forest\":true},started:gtime};",
+      "clima": "vitoria",
+      "focos": []
+    },
+    {
+      "nome": "livinha-aranha",
+      "seguir": "Livinha",
+      "z": 5,
+      "dur": 5.52,
+      "linhas": [
+        "Mas algo saiu da carcaça…\nLIVINHA RESOLVEU RAPIDINHO. 🕷️"
+      ],
+      "fala": [
+        "Quando Robson pegou o aparelho, uma aranha saiu da carcaça. Ainda bem que a Livinha estava ali."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Livinha\",\"Robson\",\"Durplejoga\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.571428571428572,\"prop\":\"drone\",\"forest\":true},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": "Livinha"
+        }
+      ]
+    },
+    {
+      "nome": "registro",
+      "seguir": "Robson",
+      "z": 5,
+      "dur": 5.52,
+      "linhas": [
+        "A câmera ainda tinha bateria.\nROBSON ABRIU O ÚLTIMO REGISTRO."
+      ],
+      "fala": [
+        "A câmera ainda tinha bateria. Robson abriu o último registro, e Thiago se aproximou para ver."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Robson\",\"Thiago\",\"Astro Novalite\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.214285714285714,\"prop\":\"camera\",\"forest\":true},started:gtime};",
+      "clima": "misterio",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "porta",
+      "seguir": "Lago",
+      "z": 5,
+      "dur": 6.24,
+      "linhas": [
+        "Entre as raízes das árvores…\nUMA ENTRADA DE PEDRA."
+      ],
+      "fala": [
+        "A imagem mostrava uma entrada de pedra entre as raízes das árvores. Lago nunca tinha visto aquele lugar."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Robson\",\"Thiago\",\"Lago\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.928571428571429,\"prop\":\"camera\",\"forest\":true},started:gtime};",
+      "clima": "misterio",
+      "focos": []
+    },
+    {
+      "nome": "victor",
+      "seguir": "Jean",
+      "z": 5,
+      "dur": 6.56,
+      "linhas": [
+        "Jean pediu ajuda ao Victor.\nO MINERADOR VAI RECONHECER?"
+      ],
+      "fala": [
+        "Jean pediu que chamassem Victor. O minerador talvez reconhecesse aquela entrada. A equipe decidiu esperar por ele."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Jean\",\"Robson\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.571428571428572,\"prop\":\"camera\",\"forest\":true},started:gtime};",
+      "focos": [
+        {
+          "t": 0,
+          "nome": null
+        },
+        {
+          "t": 2.5,
+          "nome": null
+        }
+      ]
+    },
+    {
+      "nome": "convite",
+      "seguir": "Astro Novalite",
+      "z": 3.6,
+      "dur": 9.68,
+      "linhas": [
+        "Agora somos 45 moradores!\nAPELIDO + PROFISSÃO PARA ENTRAR.",
+        "Curta e se inscreva.\nA EXPEDIÇÃO VAI CONTINUAR!"
+      ],
+      "fala": [
+        "Agora somos quarenta e cinco moradores! Quer chegar no próximo episódio? Comente seu apelido e sua profissão.",
+        "Curta e se inscreva para acompanhar o que essa equipe vai encontrar."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Astro Novalite\",\"Lago\",\"Jean\",\"Thiago\",\"Arthur\",\"Livinha\",\"Pedro\",\"Durplejoga\",\"Julia Marina\",\"ArthurMendes_\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":9.857142857142858,\"prop\":\"drone\",\"forest\":true},started:gtime};",
+      "cta": true,
+      "focos": []
+    },
+    {
+      "nome": "gancho",
+      "seguir": "Jean",
+      "z": 5,
+      "dur": 6.8,
+      "linhas": [
+        "A luz tinha uma explicação.\nMAS QUEM CONSTRUIU A ENTRADA?"
+      ],
+      "fala": [
+        "A luz tinha uma explicação. Mas quem construiu aquela entrada? A expedição continua no episódio cinco."
+      ],
+      "antes": "window.__ep4scene={...{\"names\":[\"Jean\",\"Astro Novalite\",\"Lago\"],\"x\":1688,\"y\":648,\"endX\":1688,\"endY\":648,\"travel\":5.214285714285714,\"prop\":\"camera\",\"forest\":true},started:gtime};",
+      "clima": "misterio",
+      "focos": []
+    }
+  ]
+}

@@ -32,7 +32,7 @@ const contorno = (r: number, cor: string) =>
     return `${(Math.cos(a) * r).toFixed(1)}px ${(Math.sin(a) * r).toFixed(1)}px 0 ${cor}`;
   }).join(",") + `,0 ${r + 4}px ${r + 6}px rgba(0,0,0,.45)`;
 
-const Legenda: React.FC<{ texto: string; cta: boolean; somPop: boolean }> = ({ texto, cta, somPop }) => {
+export const Legenda: React.FC<{ texto: string; cta: boolean; somPop: boolean }> = ({ texto, cta, somPop }) => {
   const frame = useCurrentFrame();
   const { fps, width } = useVideoConfig();
   const [cima, ...resto] = texto.split("\n");
@@ -85,7 +85,7 @@ const Legenda: React.FC<{ texto: string; cta: boolean; somPop: boolean }> = ({ t
   );
 };
 
-const Clima: React.FC<{ clima: CenaPixelandia["clima"] }> = ({ clima }) => {
+export const Clima: React.FC<{ clima: CenaPixelandia["clima"] }> = ({ clima }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   if (!clima) return null;
@@ -136,15 +136,19 @@ const Clima: React.FC<{ clima: CenaPixelandia["clima"] }> = ({ clima }) => {
   );
 };
 
-// Seta amarela pulando sobre o morador que a câmera segue (centro da tela).
-const Foco: React.FC = () => {
+// A filmagem registra a cabeça do morador citado, mesmo fora do centro da câmera.
+const Foco: React.FC<{ rastreio?: CenaPixelandia["rastreioFoco"]; zoom: number }> = ({ rastreio, zoom }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   const k = width / 1080;
   const entra = spring({ frame: frame - 3, fps, config: { damping: 10, stiffness: 160 } });
   const pulo = Math.abs(Math.sin(frame / 5)) * 18 * k;
+  const alvo = rastreio?.[Math.min(frame, rastreio.length - 1)];
+  if (rastreio && !alvo) return null;
+  const x = alvo ? width / 2 + (alvo.x * width - width / 2) * zoom : width / 2;
+  const y = alvo ? height / 2 + (alvo.y * height - height / 2) * zoom - 62 * k : height / 2 - 150 * k;
   return (
-    <div style={{ position: "absolute", left: width / 2, top: height / 2 - 150 * k - pulo, transform: `translate(-50%,0) scale(${entra})` }}>
+    <div style={{ position: "absolute", left: x, top: y - pulo, transform: `translate(-50%,0) scale(${entra})`, transformOrigin: "50% 100%" }}>
       <svg width={70 * k} height={62 * k} viewBox="0 0 70 62">
         <polygon points="6,6 64,6 35,56" fill={AMARELO} stroke={TINTA} strokeWidth="6" strokeLinejoin="round" />
       </svg>
@@ -176,7 +180,7 @@ const Cena: React.FC<{ cena: CenaPixelandia; indice: number }> = ({ cena, indice
         <OffthreadVideo src={staticFile(cena.video)} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </AbsoluteFill>
       <Clima clima={cena.clima} />
-      {cena.foco ? <Foco /> : null}
+      {cena.foco || cena.rastreioFoco ? <Foco rastreio={cena.rastreioFoco} zoom={zoom} /> : null}
       <AbsoluteFill style={{ background: "#fff", opacity: flash }} />
       <Audio src={staticFile("sfx/whoosh.wav")} volume={cena.audio ? 0.25 : 0.45} />
       {cena.audio ? <Audio src={staticFile(cena.audio)} /> : null}

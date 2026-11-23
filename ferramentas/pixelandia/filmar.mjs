@@ -126,7 +126,7 @@ try {
     await cr.js(`load(${dados});tlReset&&tlReset();true`);
   }
   const novos = novosMoradores();
-  await cr.js(`(()=>{const lista=${JSON.stringify(novos)};for(const m of lista)addNPC(m.nome,PROF[m.prof]?m.prof:'pedreiro',m.sexo,m.custom,true);assignHomes&&assignHomes();return npcs.length})()`);
+  await cr.js(`(()=>{const lista=${JSON.stringify(novos)};for(const m of lista)addNPC(m.nome,PROF[m.prof]||m.prof==='custom'?m.prof:'pedreiro',m.sexo,m.custom,true);assignHomes&&assignHomes();return npcs.length})()`);
   // "seguir" no plano aceita o nome do morador; com nomes repetidos, vale o mais novo.
   const idsPorNome = JSON.parse(await cr.js(`JSON.stringify(npcs.map(m=>[m.id,m.name]))`));
   const idDe = (s) => (typeof s === "string" ? (idsPorNome.filter(([, n]) => n === s).pop() ?? [null])[0] : s);
@@ -196,6 +196,7 @@ try {
     if (c.reunir) await cr.js(`EV.gather=14;for(const n of npcs)if(n.active){n.plan=[];n.step=null;n.idle=Math.random()};window.__ff(180,50,1)`);
     const quadros = Math.round(c.dur * FPS);
     const saida = path.join(pasta, `cena-${i + 1}.mp4`);
+    const rastreioFoco = [];
     const ff = spawn("ffmpeg", ["-hide_banner", "-loglevel", "error", "-y", "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "mjpeg", "-i", "-",
       "-vf", `scale=${LARG}:${ALT}:flags=neighbor`, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-preset", "medium", "-crf", "18", "-r", String(FPS), saida], { stdio: ["pipe", "inherit", "inherit"] });
     for (let q = 0; q < quadros; q++) {
@@ -208,18 +209,26 @@ try {
         const k = c.caminho.length - 1, pos = t * k, a = c.caminho[Math.floor(pos)], b = c.caminho[Math.min(k, Math.floor(pos) + 1)], u = pos - Math.floor(pos);
         cam = `cam.x=${a.x + (b.x - a.x) * u};cam.y=${a.y + (b.y - a.y) * u};cam.z=${a.z}`;
       } else cam = `cam.x=${c.de.x + (c.para.x - c.de.x) * t};cam.y=${c.de.y + (c.para.y - c.de.y) * t};cam.z=${c.de.z + (c.para.z - c.de.z) * t}`;
-      const b64 = await cr.js(`(()=>{follow=null;TOUR=null;${cam};window.__pump(${1000 / FPS});return cv.toDataURL('image/jpeg',0.9).slice(23)})()`);
-      if (!ff.stdin.write(Buffer.from(b64, "base64"))) await new Promise((r) => ff.stdin.once("drain", r));
+      const alvo = c.focos?.filter(f => f.t <= q / FPS).at(-1)?.nome;
+      const tomada = await cr.js(`(()=>{follow=null;TOUR=null;${cam};window.__pump(${1000 / FPS});const nome=${JSON.stringify(alvo ?? null)};const n=nome?npcs.filter(m=>m.name===nome).at(-1):null;return {imagem:cv.toDataURL('image/jpeg',0.9).slice(23),foco:n&&!n.inside?{nome:n.name,x:+((cw/2+(n.x-cam.x)*cam.z)/cw).toFixed(6),y:+((ch/2+(n.y-22-cam.y)*cam.z)/ch).toFixed(6)}:null}})()`);
+      if (c.focos) rastreioFoco.push(tomada.foco);
+      if (!ff.stdin.write(Buffer.from(tomada.imagem, "base64"))) await new Promise((r) => ff.stdin.once("drain", r));
     }
     ff.stdin.end();
     await new Promise((r) => ff.on("close", r));
     c.video = `pixelandia/${ID}/cena-${i + 1}.mp4`;
+    if (c.focos) c.rastreioFoco = rastreioFoco;
     process.stdout.write(`\rFilmando cenas: ${i + 1}/${cenas.length}   `);
   }
   console.log();
+  // "salvarDepois" no plano: o episódio muda o mundo durante as cenas (obras, bairro...),
+  // então o vila.json do próximo episódio é gravado depois de filmar.
+  if (plano?.salvarDepois) {
+    fs.writeFileSync(path.join(pastaProj, "vila.json"), await cr.js(`(()=>{window.__ep6scene=null;window.__ep5scene=null;for(const n of npcs){n.inside=false;n.plan=[];n.step=null}return serialize()})()`));
+  }
 
   let inicio = 0;
-  const final = (plano ? cenas : roteiro(st, cenas)).map((c) => { const r = { nome: c.nome, video: c.video, inicio: +inicio.toFixed(3), dur: c.dur, linhas: c.linhas, clima: c.clima ?? null, cta: c.cta, foco: c.seguir != null, audio: c.audio, tempos: c.tempos }; inicio += c.dur; return r; });
+  const final = (plano ? cenas : roteiro(st, cenas)).map((c) => { const r = { nome: c.nome, video: c.video, inicio: +inicio.toFixed(3), dur: c.dur, linhas: c.linhas, clima: c.clima ?? null, cta: c.cta, foco: c.seguir != null, rastreioFoco: c.rastreioFoco, audio: c.audio, tempos: c.tempos }; inicio += c.dur; return r; });
   const video = { id: ID, episodio: EPISODIO, vila: st.vila, largura: LARG, altura: ALT, fps: FPS, duracao: +inicio.toFixed(3), estatisticas: st, cenas: final };
   fs.writeFileSync(path.join(pasta, "video.json"), JSON.stringify(video, null, 2));
   fs.writeFileSync(path.join(pastaProj, "roteiro.json"), JSON.stringify(final.map((c) => ({ cena: c.nome, linhas: c.linhas })), null, 2));
