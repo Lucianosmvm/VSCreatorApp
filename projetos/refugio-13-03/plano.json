@@ -1,0 +1,249 @@
+{
+ "episodio": 3,
+ "titulo": "A cisterna da estação",
+ "composicao": "refugio-13-03",
+ "status": "narrado",
+ "apuracaoAnterior": {
+  "A": 0,
+  "B": 1,
+  "vencedora": "B",
+  "fonte": "Informado pelo usuário em 19/11/2026: um único voto, em B."
+ },
+ "novos": [],
+ "narracao": {
+  "status": "concluida",
+  "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+  "modelo": "eleven_v4",
+  "velocidade": "0.92",
+  "projeto": "refugio-13-03-voz"
+ },
+ "opcoes": {
+  "A": {
+   "acao": "Mercado: buscar comida",
+   "beneficio": "Comida pronta",
+   "custo": "Rua com infectados"
+  },
+  "B": {
+   "acao": "Rádio: trocar água por comida",
+   "beneficio": "Comida sem sair do abrigo",
+   "custo": "Quem responder descobre onde fica o abrigo"
+  }
+ },
+ "opcoesTela": [
+  {
+   "letra": "A",
+   "nome": "MERCADO",
+   "texto": "Comida pronta.\nRua com infectados.",
+   "cor": "#ffd23f"
+  },
+  {
+   "letra": "B",
+   "nome": "RÁDIO",
+   "texto": "Troca por comida.\nRevela o abrigo.",
+   "cor": "#8fe6d3"
+  }
+ ],
+ "cenas": [
+  {
+   "acao": "resultado",
+   "dur": 3.92,
+   "titulo": "B VENCEU",
+   "destaque": "A CISTERNA VAI VOLTAR.",
+   "fala": "B venceu. A cisterna da estação ia voltar a funcionar.",
+   "audio": "videos/refugio-13-03-voz/cena_000.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "custo",
+   "dur": 5.6,
+   "titulo": "A: 0 · B: 1",
+   "destaque": "O MERCADO ESPEROU MAIS UM DIA.",
+   "fala": "Um voto em B decidiu: ficar e consertar. O mercado esperou mais um dia.",
+   "audio": "videos/refugio-13-03-voz/cena_001.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "inspecao",
+   "dur": 5.04,
+   "titulo": "NILO ABRIU A TAMPA",
+   "destaque": "RACHADA, E O CANO ENTUPIDO.",
+   "fala": "Nilo examinou a cisterna. Estava rachada, e o cano de saída, entupido.",
+   "audio": "videos/refugio-13-03-voz/cena_002.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "tubos",
+   "dur": 5.2,
+   "titulo": "AS PEÇAS DA OFICINA",
+   "destaque": "SERVIRAM NA HORA.",
+   "fala": "Eva trouxe os tubos e as conexões da oficina. O resgate de ontem já estava rendendo.",
+   "audio": "videos/refugio-13-03-voz/cena_003.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "calha",
+   "dur": 5.52,
+   "titulo": "LIA LIGOU A CALHA",
+   "destaque": "DO TELHADO À CISTERNA.",
+   "fala": "Lia ligou a calha do telhado da estação até a cisterna. Toda chuva agora vira reserva.",
+   "audio": "videos/refugio-13-03-voz/cena_004.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "ameaca",
+   "dur": 4.64,
+   "titulo": "AS MARTELADAS ECOARAM",
+   "destaque": "TRÊS INFECTADOS NA RUA LESTE.",
+   "fala": "Mas as marteladas ecoaram. Três infectados desceram pela rua leste.",
+   "clima": "ameaca",
+   "audio": "videos/refugio-13-03-voz/cena_005.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "barreira",
+   "dur": 4.0,
+   "titulo": "NILO E VELHO GIU",
+   "destaque": "FECHARAM A RUA COM TÁBUAS.",
+   "fala": "Nilo e Velho Jiu fecharam a passagem com as últimas tábuas que sobraram.",
+   "clima": "ameaca",
+   "audio": "videos/refugio-13-03-voz/cena_006.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "bloqueio",
+   "dur": 5.92,
+   "titulo": "ELES BATERAM NA BARREIRA",
+   "destaque": "E VOLTARAM PELA RUA.",
+   "fala": "Os infectados bateram na barreira, se confundiram e voltaram pela rua. Mas as tábuas acabaram.",
+   "audio": "videos/refugio-13-03-voz/cena_007.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "fundo",
+   "dur": 4.64,
+   "titulo": "SOBROU ÁGUA NO FUNDO",
+   "destaque": "MAS ESTAVA TURVA.",
+   "fala": "No fundo da cisterna ainda havia água da última chuva. Turva e parada.",
+   "audio": "videos/refugio-13-03-voz/cena_008.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "ulisses",
+   "dur": 5.12,
+   "titulo": "ULISSES FOI CLARO",
+   "destaque": "NINGUÉM BEBE ASSIM.",
+   "fala": "Ulisses foi claro: ninguém bebe isso assim. Água parada deixa qualquer um doente.",
+   "audio": "videos/refugio-13-03-voz/cena_009.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "filtro",
+   "dur": 4.8,
+   "titulo": "EVA MONTOU UM FILTRO",
+   "destaque": "PANO, AREIA E CARVÃO.",
+   "fala": "Eva montou um filtro com dois baldes, pano, areia e carvão da fogueira.",
+   "audio": "videos/refugio-13-03-voz/cena_010.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "fervura",
+   "dur": 6.16,
+   "titulo": "DEPOIS DO FILTRO, FERVER",
+   "destaque": "VELHO GIU CUIDOU DO FOGO.",
+   "fala": "Depois do filtro, a água ainda foi fervida. Velho Jiu cuidou do fogo e jurou que já fez isso na guerra.",
+   "audio": "videos/refugio-13-03-voz/cena_011.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "reservas",
+   "dur": 5.52,
+   "titulo": "ÁGUA SEGURA ATÉ AMANHÃ",
+   "destaque": "A CISTERNA ESTÁ DE PÉ.",
+   "fala": "No fim da tarde, havia água segura até amanhã à noite. A cisterna estava de pé.",
+   "clima": "vitoria",
+   "audio": "videos/refugio-13-03-voz/cena_012.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "comida",
+   "dur": 5.2,
+   "titulo": "MAS A COMIDA",
+   "destaque": "ACABA HOJE À NOITE.",
+   "fala": "Só que Eva contou as latas. Para cinco pessoas, a comida acaba hoje à noite.",
+   "audio": "videos/refugio-13-03-voz/cena_013.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "opcao-a",
+   "dur": 5.68,
+   "titulo": "A · IR AO MERCADO",
+   "destaque": "COMIDA PRONTA. RUA COM INFECTADOS.",
+   "fala": "A: ir ao mercado buscar comida. Tem comida pronta, mas a rua está cheia de infectados.",
+   "audio": "videos/refugio-13-03-voz/cena_014.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "opcao-b",
+   "dur": 6.32,
+   "titulo": "B · CHAMAR NO RÁDIO",
+   "destaque": "TROCAR ÁGUA POR COMIDA.",
+   "fala": "B: Lia chama no rádio e oferece água em troca de comida. Mas quem responder vai saber onde fica o abrigo.",
+   "audio": "videos/refugio-13-03-voz/cena_015.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "votacao",
+   "dur": 6.84,
+   "titulo": "QUAL É A PRÓXIMA PRIORIDADE?",
+   "destaque": "A: MERCADO | B: RÁDIO",
+   "fala": "Qual é a próxima prioridade? Comente A para o mercado ou B para o rádio. A escolha muda o próximo episódio.",
+   "audio": "videos/refugio-13-03-voz/cena_016.wav",
+   "tempos": [
+    0
+   ]
+  },
+  {
+   "acao": "convite",
+   "dur": 6.12,
+   "titulo": "SEU NOME PODE ESTAR AQUI",
+   "destaque": "APELIDO + HABILIDADE + VOTO",
+   "fala": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar o abrigo.",
+   "audio": "videos/refugio-13-03-voz/cena_017.wav",
+   "tempos": [
+    0
+   ]
+  }
+ ]
+}

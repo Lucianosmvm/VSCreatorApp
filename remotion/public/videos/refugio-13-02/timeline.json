@@ -1,0 +1,1391 @@
+{
+  "fps": 30,
+  "largura": 1080,
+  "altura": 1920,
+  "duracao": 109.36666666666666,
+  "projeto": {
+    "id": "refugio-13-02-voz",
+    "nome": "Refúgio 13 — Dia 02: um voto, duas vidas"
+  },
+  "legenda": {
+    "pos": 80,
+    "estilo": "outline"
+  },
+  "cenas": [
+    {
+      "inicio": 0,
+      "dur": 2.6666666666666665,
+      "janela": 0,
+      "texto": "B venceu. A oficina estava cercada.",
+      "palavras": [
+        {
+          "w": "B",
+          "t": 0
+        },
+        {
+          "w": "venceu.",
+          "t": 0.24
+        },
+        {
+          "w": "A",
+          "t": 0.96
+        },
+        {
+          "w": "oficina",
+          "t": 1.16
+        },
+        {
+          "w": "estava",
+          "t": 1.6
+        },
+        {
+          "w": "cercada.",
+          "t": 1.92
+        }
+      ],
+      "audio": "cena_000.wav"
+    },
+    {
+      "inicio": 2.6666666666666665,
+      "dur": 5.933333333333334,
+      "janela": 0,
+      "texto": "Um voto em B definiu a rota. Fomos à oficina. A água do mercado ficou para depois.",
+      "palavras": [
+        {
+          "w": "Um",
+          "t": 0
+        },
+        {
+          "w": "voto",
+          "t": 0.56
+        },
+        {
+          "w": "em",
+          "t": 0.92
+        },
+        {
+          "w": "B",
+          "t": 1.04
+        },
+        {
+          "w": "definiu",
+          "t": 1.28
+        },
+        {
+          "w": "a",
+          "t": 1.627
+        },
+        {
+          "w": "rota.",
+          "t": 1.68
+        },
+        {
+          "w": "Fomos",
+          "t": 2.4
+        },
+        {
+          "w": "à",
+          "t": 2.68
+        },
+        {
+          "w": "oficina.",
+          "t": 2.76
+        },
+        {
+          "w": "A",
+          "t": 3.6
+        },
+        {
+          "w": "água",
+          "t": 3.76
+        },
+        {
+          "w": "do",
+          "t": 3.96
+        },
+        {
+          "w": "mercado",
+          "t": 4.12
+        },
+        {
+          "w": "ficou",
+          "t": 4.56
+        },
+        {
+          "w": "para",
+          "t": 4.8
+        },
+        {
+          "w": "depois.",
+          "t": 4.96
+        }
+      ],
+      "audio": "cena_001.wav"
+    },
+    {
+      "inicio": 8.6,
+      "dur": 4.9,
+      "janela": 0,
+      "texto": "Lia e Nilo seguiram pela estrada. Eva ficou na estação protegendo os suprimentos.",
+      "palavras": [
+        {
+          "w": "Lia",
+          "t": 0
+        },
+        {
+          "w": "e",
+          "t": 0.28
+        },
+        {
+          "w": "Nilo",
+          "t": 0.4
+        },
+        {
+          "w": "seguiram",
+          "t": 0.8
+        },
+        {
+          "w": "pela",
+          "t": 1.173
+        },
+        {
+          "w": "estrada.",
+          "t": 1.4
+        },
+        {
+          "w": "Eva",
+          "t": 2.16
+        },
+        {
+          "w": "ficou",
+          "t": 2.56
+        },
+        {
+          "w": "na",
+          "t": 2.76
+        },
+        {
+          "w": "estação",
+          "t": 2.88
+        },
+        {
+          "w": "protegendo",
+          "t": 3.36
+        },
+        {
+          "w": "os",
+          "t": 3.8
+        },
+        {
+          "w": "suprimentos.",
+          "t": 3.92
+        }
+      ],
+      "audio": "cena_002.wav"
+    },
+    {
+      "inicio": 13.5,
+      "dur": 5.933333333333334,
+      "janela": 0,
+      "texto": "Pela fresta da porta, vimos Ulisses, doutor, e Velho Jiu, um contador de histórias bem safo.",
+      "palavras": [
+        {
+          "w": "Pela",
+          "t": 0
+        },
+        {
+          "w": "fresta",
+          "t": 0.24
+        },
+        {
+          "w": "da",
+          "t": 0.6
+        },
+        {
+          "w": "porta,",
+          "t": 0.72
+        },
+        {
+          "w": "vimos",
+          "t": 1.16
+        },
+        {
+          "w": "Ulisses,",
+          "t": 1.52
+        },
+        {
+          "w": "doutor,",
+          "t": 2.12
+        },
+        {
+          "w": "e",
+          "t": 2.88
+        },
+        {
+          "w": "Velho",
+          "t": 3.04
+        },
+        {
+          "w": "Jiu,",
+          "t": 3.32
+        },
+        {
+          "w": "um",
+          "t": 3.8
+        },
+        {
+          "w": "contador",
+          "t": 3.92
+        },
+        {
+          "w": "de",
+          "t": 4.36
+        },
+        {
+          "w": "histórias",
+          "t": 4.48
+        },
+        {
+          "w": "bem",
+          "t": 4.96
+        },
+        {
+          "w": "safo.",
+          "t": 5.2
+        }
+      ],
+      "audio": "cena_003.wav"
+    },
+    {
+      "inicio": 19.433333333333334,
+      "dur": 4.266666666666667,
+      "janela": 0,
+      "texto": "Quando Nilo tentou abrir espaço, a última tábua cedeu e ele cortou a mão.",
+      "palavras": [
+        {
+          "w": "Quando",
+          "t": 0
+        },
+        {
+          "w": "Nilo",
+          "t": 0.24
+        },
+        {
+          "w": "tentou",
+          "t": 0.56
+        },
+        {
+          "w": "abrir",
+          "t": 0.8
+        },
+        {
+          "w": "espaço,",
+          "t": 1.04
+        },
+        {
+          "w": "a",
+          "t": 1.72
+        },
+        {
+          "w": "última",
+          "t": 1.84
+        },
+        {
+          "w": "tábua",
+          "t": 2.2
+        },
+        {
+          "w": "cedeu",
+          "t": 2.6
+        },
+        {
+          "w": "e",
+          "t": 3.04
+        },
+        {
+          "w": "ele",
+          "t": 3.147
+        },
+        {
+          "w": "cortou",
+          "t": 3.28
+        },
+        {
+          "w": "a",
+          "t": 3.56
+        },
+        {
+          "w": "mão.",
+          "t": 3.68
+        }
+      ],
+      "audio": "cena_004.wav"
+    },
+    {
+      "inicio": 23.7,
+      "dur": 5.2,
+      "janela": 0,
+      "texto": "Ulisses cuidou do corte. Nilo conseguiu segurar a porta enquanto os outros preparavam a saída.",
+      "palavras": [
+        {
+          "w": "Ulisses",
+          "t": 0
+        },
+        {
+          "w": "cuidou",
+          "t": 0.4
+        },
+        {
+          "w": "do",
+          "t": 0.72
+        },
+        {
+          "w": "corte.",
+          "t": 0.84
+        },
+        {
+          "w": "Nilo",
+          "t": 1.6
+        },
+        {
+          "w": "conseguiu",
+          "t": 1.92
+        },
+        {
+          "w": "segurar",
+          "t": 2.4
+        },
+        {
+          "w": "a",
+          "t": 2.72
+        },
+        {
+          "w": "porta",
+          "t": 2.96
+        },
+        {
+          "w": "enquanto",
+          "t": 3.227
+        },
+        {
+          "w": "os",
+          "t": 3.48
+        },
+        {
+          "w": "outros",
+          "t": 3.6
+        },
+        {
+          "w": "preparavam",
+          "t": 3.92
+        },
+        {
+          "w": "a",
+          "t": 4.36
+        },
+        {
+          "w": "saída.",
+          "t": 4.48
+        }
+      ],
+      "audio": "cena_005.wav"
+    },
+    {
+      "inicio": 28.9,
+      "dur": 5.133333333333334,
+      "janela": 0,
+      "texto": "Mas o barulho trouxe mais infectados. Sair pela frente era andar direto para eles.",
+      "palavras": [
+        {
+          "w": "Mas",
+          "t": 0
+        },
+        {
+          "w": "o",
+          "t": 0.16
+        },
+        {
+          "w": "barulho",
+          "t": 0.24
+        },
+        {
+          "w": "trouxe",
+          "t": 0.68
+        },
+        {
+          "w": "mais",
+          "t": 1.04
+        },
+        {
+          "w": "infectados.",
+          "t": 1.28
+        },
+        {
+          "w": "Sair",
+          "t": 2.4
+        },
+        {
+          "w": "pela",
+          "t": 2.693
+        },
+        {
+          "w": "frente",
+          "t": 2.96
+        },
+        {
+          "w": "era",
+          "t": 3.36
+        },
+        {
+          "w": "andar",
+          "t": 3.52
+        },
+        {
+          "w": "direto",
+          "t": 3.76
+        },
+        {
+          "w": "para",
+          "t": 4.24
+        },
+        {
+          "w": "eles.",
+          "t": 4.4
+        }
+      ],
+      "audio": "cena_006.wav"
+    },
+    {
+      "inicio": 34.03333333333333,
+      "dur": 6.1,
+      "janela": 0,
+      "texto": "Velho Jiu pegou um gravador e inventou uma discussão inteira. Dessa vez, um causo podia salvar o grupo.",
+      "palavras": [
+        {
+          "w": "Velho",
+          "t": 0
+        },
+        {
+          "w": "Jiu",
+          "t": 0.28
+        },
+        {
+          "w": "pegou",
+          "t": 0.56
+        },
+        {
+          "w": "um",
+          "t": 0.76
+        },
+        {
+          "w": "gravador",
+          "t": 0.88
+        },
+        {
+          "w": "e",
+          "t": 1.44
+        },
+        {
+          "w": "inventou",
+          "t": 1.52
+        },
+        {
+          "w": "uma",
+          "t": 1.96
+        },
+        {
+          "w": "discussão",
+          "t": 2.08
+        },
+        {
+          "w": "inteira.",
+          "t": 2.64
+        },
+        {
+          "w": "Dessa",
+          "t": 3.36
+        },
+        {
+          "w": "vez,",
+          "t": 3.68
+        },
+        {
+          "w": "um",
+          "t": 4.16
+        },
+        {
+          "w": "causo",
+          "t": 4.32
+        },
+        {
+          "w": "podia",
+          "t": 4.72
+        },
+        {
+          "w": "salvar",
+          "t": 5.04
+        },
+        {
+          "w": "o",
+          "t": 5.32
+        },
+        {
+          "w": "grupo.",
+          "t": 5.44
+        }
+      ],
+      "audio": "cena_007.wav"
+    },
+    {
+      "inicio": 40.13333333333333,
+      "dur": 5.366666666666666,
+      "janela": 0,
+      "texto": "Lia deixou o gravador na lateral da oficina. A discussão continuou, mas já não tinha ninguém ali.",
+      "palavras": [
+        {
+          "w": "Lia",
+          "t": 0
+        },
+        {
+          "w": "deixou",
+          "t": 0.24
+        },
+        {
+          "w": "o",
+          "t": 0.52
+        },
+        {
+          "w": "gravador",
+          "t": 0.64
+        },
+        {
+          "w": "na",
+          "t": 1.04
+        },
+        {
+          "w": "lateral",
+          "t": 1.253
+        },
+        {
+          "w": "da",
+          "t": 1.56
+        },
+        {
+          "w": "oficina.",
+          "t": 1.64
+        },
+        {
+          "w": "A",
+          "t": 2.48
+        },
+        {
+          "w": "discussão",
+          "t": 2.56
+        },
+        {
+          "w": "continuou,",
+          "t": 3.12
+        },
+        {
+          "w": "mas",
+          "t": 3.84
+        },
+        {
+          "w": "já",
+          "t": 3.96
+        },
+        {
+          "w": "não",
+          "t": 4.08
+        },
+        {
+          "w": "tinha",
+          "t": 4.24
+        },
+        {
+          "w": "ninguém",
+          "t": 4.52
+        },
+        {
+          "w": "ali.",
+          "t": 4.92
+        }
+      ],
+      "audio": "cena_008.wav"
+    },
+    {
+      "inicio": 45.5,
+      "dur": 4.8,
+      "janela": 0,
+      "texto": "Os infectados seguiram o barulho. Pela porta dos fundos, os quatro saíram juntos.",
+      "palavras": [
+        {
+          "w": "Os",
+          "t": 0
+        },
+        {
+          "w": "infectados",
+          "t": 0.16
+        },
+        {
+          "w": "seguiram",
+          "t": 0.8
+        },
+        {
+          "w": "o",
+          "t": 1.16
+        },
+        {
+          "w": "barulho.",
+          "t": 1.32
+        },
+        {
+          "w": "Pela",
+          "t": 1.92
+        },
+        {
+          "w": "porta",
+          "t": 2.16
+        },
+        {
+          "w": "dos",
+          "t": 2.48
+        },
+        {
+          "w": "fundos,",
+          "t": 2.64
+        },
+        {
+          "w": "os",
+          "t": 3.12
+        },
+        {
+          "w": "quatro",
+          "t": 3.28
+        },
+        {
+          "w": "saíram",
+          "t": 3.6
+        },
+        {
+          "w": "juntos.",
+          "t": 4
+        }
+      ],
+      "audio": "cena_009.wav"
+    },
+    {
+      "inicio": 50.3,
+      "dur": 5.533333333333333,
+      "janela": 0,
+      "texto": "Nilo levou tubos, conexões e algumas tábuas. A oficina ainda tinha coisas úteis para o abrigo.",
+      "palavras": [
+        {
+          "w": "Nilo",
+          "t": 0
+        },
+        {
+          "w": "levou",
+          "t": 0.32
+        },
+        {
+          "w": "tubos,",
+          "t": 0.64
+        },
+        {
+          "w": "conexões",
+          "t": 1.12
+        },
+        {
+          "w": "e",
+          "t": 1.8
+        },
+        {
+          "w": "algumas",
+          "t": 1.92
+        },
+        {
+          "w": "tábuas.",
+          "t": 2.24
+        },
+        {
+          "w": "A",
+          "t": 3.04
+        },
+        {
+          "w": "oficina",
+          "t": 3.16
+        },
+        {
+          "w": "ainda",
+          "t": 3.68
+        },
+        {
+          "w": "tinha",
+          "t": 3.92
+        },
+        {
+          "w": "coisas",
+          "t": 4.12
+        },
+        {
+          "w": "úteis",
+          "t": 4.52
+        },
+        {
+          "w": "para",
+          "t": 4.8
+        },
+        {
+          "w": "o",
+          "t": 4.92
+        },
+        {
+          "w": "abrigo.",
+          "t": 5.04
+        }
+      ],
+      "audio": "cena_010.wav"
+    },
+    {
+      "inicio": 55.83333333333333,
+      "dur": 5.366666666666666,
+      "janela": 0,
+      "texto": "O grupo voltou pelos trilhos antes do amanhecer. Eva abriu a passagem da estação.",
+      "palavras": [
+        {
+          "w": "O",
+          "t": 0
+        },
+        {
+          "w": "grupo",
+          "t": 0.16
+        },
+        {
+          "w": "voltou",
+          "t": 0.52
+        },
+        {
+          "w": "pelos",
+          "t": 0.8
+        },
+        {
+          "w": "trilhos",
+          "t": 1.12
+        },
+        {
+          "w": "antes",
+          "t": 1.6
+        },
+        {
+          "w": "do",
+          "t": 1.96
+        },
+        {
+          "w": "amanhecer.",
+          "t": 2.12
+        },
+        {
+          "w": "Eva",
+          "t": 3.04
+        },
+        {
+          "w": "abriu",
+          "t": 3.52
+        },
+        {
+          "w": "a",
+          "t": 3.8
+        },
+        {
+          "w": "passagem",
+          "t": 3.92
+        },
+        {
+          "w": "da",
+          "t": 4.36
+        },
+        {
+          "w": "estação.",
+          "t": 4.48
+        }
+      ],
+      "audio": "cena_011.wav"
+    },
+    {
+      "inicio": 61.199999999999996,
+      "dur": 7.133333333333334,
+      "janela": 0,
+      "texto": "Ao amanhecer, três sobreviventes viraram cinco. Duas vidas salvas, e mais gente para dividir as reservas.",
+      "palavras": [
+        {
+          "w": "Ao",
+          "t": 0
+        },
+        {
+          "w": "amanhecer,",
+          "t": 0.24
+        },
+        {
+          "w": "três",
+          "t": 1.2
+        },
+        {
+          "w": "sobreviventes",
+          "t": 1.36
+        },
+        {
+          "w": "viraram",
+          "t": 2.16
+        },
+        {
+          "w": "cinco.",
+          "t": 2.64
+        },
+        {
+          "w": "Duas",
+          "t": 3.44
+        },
+        {
+          "w": "vidas",
+          "t": 3.76
+        },
+        {
+          "w": "salvas,",
+          "t": 4.12
+        },
+        {
+          "w": "e",
+          "t": 4.72
+        },
+        {
+          "w": "mais",
+          "t": 4.88
+        },
+        {
+          "w": "gente",
+          "t": 5.12
+        },
+        {
+          "w": "para",
+          "t": 5.44
+        },
+        {
+          "w": "dividir",
+          "t": 5.68
+        },
+        {
+          "w": "as",
+          "t": 6.04
+        },
+        {
+          "w": "reservas.",
+          "t": 6.16
+        }
+      ],
+      "audio": "cena_012.wav"
+    },
+    {
+      "inicio": 68.33333333333333,
+      "dur": 6.4,
+      "janela": 0,
+      "texto": "Com as tábuas recuperadas, Nilo montou uma bancada. Ulisses organizou um pequeno posto de primeiros socorros.",
+      "palavras": [
+        {
+          "w": "Com",
+          "t": 0
+        },
+        {
+          "w": "as",
+          "t": 0.16
+        },
+        {
+          "w": "tábuas",
+          "t": 0.32
+        },
+        {
+          "w": "recuperadas,",
+          "t": 0.64
+        },
+        {
+          "w": "Nilo",
+          "t": 1.48
+        },
+        {
+          "w": "montou",
+          "t": 1.76
+        },
+        {
+          "w": "uma",
+          "t": 2.08
+        },
+        {
+          "w": "bancada.",
+          "t": 2.24
+        },
+        {
+          "w": "Ulisses",
+          "t": 3.12
+        },
+        {
+          "w": "organizou",
+          "t": 3.72
+        },
+        {
+          "w": "um",
+          "t": 4.12
+        },
+        {
+          "w": "pequeno",
+          "t": 4.24
+        },
+        {
+          "w": "posto",
+          "t": 4.64
+        },
+        {
+          "w": "de",
+          "t": 4.96
+        },
+        {
+          "w": "primeiros",
+          "t": 5.16
+        },
+        {
+          "w": "socorros.",
+          "t": 5.44
+        }
+      ],
+      "audio": "cena_013.wav"
+    },
+    {
+      "inicio": 74.73333333333333,
+      "dur": 6.733333333333333,
+      "janela": 0,
+      "texto": "Mas o resgate não encheu o reservatório. Racionando entre cinco pessoas, a água só chegaria até o meio-dia.",
+      "palavras": [
+        {
+          "w": "Mas",
+          "t": 0
+        },
+        {
+          "w": "o",
+          "t": 0.16
+        },
+        {
+          "w": "resgate",
+          "t": 0.24
+        },
+        {
+          "w": "não",
+          "t": 0.8
+        },
+        {
+          "w": "encheu",
+          "t": 1.04
+        },
+        {
+          "w": "o",
+          "t": 1.333
+        },
+        {
+          "w": "reservatório.",
+          "t": 1.44
+        },
+        {
+          "w": "Racionando",
+          "t": 2.48
+        },
+        {
+          "w": "entre",
+          "t": 3.08
+        },
+        {
+          "w": "cinco",
+          "t": 3.28
+        },
+        {
+          "w": "pessoas,",
+          "t": 3.6
+        },
+        {
+          "w": "a",
+          "t": 4.36
+        },
+        {
+          "w": "água",
+          "t": 4.48
+        },
+        {
+          "w": "só",
+          "t": 4.8
+        },
+        {
+          "w": "chegaria",
+          "t": 4.96
+        },
+        {
+          "w": "até",
+          "t": 5.52
+        },
+        {
+          "w": "o",
+          "t": 5.653
+        },
+        {
+          "w": "meio-dia.",
+          "t": 5.76
+        }
+      ],
+      "audio": "cena_014.wav"
+    },
+    {
+      "inicio": 81.46666666666667,
+      "dur": 6.8,
+      "janela": 0,
+      "texto": "A: buscar água engarrafada no mercado. É a solução imediata, mas exige atravessar a rua com infectados.",
+      "palavras": [
+        {
+          "w": "A:",
+          "t": 0
+        },
+        {
+          "w": "buscar",
+          "t": 0.56
+        },
+        {
+          "w": "água",
+          "t": 0.96
+        },
+        {
+          "w": "engarrafada",
+          "t": 1.2
+        },
+        {
+          "w": "no",
+          "t": 1.8
+        },
+        {
+          "w": "mercado.",
+          "t": 1.92
+        },
+        {
+          "w": "É",
+          "t": 2.72
+        },
+        {
+          "w": "a",
+          "t": 2.827
+        },
+        {
+          "w": "solução",
+          "t": 2.88
+        },
+        {
+          "w": "imediata,",
+          "t": 3.28
+        },
+        {
+          "w": "mas",
+          "t": 4.16
+        },
+        {
+          "w": "exige",
+          "t": 4.32
+        },
+        {
+          "w": "atravessar",
+          "t": 4.64
+        },
+        {
+          "w": "a",
+          "t": 5.12
+        },
+        {
+          "w": "rua",
+          "t": 5.2
+        },
+        {
+          "w": "com",
+          "t": 5.48
+        },
+        {
+          "w": "infectados.",
+          "t": 5.6
+        }
+      ],
+      "audio": "cena_015.wav"
+    },
+    {
+      "inicio": 88.26666666666667,
+      "dur": 6.8,
+      "janela": 0,
+      "texto": "B: recuperar a cisterna da estação com as peças da oficina. Dá trabalho, e a água ainda precisa ser tratada.",
+      "palavras": [
+        {
+          "w": "B:",
+          "t": 0
+        },
+        {
+          "w": "recuperar",
+          "t": 0.48
+        },
+        {
+          "w": "a",
+          "t": 1
+        },
+        {
+          "w": "cisterna",
+          "t": 1.12
+        },
+        {
+          "w": "da",
+          "t": 1.64
+        },
+        {
+          "w": "estação",
+          "t": 1.76
+        },
+        {
+          "w": "com",
+          "t": 2.24
+        },
+        {
+          "w": "as",
+          "t": 2.4
+        },
+        {
+          "w": "peças",
+          "t": 2.56
+        },
+        {
+          "w": "da",
+          "t": 2.88
+        },
+        {
+          "w": "oficina.",
+          "t": 2.96
+        },
+        {
+          "w": "Dá",
+          "t": 3.76
+        },
+        {
+          "w": "trabalho,",
+          "t": 3.92
+        },
+        {
+          "w": "e",
+          "t": 4.6
+        },
+        {
+          "w": "a",
+          "t": 4.68
+        },
+        {
+          "w": "água",
+          "t": 4.8
+        },
+        {
+          "w": "ainda",
+          "t": 5.04
+        },
+        {
+          "w": "precisa",
+          "t": 5.28
+        },
+        {
+          "w": "ser",
+          "t": 5.76
+        },
+        {
+          "w": "tratada.",
+          "t": 5.92
+        }
+      ],
+      "audio": "cena_016.wav"
+    },
+    {
+      "inicio": 95.06666666666666,
+      "dur": 7.2,
+      "janela": 0,
+      "texto": "Qual é a próxima prioridade? Comente A para o mercado ou B para a cisterna. A escolha muda o próximo episódio.",
+      "palavras": [
+        {
+          "w": "Qual",
+          "t": 0
+        },
+        {
+          "w": "é",
+          "t": 0.2
+        },
+        {
+          "w": "a",
+          "t": 0.293
+        },
+        {
+          "w": "próxima",
+          "t": 0.4
+        },
+        {
+          "w": "prioridade?",
+          "t": 0.8
+        },
+        {
+          "w": "Comente",
+          "t": 1.68
+        },
+        {
+          "w": "A",
+          "t": 2.24
+        },
+        {
+          "w": "para",
+          "t": 2.48
+        },
+        {
+          "w": "o",
+          "t": 2.667
+        },
+        {
+          "w": "mercado",
+          "t": 2.72
+        },
+        {
+          "w": "ou",
+          "t": 3.44
+        },
+        {
+          "w": "B",
+          "t": 3.68
+        },
+        {
+          "w": "para",
+          "t": 3.92
+        },
+        {
+          "w": "a",
+          "t": 4.107
+        },
+        {
+          "w": "cisterna.",
+          "t": 4.16
+        },
+        {
+          "w": "A",
+          "t": 4.987
+        },
+        {
+          "w": "escolha",
+          "t": 5.04
+        },
+        {
+          "w": "muda",
+          "t": 5.6
+        },
+        {
+          "w": "o",
+          "t": 5.92
+        },
+        {
+          "w": "próximo",
+          "t": 6.04
+        },
+        {
+          "w": "episódio.",
+          "t": 6.36
+        }
+      ],
+      "audio": "cena_017.wav"
+    },
+    {
+      "inicio": 102.26666666666667,
+      "dur": 7.1,
+      "janela": 0,
+      "texto": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar a construção do abrigo.",
+      "palavras": [
+        {
+          "w": "Quer",
+          "t": 0
+        },
+        {
+          "w": "entrar",
+          "t": 0.227
+        },
+        {
+          "w": "no",
+          "t": 0.467
+        },
+        {
+          "w": "Refúgio",
+          "t": 0.587
+        },
+        {
+          "w": "Treze?",
+          "t": 0.987
+        },
+        {
+          "w": "Deixe",
+          "t": 1.667
+        },
+        {
+          "w": "apelido,",
+          "t": 1.867
+        },
+        {
+          "w": "habilidade",
+          "t": 2.587
+        },
+        {
+          "w": "e",
+          "t": 3.227
+        },
+        {
+          "w": "voto.",
+          "t": 3.387
+        },
+        {
+          "w": "Curta",
+          "t": 4.107
+        },
+        {
+          "w": "e",
+          "t": 4.307
+        },
+        {
+          "w": "se",
+          "t": 4.427
+        },
+        {
+          "w": "inscreva",
+          "t": 4.507
+        },
+        {
+          "w": "para",
+          "t": 5.067
+        },
+        {
+          "w": "acompanhar",
+          "t": 5.267
+        },
+        {
+          "w": "a",
+          "t": 5.68
+        },
+        {
+          "w": "construção",
+          "t": 5.787
+        },
+        {
+          "w": "do",
+          "t": 6.427
+        },
+        {
+          "w": "abrigo.",
+          "t": 6.507
+        }
+      ],
+      "audio": "cena_018.wav"
+    }
+  ]
+}

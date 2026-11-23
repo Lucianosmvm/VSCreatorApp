@@ -1,0 +1,124 @@
+{
+  "dia": 3,
+  "periodo": "Manhã ao anoitecer do dia 3.",
+  "statusProducao": "exportado-narrado",
+  "base": "Estação",
+  "elenco": [
+    {
+      "id": "lia",
+      "nome": "Lia",
+      "habilidade": "rádio"
+    },
+    {
+      "id": "nilo",
+      "nome": "Nilo",
+      "habilidade": "manutenção"
+    },
+    {
+      "id": "eva",
+      "nome": "Eva",
+      "habilidade": "suprimentos"
+    },
+    {
+      "id": "ulisses",
+      "nome": "ULISSES",
+      "habilidade": "Doutor"
+    },
+    {
+      "id": "velho-giu",
+      "nome": "Velho Giu",
+      "habilidade": "Contador de histórias, inventa boas mentiras e é safo."
+    }
+  ],
+  "suprimentos": {
+    "aguaHoras": 30,
+    "comidaDias": 0.5,
+    "tabuas": 0,
+    "observacao": "Água filtrada e fervida até a noite do dia 4; comida acaba na noite do dia 3; tábuas usadas na barreira."
+  },
+  "construcoes": [
+    {
+      "id": "posto-socorros",
+      "nome": "Bancada e pequeno posto de primeiros socorros",
+      "local": "Área coberta junto à estação",
+      "responsaveis": [
+        "nilo",
+        "ulisses"
+      ]
+    },
+    {
+      "id": "cisterna",
+      "nome": "Cisterna recuperada com calha do telhado",
+      "responsaveis": [
+        "nilo",
+        "eva",
+        "lia"
+      ]
+    },
+    {
+      "id": "barreira-leste",
+      "nome": "Barreira de tábuas na rua leste",
+      "responsaveis": [
+        "nilo",
+        "velho-giu"
+      ]
+    },
+    {
+      "id": "filtro",
+      "nome": "Filtro de baldes (pano, areia, carvão) e fogueira para ferver",
+      "responsaveis": [
+        "eva",
+        "velho-giu",
+        "ulisses"
+      ]
+    }
+  ],
+  "decisaoAnterior": {
+    "A": 0,
+    "B": 1,
+    "vencedora": "B",
+    "fonte": "Informado pelo usuário em 19/11/2026: um único voto, em B (cisterna)."
+  },
+  "votacao": {
+    "status": "a-publicar",
+    "opcoes": {
+      "A": {
+        "acao": "Mercado: buscar comida",
+        "beneficio": "Comida pronta",
+        "custo": "Rua com infectados"
+      },
+      "B": {
+        "acao": "Rádio: trocar água por comida",
+        "beneficio": "Comida sem sair do abrigo",
+        "custo": "Quem responder descobre onde fica o abrigo"
+      }
+    },
+    "contagem": null
+  },
+  "novos": [],
+  "publicacao": "pendente",
+  "arquivoPrevia": "remotion/jobs/refugio-13-03/previa-dia03.mp4",
+  "duracaoPrevia": 129.06,
+  "validacao": {
+    "sobreposicoesTags": 0,
+    "atravessamentosInfectados": 0
+  },
+  "mundoSalvo": "projetos/refugio-13-03/mundo.json",
+  "producao": {
+    "diretor": "ferramentas/refugio-13/mundo/dia03.js",
+    "filmar": "node ferramentas/refugio-13/filmar.mjs --dia 03",
+    "composicao": "remotion/src/refugio/RefugioDia03.tsx"
+  },
+  "videoFinal": "remotion/out/refugio-13-03.mp4",
+  "duracaoFinal": 96.24,
+  "visualAprovado": true,
+  "aprovacaoVisual": "Usuário aprovou a prévia em 19/11/2026.",
+  "narracao": {
+    "status": "concluida",
+    "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": "0.92",
+    "projeto": "refugio-13-03-voz",
+    "caracteres": 1485
+  }
+}

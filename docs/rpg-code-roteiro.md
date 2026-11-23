@@ -4,11 +4,12 @@ Série de Shorts 9:16 (40–55 s) em pixel art 16-bit. Cada episódio mostra **u
 do jogo** e **o código que faz ele acontecer**, e termina com um gancho para o próximo.
 Kit: `remotion/src/rpg/`. Um episódio = um projeto + `remotion/src/rpg/EpNN<Nome>.tsx`.
 
-**Episódios publicados:** 01 menu (`switch`) · 02 criar o herói (classe e objeto) ·
-03 nome do herói (`string`, interpolação).
+**Episódios produzidos:** 01 menu (`switch`) · 02 criar o herói (classe e objeto) ·
+03 nome do herói (`string`, interpolação) · 04 `Vector2` · 05 `Update` e `deltaTime` · 06 colisão ·
+07 `int` e `+=` · 08 comparação · 09 `if / else` · 10 `int` × `float`.
 
-**Ponto de retomada:** EP. 09 — O ferreiro, produzido e exportado (Artur comprou a espada de madeira
-de 60 e ficou com 39 moedas). O próximo a produzir é o **EP. 10 — Dano e peso da espada** (`float` × `int`).
+**Ponto de retomada:** EP. 10 — Dano e peso, produzido e exportado (espada de madeira: `int dano = 5`,
+`float peso = 1.5f`; Artur anda a 2.7 com ela). O próximo a produzir é o **EP. 11 — Equipar a espada** (`bool`).
 
 ## Regras de cada episódio
 

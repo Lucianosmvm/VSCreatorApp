@@ -1,0 +1,4 @@
+interface:
+  display_name: "Refúgio 13"
+  short_description: "Produz episódios da série de sobrevivência Refúgio 13"
+  default_prompt: "Use $refugio-13 01."

@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+const destino=path.resolve('ferramentas/refugio-13/mundo');
+fs.mkdirSync(destino,{recursive:true});
+const origem='D:/Nova pasta/mundo-pixelandia/index.html';
+let html=fs.readFileSync(origem,'utf8');
+const sha256=crypto.createHash('sha256').update(html).digest('hex');
+html=html.replaceAll('vilaInscritos_v1','refugio13_mundo_independente_v1');
+html=html.replace('</body>','<style>body>*:not(#c){display:none!important}#c{display:block!important;position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important}</style><script src="./refugio.js"></script></body>');
+fs.writeFileSync(path.join(destino,'index.html'),html);
+fs.writeFileSync(path.join(destino,'origem.json'),JSON.stringify({origem,sha256,uso:'Cópia isolada do motor Canvas e dos sprites; mapa, elenco, estado e direção próprios de Refúgio 13. Não depende do arquivo externo para rodar após esta preparação.'},null,2));
+console.log('Motor copiado para a pasta independente de Refúgio 13.');

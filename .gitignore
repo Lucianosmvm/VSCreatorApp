@@ -89,3 +89,9 @@ ferramentas/effectcraft/teste.png
 
 # Mundo Pixelândia: cenas filmadas são regeradas pelo filmar.mjs
 remotion/public/pixelandia/*/*.mp4
+
+# Refúgio 13: cenas filmadas são regeradas pelo filmar.mjs do estilo
+remotion/public/refugio-13/*/*.mp4
+# rascunhos locais
+scratchpad/
+

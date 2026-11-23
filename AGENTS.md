@@ -22,7 +22,8 @@ fala em português; responda em português.
    ```
    Imprime o id do projeto (ex.: `armadilha-das-parcelas-muy7p1o4`). O projeto
    nasce em modo mascote + Remotion, herdando voz e estilo do projeto mais recente.
-3. **Usuário, no app** (`python serve.py` → http://localhost:8777):
+3. **Prévia visual e narração**: monte uma prévia sem narração, com tempos estimados quando necessário, e aguarde a aprovação do visual antes de gerar áudio novo ou gastar créditos da ElevenLabs. Se a fala já estiver gravada e o texto servir à versão aprovada, reaproveite o áudio.
+   No app (`python serve.py` → http://localhost:8777):
    📁 Projetos → abrir o projeto → **🎤 Narração** → **🤖 Enviar para o Codex**.
    Codex NÃO gera narração: a chave da ElevenLabs fica no navegador do usuário.
 4. **Codex monta o vídeo** a partir de `remotion/public/videos/<id>/timeline.json`
@@ -61,6 +62,7 @@ refeito no app (passo 3) — avisar antes de mudar fala.
 
 ## Modo automático (tudo pelo app)
 
+Depois de aprovar o visual, a narração pode ser feita pelo fluxo automático.
 Tela inicial do app → tema ou roteiro → **Criar vídeo**. O `serve.py` (`/auto`) faz o fluxo
 acima sozinho: `Codex -p` escreve o roteiro → `novo_projeto.py` → `ferramentas/narrar.py`
 (ElevenLabs com `ELEVENLABS_API_KEY` do `.env`) → `Codex -p` monta e publica (passos 4–5).

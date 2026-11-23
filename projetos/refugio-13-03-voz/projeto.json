@@ -1,0 +1,111 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": 18,
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Refúgio 13 — Dia 03: a cisterna da estação",
+ "frames": [
+  {
+   "id": "refugio03-0",
+   "text": "B venceu. A cisterna da estação ia voltar a funcionar.",
+   "narration": "B venceu. A cisterna da estação ia voltar a funcionar."
+  },
+  {
+   "id": "refugio03-1",
+   "text": "Um voto em B decidiu: ficar e consertar. O mercado esperou mais um dia.",
+   "narration": "Um voto em B decidiu: ficar e consertar. O mercado esperou mais um dia."
+  },
+  {
+   "id": "refugio03-2",
+   "text": "Nilo examinou a cisterna. Estava rachada, e o cano de saída, entupido.",
+   "narration": "Nilo examinou a cisterna. Estava rachada, e o cano de saída, entupido."
+  },
+  {
+   "id": "refugio03-3",
+   "text": "Eva trouxe os tubos e as conexões da oficina. O resgate de ontem já estava rendendo.",
+   "narration": "Eva trouxe os tubos e as conexões da oficina. O resgate de ontem já estava rendendo."
+  },
+  {
+   "id": "refugio03-4",
+   "text": "Lia ligou a calha do telhado da estação até a cisterna. Toda chuva agora vira reserva.",
+   "narration": "Lia ligou a calha do telhado da estação até a cisterna. Toda chuva agora vira reserva."
+  },
+  {
+   "id": "refugio03-5",
+   "text": "Mas as marteladas ecoaram. Três infectados desceram pela rua leste.",
+   "narration": "Mas as marteladas ecoaram. Três infectados desceram pela rua leste."
+  },
+  {
+   "id": "refugio03-6",
+   "text": "Nilo e Velho Jiu fecharam a passagem com as últimas tábuas que sobraram.",
+   "narration": "Nilo e Velho Jiu fecharam a passagem com as últimas tábuas que sobraram."
+  },
+  {
+   "id": "refugio03-7",
+   "text": "Os infectados bateram na barreira, se confundiram e voltaram pela rua. Mas as tábuas acabaram.",
+   "narration": "Os infectados bateram na barreira, se confundiram e voltaram pela rua. Mas as tábuas acabaram."
+  },
+  {
+   "id": "refugio03-8",
+   "text": "No fundo da cisterna ainda havia água da última chuva. Turva e parada.",
+   "narration": "No fundo da cisterna ainda havia água da última chuva. Turva e parada."
+  },
+  {
+   "id": "refugio03-9",
+   "text": "Ulisses foi claro: ninguém bebe isso assim. Água parada deixa qualquer um doente.",
+   "narration": "Ulisses foi claro: ninguém bebe isso assim. Água parada deixa qualquer um doente."
+  },
+  {
+   "id": "refugio03-10",
+   "text": "Eva montou um filtro com dois baldes, pano, areia e carvão da fogueira.",
+   "narration": "Eva montou um filtro com dois baldes, pano, areia e carvão da fogueira."
+  },
+  {
+   "id": "refugio03-11",
+   "text": "Depois do filtro, a água ainda foi fervida. Velho Jiu cuidou do fogo e jurou que já fez isso na guerra.",
+   "narration": "Depois do filtro, a água ainda foi fervida. Velho Jiu cuidou do fogo e jurou que já fez isso na guerra."
+  },
+  {
+   "id": "refugio03-12",
+   "text": "No fim da tarde, havia água segura até amanhã à noite. A cisterna estava de pé.",
+   "narration": "No fim da tarde, havia água segura até amanhã à noite. A cisterna estava de pé."
+  },
+  {
+   "id": "refugio03-13",
+   "text": "Só que Eva contou as latas. Para cinco pessoas, a comida acaba hoje à noite.",
+   "narration": "Só que Eva contou as latas. Para cinco pessoas, a comida acaba hoje à noite."
+  },
+  {
+   "id": "refugio03-14",
+   "text": "A: ir ao mercado buscar comida. Tem comida pronta, mas a rua está cheia de infectados.",
+   "narration": "A: ir ao mercado buscar comida. Tem comida pronta, mas a rua está cheia de infectados."
+  },
+  {
+   "id": "refugio03-15",
+   "text": "B: Lia chama no rádio e oferece água em troca de comida. Mas quem responder vai saber onde fica o abrigo.",
+   "narration": "B: Lia chama no rádio e oferece água em troca de comida. Mas quem responder vai saber onde fica o abrigo."
+  },
+  {
+   "id": "refugio03-16",
+   "text": "Qual é a próxima prioridade? Comente A para o mercado ou B para o rádio. A escolha muda o próximo episódio.",
+   "narration": "Qual é a próxima prioridade? Comente A para o mercado ou B para o rádio. A escolha muda o próximo episódio."
+  },
+  {
+   "id": "refugio03-17",
+   "text": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar o abrigo.",
+   "narration": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar o abrigo."
+  }
+ ],
+ "salvoEm": "2026-11-19T11:24:53.000Z"
+}

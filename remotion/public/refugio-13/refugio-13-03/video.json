@@ -1,0 +1,292 @@
+{
+  "id": "refugio-13-03",
+  "episodio": 3,
+  "vila": "Refúgio 13",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 96.24000000000001,
+  "cenas": [
+    {
+      "nome": "resultado",
+      "video": "refugio-13/refugio-13-03/cena-1.mp4",
+      "inicio": 0,
+      "dur": 3.92,
+      "linhas": [
+        "B VENCEU\nA CISTERNA VAI VOLTAR."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "custo",
+      "video": "refugio-13/refugio-13-03/cena-2.mp4",
+      "inicio": 3.92,
+      "dur": 5.6,
+      "linhas": [
+        "A: 0 · B: 1\nO MERCADO ESPEROU MAIS UM DIA."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_001.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "inspecao",
+      "video": "refugio-13/refugio-13-03/cena-3.mp4",
+      "inicio": 9.52,
+      "dur": 5.04,
+      "linhas": [
+        "NILO ABRIU A TAMPA\nRACHADA, E O CANO ENTUPIDO."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_002.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "tubos",
+      "video": "refugio-13/refugio-13-03/cena-4.mp4",
+      "inicio": 14.559999999999999,
+      "dur": 5.2,
+      "linhas": [
+        "AS PEÇAS DA OFICINA\nSERVIRAM NA HORA."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "calha",
+      "video": "refugio-13/refugio-13-03/cena-5.mp4",
+      "inicio": 19.759999999999998,
+      "dur": 5.52,
+      "linhas": [
+        "LIA LIGOU A CALHA\nDO TELHADO À CISTERNA."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "ameaca",
+      "video": "refugio-13/refugio-13-03/cena-6.mp4",
+      "inicio": 25.279999999999998,
+      "dur": 4.64,
+      "linhas": [
+        "AS MARTELADAS ECOARAM\nTRÊS INFECTADOS NA RUA LESTE."
+      ],
+      "clima": "ameaca",
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_005.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "barreira",
+      "video": "refugio-13/refugio-13-03/cena-7.mp4",
+      "inicio": 29.919999999999998,
+      "dur": 4,
+      "linhas": [
+        "NILO E VELHO GIU\nFECHARAM A RUA COM TÁBUAS."
+      ],
+      "clima": "ameaca",
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "bloqueio",
+      "video": "refugio-13/refugio-13-03/cena-8.mp4",
+      "inicio": 33.92,
+      "dur": 5.92,
+      "linhas": [
+        "ELES BATERAM NA BARREIRA\nE VOLTARAM PELA RUA."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_007.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "fundo",
+      "video": "refugio-13/refugio-13-03/cena-9.mp4",
+      "inicio": 39.84,
+      "dur": 4.64,
+      "linhas": [
+        "SOBROU ÁGUA NO FUNDO\nMAS ESTAVA TURVA."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_008.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "ulisses",
+      "video": "refugio-13/refugio-13-03/cena-10.mp4",
+      "inicio": 44.480000000000004,
+      "dur": 5.12,
+      "linhas": [
+        "ULISSES FOI CLARO\nNINGUÉM BEBE ASSIM."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_009.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "filtro",
+      "video": "refugio-13/refugio-13-03/cena-11.mp4",
+      "inicio": 49.6,
+      "dur": 4.8,
+      "linhas": [
+        "EVA MONTOU UM FILTRO\nPANO, AREIA E CARVÃO."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_010.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "fervura",
+      "video": "refugio-13/refugio-13-03/cena-12.mp4",
+      "inicio": 54.4,
+      "dur": 6.16,
+      "linhas": [
+        "DEPOIS DO FILTRO, FERVER\nVELHO GIU CUIDOU DO FOGO."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_011.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "reservas",
+      "video": "refugio-13/refugio-13-03/cena-13.mp4",
+      "inicio": 60.56,
+      "dur": 5.52,
+      "linhas": [
+        "ÁGUA SEGURA ATÉ AMANHÃ\nA CISTERNA ESTÁ DE PÉ."
+      ],
+      "clima": "vitoria",
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_012.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "comida",
+      "video": "refugio-13/refugio-13-03/cena-14.mp4",
+      "inicio": 66.08,
+      "dur": 5.2,
+      "linhas": [
+        "MAS A COMIDA\nACABA HOJE À NOITE."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_013.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "opcao-a",
+      "video": "refugio-13/refugio-13-03/cena-15.mp4",
+      "inicio": 71.28,
+      "dur": 5.68,
+      "linhas": [
+        "A · IR AO MERCADO\nCOMIDA PRONTA. RUA COM INFECTADOS."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_014.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "opcao-b",
+      "video": "refugio-13/refugio-13-03/cena-16.mp4",
+      "inicio": 76.96000000000001,
+      "dur": 6.32,
+      "linhas": [
+        "B · CHAMAR NO RÁDIO\nTROCAR ÁGUA POR COMIDA."
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_015.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "votacao",
+      "video": "refugio-13/refugio-13-03/cena-17.mp4",
+      "inicio": 83.28,
+      "dur": 6.84,
+      "linhas": [
+        "QUAL É A PRÓXIMA PRIORIDADE?\nA: MERCADO | B: RÁDIO"
+      ],
+      "clima": null,
+      "cta": false,
+      "audio": "videos/refugio-13-03-voz/cena_016.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "nome": "convite",
+      "video": "refugio-13/refugio-13-03/cena-18.mp4",
+      "inicio": 90.12,
+      "dur": 6.12,
+      "linhas": [
+        "SEU NOME PODE ESTAR AQUI\nAPELIDO + HABILIDADE + VOTO"
+      ],
+      "clima": null,
+      "cta": true,
+      "audio": "videos/refugio-13-03-voz/cena_017.wav",
+      "tempos": [
+        0
+      ]
+    }
+  ],
+  "validacao": {
+    "nomes": [
+      "Nilo",
+      "Eva",
+      "ULISSES",
+      "Velho Giu",
+      "Lia"
+    ],
+    "sobreposicoesTags": 0,
+    "avisos": []
+  }
+}

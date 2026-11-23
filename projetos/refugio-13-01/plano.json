@@ -1,0 +1,48 @@
+{
+  "episodio": 1,
+  "titulo": "A estação ainda tem luz",
+  "composicao": "refugio-13-01",
+  "projetoNarracao": "refugio-13-01-a-estacao-ainda-tem-luz-mwktp8wd",
+  "cenas": [
+    {
+      "tomada": "Rádio",
+      "fala": "Não acendam a luz. Tarde demais."
+    },
+    {
+      "tomada": "Trilhos",
+      "fala": "No primeiro dia do surto, nós três seguimos os trilhos até o Refúgio Treze."
+    },
+    {
+      "tomada": "Estação",
+      "fala": "A estação ainda tinha energia. No depósito, encontramos comida para dois dias."
+    },
+    {
+      "tomada": "Reservatório",
+      "fala": "Mas o reservatório estava quase seco. Só restava água até amanhã."
+    },
+    {
+      "tomada": "Oficina",
+      "fala": "Aí a voz voltou. “Estou na oficina. A porta não vai aguentar a noite.”"
+    },
+    {
+      "tomada": "Infectados",
+      "fala": "Pela janela, vimos os primeiros infectados seguindo a luz. Só dava tempo de fazer uma saída."
+    },
+    {
+      "tomada": "Votação",
+      "fala": "A: ir ao mercado buscar água. B: ir à oficina atrás de quem pediu ajuda."
+    },
+    {
+      "tomada": "Elenco",
+      "fala": "Comente A ou B. Quer entrar no refúgio? Deixe seu apelido e sua habilidade."
+    },
+    {
+      "tomada": "Próximo dia",
+      "fala": "Curta e se inscreva. No próximo episódio, a gente segue a rota que vocês escolherem."
+    }
+  ],
+  "opcoes": {
+    "A": "Mercado: buscar água",
+    "B": "Oficina: procurar quem chamou"
+  }
+}

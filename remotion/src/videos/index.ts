@@ -1,5 +1,11 @@
 import type React from "react";
 import type { Timeline } from "../tipos";
+import { Refugio13Filmado } from "../refugio/RefugioFilmado";
+import { Refugio13Dia03 } from "../refugio/RefugioDia03";
+import tlRefugio03 from "../../public/videos/refugio-13-03/timeline.json";
+import tlRefugio02 from "../../public/videos/refugio-13-02/timeline.json";
+import { Refugio13Dia01 } from "./Refugio13Dia01";
+import tlRefugio01 from "../../public/videos/refugio-13-01-a-estacao-ainda-tem-luz-mwktp8wd/timeline.json";
 import { ForCSharp, ForCSharpShort, timelineShortFor } from "./ForCSharp";
 import tlFor from "../../public/videos/for-em-c-repeticao-controlada-muzfj01f/timeline.json";
 import { SwitchCSharp, SwitchCSharpShort, timelineShortSwitch } from "./SwitchCSharp";
@@ -25,6 +31,8 @@ import { RpgEp06 } from "../rpg/Ep06Cerca";
 import { RpgEp07 } from "../rpg/Ep07Moeda";
 import { RpgEp08 } from "../rpg/Ep08Bolsa";
 import { RpgEp09 } from "../rpg/Ep09Ferreiro";
+import { RpgEp10 } from "../rpg/Ep10Peso";
+import tlRpg10 from "../../public/videos/rpg-code-10-dano-e-peso-mwkkq4dv/timeline.json";
 import tlRpg09 from "../../public/videos/rpg-code-09-o-ferreiro-mwj4fp8p/timeline.json";
 import tlRpg08 from "../../public/videos/rpg-code-08-a-bolsa-cheia-mwj3znis/timeline.json";
 import tlRpg07 from "../../public/videos/rpg-code-07-a-primeira-moeda-mwj3piwm/timeline.json";
@@ -46,6 +54,18 @@ export type VideoRegistrado = {
 };
 
 export const VIDEOS: VideoRegistrado[] = [
+  { id: "refugio-13-02", timeline: tlRefugio02 as Timeline, componente: Refugio13Filmado },
+  { id: "refugio-13-03", timeline: tlRefugio03 as Timeline, componente: Refugio13Dia03 },
+  {
+    id: "refugio-13-01",
+    timeline: {
+      ...tlRefugio01,
+      duracao: tlRefugio01.duracao + 2.5,
+      cenas: tlRefugio01.cenas.map((cena, i, cenas) =>
+        i === cenas.length - 1 ? { ...cena, dur: cena.dur + 2.5 } : cena),
+    } as Timeline,
+    componente: Refugio13Dia01,
+  },
   { id: "condicionais-csharp", timeline: tlCondicionais as Timeline, componente: CondicionaisCSharp },
   { id: "condicionais-csharp-short", timeline: timelineShort(tlCondicionais as Timeline), componente: CondicionaisShort },
   { id: "switch-csharp", timeline: tlSwitch as Timeline, componente: SwitchCSharp },
@@ -67,6 +87,7 @@ export const VIDEOS: VideoRegistrado[] = [
   { id: "rpg-code-07", timeline: tlRpg07 as Timeline, componente: RpgEp07 },
   { id: "rpg-code-08", timeline: tlRpg08 as Timeline, componente: RpgEp08 },
   { id: "rpg-code-09", timeline: tlRpg09 as Timeline, componente: RpgEp09 },
+  { id: "rpg-code-10", timeline: tlRpg10 as Timeline, componente: RpgEp10 },
   { id: "encapsulamento-csharp", timeline: tlEncapsulamento as Timeline, componente: EncapsulamentoCSharp },
   { id: "encapsulamento-csharp-short", timeline: timelineShortEncapsulamento(tlEncapsulamento as Timeline), componente: EncapsulamentoShort },
   { id: "switch-roteador", timeline: tlSwitchRoteador as Timeline, componente: SwitchRoteador },

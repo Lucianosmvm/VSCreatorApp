@@ -1,0 +1,87 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "nome": "RPG Code 10 - Dano e peso",
+ "frames": [
+  {
+   "id": "fmwkkq4dv-0",
+   "prompt": "",
+   "text": "No último episódio, o Artur comprou a espada de madeira. Mas quanto ela vale numa batalha?",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-1",
+   "prompt": "",
+   "text": "Toda espada tem dois números: o dano que ela causa e o peso que ela tem.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-2",
+   "prompt": "",
+   "text": "O dano é um número inteiro: 5 de dano. Para isso, usamos int.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-3",
+   "prompt": "",
+   "text": "Mas o peso não é redondo: essa espada pesa 1,5 quilo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-4",
+   "prompt": "",
+   "text": "Só que int não guarda vírgula. Tentar guardar 1,5 num int dá erro no C sharp.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-5",
+   "prompt": "",
+   "text": "Para números com vírgula, usamos float. E no fim do número, escrevemos a letra f.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-6",
+   "prompt": "",
+   "text": "Repare também: no código, a vírgula vira ponto. Um e meio se escreve 1.5.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-7",
+   "prompt": "",
+   "text": "E o peso muda o jogo: quanto mais pesada a espada, mais devagar o Artur anda.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-8",
+   "prompt": "",
+   "text": "A velocidade cai de 3 para 2,7.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-9",
+   "prompt": "",
+   "text": "Int guarda números inteiros, como dano e moedas. Float guarda números com vírgula, como peso.",
+   "narration": ""
+  },
+  {
+   "id": "fmwkkq4dv-10",
+   "prompt": "",
+   "text": "A espada está pronta. Mas como o jogo sabe se ela está equipada? Descubra no próximo episódio.",
+   "narration": ""
+  }
+ ],
+ "frameCount": "11",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "salvoEm": "2026-11-17T10:52:59.000Z"
+}

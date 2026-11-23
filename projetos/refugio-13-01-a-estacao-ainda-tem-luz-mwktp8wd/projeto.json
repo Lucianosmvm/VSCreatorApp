@@ -1,0 +1,75 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "9",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Refúgio 13 01 — A estação ainda tem luz",
+ "frames": [
+  {
+   "id": "fmwktp8wd-0",
+   "prompt": "",
+   "text": "Não acendam a luz. Tarde demais.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-1",
+   "prompt": "",
+   "text": "No primeiro dia do surto, nós três seguimos os trilhos até o Refúgio Treze.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-2",
+   "prompt": "",
+   "text": "A estação ainda tinha energia. No depósito, encontramos comida para dois dias.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-3",
+   "prompt": "",
+   "text": "Mas o reservatório estava quase seco. Só restava água até amanhã.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-4",
+   "prompt": "",
+   "text": "Aí a voz voltou. “Estou na oficina. A porta não vai aguentar a noite.”",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-5",
+   "prompt": "",
+   "text": "Pela janela, vimos os primeiros infectados seguindo a luz. Só dava tempo de fazer uma saída.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-6",
+   "prompt": "",
+   "text": "A: ir ao mercado buscar água. B: ir à oficina atrás de quem pediu ajuda.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-7",
+   "prompt": "",
+   "text": "Comente A ou B. Quer entrar no refúgio? Deixe seu apelido e sua habilidade.",
+   "narration": ""
+  },
+  {
+   "id": "fmwktp8wd-8",
+   "prompt": "",
+   "text": "Curta e se inscreva. No próximo episódio, a gente segue a rota que vocês escolherem.",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-17T15:04:15.000Z"
+}

@@ -1,0 +1,116 @@
+{
+  "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+  "elModel": "eleven_v4",
+  "elVelocidade": "0.92",
+  "elModo": "faixa",
+  "fps": "30",
+  "resolution": "1080x1920",
+  "transition": "0",
+  "globalPos": 80,
+  "globalStyle": "outline",
+  "frameCount": 19,
+  "motorRemotion": true,
+  "modoMascote": true,
+  "renderServidor": true,
+  "vidOn": false,
+  "appVersao": 2,
+  "nome": "Refúgio 13 — Dia 02: um voto, duas vidas",
+  "frames": [
+    {
+      "id": "refugio02-0",
+      "text": "B venceu. A oficina estava cercada.",
+      "narration": "B venceu. A oficina estava cercada."
+    },
+    {
+      "id": "refugio02-1",
+      "text": "Um voto em B definiu a rota. Fomos à oficina. A água do mercado ficou para depois.",
+      "narration": "Um voto em B definiu a rota. Fomos à oficina. A água do mercado ficou para depois."
+    },
+    {
+      "id": "refugio02-2",
+      "text": "Lia e Nilo seguiram pela estrada. Eva ficou na estação protegendo os suprimentos.",
+      "narration": "Lia e Nilo seguiram pela estrada. Eva ficou na estação protegendo os suprimentos."
+    },
+    {
+      "id": "refugio02-3",
+      "text": "Pela fresta da porta, vimos Ulisses, doutor, e Velho Jiu, um contador de histórias bem safo.",
+      "narration": "Pela fresta da porta, vimos Ulisses, doutor, e Velho Jiu, um contador de histórias bem safo."
+    },
+    {
+      "id": "refugio02-4",
+      "text": "Quando Nilo tentou abrir espaço, a última tábua cedeu e ele cortou a mão.",
+      "narration": "Quando Nilo tentou abrir espaço, a última tábua cedeu e ele cortou a mão."
+    },
+    {
+      "id": "refugio02-5",
+      "text": "Ulisses cuidou do corte. Nilo conseguiu segurar a porta enquanto os outros preparavam a saída.",
+      "narration": "Ulisses cuidou do corte. Nilo conseguiu segurar a porta enquanto os outros preparavam a saída."
+    },
+    {
+      "id": "refugio02-6",
+      "text": "Mas o barulho trouxe mais infectados. Sair pela frente era andar direto para eles.",
+      "narration": "Mas o barulho trouxe mais infectados. Sair pela frente era andar direto para eles."
+    },
+    {
+      "id": "refugio02-7",
+      "text": "Velho Jiu pegou um gravador e inventou uma discussão inteira. Dessa vez, um causo podia salvar o grupo.",
+      "narration": "Velho Jiu pegou um gravador e inventou uma discussão inteira. Dessa vez, um causo podia salvar o grupo."
+    },
+    {
+      "id": "refugio02-8",
+      "text": "Lia deixou o gravador na lateral da oficina. A discussão continuou, mas já não tinha ninguém ali.",
+      "narration": "Lia deixou o gravador na lateral da oficina. A discussão continuou, mas já não tinha ninguém ali."
+    },
+    {
+      "id": "refugio02-9",
+      "text": "Os infectados seguiram o barulho. Pela porta dos fundos, os quatro saíram juntos.",
+      "narration": "Os infectados seguiram o barulho. Pela porta dos fundos, os quatro saíram juntos."
+    },
+    {
+      "id": "refugio02-10",
+      "text": "Nilo levou tubos, conexões e algumas tábuas. A oficina ainda tinha coisas úteis para o abrigo.",
+      "narration": "Nilo levou tubos, conexões e algumas tábuas. A oficina ainda tinha coisas úteis para o abrigo."
+    },
+    {
+      "id": "refugio02-11",
+      "text": "O grupo voltou pelos trilhos antes do amanhecer. Eva abriu a passagem da estação.",
+      "narration": "O grupo voltou pelos trilhos antes do amanhecer. Eva abriu a passagem da estação."
+    },
+    {
+      "id": "refugio02-12",
+      "text": "Ao amanhecer, três sobreviventes viraram cinco. Duas vidas salvas, e mais gente para dividir as reservas.",
+      "narration": "Ao amanhecer, três sobreviventes viraram cinco. Duas vidas salvas, e mais gente para dividir as reservas."
+    },
+    {
+      "id": "refugio02-13",
+      "text": "Com as tábuas recuperadas, Nilo montou uma bancada. Ulisses organizou um pequeno posto de primeiros socorros.",
+      "narration": "Com as tábuas recuperadas, Nilo montou uma bancada. Ulisses organizou um pequeno posto de primeiros socorros."
+    },
+    {
+      "id": "refugio02-14",
+      "text": "Mas o resgate não encheu o reservatório. Racionando entre cinco pessoas, a água só chegaria até o meio-dia.",
+      "narration": "Mas o resgate não encheu o reservatório. Racionando entre cinco pessoas, a água só chegaria até o meio-dia."
+    },
+    {
+      "id": "refugio02-15",
+      "text": "A: buscar água engarrafada no mercado. É a solução imediata, mas exige atravessar a rua com infectados.",
+      "narration": "A: buscar água engarrafada no mercado. É a solução imediata, mas exige atravessar a rua com infectados."
+    },
+    {
+      "id": "refugio02-16",
+      "text": "B: recuperar a cisterna da estação com as peças da oficina. Dá trabalho, e a água ainda precisa ser tratada.",
+      "narration": "B: recuperar a cisterna da estação com as peças da oficina. Dá trabalho, e a água ainda precisa ser tratada."
+    },
+    {
+      "id": "refugio02-17",
+      "text": "Qual é a próxima prioridade? Comente A para o mercado ou B para a cisterna. A escolha muda o próximo episódio.",
+      "narration": "Qual é a próxima prioridade? Comente A para o mercado ou B para a cisterna. A escolha muda o próximo episódio."
+    },
+    {
+      "id": "refugio02-18",
+      "text": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar a construção do abrigo.",
+      "narration": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar a construção do abrigo."
+    }
+  ],
+  "salvoEm": "2026-11-18T12:41:36.371Z"
+}

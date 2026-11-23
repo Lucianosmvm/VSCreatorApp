@@ -1,0 +1,294 @@
+{
+  "episodio": 2,
+  "titulo": "Vocês escolheram a oficina",
+  "composicao": "refugio-13-02",
+  "status": "exportado-narrado",
+  "narracao": {
+    "status": "concluida",
+    "projetoBase": "refugio-13-01-a-estacao-ainda-tem-luz-mwktp8wd",
+    "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": "0.92",
+    "pastaDestino": "remotion/public/videos/refugio-13-02",
+    "projeto": "refugio-13-02-voz",
+    "duracaoMontagem": 109.36666666666666
+  },
+  "apuracaoAnterior": {
+    "A": 0,
+    "B": 1,
+    "vencedora": "B",
+    "fonte": "Informado pelo usuário em 18/11/2026: apenas um voto B."
+  },
+  "novos": [
+    {
+      "id": "ulisses",
+      "nome": "ULISSES",
+      "habilidade": "Doutor"
+    },
+    {
+      "id": "velho-giu",
+      "nome": "Velho Giu",
+      "habilidade": "Contador de histórias, inventa boas mentiras e é safo."
+    }
+  ],
+  "cenas": [
+    {
+      "acao": "resultado",
+      "dur": 2.6666666666666665,
+      "titulo": "B VENCEU",
+      "destaque": "A OFICINA ESTAVA CERCADA.",
+      "fala": "B venceu. A oficina estava cercada.",
+      "audio": "videos/refugio-13-02-voz/cena_000.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "custo",
+      "dur": 5.933333333333334,
+      "titulo": "A: 0 · B: 1",
+      "destaque": "O MERCADO FICOU PARA DEPOIS.",
+      "fala": "Um voto em B definiu a rota. Fomos à oficina. A água do mercado ficou para depois.",
+      "audio": "videos/refugio-13-02-voz/cena_001.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "rota",
+      "dur": 4.9,
+      "titulo": "LIA E NILO SAÍRAM",
+      "destaque": "EVA GUARDOU A ESTAÇÃO.",
+      "fala": "Lia e Nilo seguiram pela estrada. Eva ficou na estação protegendo os suprimentos.",
+      "audio": "videos/refugio-13-02-voz/cena_002.wav",
+      "tempos": [
+        0
+      ],
+      "acaoVisual": "Lia e Nilo contornam o cerco pelo oeste, sem atravessar zumbis ou paredes."
+    },
+    {
+      "acao": "encontro",
+      "dur": 5.933333333333334,
+      "titulo": "ULISSES, DOUTOR",
+      "destaque": "VELHO GIU, CONTADOR DE CAUSOS",
+      "fala": "Pela fresta da porta, vimos Ulisses, doutor, e Velho Jiu, um contador de histórias bem safo.",
+      "audio": "videos/refugio-13-02-voz/cena_003.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "porta",
+      "dur": 4.266666666666667,
+      "titulo": "A ÚLTIMA TÁBUA CEDEU",
+      "destaque": "NILO SE MACHUCOU.",
+      "fala": "Quando Nilo tentou abrir espaço, a última tábua cedeu e ele cortou a mão.",
+      "audio": "videos/refugio-13-02-voz/cena_004.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "socorro",
+      "dur": 5.2,
+      "titulo": "ULISSES AGIU",
+      "destaque": "UMA HABILIDADE QUE FEZ DIFERENÇA.",
+      "fala": "Ulisses cuidou do corte. Nilo conseguiu segurar a porta enquanto os outros preparavam a saída.",
+      "audio": "videos/refugio-13-02-voz/cena_005.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "ameaca",
+      "dur": 5.133333333333334,
+      "titulo": "O BARULHO CHAMOU MAIS",
+      "destaque": "A PORTA DA FRENTE NÃO ERA SAÍDA.",
+      "fala": "Mas o barulho trouxe mais infectados. Sair pela frente era andar direto para eles.",
+      "audio": "videos/refugio-13-02-voz/cena_006.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "giu",
+      "dur": 6.1,
+      "titulo": "VELHO GIU TEVE UMA IDEIA",
+      "destaque": "UMA BRIGA QUE NUNCA ACONTECEU.",
+      "fala": "Velho Jiu pegou um gravador e inventou uma discussão inteira. Dessa vez, um causo podia salvar o grupo.",
+      "audio": "videos/refugio-13-02-voz/cena_007.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "gravador",
+      "dur": 5.366666666666666,
+      "titulo": "LIA LEVOU O GRAVADOR",
+      "destaque": "O SOM VINHA DA LATERAL.",
+      "fala": "Lia deixou o gravador na lateral da oficina. A discussão continuou, mas já não tinha ninguém ali.",
+      "audio": "videos/refugio-13-02-voz/cena_008.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "desvio",
+      "dur": 4.8,
+      "titulo": "ELES SEGUIRAM O SOM",
+      "destaque": "O GRUPO SAIU PELOS FUNDOS.",
+      "fala": "Os infectados seguiram o barulho. Pela porta dos fundos, os quatro saíram juntos.",
+      "audio": "videos/refugio-13-02-voz/cena_009.wav",
+      "tempos": [
+        0
+      ],
+      "acaoVisual": "Na fuga, Nilo cobre os demais, afasta um infectado com uma tábua, o faz cair e recua."
+    },
+    {
+      "acao": "pecas",
+      "dur": 5.533333333333333,
+      "titulo": "PEÇAS TAMBÉM FORAM SALVAS",
+      "destaque": "TUBOS, CONEXÕES E TÁBUAS.",
+      "fala": "Nilo levou tubos, conexões e algumas tábuas. A oficina ainda tinha coisas úteis para o abrigo.",
+      "audio": "videos/refugio-13-02-voz/cena_010.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "retorno",
+      "dur": 5.366666666666666,
+      "titulo": "DE VOLTA PELOS TRILHOS",
+      "destaque": "NINGUÉM FICOU PARA TRÁS.",
+      "fala": "O grupo voltou pelos trilhos antes do amanhecer. Eva abriu a passagem da estação.",
+      "audio": "videos/refugio-13-02-voz/cena_011.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "amanhecer",
+      "dur": 7.133333333333334,
+      "titulo": "DIA 02 · AGORA SOMOS 5",
+      "destaque": "DUAS VIDAS. MAIS NECESSIDADES.",
+      "fala": "Ao amanhecer, três sobreviventes viraram cinco. Duas vidas salvas, e mais gente para dividir as reservas.",
+      "audio": "videos/refugio-13-02-voz/cena_012.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "posto",
+      "dur": 6.4,
+      "titulo": "PRIMEIRA MELHORIA DO ABRIGO",
+      "destaque": "UM CANTO PARA CUIDAR DOS FERIDOS.",
+      "fala": "Com as tábuas recuperadas, Nilo montou uma bancada. Ulisses organizou um pequeno posto de primeiros socorros.",
+      "audio": "videos/refugio-13-02-voz/cena_013.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "reservas",
+      "dur": 6.733333333333333,
+      "titulo": "ÁGUA: ATÉ O MEIO-DIA",
+      "destaque": "COMIDA: CERCA DE 1 DIA.",
+      "fala": "Mas o resgate não encheu o reservatório. Racionando entre cinco pessoas, a água só chegaria até o meio-dia.",
+      "audio": "videos/refugio-13-02-voz/cena_014.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "opcao-a",
+      "dur": 6.8,
+      "titulo": "A · IR AO MERCADO",
+      "destaque": "ÁGUA PRONTA. RUA COM INFECTADOS.",
+      "fala": "A: buscar água engarrafada no mercado. É a solução imediata, mas exige atravessar a rua com infectados.",
+      "audio": "videos/refugio-13-02-voz/cena_015.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "opcao-b",
+      "dur": 6.8,
+      "titulo": "B · RECUPERAR A CISTERNA",
+      "destaque": "EXIGE TRABALHO. ÁGUA AINDA INSEGURA.",
+      "fala": "B: recuperar a cisterna da estação com as peças da oficina. Dá trabalho, e a água ainda precisa ser tratada.",
+      "audio": "videos/refugio-13-02-voz/cena_016.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "votacao",
+      "dur": 7.2,
+      "titulo": "QUAL É A PRÓXIMA PRIORIDADE?",
+      "destaque": "A: MERCADO | B: CISTERNA",
+      "fala": "Qual é a próxima prioridade? Comente A para o mercado ou B para a cisterna. A escolha muda o próximo episódio.",
+      "audio": "videos/refugio-13-02-voz/cena_017.wav",
+      "tempos": [
+        0
+      ]
+    },
+    {
+      "acao": "convite",
+      "dur": 7.1,
+      "titulo": "SEU NOME PODE ESTAR AQUI",
+      "destaque": "APELIDO + HABILIDADE + VOTO",
+      "fala": "Quer entrar no Refúgio Treze? Deixe apelido, habilidade e voto. Curta e se inscreva para acompanhar a construção do abrigo.",
+      "audio": "videos/refugio-13-02-voz/cena_018.wav",
+      "tempos": [
+        0
+      ]
+    }
+  ],
+  "opcoes": {
+    "A": {
+      "acao": "Mercado: buscar água engarrafada",
+      "beneficio": "Água pronta para uso",
+      "custo": "Exposição aos infectados na rua"
+    },
+    "B": {
+      "acao": "Estação: recuperar cisterna com as peças",
+      "beneficio": "Começar uma fonte de água do próprio abrigo",
+      "custo": "Trabalho e tempo; água ainda insegura e precisa de tratamento"
+    }
+  },
+  "identificacao": "Tags diretamente acima das cabeças, sem linhas ou pontos de ligação, com escala de fonte do jogo. Todos os cinco sobreviventes identificados.",
+  "estiloVisual": {
+    "referencia": "Produção de Mundo Pixelândia: mundo Canvas filmado, sprites detalhados e cenário em tela inteira.",
+    "universo": "Refúgio 13 independente, com mapa, elenco e estado próprios.",
+    "tags": "Nomes diretamente acima das cabeças, sem linhas. Espaçar personagens para as tags caberem.",
+    "documento": "docs/refugio-13-estilo-producao.md",
+    "status": "aprovado-exportado-narrado",
+    "motor": "ferramentas/refugio-13/mundo/index.html",
+    "filmador": "ferramentas/refugio-13/filmar.mjs",
+    "compositor": "remotion/src/refugio/RefugioFilmado.tsx",
+    "estadoDoMundo": "projetos/refugio-13-02/mundo.json"
+  },
+  "aprovacaoVisual": "Usuário autorizou narrar e exportar a versão Canvas.",
+  "exportacao": {
+    "arquivo": "remotion/out/refugio-13-02.mp4",
+    "duracao": 109.376,
+    "resolucao": "1080x1920",
+    "quando": "2026-11-18T13:12:41.258Z",
+    "revisao": "combate"
+  },
+  "revisaoCombate": {
+    "quando": "2026-11-18T13:12:41.244Z",
+    "pedido": "Interagir com os infectados em vez de atravessá-los.",
+    "alteracoes": [
+      "Lia e Nilo contornam o cerco pelo oeste, sem atravessar zumbis ou paredes.",
+      "Infectado pressiona a entrada da oficina.",
+      "Na fuga, Nilo cobre os demais, afasta um infectado com uma tábua, o faz cair e recua.",
+      "Impacto visual e sonoro sem sangue; cinco outros infectados seguem o gravador."
+    ],
+    "audio": "Narração original reaproveitada integralmente; nenhum crédito ElevenLabs usado.",
+    "validacao": {
+      "sobreposicoesTags": 0,
+      "atravessamentosInfectados": 0
+    }
+  }
+}

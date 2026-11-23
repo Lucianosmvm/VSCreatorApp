@@ -1,0 +1,7 @@
+[mcp_servers.effectcraft]
+command = 'D:\Nova pasta\VSCreatorApp\ferramentas\effectcraft\bin\effectcraft-0.21.1-windows-x64-portable\effectcraft-cli.exe'
+args = [
+    "mcp",
+    "--empty",
+    "--autosave",
+]
