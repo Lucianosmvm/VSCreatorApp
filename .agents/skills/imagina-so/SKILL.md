@@ -1,6 +1,6 @@
 ---
 name: imagina-so
-description: Gera um Short do canal Imagina Só (@imaginasoh) — "Imagina só se…/E se…" em 3D de bloco (bonecos de cubo com contorno, câmera dinâmica, gancho no 1º segundo, loop) no VSCreatorApp — roteiro viral, narração ElevenLabs, montagem Remotion + three.js e texto do YouTube com SEO. Use quando o usuário chamar /imagina-so ou pedir um Short do Imagina Só / "estilo bloco 3D" passando um tema ("e se o seu pai te desse 10 mil Robux").
+description: Gera um Short do canal Imagina Só (@imaginasoh) — "Imagina só se…/E se…" em 3D de bloco (bonecos de cubo com contorno, câmera dinâmica, gancho no 1º segundo, loop) com a família fixa do canal (mãe, pai, filho, avó) no VSCreatorApp — roteiro viral, narração ElevenLabs, montagem Remotion + three.js e texto do YouTube com SEO. Use quando o usuário chamar /imagina-so ou pedir um Short do Imagina Só / "estilo bloco 3D" passando um tema ("e se a sua força dobrasse a cada dia").
 argument-hint: "<tema: 'e se…' ou situação hipotética>"
 ---
 
@@ -8,71 +8,93 @@ argument-hint: "<tema: 'e se…' ou situação hipotética>"
 
 Projeto: `D:/Nova pasta/VSCreatorApp`. Responder em português. Pedido do usuário: **$ARGUMENTS**
 
-Leia o `AGENTS.md`. Referência pronta (copiar como base): `remotion/src/imaginaso/MaeRpg3D.tsx`
-(Short #01, a mãe RPG). Não altere os outros estilos (Dev Sobrevivente, RPG Code, Pixelândia, Refúgio 13).
+Leia o `AGENTS.md`. Não altere os outros estilos (Dev Sobrevivente, RPG Code, Pixelândia, Refúgio 13).
+Nunca recrie peça que já existe: confira a lista do kit abaixo antes de desenhar objeto ou personagem.
+
+## Vídeos publicados (referências de código)
+
+| # | Tema | Arquivo (`remotion/src/imaginaso/`) | Comp | Formato | Use como base para |
+|---|---|---|---|---|---|
+| 01 | Mãe personagem de RPG | `MaeRpg3D.tsx` | `imagina-so-01-3d` | família, 1.15x, ~39 s | habilidades/poderes, luta lateral, laser, gelo |
+| 02 | Mãe dona do Roblox | `MaeDona3D.tsx` | `imagina-so-02-3d` | família, 1.15x, ~34 s | regras/punições, chat 2D, virada com céu vermelho |
+| 03 | Pai deu 10 mil Robux | `PaiRobux3D.tsx` | `imagina-so-03-3d` | história longa, **1.0x**, ~53 s | sequência longa, placar, fila de figurantes, noite no sofá |
+| 04 | Velocidade dobra a cada dia | `Velocidade3D.tsx` | `imagina-so-04-3d` | **escalada DIA N**, 1.15x, ~49 s | HUD dia + medidor, rua que corre, céu, espaço |
+| 05 | Avó controla o Roblox | `Avo3D.tsx` | `imagina-so-05-3d` | família, 1.15x, ~41 s | família inteira, batalha mãe × avó, TV, "jogo travado" |
+
+MP4 e texto do YouTube de cada um em `exportacoes/imagina-so/` (`imagina-so-NN-*.mp4`, `imagina-so-NN-youtube.txt`).
+O usuário vai comparar a retenção do #03 (53 s) com os de ~40 s; até haver dado, prefira ~40 s.
+
+## A família fixa (personagens recorrentes)
+
+- **Filho** (`tipo: "filho"`): boné azul. É o "você" dos vídeos. Skins: `casaco` (bege + cachecol), `trico` (blusa listrada), `disfarce` (óculos escuros + bigode).
+- **Mãe** (`"mae"`): cabelo comprido, rosa. Desde o #02 usa `coroa`; arma = **chinelo dourado** (`Chinelo3D` na mão, brilho). Brava = `expr: "brava"`, `olhos` vermelhos.
+- **Pai** (`"pai"`): bigode e barriga. Skin `social` (camisa, gravata, bermuda, meia e chinelo) + `avental`; vive no **churrasco** (`Churrasqueira3D`, dourada).
+- **Avó** (`"avo"`): coque grisalho, óculos, xale lilás; **cadeira de balanço**; mima o neto, vence a mãe com "deixa o menino!".
+- **Figurantes**: `tipo: "filho"` com `camisaCor`, `boneCor`, `calcaCor` (ver `FIGURANTES` em `PaiRobux3D.tsx`).
+- Piadas que voltam: chinelo que nunca erra, **lavar a louça sem ela pedir**, pai no churrasco, mãe × avó. Use 1–2 por vídeo como gancho de série.
 
 ## 1. Roteiro (o que faz viralizar)
 
-- **Tema** que a criança/adolescente brasileiro vive: mãe, pai, escola, irmão, Robux, Free Fire, Wi-Fi.
-  Pode citar Roblox/Robux no texto e no título, mas **nunca** desenhar marca ou personagem real.
-- **11–12 cenas, ~40–45 s narrados** (com 1.15x vira ~35–39 s). Uma ideia por cena, 6–14 palavras.
-- **Cena 1 = gancho**: "Imagina só se…" + o absurdo em uma frase.
-- **Escalada**: cada cena mais absurda; uma cena de **virada** perto do fim (chefe final, consequência).
-- **Penúltima**: recompensa/solução engraçada. **Última**: pergunta que puxa comentário
-  ("E o seu pai, o que faria? Comenta aí!").
-- Números como dígitos (`99`, `100%`, `10 mil`). Sem "C#"/sinais `<`/`>`.
-- Cada cena precisa de **uma ação visual concreta** (algo voa, cai, congela, cresce, explode) —
-  anote a ação ao lado da fala antes de narrar.
-- Mostre o roteiro + ações ao usuário e espere o ok antes de narrar (custa ElevenLabs).
+- **Tema** com busca real: consulte o autocompletar do YouTube pt-BR antes (`curl -G https://suggestqueries.google.com/complete/search --data-urlencode client=firefox --data-urlencode ds=yt --data-urlencode hl=pt-BR --data-urlencode gl=BR --data-urlencode "q=e se a sua"`). Temas que já apareceram e não foram feitos: "e se a sua força dobrasse", "e se a escola não existisse", "e se a sua crush…".
+- Pode citar Roblox/Robux no texto e no título, mas **nunca** desenhar marca, logo ou personagem real.
+- Dois formatos:
+  - **Família/situação** (#01, #02, #03, #05): 12–14 cenas, gancho → escalada → virada → recompensa → pergunta.
+  - **Escalada DIA N** (#04): "Dia 1: …", "Dia 4: …" com número dobrando e comparação **real** em cada cena (confira as contas e diga ao usuário).
+- Uma ideia por cena, 6–14 palavras; números em dígitos (`10 mil`, `4 minutos`); horários falados por extenso ("às 10 da noite") para a ElevenLabs; unidades como "por hora" depois da 1ª vez. Sem `<`/`>`.
+- Cena 1 = gancho ("Imagina só se…"/"E se…"). Última = pergunta + "Comenta aí!".
+- Cada cena com **uma ação visual concreta** (algo voa, cai, congela, cresce, explode, poof).
+- Mostre ao usuário a tabela **fala | o que aparece na tela** e espere o ok antes de narrar (custa ElevenLabs). Se ele pedir ideias, ofereça opções e reescreva.
 
-Formato de `ferramentas/novo_projeto.py` com `"resolucao": "1080x1920"` e nome `Imagina So NN - <tema>`:
+Salve o JSON no scratchpad (`"resolucao": "1080x1920"`, nome `Imagina So NN - <tema>`) e rode:
 ```bash
-python ferramentas/novo_projeto.py <roteiro.json>
-python ferramentas/narrar.py <id-do-projeto>
+python ferramentas/novo_projeto.py <roteiro.json>     # imprime o id
+python ferramentas/narrar.py <id-do-projeto>           # ElevenLabs (ELEVENLABS_API_KEY do .env)
 ```
-Voz do usuário (`BY2YHOQTNuJ2oMUKv3Kg`, `eleven_v4`, 0.92) herdada do projeto anterior; a montagem
-acelera para **1.15x** (`montarFala(tl, { vel: 1.15, inicio: 0.35 })`), sem nova narração.
+Confira em `projetos/<id>/projeto.json`: voz `BY2YHOQTNuJ2oMUKv3Kg`, `eleven_v4`, 0.92. Depois leia os tempos de
+`remotion/public/videos/<id>/timeline.json` (cenas e palavras).
 
 ## 2. Montagem
 
-Peças em `remotion/src/imaginaso/`:
+Peças prontas em `remotion/src/imaginaso/`:
 
 | Arquivo | O quê |
 |---|---|
-| `Bloco3D.tsx` | Kit 3D: `Caixa` (toon + contorno), `Camera`, `Boneco3D` (`mae`/`filho`, expr `feliz/brava/medo`, `bracoE/D [rotX, rotZ]`, `cabeca`, `olhosBrilho`, `segura/seguraE`, `gelo`, `pele`, `boca`), `Mundo3D` (pátio, casa, árvore, nuvens, sol), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
-| `Camada2D.tsx` | `montarFala` (S[k] início da cena, `W(k, "palavra", n)` instante da palavra), `Legenda3D` (blocos de até 3 palavras, palavra falada em amarelo), `Faixa3D`, `Balao3D`, `Sobe3D`, `Flash`, `Marca3D` |
-| `MaeRpg3D.tsx` | Vídeo completo de referência: `estado(t)` por cena → câmera, atores, objetos; `BANNERS`, painéis, `SONS` |
+| `Bloco3D.tsx` | `Caixa` (toon + contorno), `Camera`, `Boneco3D` (tipos `mae/filho/pai/avo`; `expr` `feliz/brava/medo/sono`; `bracoE/D [rotX, rotZ]`, `pernaE/D`, `cabeca`, `olhosBrilho`, `boca` (fala), `segura/seguraE`, `gelo`, `pele`, `coroa`, `casaco`, `trico`, `disfarce`, `social`, `avental`, cores), `Mundo3D` (pátio + casa), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
+| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D` |
+| `Cenarios3D.tsx` | `Rua3D` (mundo que corre com `desloc`, janelas quebráveis), `Nuvens3D`, `Onibus3D`, `Guepardo3D`, `CarroCorrida3D`, `Aviao3D`, `Estrelas3D`, `Terra3D`, `Lua3D`, `Riscos3D` (velocidade da luz), `ConeSom3D`, `Anel3D`, `Rastro3D`, `Cacos3D` |
+| `Camada2D.tsx` | `montarFala(tl, {vel, inicio})` → `S[k]` (início da cena), `W(k, "palavra", n)` (instante da palavra, sem acento/pontuação), `Legenda3D`, `Faixa3D` (banners), `Balao3D` (digitado), `Sobe3D`, `Flash`, `Marca3D` |
 
 Passos:
-1. Copie `MaeRpg3D.tsx` para `remotion/src/imaginaso/<Nome>3D.tsx`, troque o import da timeline e `PASTA`.
-2. Reescreva os marcos (`W(k, "palavra")`) e o `estado(t)` cena a cena:
-   - **corte a cada ~1–1,5 s** (troca de plano dentro da cena em palavras-chave);
-   - abra o vídeo com objeto voando na câmera + flash + tremor no quadro 0;
-   - termine com algo vindo na câmera (casando com o começo = loop).
-   Personagens novos: estenda `Boneco3D` (novo `tipo` com cores/cabelo/acessório) e objetos novos
-   como funções de `Caixa` no `Bloco3D.tsx` (paleta `C3`, sem marcas).
-3. `BANNERS` (faixas de 60–130 px no topo, y 230–560), `SONS` (sfx em `public/sfx/`: whoosh, impacto,
-   aura, plim, pop, erro, contagem, tecla; música `musica.wav` em loop a 0.14). Sons novos: adicionar
-   em `ferramentas/gerar_sfx.py` (síntese numpy) e rodar.
-4. Registrar em `remotion/src/Root.tsx` como `<Composition id="imagina-so-NN-3d" … durationInFrames={Math.round(DUR * 30)} />`.
+1. Copie o vídeo publicado mais parecido (tabela acima) para `<Nome>3D.tsx`; troque o import da timeline, `PASTA` e o nome do export.
+2. `montarFala(tl, { vel: 1.15, inicio: 0.35 })` (use `vel: 1.0` se o usuário quiser ~1 min). Marcos com `W(k, "palavra")`.
+3. `estado(t)` por cena (`cenaDe(t)`): câmera, atores (`{ tipo, a: Ator }`), objetos, `noite`/`escuro`.
+   - **corte a cada ~1–1,5 s** (troca de plano numa palavra-chave);
+   - quadro 0: objeto voando na câmera + flash + tremor; fim: algo vindo na câmera (loop com o começo);
+   - painéis 2D (contadores, placar, chat, player de áudio) como componentes locais no arquivo do vídeo.
+4. `BANNERS` (y 230–560; 60–130 px), `SONS` (sfx em `public/sfx/`: whoosh, impacto, aura, plim, pop, erro, contagem, tecla; `musica.wav` em loop a 0.14). Sons novos → `ferramentas/gerar_sfx.py` (síntese numpy) e rodar.
+5. Registre em `remotion/src/Root.tsx`: import + `<Composition id="imagina-so-NN-3d" … durationInFrames={Math.round(DUR * 30)} />`.
+6. Peça nova (objeto/cenário/personagem): acrescente em `Objetos3D.tsx`/`Cenarios3D.tsx`/`Boneco3D` com a paleta `C3`, contorno da `Caixa` e sem marcas — nunca duplique dentro do arquivo do vídeo.
 
-Convenções do boneco (fácil errar):
-- Braço para cima/frente: `rotX` **negativo** (−2.6 = erguido); para fora: esquerdo `rotZ` negativo, direito positivo.
-- Cabeça olha para cima com `cabeca[0]` negativo; `rotY` 0 = de frente para +z (câmera).
-- Deitado de barriga para cima: `rot: [-PI/2, 0, 0]` no grupo do ator.
-- Tela em pé (fov vertical 50): a largura visível é só ~0,47 × a distância — enquadre dois
-  personagens a ≥ 8 unidades de distância.
-- Luz pontual forte lava o rosto de amarelo: aura com `intensity` ≤ 1.2.
+Convenções e armadilhas (todas já aconteceram):
+- Braço erguido/à frente: `rotX` **negativo** (−2.6 erguido, −1.3 à frente); para fora: esquerdo `rotZ` negativo, direito positivo; braços cruzados: `bracoE [-1.45, 0.95]`, `bracoD [-1.45, -0.95]`.
+- Sentado: `pernaE/D = -PI/2` e o ator em y ≈ 0.17–0.22 sobre trono/cadeira/sofá.
+- Deitado de barriga para cima: `rot: [-PI/2, 0, 0]`. Voando de super-herói para +x: `rotY: PI/2` + `rot: [0, 0, -PI/2]` — o corpo fica à **direita** dos pés (centro ≈ x + 1.5): mire a câmera ali.
+- Objeto na mão gira junto com o braço: compense com `rot` (ex.: braço −1.3 → objeto `rot [1.3, 0, 0]`).
+- O HUD/banners ocupam o terço de cima da tela: mire a câmera **mais alto** (alvo y ≈ 2.2–2.6) e afaste (8–12 unidades para dois personagens; a largura visível é ~0,47 × a distância).
+- Câmera não pode atravessar objetos (TV, grelha na frente do rosto): suba ou desloque a câmera.
+- Luz pontual forte lava o rosto: aura `intensity` ≤ 1.2. Olhos vermelhos (`olhos`) leem como **vilão** — use só para brava/chefe; empolgação = `Brilhos`.
+- Texto amarelo sobre fundo amarelo some: contorno (`WebkitTextStroke`).
 
-## 3. Conferir
+## 3. Conferir (obrigatório olhar as imagens)
 
 ```bash
 cd remotion && node node_modules/typescript/bin/tsc -p .
 node node_modules/@remotion/cli/remotion-cli.js render src/index.ts imagina-so-NN-3d jobs/<id>/rascunho.mp4 --gl=angle --scale=0.4 --muted
 ```
-Extraia 2 quadros por cena com `ffmpeg -vf "select=eq(n\,N)"`, junte numa grade (PIL) e olhe:
-personagem cortado, câmera dentro de objeto, objeto escondido atrás da casa, legenda estourando,
-texto amarelo sobre fundo amarelo. Ajuste e rerenderize só o trecho (`--frames=a-b`).
+Calcule 2 quadros por cena (`S_k = 0.35 + soma(dur/vel)`, quadros em 40% e 88% da cena × 30), extraia com
+`ffmpeg -v error -y -i rascunho.mp4 -vf "select=eq(n\,N)" -frames:v 1 fN.png`, junte numa grade com PIL e **olhe**:
+personagem cortado, câmera perto/dentro de objeto, objeto escondido atrás da casa, legenda estourando,
+rosto lavado de luz. Ajuste e confira só o trecho (`--frames=a-b` ou `still … --frame=N --scale=0.4`).
 
 Render final (sempre `--gl=angle` por causa do three.js):
 ```bash
@@ -83,8 +105,10 @@ Obs.: o `npm` do PATH está quebrado; para instalar pacotes use
 
 ## 4. Entregar
 
-- Copiar para `exportacoes/imagina-so/imagina-so-NN-<tema>-3d.mp4` e escrever
-  `exportacoes/imagina-so/imagina-so-NN-youtube.txt` (TÍTULO `Imagina só se … 😱 #shorts`,
-  DESCRIÇÃO, TAGS) com SEO pelo autocompletar do YouTube pt-BR (ver memória youtube-seo) e sem `<`/`>`.
+- Copiar para `exportacoes/imagina-so/imagina-so-NN-<tema>-3d.mp4` (pasta fora do git) e escrever
+  `exportacoes/imagina-so/imagina-so-NN-youtube.txt`: TÍTULO `E se … 😱 Imagina só #shorts` (frase exata do
+  autocompletar quando existir), DESCRIÇÃO (resumo + "💬 … Comenta aí!" + "🔔 Inscreva-se no Imagina Só…" + hashtags),
+  TAGS (buscas reais do autocompletar). Nunca `<` ou `>`.
+- Atualize a tabela "Vídeos publicados" desta skill (e a cópia em `.agents/skills/imagina-so/SKILL.md`).
 - Responder com o caminho do vídeo e o texto do YouTube pronto para copiar.
 - Não commitar nem publicar sem o usuário pedir.
