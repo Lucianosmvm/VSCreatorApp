@@ -1,0 +1,105 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "14",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 04 - Velocidade dobra a cada dia",
+ "frames": [
+  {
+   "id": "fmwuj20v9-0",
+   "prompt": "",
+   "text": "E se a sua velocidade dobrasse a cada dia?",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-1",
+   "prompt": "",
+   "text": "Dia 1: 5 quilômetros por hora. Você anda igual a todo mundo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-2",
+   "prompt": "",
+   "text": "Dia 4: 40 por hora. Você chega na escola antes do ônibus.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-3",
+   "prompt": "",
+   "text": "Dia 6: 160 por hora. Mais rápido que um guepardo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-4",
+   "prompt": "",
+   "text": "Dia 7: 320 por hora. Velocidade de carro de corrida.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-5",
+   "prompt": "",
+   "text": "Dia 9: 1.280 por hora. Você quebra a barreira do som. BUM!",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-6",
+   "prompt": "",
+   "text": "Todas as janelas da rua estouram. Sua mãe não gostou.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-7",
+   "prompt": "",
+   "text": "Dia 10: você passa um avião como se ele estivesse parado.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-8",
+   "prompt": "",
+   "text": "Dia 12: mais de 10 mil por hora. Você atravessa o Brasil em menos de meia hora.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-9",
+   "prompt": "",
+   "text": "Dia 14: mais de 40 mil por hora. Você escapa da gravidade da Terra.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-10",
+   "prompt": "",
+   "text": "Dia 21: você chega na Lua em menos de 5 minutos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-11",
+   "prompt": "",
+   "text": "Dia 29: mais rápido que a luz. A física diz que é impossível.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-12",
+   "prompt": "",
+   "text": "Mas a sua mãe ainda te alcança com o chinelo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuj20v9-13",
+   "prompt": "",
+   "text": "Em que dia você pararia? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-24T10:03:57.000Z"
+}

@@ -7,6 +7,7 @@ import { PixelandiaVideo } from "./pixelandia/Pixelandia";
 import { ImaginaSoMae3D, MAE_3D_DUR } from "./imaginaso/MaeRpg3D";
 import { ImaginaSoDona3D, DONA_3D_DUR } from "./imaginaso/MaeDona3D";
 import { ImaginaSoPai3D, PAI_3D_DUR } from "./imaginaso/PaiRobux3D";
+import { ImaginaSoVelocidade3D, VEL_3D_DUR } from "./imaginaso/Velocidade3D";
 
 const metadados = ({ props }: { props: Timeline }) => ({
   fps: props.fps,
@@ -35,6 +36,8 @@ export const Root: React.FC = () => (
     durationInFrames={Math.round(DONA_3D_DUR * 30)} />
   <Composition id="imagina-so-03-3d" component={ImaginaSoPai3D} width={1080} height={1920} fps={30}
     durationInFrames={Math.round(PAI_3D_DUR * 30)} />
+  <Composition id="imagina-so-04-3d" component={ImaginaSoVelocidade3D} width={1080} height={1920} fps={30}
+    durationInFrames={Math.round(VEL_3D_DUR * 30)} />
   {VIDEOS.map((v) => (
     <Composition
       key={v.id}
