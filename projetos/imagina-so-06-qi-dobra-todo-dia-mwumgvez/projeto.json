@@ -1,0 +1,99 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "13",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 06 - QI dobra todo dia",
+ "frames": [
+  {
+   "id": "fmwumgvez-0",
+   "prompt": "",
+   "text": "E se o seu QI dobrasse todo dia?",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-1",
+   "prompt": "",
+   "text": "Dia 1: QI 100. A média, igual a de todo mundo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-2",
+   "prompt": "",
+   "text": "Dia 2: QI 200. Mais que o QI estimado de Einstein.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-3",
+   "prompt": "",
+   "text": "Dia 3: você faz a lição da semana inteira em 1 minuto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-4",
+   "prompt": "",
+   "text": "Dia 4: o professor de matemática pede ajuda pra você.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-5",
+   "prompt": "",
+   "text": "Dia 6: você monta um robô que arruma o seu quarto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-6",
+   "prompt": "",
+   "text": "Dia 8: você aprende todas as línguas do mundo num fim de semana.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-7",
+   "prompt": "",
+   "text": "Dia 10: você entende o que o seu cachorro fala. Ele só quer comida.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-8",
+   "prompt": "",
+   "text": "Dia 13: cientistas do mundo inteiro fazem fila pra falar com você.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-9",
+   "prompt": "",
+   "text": "Dia 15: você resolve um problema que ninguém resolveu em 100 anos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-10",
+   "prompt": "",
+   "text": "Dia 20: você inventa uma máquina do tempo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-11",
+   "prompt": "",
+   "text": "Mas ainda não acha o controle. A sua mãe acha em 2 segundos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwumgvez-12",
+   "prompt": "",
+   "text": "O que você inventaria primeiro? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-24T11:39:28.000Z"
+}

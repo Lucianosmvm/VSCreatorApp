@@ -323,3 +323,84 @@ export const Casaco3D: React.FC<{ pos?: V3; esc?: number; rot?: V3 }> = ({ pos =
     <Caixa p={[0.3, 0.17, 0]} s={[0.3, 0.05, 0.6]} cor="#e0364f" contorno={0.015} />
   </group>
 );
+
+/** Lousa verde com "giz" (riscos) e, opcionalmente, um ✓ grande; `cheia` 0..1 = quanto já foi escrito. */
+export const Lousa3D: React.FC<{ pos?: V3; esc?: number; rotY?: number; cheia?: number; certo?: boolean }> = ({ pos = [0, 0, 0], esc = 1, rotY = 0, cheia = 0.4, certo = false }) => {
+  const n = Math.floor(cheia * 14);
+  return (
+    <group position={pos} scale={esc} rotation={[0, rotY, 0]}>
+      {[-1.4, 1.4].map((x) => <Caixa key={x} p={[x, 0.9, 0]} s={[0.14, 1.8, 0.14]} cor="#8a5a3c" contorno={0.03} />)}
+      <Caixa p={[0, 2.4, 0]} s={[3.4, 2.0, 0.16]} cor="#2f5d3a" contorno={0.06} />
+      <Caixa p={[0, 1.36, 0.08]} s={[3.4, 0.1, 0.2]} cor="#8a5a3c" contorno={0.03} />
+      {Array.from({ length: n }).map((_, i) => (
+        <Caixa key={i} p={[-1.4 + (i % 2) * 1.5 + ((i * 37) % 4) * 0.08 + 0.6, 3.15 - Math.floor(i / 2) * 0.24, 0.09]} s={[0.7 + ((i * 13) % 5) * 0.08, 0.05, 0.02]}
+          cor="#f4f4f4" contorno={0} sombra={false} />
+      ))}
+      {certo && (
+        <group position={[0.9, 2.2, 0.12]}>
+          <Caixa p={[-0.25, -0.1, 0]} s={[0.14, 0.5, 0.04]} rot={[0, 0, 0.7]} cor={C3.amarelo} contorno={0.02} brilho="#ffd000" forca={0.6} />
+          <Caixa p={[0.15, 0.15, 0]} s={[0.14, 0.95, 0.04]} rot={[0, 0, -0.6]} cor={C3.amarelo} contorno={0.02} brilho="#ffd000" forca={0.6} />
+        </group>
+      )}
+    </group>
+  );
+};
+
+/** Robô de blocos (frente para +z): antena piscando, olhos acesos, rodinhas. */
+export const Robo3D: React.FC<{ t: number; pos?: V3; rotY?: number; esc?: number; bracos?: number }> = ({ t, pos = [0, 0, 0], rotY = 0, esc = 1, bracos = 0 }) => (
+  <group position={pos} rotation={[0, rotY, 0]} scale={esc}>
+    {[-0.4, 0.4].map((x) => <Caixa key={x} p={[x, 0.2, 0]} s={[0.3, 0.4, 0.6]} cor="#555560" contorno={0.03} />)}
+    <Caixa p={[0, 1.0, 0]} s={[1.2, 1.2, 0.8]} cor="#c9d3dc" contorno={0.05} />
+    <Caixa p={[0, 1.05, 0.41]} s={[0.6, 0.4, 0.03]} cor="#3f8cff" contorno={0.02} brilho="#3f8cff" forca={0.5} />
+    {[-1, 1].map((l) => (
+      <group key={l} position={[l * 0.75, 1.4, 0]} rotation={[-1.2 + Math.sin(t * 8 + l) * 0.4 * bracos, 0, l * 0.15]}>
+        <Caixa p={[0, -0.4, 0]} s={[0.24, 0.8, 0.24]} cor="#9aa5b1" contorno={0.03} />
+        <Caixa p={[0, -0.85, 0]} s={[0.32, 0.16, 0.32]} cor="#555560" contorno={0.02} />
+      </group>
+    ))}
+    <Caixa p={[0, 2.0, 0]} s={[0.9, 0.7, 0.7]} cor="#c9d3dc" contorno={0.05} />
+    {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.2, 2.05, 0.36]} s={[0.18, 0.18, 0.03]} cor="#5ad35a" contorno={0} brilho="#5ad35a" forca={0.8} sombra={false} />)}
+    <Caixa p={[0, 2.55, 0]} s={[0.06, 0.4, 0.06]} cor="#555560" contorno={0} />
+    <Caixa p={[0, 2.8, 0]} s={[0.16, 0.16, 0.16]} cor={Math.sin(t * 10) > 0 ? C3.vermelho : "#7a2030"} contorno={0.02} brilho={C3.vermelho} forca={Math.sin(t * 10) > 0 ? 0.8 : 0} />
+  </group>
+);
+
+/** Cachorro de blocos caramelo (frente para +z); `boca` abre ao "falar", `rabo` abana. */
+export const Cachorro3D: React.FC<{ t: number; pos?: V3; rotY?: number; esc?: number; boca?: number }> = ({ t, pos = [0, 0, 0], rotY = 0, esc = 1, boca = 0 }) => (
+  <group position={pos} rotation={[0, rotY, 0]} scale={esc}>
+    {[[-0.3, -0.45], [0.3, -0.45], [-0.3, 0.45], [0.3, 0.45]].map(([x, zz], i) => <Caixa key={i} p={[x, 0.3, zz]} s={[0.22, 0.6, 0.22]} cor="#c98a4a" contorno={0.03} />)}
+    <Caixa p={[0, 0.8, 0]} s={[0.8, 0.6, 1.4]} cor="#c98a4a" contorno={0.05} />
+    <group position={[0, 1.35, 0.75]}>
+      <Caixa s={[0.75, 0.7, 0.7]} cor="#c98a4a" contorno={0.05} />
+      <Caixa p={[0, -0.12, 0.42]} s={[0.4, 0.3, 0.3]} cor="#e0b07a" contorno={0.03} />
+      <Caixa p={[0, -0.02, 0.58]} s={[0.14, 0.1, 0.04]} cor={C3.linha} contorno={0} />
+      <Caixa p={[0, -0.24, 0.58]} s={[0.22, 0.04 + boca * 0.14, 0.03]} cor="#5a1020" contorno={0} sombra={false} />
+      {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.17, 0.12, 0.36]} s={[0.1, 0.12, 0.03]} cor={C3.linha} contorno={0} sombra={false} />)}
+      {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.38, 0.3, -0.05]} s={[0.12, 0.45, 0.3]} rot={[0, 0, l * 0.3]} cor="#8a5a3c" contorno={0.03} />)}
+    </group>
+    <group position={[0, 1.0, -0.72]} rotation={[0.6, Math.sin(t * 14) * 0.6, 0]}>
+      <Caixa p={[0, 0.25, 0]} s={[0.12, 0.5, 0.12]} cor="#c98a4a" contorno={0.03} />
+    </group>
+  </group>
+);
+
+/** Portal da máquina do tempo: anéis girando e centro brilhando. */
+export const Portal3D: React.FC<{ t: number; pos?: V3; esc?: number; forca?: number }> = ({ t, pos = [0, 0, 0], esc = 1, forca = 1 }) => (
+  <group position={pos} scale={esc * forca}>
+    {[0, 1, 2].map((i) => (
+      <mesh key={i} rotation={[0, 0, t * (2 + i) * (i % 2 ? -1 : 1)]}>
+        <torusGeometry args={[1.6 - i * 0.35, 0.12, 8, 6 + i * 2]} />
+        <meshBasicMaterial color={["#7b4bd6", "#3f8cff", "#7fd3ff"][i]} />
+      </mesh>
+    ))}
+    <mesh><circleGeometry args={[1.0, 24]} /><meshBasicMaterial color="#e8f6ff" transparent opacity={0.6 + 0.3 * Math.sin(t * 8)} /></mesh>
+  </group>
+);
+
+/** Lâmpada de ideia (acesa = brilha). */
+export const Lampada3D: React.FC<{ pos?: V3; esc?: number; acesa?: boolean }> = ({ pos = [0, 0, 0], esc = 1, acesa = true }) => (
+  <group position={pos} scale={esc}>
+    <Caixa p={[0, 0.25, 0]} s={[0.6, 0.6, 0.6]} cor={acesa ? "#fff3a0" : "#e8e8e8"} contorno={0.04} brilho={acesa ? "#ffd000" : undefined} forca={0.9} sombra={false} />
+    <Caixa p={[0, -0.15, 0]} s={[0.34, 0.24, 0.34]} cor="#9aa5b1" contorno={0.03} sombra={false} />
+  </group>
+);

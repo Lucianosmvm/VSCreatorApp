@@ -20,6 +20,7 @@ Nunca recrie peça que já existe: confira a lista do kit abaixo antes de desenh
 | 03 | Pai deu 10 mil Robux | `PaiRobux3D.tsx` | `imagina-so-03-3d` | história longa, **1.0x**, ~53 s | sequência longa, placar, fila de figurantes, noite no sofá |
 | 04 | Velocidade dobra a cada dia | `Velocidade3D.tsx` | `imagina-so-04-3d` | **escalada DIA N**, 1.15x, ~49 s | HUD dia + medidor, rua que corre, céu, espaço |
 | 05 | Avó controla o Roblox | `Avo3D.tsx` | `imagina-so-05-3d` | família, 1.15x, ~41 s | família inteira, batalha mãe × avó, TV, "jogo travado" |
+| 06 | QI dobra todo dia | `QI3D.tsx` | `imagina-so-06-3d` | **escalada DIA N**, 1.15x, ~41 s | HUD de QI, lousa, robô, cachorro, portal, mãe acha o controle |
 
 MP4 e texto do YouTube de cada um em `exportacoes/imagina-so/` (`imagina-so-NN-*.mp4`, `imagina-so-NN-youtube.txt`).
 O usuário vai comparar a retenção do #03 (53 s) com os de ~40 s; até haver dado, prefira ~40 s.
@@ -59,8 +60,8 @@ Peças prontas em `remotion/src/imaginaso/`:
 
 | Arquivo | O quê |
 |---|---|
-| `Bloco3D.tsx` | `Caixa` (toon + contorno), `Camera`, `Boneco3D` (tipos `mae/filho/pai/avo`; `expr` `feliz/brava/medo/sono`; `bracoE/D [rotX, rotZ]`, `pernaE/D`, `cabeca`, `olhosBrilho`, `boca` (fala), `segura/seguraE`, `gelo`, `pele`, `coroa`, `casaco`, `trico`, `disfarce`, `social`, `avental`, cores), `Mundo3D` (pátio + casa), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
-| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D` |
+| `Bloco3D.tsx` | `Caixa` (toon + contorno), `Camera`, `Boneco3D` (tipos `mae/filho/pai/avo`; `expr` `feliz/brava/medo/sono`; `bracoE/D [rotX, rotZ]`, `pernaE/D`, `cabeca`, `olhosBrilho`, `boca` (fala), `segura/seguraE`, `gelo`, `pele`, `coroa`, `casaco`, `trico`, `disfarce`, `social`, `avental`, `oculos`, cores), `Mundo3D` (pátio + casa), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
+| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D`, `Lousa3D` (cheia, ✓), `Robo3D`, `Cachorro3D` (fala), `Portal3D`, `Lampada3D` |
 | `Cenarios3D.tsx` | `Rua3D` (mundo que corre com `desloc`, janelas quebráveis), `Nuvens3D`, `Onibus3D`, `Guepardo3D`, `CarroCorrida3D`, `Aviao3D`, `Estrelas3D`, `Terra3D`, `Lua3D`, `Riscos3D` (velocidade da luz), `ConeSom3D`, `Anel3D`, `Rastro3D`, `Cacos3D` |
 | `Camada2D.tsx` | `montarFala(tl, {vel, inicio})` → `S[k]` (início da cena), `W(k, "palavra", n)` (instante da palavra, sem acento/pontuação), `Legenda3D`, `Faixa3D` (banners), `Balao3D` (digitado), `Sobe3D`, `Flash`, `Marca3D` |
 

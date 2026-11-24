@@ -63,7 +63,7 @@ export type Expr = "feliz" | "brava" | "medo" | "sono";
  *  camisaCor/calcaCor/boneCor trocam as cores (figurantes). */
 export const Boneco3D: React.FC<{
   tipo: "mae" | "filho" | "pai" | "avo"; pos?: V3; rotY?: number; esc?: number; expr?: Expr;
-  social?: boolean; avental?: boolean; camisaCor?: string; calcaCor?: string; boneCor?: string; trico?: boolean;
+  social?: boolean; avental?: boolean; camisaCor?: string; calcaCor?: string; boneCor?: string; trico?: boolean; oculos?: boolean;
   bracoE?: [number, number]; bracoD?: [number, number]; // [rotX, rotZ]
   pernaE?: number; pernaD?: number; cabeca?: [number, number]; // [inclina, gira]
   olhosBrilho?: number; segura?: React.ReactNode; seguraE?: React.ReactNode;
@@ -71,7 +71,7 @@ export const Boneco3D: React.FC<{
   coroa?: boolean; casaco?: boolean; disfarce?: boolean;
 }> = ({ tipo, pos = [0, 0, 0], rotY = 0, esc = 1, expr = "feliz", bracoE = [0, -0.12], bracoD = [0, 0.12], pernaE = 0, pernaD = 0,
   cabeca = [0, 0], olhosBrilho = 0, segura, seguraE, gelo = false, pele: peleCor, boca = 0, coroa = false, casaco = false, disfarce = false,
-  social = false, avental = false, camisaCor, calcaCor, boneCor, trico = false }) => {
+  social = false, avental = false, camisaCor, calcaCor, boneCor, trico = false, oculos = false }) => {
   const avo = tipo === "avo";
   const mae = tipo === "mae";
   const pai = tipo === "pai";
@@ -142,7 +142,7 @@ export const Boneco3D: React.FC<{
               rot={[0, 0, l * sobr]} sombra={false} />
             {mae && <Caixa p={[l * 0.33, 0.15, z]} s={[0.07, 0.06, 0.03]} cor={C3.linha} contorno={0} rot={[0, 0, l * 0.5]} sombra={false} />}
             {fem && <Caixa p={[l * 0.36, -0.13, z]} s={[0.18, 0.09, 0.02]} cor="#ff8fb0" contorno={0} sombra={false} />}
-            {avo && (
+            {(avo || oculos) && (
               <group>
                 <Caixa p={[l * 0.22, 0.17, z + 0.04]} s={[0.34, 0.05, 0.03]} cor="#7a4a2a" contorno={0} sombra={false} />
                 <Caixa p={[l * 0.22, -0.09, z + 0.04]} s={[0.34, 0.05, 0.03]} cor="#7a4a2a" contorno={0} sombra={false} />
