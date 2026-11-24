@@ -62,8 +62,8 @@ export type Expr = "feliz" | "brava" | "medo" | "sono";
  *  pai: cabelo curto, bigode e barriga; `social` = camisa social, gravata, bermuda e meia; `avental` de churrasco.
  *  camisaCor/calcaCor/boneCor trocam as cores (figurantes). */
 export const Boneco3D: React.FC<{
-  tipo: "mae" | "filho" | "pai"; pos?: V3; rotY?: number; esc?: number; expr?: Expr;
-  social?: boolean; avental?: boolean; camisaCor?: string; calcaCor?: string; boneCor?: string;
+  tipo: "mae" | "filho" | "pai" | "avo"; pos?: V3; rotY?: number; esc?: number; expr?: Expr;
+  social?: boolean; avental?: boolean; camisaCor?: string; calcaCor?: string; boneCor?: string; trico?: boolean;
   bracoE?: [number, number]; bracoD?: [number, number]; // [rotX, rotZ]
   pernaE?: number; pernaD?: number; cabeca?: [number, number]; // [inclina, gira]
   olhosBrilho?: number; segura?: React.ReactNode; seguraE?: React.ReactNode;
@@ -71,12 +71,14 @@ export const Boneco3D: React.FC<{
   coroa?: boolean; casaco?: boolean; disfarce?: boolean;
 }> = ({ tipo, pos = [0, 0, 0], rotY = 0, esc = 1, expr = "feliz", bracoE = [0, -0.12], bracoD = [0, 0.12], pernaE = 0, pernaD = 0,
   cabeca = [0, 0], olhosBrilho = 0, segura, seguraE, gelo = false, pele: peleCor, boca = 0, coroa = false, casaco = false, disfarce = false,
-  social = false, avental = false, camisaCor, calcaCor, boneCor }) => {
+  social = false, avental = false, camisaCor, calcaCor, boneCor, trico = false }) => {
+  const avo = tipo === "avo";
   const mae = tipo === "mae";
   const pai = tipo === "pai";
+  const fem = mae || avo;
   const G = (c: string) => (gelo ? "#bfe9ff" : c);
-  const camisa = G(camisaCor ?? (casaco ? "#c9a46b" : social ? "#f4f4f4" : mae ? C3.rosa : pai ? "#3a9d5d" : C3.azul));
-  const calca = G(calcaCor ?? (mae ? C3.rosaEsc : pai ? "#3b5a8f" : C3.azulEsc));
+  const camisa = G(camisaCor ?? (trico ? "#ff9f43" : casaco ? "#c9a46b" : social ? "#f4f4f4" : mae ? C3.rosa : avo ? "#9b6fc6" : pai ? "#3a9d5d" : C3.azul));
+  const calca = G(calcaCor ?? (mae ? C3.rosaEsc : avo ? "#6d4c9f" : pai ? "#3b5a8f" : C3.azulEsc));
   const pele = G(peleCor ?? C3.pele);
   const cabelo = G(C3.cabelo);
   const bone = G(boneCor ?? C3.bone);
@@ -104,7 +106,12 @@ export const Boneco3D: React.FC<{
       {social && <Caixa p={[0, 1.6, 0.43]} s={[0.16, 0.6, 0.04]} cor={C3.vermelho} contorno={0.02} />}
       {avental && <Caixa p={[0, 1.3, 0.43]} s={[0.95, 1.0, 0.05]} cor="#e0364f" contorno={0.03} />}
       {mae && <Caixa p={[0, 1.5, 0.31]} s={[0.5, 0.6, 0.04]} cor="#ffffff" contorno={0.02} />}
-      {!mae && !pai && !casaco && <Caixa p={[0, 1.6, 0.31]} s={[0.22, 0.22, 0.04]} cor={C3.amarelo} contorno={0.02} rot={[0, 0, Math.PI / 4]} />}
+      {avo && <Caixa p={[0, 1.78, 0]} s={[1.3, 0.42, 0.74]} cor={G("#e7b6d6")} contorno={0.035} />}
+      {avo && <Caixa p={[0, 1.5, 0.33]} s={[0.36, 0.4, 0.06]} cor={G("#e7b6d6")} contorno={0.02} rot={[0, 0, Math.PI / 4]} />}
+      {trico && ["#ffd23f", "#e0364f", "#5ad35a"].map((c, i) => (
+        <Caixa key={c} p={[0, 1.2 + i * 0.25, 0.31]} s={[1.13, 0.1, 0.03]} cor={c} contorno={0} sombra={false} />
+      ))}
+      {!mae && !pai && !avo && !casaco && !trico && <Caixa p={[0, 1.6, 0.31]} s={[0.22, 0.22, 0.04]} cor={C3.amarelo} contorno={0.02} rot={[0, 0, Math.PI / 4]} />}
       {casaco && (
         <group>
           <Caixa p={[0, 1.98, 0]} s={[1.2, 0.26, 0.72]} cor="#e0364f" contorno={0.035} />
@@ -131,25 +138,40 @@ export const Boneco3D: React.FC<{
             <Caixa p={[l * 0.22, expr === "sono" ? -0.02 : 0.04, z]} s={[expr === "sono" ? 0.2 : 0.14, expr === "medo" ? 0.26 : expr === "sono" ? 0.05 : 0.22, 0.03]}
               cor={olho} contorno={0} brilho={olhosBrilho > 0 ? "#ff1020" : undefined} forca={olhosBrilho * 3} sombra={false} />
             {olhosBrilho === 0 && expr !== "sono" && <Caixa p={[l * 0.22 + 0.03, 0.1, z + 0.02]} s={[0.05, 0.06, 0.02]} cor="#ffffff" contorno={0} sombra={false} />}
-            <Caixa p={[l * 0.22, expr === "medo" ? 0.3 : 0.25, z]} s={[0.26, 0.06, 0.03]} cor={mae ? cabelo : C3.linha} contorno={0}
+            <Caixa p={[l * 0.22, expr === "medo" ? 0.3 : 0.25, z]} s={[0.26, 0.06, 0.03]} cor={mae ? cabelo : avo ? "#b5b5b5" : C3.linha} contorno={0}
               rot={[0, 0, l * sobr]} sombra={false} />
             {mae && <Caixa p={[l * 0.33, 0.15, z]} s={[0.07, 0.06, 0.03]} cor={C3.linha} contorno={0} rot={[0, 0, l * 0.5]} sombra={false} />}
-            {mae && <Caixa p={[l * 0.36, -0.13, z]} s={[0.18, 0.09, 0.02]} cor="#ff8fb0" contorno={0} sombra={false} />}
+            {fem && <Caixa p={[l * 0.36, -0.13, z]} s={[0.18, 0.09, 0.02]} cor="#ff8fb0" contorno={0} sombra={false} />}
+            {avo && (
+              <group>
+                <Caixa p={[l * 0.22, 0.17, z + 0.04]} s={[0.34, 0.05, 0.03]} cor="#7a4a2a" contorno={0} sombra={false} />
+                <Caixa p={[l * 0.22, -0.09, z + 0.04]} s={[0.34, 0.05, 0.03]} cor="#7a4a2a" contorno={0} sombra={false} />
+                <Caixa p={[l * 0.06, 0.04, z + 0.04]} s={[0.05, 0.3, 0.03]} cor="#7a4a2a" contorno={0} sombra={false} />
+                <Caixa p={[l * 0.38, 0.04, z + 0.04]} s={[0.05, 0.3, 0.03]} cor="#7a4a2a" contorno={0} sombra={false} />
+              </group>
+            )}
           </group>
         ))}
         {/* boca */}
         {boca > 0 && <Caixa p={[0, -0.27, z]} s={[0.26, 0.06 + 0.16 * boca, 0.03]} cor="#5a1020" contorno={0} sombra={false} />}
         {boca === 0 && expr === "feliz" && (
           <group>
-            <Caixa p={[0, -0.26, z]} s={[0.36, 0.08, 0.03]} cor={mae ? "#e0364f" : C3.linha} contorno={0} sombra={false} />
-            {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.2, -0.2, z]} s={[0.08, 0.1, 0.03]} cor={mae ? "#e0364f" : C3.linha} contorno={0} sombra={false} />)}
+            <Caixa p={[0, -0.26, z]} s={[0.36, 0.08, 0.03]} cor={mae ? "#e0364f" : avo ? "#d0607a" : C3.linha} contorno={0} sombra={false} />
+            {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.2, -0.2, z]} s={[0.08, 0.1, 0.03]} cor={mae ? "#e0364f" : avo ? "#d0607a" : C3.linha} contorno={0} sombra={false} />)}
           </group>
         )}
         {boca === 0 && expr === "brava" && <Caixa p={[0, -0.27, z]} s={[0.32, 0.07, 0.03]} cor={mae ? "#e0364f" : C3.linha} contorno={0} sombra={false} />}
         {boca === 0 && expr === "medo" && <Caixa p={[0, -0.27, z]} s={[0.22, 0.2, 0.03]} cor="#5a1020" contorno={0} sombra={false} />}
         {boca === 0 && expr === "sono" && <Caixa p={[0, -0.28, z]} s={[0.16, 0.05, 0.03]} cor={C3.linha} contorno={0} sombra={false} />}
         {/* cabelo da mãe / cabelo e bigode do pai / boné do filho */}
-        {pai ? (
+        {avo ? (
+          <group>
+            <Caixa p={[0, 0.56, -0.02]} s={[1.22, 0.22, 1.1]} cor={G("#d9d9d9")} />
+            <Caixa p={[0, 0.1, -0.56]} s={[1.22, 0.9, 0.16]} cor={G("#d9d9d9")} />
+            {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.63, 0.2, -0.1]} s={[0.16, 0.6, 0.85]} cor={G("#d9d9d9")} />)}
+            <Caixa p={[0, 0.85, -0.3]} s={[0.55, 0.45, 0.5]} cor={G("#cfcfcf")} contorno={0.04} />
+          </group>
+        ) : pai ? (
           <group>
             <Caixa p={[0, 0.55, -0.02]} s={[1.16, 0.2, 1.06]} cor="#3a2414" />
             <Caixa p={[0, 0.15, -0.55]} s={[1.16, 0.6, 0.14]} cor="#3a2414" />

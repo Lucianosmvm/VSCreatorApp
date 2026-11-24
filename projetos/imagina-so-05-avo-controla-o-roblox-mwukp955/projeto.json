@@ -1,0 +1,105 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "14",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 05 - Avo controla o Roblox",
+ "frames": [
+  {
+   "id": "fmwukp955-0",
+   "prompt": "",
+   "text": "Imagina só se o Roblox fosse controlado pela sua avó.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-1",
+   "prompt": "",
+   "text": "Robux infinito. Mas só depois de comer mais um pouquinho.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-2",
+   "prompt": "",
+   "text": "E ainda te dá mais escondido: toma, não conta pra sua mãe.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-3",
+   "prompt": "",
+   "text": "Morreu no jogo? Ela pergunta se você tá agasalhado.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-4",
+   "prompt": "",
+   "text": "O monstro do jogo de terror ganha um chá e um cobertor.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-5",
+   "prompt": "",
+   "text": "A skin nova é uma blusa de tricô que ela mesma fez.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-6",
+   "prompt": "",
+   "text": "Todo jogador novo ganha um pedaço de bolo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-7",
+   "prompt": "",
+   "text": "Às 9 da noite, o servidor inteiro pausa: hora da novela.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-8",
+   "prompt": "",
+   "text": "E ela trava o jogo pra mandar um áudio de 4 minutos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-9",
+   "prompt": "",
+   "text": "Mas aí a sua mãe aparece e quer fechar o servidor às 10.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-10",
+   "prompt": "",
+   "text": "Começa a batalha mais difícil do jogo: mãe contra avó.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-11",
+   "prompt": "",
+   "text": "A avó vence com uma frase só: deixa o menino!",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-12",
+   "prompt": "",
+   "text": "Enquanto isso, o pai continua no churrasco.",
+   "narration": ""
+  },
+  {
+   "id": "fmwukp955-13",
+   "prompt": "",
+   "text": "E a sua avó, o que faria se fosse dona de um jogo? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-24T10:50:00.000Z"
+}

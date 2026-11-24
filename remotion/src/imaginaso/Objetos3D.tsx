@@ -216,3 +216,110 @@ export const Espeto3D: React.FC<{ pos?: V3; rot?: V3; esc?: number }> = ({ pos =
     {[0.6, 0.15, -0.3].map((y, i) => <Caixa key={y} p={[0, y, 0]} s={[0.4, 0.36, 0.4]} cor={i === 1 ? "#d0603a" : "#8b3a1a"} contorno={0.03} />)}
   </group>
 );
+
+/** Cadeira de balanço (frente para +z); `balanco` em rad. Assento na altura 1.05. */
+export const CadeiraBalanco3D: React.FC<{ pos?: V3; rotY?: number; balanco?: number }> = ({ pos = [0, 0, 0], rotY = 0, balanco = 0 }) => (
+  <group position={pos} rotation={[balanco, rotY, 0]}>
+    {[-0.75, 0.75].map((x) => <Caixa key={x} p={[x, 0.12, 0]} s={[0.14, 0.14, 2.2]} cor="#8a5a3c" contorno={0.03} />)}
+    {[[-0.75, -0.55], [0.75, -0.55], [-0.75, 0.55], [0.75, 0.55]].map(([x, zz], i) => <Caixa key={i} p={[x, 0.6, zz]} s={[0.14, 0.9, 0.14]} cor="#a8703e" contorno={0.03} />)}
+    <Caixa p={[0, 1.0, 0]} s={[1.6, 0.14, 1.3]} cor="#a8703e" contorno={0.04} />
+    <Caixa p={[0, 1.12, 0.05]} s={[1.3, 0.1, 1.0]} cor="#e7b6d6" contorno={0.02} />
+    <Caixa p={[0, 2.1, -0.62]} s={[1.6, 2.0, 0.14]} cor="#a8703e" contorno={0.04} />
+    {[-0.4, 0, 0.4].map((x) => <Caixa key={x} p={[x, 2.1, -0.54]} s={[0.12, 1.6, 0.04]} cor="#8a5a3c" contorno={0} />)}
+  </group>
+);
+
+/** Bolo de chocolate inteiro (ou só a fatia). */
+export const Bolo3D: React.FC<{ pos?: V3; esc?: number; fatia?: boolean; rot?: V3 }> = ({ pos = [0, 0, 0], esc = 1, fatia = false, rot = [0, 0, 0] }) => (
+  <group position={pos} scale={esc} rotation={rot}>
+    {fatia ? (
+      <group>
+        <Caixa p={[0, 0.2, 0]} s={[0.45, 0.4, 0.6]} cor="#6b3a1f" contorno={0.03} />
+        <Caixa p={[0, 0.43, 0]} s={[0.47, 0.08, 0.62]} cor="#ffffff" contorno={0.02} />
+        <Caixa p={[0, 0.52, 0.1]} s={[0.12, 0.12, 0.12]} cor={C3.vermelho} contorno={0.015} />
+      </group>
+    ) : (
+      <group>
+        <Caixa p={[0, 0.05, 0]} s={[1.8, 0.1, 1.8]} cor="#ffffff" contorno={0.03} />
+        <Caixa p={[0, 0.45, 0]} s={[1.4, 0.7, 1.4]} cor="#6b3a1f" contorno={0.05} />
+        <Caixa p={[0, 0.84, 0]} s={[1.44, 0.1, 1.44]} cor="#ffffff" contorno={0.03} />
+        {[[-0.4, -0.4], [0.4, -0.4], [-0.4, 0.4], [0.4, 0.4], [0, 0]].map(([x, zz], i) => <Caixa key={i} p={[x, 0.97, zz]} s={[0.18, 0.18, 0.18]} cor={C3.vermelho} contorno={0.02} />)}
+      </group>
+    )}
+  </group>
+);
+
+/** Monstro de terror de blocos (roxo, chifres, olhos amarelos); `cobertor` + `cha` o deixam bonzinho. */
+export const Monstro3D: React.FC<{ pos?: V3; esc?: number; boca?: number; cobertor?: boolean; feliz?: boolean; rotY?: number }> = ({ pos = [0, 0, 0], esc = 1, boca = 0, cobertor = false, feliz = false, rotY = 0 }) => (
+  <group position={pos} scale={esc} rotation={[0, rotY, 0]}>
+    {[-0.4, 0.4].map((x) => <Caixa key={x} p={[x, 0.55, 0]} s={[0.55, 1.1, 0.6]} cor="#4a2a6a" contorno={0.05} />)}
+    <Caixa p={[0, 1.8, 0]} s={[1.6, 1.5, 1.0]} cor="#5b3a86" contorno={0.06} />
+    {[-1, 1].map((l) => (
+      <group key={l} position={[l * 1.0, 2.4, 0]} rotation={[0, 0, l * (cobertor ? -0.2 : 0.5)]}>
+        <Caixa p={[0, -0.6, 0]} s={[0.45, 1.3, 0.5]} cor="#5b3a86" contorno={0.05} />
+        {[-0.12, 0.12].map((zz) => <Caixa key={zz} p={[l * 0.1, -1.35, zz]} s={[0.1, 0.25, 0.1]} cor="#ffffff" contorno={0.015} />)}
+      </group>
+    ))}
+    <Caixa p={[0, 3.1, 0]} s={[1.3, 1.1, 1.1]} cor="#5b3a86" contorno={0.06} />
+    {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.5, 3.85, 0]} s={[0.18, 0.5, 0.18]} rot={[0, 0, -l * 0.35]} cor="#e7d9b0" contorno={0.03} />)}
+    {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.3, 3.25, 0.56]} s={[0.26, feliz ? 0.08 : 0.2, 0.03]} cor={feliz ? C3.linha : "#ffe14d"} contorno={0} brilho={feliz ? undefined : "#ffd000"} forca={0.6} sombra={false} />)}
+    <Caixa p={[0, 2.8, 0.56]} s={[0.7, 0.1 + boca * 0.35, 0.03]} cor="#2a0d1a" contorno={0} sombra={false} />
+    {boca > 0.2 && [-0.2, 0, 0.2].map((x) => <Caixa key={x} p={[x, 2.95, 0.58]} s={[0.08, 0.1, 0.02]} cor="#ffffff" contorno={0} sombra={false} />)}
+    {cobertor && (
+      <group>
+        <Caixa p={[0, 2.2, 0.05]} s={[2.1, 1.6, 1.2]} cor="#7fc8f8" contorno={0.05} />
+        {[-0.6, 0, 0.6].map((x) => <Caixa key={x} p={[x, 2.2, 0.66]} s={[0.3, 1.6, 0.02]} cor="#ffffff" contorno={0} sombra={false} />)}
+      </group>
+    )}
+  </group>
+);
+
+/** Xícara de chá com vapor. */
+export const Xicara3D: React.FC<{ t: number; pos?: V3; esc?: number; rot?: V3 }> = ({ t, pos = [0, 0, 0], esc = 1, rot = [0, 0, 0] }) => (
+  <group position={pos} scale={esc} rotation={rot}>
+    <Caixa p={[0, 0.2, 0]} s={[0.4, 0.4, 0.4]} cor="#ffffff" contorno={0.03} />
+    <Caixa p={[0.28, 0.22, 0]} s={[0.12, 0.22, 0.06]} cor="#ffffff" contorno={0.02} />
+    <Caixa p={[0, 0.41, 0]} s={[0.32, 0.02, 0.32]} cor="#c47a3a" contorno={0} />
+    {[0, 1].map((i) => {
+      const y = 0.5 + ((t * 1.1 + i * 0.5) % 1.0);
+      return <Caixa key={i} p={[(i - 0.5) * 0.12, y, 0]} s={[0.1, 0.1, 0.1]} cor="#ffffff" contorno={0} opacidade={1 - (y - 0.5)} sombra={false} />;
+    })}
+  </group>
+);
+
+/** TV gigante (tela para +z) com novela: tela rosa e corações. */
+export const TV3D: React.FC<{ t: number; pos?: V3; esc?: number; rotY?: number }> = ({ t, pos = [0, 0, 0], esc = 1, rotY = 0 }) => (
+  <group position={pos} scale={esc} rotation={[0, rotY, 0]}>
+    <Caixa p={[0, 2.6, 0]} s={[5.2, 3.2, 0.4]} cor="#222230" contorno={0.08} />
+    <Caixa p={[0, 2.6, 0.21]} s={[4.7, 2.7, 0.02]} cor="#ff9ec4" contorno={0} brilho="#ff5fa2" forca={0.5} sombra={false} />
+    {[-1.2, 0, 1.2].map((x, i) => (
+      <Caixa key={x} p={[x, 2.4 + Math.sin(t * 3 + i) * 0.3, 0.24]} s={[0.4, 0.4, 0.02]} rot={[0, 0, Math.PI / 4]} cor={C3.vermelho} contorno={0} sombra={false} />
+    ))}
+    <Caixa p={[0, 0.5, 0]} s={[0.4, 1.0, 0.4]} cor="#222230" contorno={0.04} />
+    <Caixa p={[0, 0.05, 0]} s={[2.0, 0.1, 0.9]} cor="#222230" contorno={0.04} />
+  </group>
+);
+
+/** Nota de dinheiro dobradinha (verde). */
+export const Nota3D: React.FC<{ pos?: V3; esc?: number; rot?: V3 }> = ({ pos = [0, 0, 0], esc = 1, rot = [0, 0, 0] }) => (
+  <group position={pos} scale={esc} rotation={rot}>
+    <Caixa s={[0.6, 0.08, 0.36]} cor="#7bd389" contorno={0.025} />
+    <Caixa p={[0, 0.05, 0]} s={[0.18, 0.02, 0.18]} cor="#2e7d32" contorno={0} />
+  </group>
+);
+
+/** Celular (tela para +z). */
+export const Celular3D: React.FC<{ pos?: V3; esc?: number; rot?: V3 }> = ({ pos = [0, 0, 0], esc = 1, rot = [0, 0, 0] }) => (
+  <group position={pos} scale={esc} rotation={rot}>
+    <Caixa s={[0.36, 0.66, 0.08]} cor="#222230" contorno={0.025} />
+    <Caixa p={[0, 0, 0.045]} s={[0.3, 0.56, 0.01]} cor="#5ad35a" contorno={0} brilho="#5ad35a" forca={0.4} sombra={false} />
+  </group>
+);
+
+/** Casaco dobrado nos braços (bege). */
+export const Casaco3D: React.FC<{ pos?: V3; esc?: number; rot?: V3 }> = ({ pos = [0, 0, 0], esc = 1, rot = [0, 0, 0] }) => (
+  <group position={pos} scale={esc} rotation={rot}>
+    <Caixa s={[1.0, 0.3, 0.7]} cor="#c9a46b" contorno={0.03} />
+    <Caixa p={[0.3, 0.17, 0]} s={[0.3, 0.05, 0.6]} cor="#e0364f" contorno={0.015} />
+  </group>
+);
