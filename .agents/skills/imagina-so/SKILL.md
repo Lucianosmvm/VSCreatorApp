@@ -27,7 +27,7 @@ Nunca recrie peça que já existe: confira a lista do kit abaixo antes de desenh
 | 10 | Mãe motorista de Uber (v2) | `MaeUber3D.tsx` | `imagina-so-10-3d` | família, **1.05x**, ~38 s | 1º da série "Se a sua mãe fosse…"; **referência de comédia visual**: freada amassa, derrete/congela, barba de espera, cavalo de pau visto de cima, carro pulando no grave, estátua com passarinho, tribunal |
 
 MP4 e texto do YouTube de cada um em `exportacoes/imagina-so/` (`imagina-so-NN-*.mp4`, `imagina-so-NN-youtube.txt`).
-Os EP07, EP08 e EP09 estão exportados e narrados; publicação no YouTube pendente. Próximo número disponível: 11.
+Os EP07 a EP10 estão exportados e narrados; publicação no YouTube pendente. Do #10 vale a **v2** (`imagina-so-10-mae-motorista-uber-3d-v2.mp4`). Próximo número disponível: **11**.
 
 O EP09 revisado está narrado e exportado em `exportacoes/imagina-so/imagina-so-09-mae-99-noites-3d.mp4`. Projeto: `projetos/imagina-so-09-mae-monstro-da-floresta-mwutrfij`. Fonte ATIVA: `remotion/src/imaginaso/MaeFlorestaGameplay3D.tsx`; timeline real `timeline.json`. A versão antiga `MaeFloresta3D.tsx` não é a composição ativa. Publicação pendente; próximo episódio 11.
 
@@ -64,7 +64,12 @@ Buscas reais no autocompletar: "se minha mãe fosse uber" (feito no #10), "…pr
 
 - **Interação (preferência do usuário):** Não depender de votação para continuar. Cada vídeo fecha a própria história. Estimule relatos e frases nos comentários; não prometa usar o mais votado nem espere apuração. Direção em `docs/imagina-so-direcao.md`.
 
-- **Tema** com busca real: consulte o autocompletar do YouTube pt-BR antes (`curl -G https://suggestqueries.google.com/complete/search --data-urlencode client=firefox --data-urlencode ds=yt --data-urlencode hl=pt-BR --data-urlencode gl=BR --data-urlencode "q=e se a sua"`). Temas que já apareceram e não foram feitos: "e se a sua força dobrasse", "e se a escola não existisse", "e se a sua crush…".
+- **Tema** com busca real: consulte o autocompletar do YouTube pt-BR antes com
+  `python ferramentas/yt_sugestoes.py "e se a sua mãe" "se minha mãe fosse" "mãe vs"` (o `curl` com acento volta vazio no Git Bash do Windows).
+  Temas com busca real ainda não feitos: série **"Se a sua mãe fosse…"** (professora, psicóloga, policial, médica, diretora, caixa de supermercado),
+  "se a mãe fosse sincera", "mãe vs pai" / "mãe vs pai cozinhando", "quando sua mãe pega seu celular", "coisas que toda mãe fala",
+  "e se a sua força dobrasse", "e se a escola não existisse", "e se o seu tempo de reação fosse 10 vezes mais rápido", "e se as crianças governassem o mundo".
+  Nunca use personagem de outra obra (ex.: "mãe vs sukuna" é muito buscado, mas não pode).
 - Pode citar Roblox/Robux no texto e no título, mas **nunca** desenhar marca, logo ou personagem real.
 - Dois formatos:
   - **Família/situação** (#01, #02, #03, #05): 12–14 cenas, gancho → escalada → virada → recompensa → pergunta.
@@ -78,6 +83,7 @@ Salve o JSON no scratchpad (`"resolucao": "1080x1920"`, nome `Imagina So NN - <t
 ```bash
 python ferramentas/novo_projeto.py <roteiro.json>     # imprime o id
 python ferramentas/narrar.py <id-do-projeto>           # ElevenLabs (ELEVENLABS_API_KEY do .env)
+# se cair com RemoteDisconnected/timeout, rode o narrar.py de novo (o projeto já existe; não recrie)
 ```
 Confira em `projetos/<id>/projeto.json`: voz `BY2YHOQTNuJ2oMUKv3Kg`, `eleven_v4`, 0.92. Depois leia os tempos de
 `remotion/public/videos/<id>/timeline.json` (cenas e palavras).
@@ -122,8 +128,13 @@ Convenções e armadilhas (todas já aconteceram):
 cd remotion && node node_modules/typescript/bin/tsc -p .
 node node_modules/@remotion/cli/remotion-cli.js render src/index.ts imagina-so-NN-3d jobs/<id>/rascunho.mp4 --gl=angle --scale=0.4 --muted
 ```
-Calcule 2 quadros por cena (`S_k = 0.35 + soma(dur/vel)`, quadros em 40% e 88% da cena × 30), extraia com
-`ffmpeg -v error -y -i rascunho.mp4 -vf "select=eq(n\,N)" -frames:v 1 fN.png`, junte numa grade com PIL e **olhe**:
+Monte a grade de conferência (2 quadros por cena, 40% e 88%), **na raiz do projeto**:
+```bash
+python ferramentas/imagina_so_grade.py <id-do-projeto> remotion/jobs/<id>/rascunho.mp4 <vel>
+```
+Ele imprime "quadro → cena" e salva `grade0.png`, `grade1.png`… ao lado do rascunho. **Abra os PNGs e olhe**
+(no Codex, anexe/abra as imagens; se não conseguir ver imagens, peça ao usuário para conferir as grades antes do render final).
+Na grade, procure:
 personagem cortado, câmera perto/dentro de objeto, objeto escondido atrás da casa, legenda estourando,
 rosto lavado de luz. Ajuste e confira só o trecho (`--frames=a-b` ou `still … --frame=N --scale=0.4`).
 
@@ -140,6 +151,7 @@ Obs.: o `npm` do PATH está quebrado; para instalar pacotes use
   `exportacoes/imagina-so/imagina-so-NN-youtube.txt`: TÍTULO `E se … 😱 Imagina só #shorts` (frase exata do
   autocompletar quando existir), DESCRIÇÃO (resumo + "💬 … Comenta aí!" + "🔔 Inscreva-se no Imagina Só…" + hashtags),
   TAGS (buscas reais do autocompletar). Nunca `<` ou `>`.
-- Atualize a tabela "Vídeos publicados" desta skill (e a cópia em `.agents/skills/imagina-so/SKILL.md`).
+- Ao refazer um vídeo já exportado, salve como `…-v2.mp4` (não apague a v1) e diga ao usuário qual publicar.
+- Atualize a tabela de vídeos desta skill **e** a cópia (`.claude/skills/imagina-so/SKILL.md` ↔ `.agents/skills/imagina-so/SKILL.md`; a do Codex só troca `CLAUDE.md` por `AGENTS.md`).
 - Responder com o caminho do vídeo e o texto do YouTube pronto para copiar.
 - Não commitar nem publicar sem o usuário pedir.
