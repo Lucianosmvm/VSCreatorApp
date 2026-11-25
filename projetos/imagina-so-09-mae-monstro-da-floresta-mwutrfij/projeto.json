@@ -1,0 +1,93 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "12",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 09 - Mae monstro da floresta",
+ "frames": [
+  {
+   "id": "fmwutrfij-0",
+   "prompt": "",
+   "text": "E se sua mãe fosse o monstro de 99 Noites na Floresta?",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-1",
+   "prompt": "",
+   "text": "Você junta lenha pra fogueira. Ela manda varrer o acampamento.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-2",
+   "prompt": "",
+   "text": "Você abre o inventário. Ela trocou toda a comida por brócolis.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-3",
+   "prompt": "",
+   "text": "Anoiteceu. Aviso na tela: sua mãe está muito brava hoje.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-4",
+   "prompt": "",
+   "text": "Você aponta a lanterna. Ela congela por 2 segundos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-5",
+   "prompt": "",
+   "text": "Depois grita: apaga essa luz, menino! E sai correndo atrás.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-6",
+   "prompt": "",
+   "text": "Você chega na fogueira. Aqui é a zona segura. Ela para.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-7",
+   "prompt": "",
+   "text": "Até que ela sopra o fogo. Igual vela de aniversário.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-8",
+   "prompt": "",
+   "text": "Você tenta resgatar uma criança. Mas encontra o seu pai.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-9",
+   "prompt": "",
+   "text": "Ele vê sua mãe e entra na jaula de novo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-10",
+   "prompt": "",
+   "text": "Fim de jogo. Sua missão agora é lavar a louça.",
+   "narration": ""
+  },
+  {
+   "id": "fmwutrfij-11",
+   "prompt": "",
+   "text": "Qual poder sua mãe teria nesse jogo? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-24T15:46:19.339Z"
+}

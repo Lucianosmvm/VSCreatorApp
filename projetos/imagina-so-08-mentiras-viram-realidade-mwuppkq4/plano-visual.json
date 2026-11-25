@@ -1,0 +1,112 @@
+{
+  "episodio": 8,
+  "titulo": "E se toda mentira sua virasse realidade?",
+  "status": "exportado-narrado",
+  "aprovacaoVisualPendente": false,
+  "projeto": "imagina-so-08-mentiras-viram-realidade-mwuppkq4",
+  "composicao": "imagina-so-08-3d",
+  "duracaoEstimada": 40.56000000000001,
+  "cenas": [
+    {
+      "texto": "E se toda mentira sua virasse realidade?",
+      "visual": "Mochila invade a câmera; cachorro avança para mordê-la e aparece MENTIU? ACONTECEU!"
+    },
+    {
+      "texto": "Você diz: meu cachorro comeu minha lição. Ele engole a mochila inteira.",
+      "visual": "Cachorro arrasta a mochila, abre a boca e a mochila encolhe até desaparecer; filho tenta puxar de volta."
+    },
+    {
+      "texto": "Hoje não tem escola. A escola some bem na frente do ônibus.",
+      "visual": "Filho aponta para a escola; um poof apaga o prédio e o ônibus freia diante do terreno vazio."
+    },
+    {
+      "texto": "Meu pai é milionário. Começa a chover dinheiro no churrasco.",
+      "visual": "Notas surgem e caem em volta do pai de avental; ele tenta proteger a churrasqueira."
+    },
+    {
+      "texto": "E ele só quer proteger a carne.",
+      "visual": "Close do pai erguendo uma bandeja como escudo sobre os espetos, ignorando o dinheiro."
+    },
+    {
+      "texto": "Eu tenho um dinossauro. Pronto. Um dinossauro aparece no quintal.",
+      "visual": "Poof revela dinossauro de blocos verde; a câmera abre para mostrar a escala em relação ao filho."
+    },
+    {
+      "texto": "Ele destrói a piscina. A água invade o churrasco.",
+      "visual": "Pé do dinossauro pressiona a borda, piscina rompe e a onda corre até a churrasqueira; pai resgata a carne."
+    },
+    {
+      "texto": "Eu consigo controlar ele. Você ganha um controle remoto.",
+      "visual": "Controle aparece na mão; o dinossauro imita os comandos de andar e parar, com luz de conexão."
+    },
+    {
+      "texto": "Mas a pilha tá acabando. E ele para de obedecer.",
+      "visual": "Bateria vai de cheia a vermelha; controle apaga, dinossauro ignora o botão e o filho recua."
+    },
+    {
+      "texto": "Você solta: minha mãe vai me matar. Ela vira uma chefe gigante.",
+      "visual": "Mãe cresce com coroa e chinelo dourado; filho e dinossauro ficam pequenos. Sem ferimentos ou agressão."
+    },
+    {
+      "texto": "Mas ela aponta pra bagunça: primeiro, você vai limpar isso.",
+      "visual": "A mãe gigante aponta para o chão; filho pega esfregão e começa a limpar enquanto o dinossauro ajuda com balde."
+    },
+    {
+      "texto": "Qual mentira você faria virar realidade? Comenta aí!",
+      "visual": "Filho acena com esfregão, mãe observa; cachorro pega outra mochila e a lança para a câmera, formando o loop."
+    }
+  ],
+  "voz": {
+    "id": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": "0.92"
+  },
+  "narracao": {
+    "status": "concluida",
+    "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": "0.92",
+    "velocidadeMontagem": 1.15,
+    "duracaoFonte": 41.28,
+    "blocosGerados": 1
+  },
+  "publicacao": "pendente",
+  "seo": {
+    "consulta": "mentira vira realidade",
+    "sugestoes": [
+      "filme toda mentira vira realidade"
+    ],
+    "observacao": "A sugestão encontrada é sobre filme. Não usar como tag enganosa; título autoral aprovado pelo usuário."
+  },
+  "previa": {
+    "arquivo": "remotion/jobs/imagina-so-08/previa-mentiras.mp4",
+    "duracao": 40.6,
+    "resolucao": "432x768",
+    "silenciosa": true,
+    "quadrosConferidos": 24,
+    "momentosCriticos": 6,
+    "typescript": "aprovado",
+    "decodificacaoIntegral": "aprovada"
+  },
+  "continuidadeVisual": [
+    "Mãe permanece gigante depois de crescer.",
+    "Dinossauro permanece no quintal até o encerramento.",
+    "Piscina continua com a borda rompida; a água diminui durante a limpeza.",
+    "Cachorro devolve o objeto que invade a câmera no loop."
+  ],
+  "aprovacaoVisual": "Usuário autorizou: pode narrar.",
+  "exportacao": {
+    "arquivo": "remotion/out/imagina-so-08-3d.mp4",
+    "entrega": "exportacoes/imagina-so/imagina-so-08-mentiras-3d.mp4",
+    "duracao": 36.907,
+    "resolucao": "1080x1920",
+    "quando": "2026-11-24T13:31:52.339Z"
+  },
+  "validacao": {
+    "typescript": "aprovado",
+    "quadrosConferidos": 24,
+    "decodificacaoIntegral": "aprovada",
+    "picoDB": -3.2,
+    "cardsPublicados": 12
+  }
+}

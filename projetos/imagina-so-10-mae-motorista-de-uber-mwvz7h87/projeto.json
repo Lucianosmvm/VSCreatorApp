@@ -1,0 +1,93 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "12",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 10 - Mae motorista de Uber",
+ "frames": [
+  {
+   "id": "fmwvz7h87-0",
+   "prompt": "",
+   "text": "E se a sua mãe fosse motorista de Uber?",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-1",
+   "prompt": "",
+   "text": "Antes de sair, ela pergunta: já foi no banheiro?",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-2",
+   "prompt": "",
+   "text": "Cinto, janela fechada e nada de comer no carro.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-3",
+   "prompt": "",
+   "text": "O ar-condicionado só liga se você parar de reclamar.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-4",
+   "prompt": "",
+   "text": "No caminho, ela para no mercado. Só um minutinho.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-5",
+   "prompt": "",
+   "text": "O minutinho dura 40 minutos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-6",
+   "prompt": "",
+   "text": "Você pergunta: falta muito? Ela responde: se perguntar de novo, volta pra casa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-7",
+   "prompt": "",
+   "text": "A música é dela. Você não escolhe nada.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-8",
+   "prompt": "",
+   "text": "E se o passageiro chegar atrasado, ganha um sermão de 10 minutos.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-9",
+   "prompt": "",
+   "text": "No final, a nota dela pra você: zero estrelas. Deixou o tênis sujo no tapete.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-10",
+   "prompt": "",
+   "text": "Mas a corrida é de graça, e ainda vem com lanche.",
+   "narration": ""
+  },
+  {
+   "id": "fmwvz7h87-11",
+   "prompt": "",
+   "text": "Que nota você daria pra sua mãe motorista? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-25T10:23:51.000Z"
+}

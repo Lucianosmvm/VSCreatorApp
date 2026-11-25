@@ -8,6 +8,9 @@ import { COR, mola, useT } from "./Bloco";
 type TimelineFala = { cenas: { dur: number; palavras: { w: string; t: number }[] }[] };
 export type Palavra = { w: string; t: number; k: number };
 
+/** tempo mínimo (s) que um bloco de legenda fica na tela antes de trocar */
+export const LEGENDA_MIN = 1.0;
+
 const norm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^\w]/g, "").toLowerCase();
 
 /** Reposiciona a narração com velocidade `vel`, começando em `inicio` (s).
@@ -22,21 +25,39 @@ export const montarFala = (tl: TimelineFala, { vel = 1.15, inicio = 0.35 } = {})
     for (const p of tl.cenas[k].palavras) if (norm(p.w) === norm(w) && c++ === n) return S[k] + p.t / vel;
     throw new Error(`palavra "${w}" (#${n}) não está na cena ${k}`);
   };
-  // blocos de legenda: até 3 palavras / 13 letras, quebra em pontuação e troca de cena
-  const blocos: number[][] = [];
-  let atual: number[] = [];
+  // blocos de legenda = frases curtas (até 6 palavras / 26 letras, 2 linhas), quebrando em
+  // pontuação e troca de cena; bloco com menos de LEGENDA_MIN s na tela é juntado ao seguinte.
+  // (antes eram 1–3 palavras e trocavam a cada ~0,6 s — rápido demais para ler)
   const tam = (ids: number[]) => ids.map((j) => palavras[j].w).join(" ").length;
+  const brutos: number[][] = [];
+  let atual: number[] = [];
   palavras.forEach((p, i) => {
-    if (atual.length && tam([...atual, i]) > 15) {
-      blocos.push(atual);
+    if (atual.length && tam([...atual, i]) > 26) {
+      brutos.push(atual);
       atual = [];
     }
     atual.push(i);
     const prox = palavras[i + 1];
-    if (/[.,:;?!]$/.test(p.w) || atual.length >= 3 || tam(atual) >= 13 || !prox || prox.k !== p.k) {
-      blocos.push(atual);
+    const fimFrase = /[.:;?!]$/.test(p.w) || (/,$/.test(p.w) && tam(atual) >= 12);
+    if (fimFrase || atual.length >= 6 || !prox || prox.k !== p.k) {
+      brutos.push(atual);
       atual = [];
     }
+  });
+  const inicioDe = (b: number[]) => palavras[b[0]].t;
+  const blocos: number[][] = [];
+  brutos.forEach((b, n) => {
+    const ult = blocos[blocos.length - 1];
+    if (ult) {
+      const dur = inicioDe(b) - inicioDe(ult);
+      const mesmaCena = palavras[ult[0]].k === palavras[b[0]].k;
+      if (dur < LEGENDA_MIN && mesmaCena && tam([...ult, ...b]) <= 32) {
+        blocos[blocos.length - 1] = [...ult, ...b];
+        return;
+      }
+    }
+    blocos.push(b);
+    void n;
   });
   return { S, W, vel, palavras, blocos, fim: acc };
 };
@@ -55,13 +76,15 @@ export const Legenda3D: React.FC<{ fala: Fala; fim: number; top?: number }> = ({
   if (t > ate + 0.3 && atual + 1 < blocos.length) return null;
   const ultima = palavras[b[b.length - 1]];
   if (t > ultima.t + 1.2) return null;
-  const pop = mola(t, palavras[b[0]].t - 0.05, 30, 9, 260);
+  const pop = mola(t, palavras[b[0]].t - 0.05, 30, 12, 260);
   const letras = b.map((i) => palavras[i].w).join(" ").length;
   return (
-    <div style={{ position: "absolute", left: 30, right: 30, top, textAlign: "center", transform: `scale(${0.6 + 0.4 * pop}) rotate(${(atual % 2 ? 1 : -1) * 2}deg)`,
-      fontFamily: "Poppins", fontWeight: 900, fontSize: letras > 11 ? 104 : 130, lineHeight: 1.05, textTransform: "uppercase", ...contorno(22) }}>
+    <div style={{ position: "absolute", left: 40, right: 40, top, textAlign: "center", transform: `scale(${0.85 + 0.15 * Math.min(1, pop)}) rotate(${(atual % 2 ? 1 : -1) * 1.5}deg)`,
+      fontFamily: "Poppins", fontWeight: 900, fontSize: letras > 18 ? 86 : letras > 11 ? 100 : 124, lineHeight: 1.12, textTransform: "uppercase", wordSpacing: "0.12em", ...contorno(20) }}>
       {b.map((i) => (
-        <span key={i} style={{ color: t >= palavras[i].t ? COR.amarelo : "#ffffff", margin: "0 13px" }}>{palavras[i].w.replace(/[.,:;!]/g, "")}</span>
+        <React.Fragment key={i}>
+          <span style={{ color: t >= palavras[i].t ? COR.amarelo : "#ffffff" }}>{palavras[i].w.replace(/[.,:;!]/g, "")}</span>{" "}
+        </React.Fragment>
       ))}
     </div>
   );

@@ -11,7 +11,7 @@ Projeto: `D:/Nova pasta/VSCreatorApp`. Responder em português. Pedido do usuár
 Leia o `CLAUDE.md`. Não altere os outros estilos (Dev Sobrevivente, RPG Code, Pixelândia, Refúgio 13).
 Nunca recrie peça que já existe: confira a lista do kit abaixo antes de desenhar objeto ou personagem.
 
-## Vídeos publicados (referências de código)
+## Vídeos produzidos (referências de código)
 
 | # | Tema | Arquivo (`remotion/src/imaginaso/`) | Comp | Formato | Use como base para |
 |---|---|---|---|---|---|
@@ -21,9 +21,35 @@ Nunca recrie peça que já existe: confira a lista do kit abaixo antes de desenh
 | 04 | Velocidade dobra a cada dia | `Velocidade3D.tsx` | `imagina-so-04-3d` | **escalada DIA N**, 1.15x, ~49 s | HUD dia + medidor, rua que corre, céu, espaço |
 | 05 | Avó controla o Roblox | `Avo3D.tsx` | `imagina-so-05-3d` | família, 1.15x, ~41 s | família inteira, batalha mãe × avó, TV, "jogo travado" |
 | 06 | QI dobra todo dia | `QI3D.tsx` | `imagina-so-06-3d` | **escalada DIA N**, 1.15x, ~41 s | HUD de QI, lousa, robô, cachorro, portal, mãe acha o controle |
+| 07 | QI infinito | `QIInfinito3D.tsx` | `imagina-so-07-3d` | família, 1.15x, ~36 s | robô escrevendo, spray de chocolate, pausa do tempo, foguete de papelão, clone perfeito |
+| 08 | Mentiras viram realidade | `Mentiras3D.tsx` | `imagina-so-08-3d` | família, 1.15x, ~37 s | cachorro engole mochila, escola some, chuva de dinheiro, dinossauro rompe piscina, mãe gigante e limpeza |
+| 09 | Mãe monstro de 99 Noites | `MaeFlorestaGameplay3D.tsx` | `imagina-so-09-3d` | gameplay, 1.15x, ~38 s | inventário, combustível, zona segura, mãe sopra fogueira e pai recusa resgate |
+| 10 | Mãe motorista de Uber (v2) | `MaeUber3D.tsx` | `imagina-so-10-3d` | família, **1.05x**, ~38 s | 1º da série "Se a sua mãe fosse…"; **referência de comédia visual**: freada amassa, derrete/congela, barba de espera, cavalo de pau visto de cima, carro pulando no grave, estátua com passarinho, tribunal |
 
 MP4 e texto do YouTube de cada um em `exportacoes/imagina-so/` (`imagina-so-NN-*.mp4`, `imagina-so-NN-youtube.txt`).
+Os EP07, EP08 e EP09 estão exportados e narrados; publicação no YouTube pendente. Próximo número disponível: 11.
+
+O EP09 revisado está narrado e exportado em `exportacoes/imagina-so/imagina-so-09-mae-99-noites-3d.mp4`. Projeto: `projetos/imagina-so-09-mae-monstro-da-floresta-mwutrfij`. Fonte ATIVA: `remotion/src/imaginaso/MaeFlorestaGameplay3D.tsx`; timeline real `timeline.json`. A versão antiga `MaeFloresta3D.tsx` não é a composição ativa. Publicação pendente; próximo episódio 11.
+
 O usuário vai comparar a retenção do #03 (53 s) com os de ~40 s; até haver dado, prefira ~40 s.
+
+## Série "Se a sua mãe fosse…"
+
+Buscas reais no autocompletar: "se minha mãe fosse uber" (feito no #10), "…professora", "…psicóloga", "…policial", "…médica", "…caixa de supermercado". Um episódio por profissão, ~35 s, mãe com o adereço da profissão, regras de mãe aplicadas ao trabalho, virada no fim e pergunta de nota/relato. Interior de carro: câmera pelo para-brisa (`pos [7, 2.7, 0.3]`, alvo `[0, 2.2, 0]`) mostra mãe e filho de frente.
+
+## O que deixa engraçado (lições do #10 v2)
+
+- **A piada tem que estar na IMAGEM, não só na fala.** Para cada fala, ache o exagero físico de desenho animado: amassar, derreter, congelar, crescer barba esperando, virar estátua (passarinho pousa), carro pular no ritmo, tribunal com martelo. A legenda só confirma.
+- **Primeiros 2 s = a gag mais física** (ex.: freada que amassa o filho), não uma apresentação.
+- **Varie os planos**: no máximo 2 seguidos iguais; alterne close de reação, de cima, lateral e aberto.
+- **Pouco texto ao mesmo tempo**: nada de banner repetindo o que a legenda diz. Banner/cartão só para o que a fala não diz (relógio, placar, nota, "CULPADO").
+- **Sons de comédia** em cada gag (freio, buzina, grave, risco de disco, martelo, piu).
+
+## Legenda (obrigatória)
+
+- Fica sempre: muita gente assiste o Short **sem som**, e a legenda segura a retenção.
+- `montarFala` monta **frases de até 6 palavras / 26 letras (2 linhas)** e junta blocos com menos de `LEGENDA_MIN` (1 s) na tela. Antes eram 1–3 palavras trocando a cada ~0,6 s, rápido demais para ler.
+- Prefira narração a **1.05x** (1.15x deixa a leitura apertada). Confira num still se a frase quebra em 2 linhas sem sair da tela.
 
 ## A família fixa (personagens recorrentes)
 
@@ -35,6 +61,8 @@ O usuário vai comparar a retenção do #03 (53 s) com os de ~40 s; até haver d
 - Piadas que voltam: chinelo que nunca erra, **lavar a louça sem ela pedir**, pai no churrasco, mãe × avó. Use 1–2 por vídeo como gancho de série.
 
 ## 1. Roteiro (o que faz viralizar)
+
+- **Interação (preferência do usuário):** Não depender de votação para continuar. Cada vídeo fecha a própria história. Estimule relatos e frases nos comentários; não prometa usar o mais votado nem espere apuração. Direção em `docs/imagina-so-direcao.md`.
 
 - **Tema** com busca real: consulte o autocompletar do YouTube pt-BR antes (`curl -G https://suggestqueries.google.com/complete/search --data-urlencode client=firefox --data-urlencode ds=yt --data-urlencode hl=pt-BR --data-urlencode gl=BR --data-urlencode "q=e se a sua"`). Temas que já apareceram e não foram feitos: "e se a sua força dobrasse", "e se a escola não existisse", "e se a sua crush…".
 - Pode citar Roblox/Robux no texto e no título, mas **nunca** desenhar marca, logo ou personagem real.
@@ -60,19 +88,21 @@ Peças prontas em `remotion/src/imaginaso/`:
 
 | Arquivo | O quê |
 |---|---|
-| `Bloco3D.tsx` | `Caixa` (toon + contorno), `Camera`, `Boneco3D` (tipos `mae/filho/pai/avo`; `expr` `feliz/brava/medo/sono`; `bracoE/D [rotX, rotZ]`, `pernaE/D`, `cabeca`, `olhosBrilho`, `boca` (fala), `segura/seguraE`, `gelo`, `pele`, `coroa`, `casaco`, `trico`, `disfarce`, `social`, `avental`, `oculos`, cores), `Mundo3D` (pátio + casa), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
-| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D`, `Lousa3D` (cheia, ✓), `Robo3D`, `Cachorro3D` (fala), `Portal3D`, `Lampada3D` |
-| `Cenarios3D.tsx` | `Rua3D` (mundo que corre com `desloc`, janelas quebráveis), `Nuvens3D`, `Onibus3D`, `Guepardo3D`, `CarroCorrida3D`, `Aviao3D`, `Estrelas3D`, `Terra3D`, `Lua3D`, `Riscos3D` (velocidade da luz), `ConeSom3D`, `Anel3D`, `Rastro3D`, `Cacos3D` |
+| `Bloco3D.tsx` | `Caixa` (toon + contorno), `Camera`, `Boneco3D` (tipos `mae/filho/pai/avo`; `expr` `feliz/brava/medo/sono`; `bracoE/D [rotX, rotZ]`, `pernaE/D`, `cabeca`, `olhosBrilho`, `boca` (fala), `segura/seguraE`, `gelo`, `pele`, `coroa`, `casaco`, `trico`, `disfarce`, `social`, `avental`, `oculos`, `barba` 0..1, `pedra` (estátua cinza), cores; `amassa` = escala [x,y,z] no grupo do ator para esticar/achatar), `Mundo3D` (pátio + casa), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
+| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D`, `Lousa3D` (cheia, ✓), `Robo3D`, `Cachorro3D` (fala), `Portal3D`, `Lampada3D`, `Lapis3D`, `Mesa3D`, `Caderno3D`, `Spray3D`, `Botao3D`, `Mochila3D`, `Tradutor3D`, `FoguetePapelao3D`, `Bandeja3D`, `Esfregao3D`, `Balde3D`, `Marmita3D`, `Salgadinho3D`, `Martelo3D`, `Passaro3D` (voando), `Teia3D` |
+| `Cenarios3D.tsx` | `Rua3D` (mundo que corre com `desloc`, janelas quebráveis), `Nuvens3D`, `Onibus3D`, `Guepardo3D`, `CarroCorrida3D`, `Aviao3D`, `Estrelas3D`, `Terra3D`, `Lua3D`, `Riscos3D` (velocidade da luz), `ConeSom3D`, `Anel3D`, `Rastro3D`, `Cacos3D`, `Dinossauro3D`, `Escola3D`, `Piscina3D`, `Onda3D`, `CarroFamilia3D` (vidros transparentes, só o banco do motorista na frente; motorista x 0.75 z −0.5, banco de trás x −1.0 z 0.5; `janela`), `Mercado3D` |
+| `Floresta3D.tsx` | `Floresta3D`, `ArvoreFloresta3D`, `Fogueira3D`, `Lanterna3D`, `FeixeLanterna3D`, `PortaoMadeira3D`, `BancoTronco3D` |
+| `Sobrevivencia3D.tsx` | `Machado3D`, `Lenha3D`, `Tenda3D`, `AcampamentoGameplay3D`, `GalhosCoroa3D`, `CavernaResgate3D` |
 | `Camada2D.tsx` | `montarFala(tl, {vel, inicio})` → `S[k]` (início da cena), `W(k, "palavra", n)` (instante da palavra, sem acento/pontuação), `Legenda3D`, `Faixa3D` (banners), `Balao3D` (digitado), `Sobe3D`, `Flash`, `Marca3D` |
 
 Passos:
 1. Copie o vídeo publicado mais parecido (tabela acima) para `<Nome>3D.tsx`; troque o import da timeline, `PASTA` e o nome do export.
-2. `montarFala(tl, { vel: 1.15, inicio: 0.35 })` (use `vel: 1.0` se o usuário quiser ~1 min). Marcos com `W(k, "palavra")`.
+2. `montarFala(tl, { vel: 1.05, inicio: 0.35 })` (1.0 se o usuário quiser ~1 min). Marcos com `W(k, "palavra")`.
 3. `estado(t)` por cena (`cenaDe(t)`): câmera, atores (`{ tipo, a: Ator }`), objetos, `noite`/`escuro`.
    - **corte a cada ~1–1,5 s** (troca de plano numa palavra-chave);
    - quadro 0: objeto voando na câmera + flash + tremor; fim: algo vindo na câmera (loop com o começo);
    - painéis 2D (contadores, placar, chat, player de áudio) como componentes locais no arquivo do vídeo.
-4. `BANNERS` (y 230–560; 60–130 px), `SONS` (sfx em `public/sfx/`: whoosh, impacto, aura, plim, pop, erro, contagem, tecla; `musica.wav` em loop a 0.14). Sons novos → `ferramentas/gerar_sfx.py` (síntese numpy) e rodar.
+4. `BANNERS` (y 230–560; 60–130 px), `SONS` (sfx em `public/sfx/`: whoosh, impacto, aura, plim, pop, erro, contagem, tecla, freio, buzina, grave, risco, martelo, piu; `musica.wav` em loop a 0.14). Sons novos → `ferramentas/gerar_sfx.py` (síntese numpy) e rodar.
 5. Registre em `remotion/src/Root.tsx`: import + `<Composition id="imagina-so-NN-3d" … durationInFrames={Math.round(DUR * 30)} />`.
 6. Peça nova (objeto/cenário/personagem): acrescente em `Objetos3D.tsx`/`Cenarios3D.tsx`/`Boneco3D` com a paleta `C3`, contorno da `Caixa` e sem marcas — nunca duplique dentro do arquivo do vídeo.
 

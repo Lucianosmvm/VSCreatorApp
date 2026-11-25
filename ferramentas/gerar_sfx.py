@@ -15,6 +15,12 @@ Saída: remotion/public/sfx/*.wav (44,1 kHz, mono, 16 bits)
   impacto   pancada grave (chinelo, pouso)
   aura      brilho subindo (poder ativado)
   musica    batida curta em loop para fundo de gancho
+  freio     pneu cantando (freada)
+  buzina    fom-fom
+  grave     tum-tum de som automotivo
+  risco     risco de disco (virada)
+  martelo   batida de martelo de juiz
+  piu       passarinho
 """
 
 import os
@@ -165,6 +171,67 @@ def musica():
     return total
 
 
+def freio():
+    """pneu cantando: chiado agudo que oscila e cai"""
+    x = t(0.8)
+    ruido = rng.normal(0, 1, len(x))
+    freq = 2600 - 900 * (x / x[-1]) + 180 * np.sin(2 * np.pi * 9 * x)
+    tom = np.sin(2 * np.pi * np.cumsum(freq) / TAXA)
+    return (tom * 0.7 + ruido * 0.25) * env(len(x), 0.01, 2.2)
+
+
+def buzina():
+    """fom-fom: duas notas quadradas curtas"""
+    total = np.zeros(int(TAXA * 0.6))
+    for k, ini in enumerate([0.0, 0.3]):
+        xx = t(0.22)
+        nota = (np.sign(np.sin(2 * np.pi * 415 * xx)) + np.sign(np.sin(2 * np.pi * 523 * xx))) * 0.5 * env(len(xx), 0.005, 4)
+        i = int(ini * TAXA)
+        total[i:i + len(nota)] += nota[: len(total) - i]
+    return total
+
+
+def grave():
+    """tum-tum de som automotivo (2 batidas fortes)"""
+    total = np.zeros(int(TAXA * 0.5))
+    for ini in [0.0, 0.22]:
+        xx = t(0.2)
+        f = 70 * np.exp(-xx * 8) + 45
+        b = np.sin(2 * np.pi * np.cumsum(f) / TAXA) * env(len(xx), 0.002, 9)
+        i = int(ini * TAXA)
+        total[i:i + len(b)] += b[: len(total) - i]
+    return total
+
+
+def risco():
+    """risco de disco: ruído que sobe e desce rápido"""
+    x = t(0.45)
+    ruido = rng.normal(0, 1, len(x))
+    freq = 600 + 1800 * np.abs(np.sin(2 * np.pi * 3.2 * x))
+    tom = np.sin(2 * np.pi * np.cumsum(freq) / TAXA)
+    return (tom * 0.6 + ruido * 0.4) * env(len(x), 0.005, 3)
+
+
+def martelo():
+    """batida seca de madeira (martelo de juiz)"""
+    x = t(0.25)
+    corpo = np.sin(2 * np.pi * 320 * x) * env(len(x), 0.001, 35)
+    estalo = rng.normal(0, 1, len(x)) * env(len(x), 0.0005, 120)
+    return corpo + estalo * 0.5
+
+
+def piu():
+    """piu-piu de passarinho"""
+    total = np.zeros(int(TAXA * 0.4))
+    for ini in [0.0, 0.18]:
+        xx = t(0.12)
+        f = 2800 + 1400 * (xx / xx[-1])
+        c = np.sin(2 * np.pi * np.cumsum(f) / TAXA) * env(len(xx), 0.003, 25)
+        i = int(ini * TAXA)
+        total[i:i + len(c)] += c[: len(total) - i]
+    return total
+
+
 if __name__ == "__main__":
     salvar("tecla", tecla(), 0.55)
     salvar("pop", pop(), 0.7)
@@ -175,3 +242,9 @@ if __name__ == "__main__":
     salvar("impacto", impacto(), 0.8)
     salvar("aura", aura(), 0.5)
     salvar("musica", musica(), 0.6)
+    salvar("freio", freio(), 0.6)
+    salvar("buzina", buzina(), 0.55)
+    salvar("grave", grave(), 0.8)
+    salvar("risco", risco(), 0.55)
+    salvar("martelo", martelo(), 0.7)
+    salvar("piu", piu(), 0.5)

@@ -1,0 +1,93 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "12",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 08 - Mentiras viram realidade",
+ "frames": [
+  {
+   "id": "fmwuppkq4-0",
+   "prompt": "",
+   "text": "E se toda mentira sua virasse realidade?",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-1",
+   "prompt": "",
+   "text": "Você diz: meu cachorro comeu minha lição. Ele engole a mochila inteira.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-2",
+   "prompt": "",
+   "text": "Hoje não tem escola. A escola some bem na frente do ônibus.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-3",
+   "prompt": "",
+   "text": "Meu pai é milionário. Começa a chover dinheiro no churrasco.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-4",
+   "prompt": "",
+   "text": "E ele só quer proteger a carne.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-5",
+   "prompt": "",
+   "text": "Eu tenho um dinossauro. Pronto. Um dinossauro aparece no quintal.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-6",
+   "prompt": "",
+   "text": "Ele destrói a piscina. A água invade o churrasco.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-7",
+   "prompt": "",
+   "text": "Eu consigo controlar ele. Você ganha um controle remoto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-8",
+   "prompt": "",
+   "text": "Mas a pilha tá acabando. E ele para de obedecer.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-9",
+   "prompt": "",
+   "text": "Você solta: minha mãe vai me matar. Ela vira uma chefe gigante.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-10",
+   "prompt": "",
+   "text": "Mas ela aponta pra bagunça: primeiro, você vai limpar isso.",
+   "narration": ""
+  },
+  {
+   "id": "fmwuppkq4-11",
+   "prompt": "",
+   "text": "Qual mentira você faria virar realidade? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-24T13:10:55.227Z"
+}

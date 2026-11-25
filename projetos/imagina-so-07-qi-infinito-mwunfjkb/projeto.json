@@ -1,0 +1,93 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "12",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 07 - QI infinito",
+ "frames": [
+  {
+   "id": "fmwunfjkb-0",
+   "prompt": "",
+   "text": "E se você tivesse QI infinito?",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-1",
+   "prompt": "",
+   "text": "Primeiro, você cria um robô que faz a sua lição. E imita a sua letra.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-2",
+   "prompt": "",
+   "text": "Depois, um spray que deixa o brócolis com gosto de chocolate.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-3",
+   "prompt": "",
+   "text": "Um botão que pausa o tempo quando a sua mãe chama pra jantar.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-4",
+   "prompt": "",
+   "text": "Um foguete de papelão que funciona. Só pra ir na casa da avó.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-5",
+   "prompt": "",
+   "text": "Você ensina o seu cachorro a fazer a lição de casa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-6",
+   "prompt": "",
+   "text": "E inventa um tradutor de mãe: depois a gente vê quer dizer não.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-7",
+   "prompt": "",
+   "text": "Aí você cria um clone seu pra ir na escola no seu lugar.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-8",
+   "prompt": "",
+   "text": "Mas o clone tira nota 10, lava a louça e arruma o quarto.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-9",
+   "prompt": "",
+   "text": "Agora a sua mãe prefere o clone.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-10",
+   "prompt": "",
+   "text": "O QI infinito resolve tudo, menos uma coisa: ganhar uma discussão com a sua mãe.",
+   "narration": ""
+  },
+  {
+   "id": "fmwunfjkb-11",
+   "prompt": "",
+   "text": "O que você inventaria com QI infinito? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-24T12:06:26.000Z"
+}

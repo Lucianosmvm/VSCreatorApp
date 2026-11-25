@@ -1,0 +1,115 @@
+{
+  "episodio": 7,
+  "titulo": "E se você tivesse QI INFINITO?",
+  "status": "exportado-narrado",
+  "aprovacaoVisualPendente": false,
+  "duracaoEstimada": 43.96764705882353,
+  "cenas": [
+    {
+      "numero": 1,
+      "fala": "E se você tivesse QI infinito?",
+      "visual": "Livro invade a câmera, filho ganha brilho e QI infinito."
+    },
+    {
+      "numero": 2,
+      "fala": "Primeiro, você cria um robô que faz a sua lição. E imita a sua letra.",
+      "visual": "Robô escreve no caderno com caligrafia repetida, filho joga deitado."
+    },
+    {
+      "numero": 3,
+      "fala": "Depois, um spray que deixa o brócolis com gosto de chocolate.",
+      "visual": "Spray transforma o brócolis em chocolate; filho prova e sorri."
+    },
+    {
+      "numero": 4,
+      "fala": "Um botão que pausa o tempo quando a sua mãe chama pra jantar.",
+      "visual": "Botão pausa a mãe e o relógio; filho volta ao controle."
+    },
+    {
+      "numero": 5,
+      "fala": "Um foguete de papelão que funciona. Só pra ir na casa da avó.",
+      "visual": "Foguete de papelão decola, voa e pousa no quintal da avó com bolo."
+    },
+    {
+      "numero": 6,
+      "fala": "Você ensina o seu cachorro a fazer a lição de casa.",
+      "visual": "Cachorro de óculos e lápis diante da lousa, aprendendo a lição."
+    },
+    {
+      "numero": 7,
+      "fala": "E inventa um tradutor de mãe: depois a gente vê quer dizer não.",
+      "visual": "Mãe fala, tradutor converte DEPOIS A GENTE VÊ em NÃO."
+    },
+    {
+      "numero": 8,
+      "fala": "Aí você cria um clone seu pra ir na escola no seu lugar.",
+      "visual": "Poof cria clone idêntico; mochila confirma que vai para a escola."
+    },
+    {
+      "numero": 9,
+      "fala": "Mas o clone tira nota 10, lava a louça e arruma o quarto.",
+      "visual": "Clone tira 10, lava louça e arruma o quarto em três ações."
+    },
+    {
+      "numero": 10,
+      "fala": "Agora a sua mãe prefere o clone.",
+      "visual": "Mãe abraça o clone; filho original observa excluído e surpreso."
+    },
+    {
+      "numero": 11,
+      "fala": "O QI infinito resolve tudo, menos uma coisa: ganhar uma discussão com a sua mãe.",
+      "visual": "Mãe de braços cruzados vence; placar VOCÊ 0 × MÃE ∞."
+    },
+    {
+      "numero": 12,
+      "fala": "O que você inventaria com QI infinito? Comenta aí!",
+      "visual": "Os três acenam, pergunta ao público e livro invade a câmera para o loop."
+    }
+  ],
+  "seo": {
+    "consulta": "qi infinito",
+    "sugestoes": [
+      "qi infinito",
+      "meme qi infinito"
+    ],
+    "verificadoEm": "2026-11-24"
+  },
+  "voz": {
+    "id": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": "0.92"
+  },
+  "nota": "Narração nova só depois da aprovação do visual. Timings da prévia são estimados.",
+  "previa": {
+    "arquivo": "remotion/jobs/imagina-so-07/previa-qi-infinito.mp4",
+    "duracao": 44.366667,
+    "resolucao": "432x768",
+    "silenciosa": true,
+    "conferencia": "24 quadros (40% e 88% por cena), correções de enquadramento, nota 10 e montagem conferidas; TypeScript e decodificação integral aprovados."
+  },
+  "aprovacaoVisual": "Usuário autorizou: pode narrar.",
+  "narracao": {
+    "status": "concluida",
+    "voz": "BY2YHOQTNuJ2oMUKv3Kg",
+    "modelo": "eleven_v4",
+    "velocidade": "0.92",
+    "velocidadeMontagem": 1.15,
+    "duracaoFonte": 40.8,
+    "blocosGerados": 1
+  },
+  "exportacao": {
+    "arquivo": "remotion/out/imagina-so-07-3d.mp4",
+    "entrega": "exportacoes/imagina-so/imagina-so-07-qi-infinito-3d.mp4",
+    "duracao": 36.437,
+    "resolucao": "1080x1920",
+    "quando": "2026-11-24T12:29:39.559Z"
+  },
+  "validacao": {
+    "typescript": "aprovado",
+    "quadrosConferidos": 24,
+    "decodificacaoIntegral": "aprovada",
+    "picoDB": -3.9,
+    "cardsPublicados": 12
+  },
+  "publicacao": "pendente"
+}

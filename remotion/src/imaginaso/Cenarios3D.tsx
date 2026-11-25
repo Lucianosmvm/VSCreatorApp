@@ -7,9 +7,53 @@ import { C3, Caixa } from "./Bloco3D";
 type V3 = [number, number, number];
 const mod = (a: number, n: number) => ((a % n) + n) % n;
 
+/** Escola sem marcas, com terreno que permanece depois do desaparecimento. */
+export const Escola3D:React.FC<{pos?:V3;sumindo?:number}>=({pos=[0,0,0],sumindo=0})=><group position={pos}>
+ <Caixa p={[0,.02,0]} s={[7.2,.04,3.6]} cor="#c8c3b8" contorno={0}/>
+ {sumindo<.995&&<group scale={[1,Math.max(.001,1-sumindo),1]}>
+  <Caixa p={[0,1.7,0]} s={[6.4,3.4,2.5]} cor="#ffe090" contorno={.06}/><Caixa p={[0,3.6,0]} s={[6.8,.4,2.8]} cor="#3f8cff" contorno={.06}/>
+  <Caixa p={[0,1.2,1.28]} s={[1.1,2.4,.1]} cor="#6a9fc2" contorno={.035}/>
+  {[-2.2,-1.1,1.1,2.2].map(x=><Caixa key={x} p={[x,2.15,1.28]} s={[.65,.85,.07]} cor="#a4e6ff" contorno={.03}/>)}
+  <Caixa p={[0,3.05,1.3]} s={[2.5,.5,.08]} cor="#eaf7ff" contorno={.03}/>
+  <Caixa p={[0,3.08,1.36]} s={[.3,.3,.035]} rot={[0,0,Math.PI/4]} cor="#3f8cff" contorno={0}/>
+ </group>}
+</group>;
+
+/** Piscina rasa de brinquedo: borda da frente cede e a água escoa. */
+export const Piscina3D:React.FC<{pos?:V3;rompimento?:number;agua?:number}>=({pos=[0,0,0],rompimento=0,agua=1})=><group position={pos}>
+ <Caixa p={[0,.08,0]} s={[4.8,.16,3.4]} cor="#badfeb" contorno={.04}/>
+ <Caixa p={[0,.48,0]} s={[4.4,.05,2.9]} cor="#57cfea" contorno={0} opacidade={1-rompimento*.6}/>
+ <Caixa p={[0,.48,-1.65]} s={[4.8,.8,.18]} cor="#e6f8ff" contorno={.04}/>
+ {[-1,1].map(l=><React.Fragment key={l}><Caixa p={[l*2.33,.48,0]} s={[.18,.8,3.4]} cor="#e6f8ff" contorno={.04}/><group position={[l*1.2,.1+(.38*(1-rompimento)),1.65+rompimento*.6]} rotation={[rompimento*1.25,0,l*rompimento*.15]}><Caixa s={[2.35,.8,.18]} cor="#e6f8ff" contorno={.04}/></group></React.Fragment>)}
+ {rompimento>0&&agua>0&&<Caixa p={[0,.04,2.2+rompimento]} s={[(3.5+rompimento*2)*agua,.045,(1.4+rompimento*2)*agua]} cor="#6fdaf1" contorno={0} opacidade={.8}/>}
+</group>;
+
+/** Onda curta e respingos determinísticos; viaja para +z. */
+export const Onda3D:React.FC<{pos?:V3;t:number;forca?:number}>=({pos=[0,0,0],t,forca=1})=><group position={pos}>
+ <Caixa p={[0,.18,0]} s={[3.4,.35*forca,1.1]} cor="#67d9f4" contorno={.025} opacidade={.85}/>
+ {Array.from({length:12},(_,i)=><Caixa key={i} p={[(i%5-2)*.55,.4+Math.abs(Math.sin(t*8+i*2))*.8*forca,(Math.sin(i*3+t*5))*.7]} s={[.13,.16,.13]} cor={i%2?'#ffffff':'#9decff'} contorno={0}/>)}
+</group>;
+
+/** Tiranossauro de blocos original. Pés em y=0; rosto para +z. */
+export const Dinossauro3D:React.FC<{t:number;pos?:V3;esc?:number;rotY?:number;andando?:number;boca?:number;pisao?:number}>=({t,pos=[0,0,0],esc=1,rotY=0,andando=0,boca=.15,pisao=0})=><group position={pos} rotation={[0,rotY,0]} scale={esc}>
+ <Caixa p={[0,2.35,0]} s={[1.8,2,2.3]} cor="#5aa65b" contorno={.06}/><Caixa p={[0,2.2,1.17]} s={[1.25,1.6,.08]} cor="#b8cf79" contorno={.03}/>
+ <Caixa p={[0,3.6,.7]} s={[1.2,1.15,1.2]} cor="#5aa65b" contorno={.05}/>
+ <Caixa p={[0,4.5,1.3]} s={[1.6,1,1.8]} cor="#5aa65b" contorno={.06}/>
+ <Caixa p={[0,4.25,2.25]} s={[1.4,.32,.55]} cor="#4c8a51" contorno={.04}/>
+ <group position={[0,4.1,1.6]} rotation={[boca*.65,0,0]}><Caixa p={[0,-.12,.35]} s={[1.45,.25,1.6]} cor="#58874b" contorno={.04}/><Caixa p={[0,.03,.5]} s={[1.2,.07,1.2]} cor="#b86c76" contorno={0}/></group>
+ {[-1,1].map(l=><React.Fragment key={l}>
+  <Caixa p={[l*.58,4.66,2.22]} s={[.38,.3,.08]} cor="#fff6cf" contorno={.025}/><Caixa p={[l*.58,4.65,2.27]} s={[.12,.2,.04]} cor={C3.linha} contorno={0}/>
+  <Caixa p={[l*.78,4.7,1.65]} s={[.04,.3,.32]} cor="#fff6cf" contorno={.02}/>
+  <group position={[l*.65,1.4,-.1]} rotation={[Math.sin(t*7+l)*andando*.4-(l===1?pisao*.8:0),0,0]}><Caixa p={[0,-.56,0]} s={[.62,1.3,.75]} cor="#3d7d49" contorno={.04}/><Caixa p={[0,-1.25,.3]} s={[.7,.25,1.3]} cor="#4c8a51" contorno={.04}/></group>
+  <Caixa p={[l*1.02,2.9,1]} s={[.3,.65,.3]} rot={[-.8,0,l*.2]} cor="#4c8a51" contorno={.03}/>
+  {[0,1,2].map(i=><Caixa key={i} p={[l*(.28+i*.22),4.02,2.25]} s={[.13,.2,.14]} cor="#fff6cf" contorno={.015}/>)}
+ </React.Fragment>)}
+ <group position={[0,2,-1.3]} rotation={[.25,Math.sin(t*3)*.12,0]}><Caixa p={[0,0,-.6]} s={[1.05,.85,1.5]} cor="#4c8a51"/><Caixa p={[0,-.1,-1.6]} s={[.6,.5,1.0]} cor="#4c8a51" contorno={.035}/></group>
+</group>;
+
 /** Rua ao longo de x que "anda" com `desloc` (o personagem fica parado e o mundo passa).
  *  `quebrado` troca os vidros das janelas por buracos escuros. */
-export const Rua3D: React.FC<{ desloc: number; quebrado?: boolean }> = ({ desloc, quebrado = false }) => {
+export const Rua3D: React.FC<{ desloc: number; quebrado?: boolean; casas?:boolean }> = ({ desloc, quebrado = false, casas=true }) => {
   const CORES = ["#ffd9a6", "#bde4ff", "#ffc2d6", "#d4f5c4", "#fff1a8"];
   return (
     <group>
@@ -19,7 +63,7 @@ export const Rua3D: React.FC<{ desloc: number; quebrado?: boolean }> = ({ desloc
       {Array.from({ length: 30 }).map((_, i) => (
         <Caixa key={i} p={[-45 + i * 3 - mod(desloc, 3), 0.03, 0]} s={[1.4, 0.02, 0.18]} cor="#ffffff" contorno={0} sombra={false} />
       ))}
-      {Array.from({ length: 12 }).map((_, i) => {
+      {casas&&Array.from({ length: 12 }).map((_, i) => {
         const x = -45 + i * 9 - mod(desloc, 9);
         const cor = CORES[mod(i + Math.floor(desloc / 9), CORES.length)];
         return (
@@ -242,3 +286,54 @@ export const Cacos3D: React.FC<{ t: number; t0: number; pos: V3 }> = ({ t, t0, p
     </group>
   );
 };
+
+/** Carro de família em blocos (frente para +x), com vidros transparentes para ver quem está dentro.
+ *  Banco do motorista em x≈0.75, z=-0.5; banco de trás em x≈-1.0. `janela` 0..1 sobe o vidro do lado +z. */
+export const CarroFamilia3D: React.FC<{ pos?: V3; rotY?: number; rodas?: number; janela?: number; cor?: string; luz?: boolean }> = ({ pos = [0, 0, 0], rotY = 0, rodas = 0, janela = 0, cor = "#2bb3a3", luz = false }) => (
+  <group position={pos} rotation={[0, rotY, 0]}>
+    <Caixa p={[0, 0.95, 0]} s={[5.0, 1.0, 2.4]} cor={cor} contorno={0.07} />
+    <Caixa p={[2.2, 1.5, 0]} s={[0.7, 0.14, 2.3]} cor={cor} contorno={0.04} />
+    <Caixa p={[-2.3, 1.55, 0]} s={[0.5, 0.2, 2.3]} cor={cor} contorno={0.04} />
+    {[[1.6, -1.12], [1.6, 1.12], [-1.9, -1.12], [-1.9, 1.12]].map(([x, z], i) => <Caixa key={i} p={[x, 2.4, z]} s={[0.16, 1.8, 0.16]} cor={cor} contorno={0.03} />)}
+    <Caixa p={[-0.15, 3.35, 0]} s={[3.8, 0.2, 2.42]} cor={cor} contorno={0.06} />
+    <Caixa p={[1.62, 2.4, 0]} s={[0.04, 1.7, 2.1]} cor="#bfe9ff" contorno={0} opacidade={0.18} sombra={false} />
+    {janela > 0.02 && <Caixa p={[-0.15, 1.45 + 0.85 * janela, 1.17]} s={[3.3, 1.7 * janela, 0.04]} cor="#bfe9ff" contorno={0} opacidade={0.3} sombra={false} />}
+    <Caixa p={[0.15, 1.7, -0.5]} s={[0.25, 1.4, 0.9]} cor="#3a3f4b" contorno={0.03} />
+    <Caixa p={[-1.55, 1.7, 0]} s={[0.25, 1.4, 2.1]} cor="#3a3f4b" contorno={0.03} />
+    <mesh position={[1.4, 1.62, -0.5]} rotation={[0, Math.PI / 2, 0]}><torusGeometry args={[0.26, 0.06, 8, 20]} /><meshBasicMaterial color={C3.linha} /></mesh>
+    {[-0.75, 0.75].map((z) => <Caixa key={z} p={[2.52, 1.15, z]} s={[0.06, 0.3, 0.45]} cor="#fff6c2" contorno={0.02} brilho={luz ? "#fff6c2" : undefined} forca={0.8} />)}
+    {[-0.8, 0.8].map((z) => <Caixa key={z} p={[-2.52, 1.15, z]} s={[0.06, 0.25, 0.4]} cor={C3.vermelho} contorno={0.02} />)}
+    <Caixa p={[2.55, 0.6, 0]} s={[0.15, 0.25, 2.3]} cor="#9aa5b1" contorno={0.03} />
+    <Caixa p={[-2.55, 0.6, 0]} s={[0.15, 0.25, 2.3]} cor="#9aa5b1" contorno={0.03} />
+    {[1.6, -1.7].map((x) => [-1.2, 1.2].map((z) => (
+      <group key={`${x}${z}`} position={[x, 0.45, z]} rotation={[0, 0, -rodas]}>
+        <Caixa s={[0.9, 0.9, 0.36]} cor="#222" contorno={0.03} />
+        <Caixa s={[0.34, 0.34, 0.38]} cor="#aab3c0" contorno={0} />
+      </group>
+    )))}
+  </group>
+);
+
+/** Fachada de mercado (frente para +z): toldo listrado, vitrines com prateleiras e porta. */
+export const Mercado3D: React.FC<{ pos?: V3 }> = ({ pos = [0, 0, 0] }) => (
+  <group position={pos}>
+    <Caixa p={[0, 2.3, 0]} s={[9, 4.6, 1.2]} cor="#fff1d6" contorno={0.07} />
+    <Caixa p={[0, 4.9, 0.1]} s={[9.4, 0.7, 1.4]} cor={C3.amarelo} contorno={0.06} />
+    {Array.from({ length: 9 }).map((_, i) => (
+      <Caixa key={i} p={[-4 + i, 3.85, 1.0]} s={[1, 0.25, 1.1]} rot={[0.35, 0, 0]} cor={i % 2 ? "#ffffff" : C3.vermelho} contorno={0.02} />
+    ))}
+    <Caixa p={[0, 1.5, 0.62]} s={[1.6, 3.0, 0.1]} cor="#bfe9ff" contorno={0.05} opacidade={0.6} />
+    {[-2.9, 2.9].map((x) => (
+      <group key={x} position={[x, 2.0, 0.62]}>
+        <Caixa s={[2.6, 2.4, 0.08]} cor="#bfe9ff" contorno={0.05} opacidade={0.5} />
+        {[-0.6, 0.2].map((y, j) => (
+          <group key={y}>
+            <Caixa p={[0, y, -0.2]} s={[2.4, 0.08, 0.3]} cor="#8a5a3c" contorno={0} />
+            {[-0.9, -0.45, 0, 0.45, 0.9].map((px, k) => <Caixa key={px} p={[px, y + 0.22, -0.2]} s={[0.3, 0.36, 0.22]} cor={["#e0364f", "#5ad35a", "#3f8cff", "#ffd23f", "#ff8a3d"][(k + j) % 5]} contorno={0.015} />)}
+          </group>
+        ))}
+      </group>
+    ))}
+    {[-1, 1].map((l) => <Caixa key={l} p={[l * 4.2, 0.6, 2.0]} s={[0.6, 1.2, 1.0]} cor="#9aa5b1" contorno={0.03} />)}
+  </group>
+);
