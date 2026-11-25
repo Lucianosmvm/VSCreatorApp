@@ -14,6 +14,8 @@ import { ImaginaSoQIInfinito3D, QI_INFINITO_DUR } from "./imaginaso/QIInfinito3D
 import { ImaginaSoMentiras3D, MENTIRAS_DUR } from "./imaginaso/Mentiras3D";
 import { ImaginaSoMaeGameplay3D, MAE_GAMEPLAY_DUR } from "./imaginaso/MaeFlorestaGameplay3D";
 import { ImaginaSoUber3D, UBER_3D_DUR } from "./imaginaso/MaeUber3D";
+import { ImaginaSoInternet3D, INTERNET_3D_DUR } from "./imaginaso/Internet3D";
+import { ImaginaSoDinos3D, DINOS_3D_DUR } from "./imaginaso/Dinos3D";
 
 const metadados = ({ props }: { props: Timeline }) => ({
   fps: props.fps,
@@ -56,6 +58,10 @@ export const Root: React.FC = () => (
     durationInFrames={Math.round(MAE_GAMEPLAY_DUR * 30)} />
   <Composition id="imagina-so-10-3d" component={ImaginaSoUber3D} width={1080} height={1920} fps={30}
     durationInFrames={Math.round(UBER_3D_DUR * 30)} />
+  <Composition id="imagina-so-11-3d" component={ImaginaSoInternet3D} width={1080} height={1920} fps={30}
+    durationInFrames={Math.round(INTERNET_3D_DUR * 30)} />
+  <Composition id="imagina-so-12-3d" component={ImaginaSoDinos3D} width={1080} height={1920} fps={30}
+    durationInFrames={Math.round(DINOS_3D_DUR * 30)} />
   {VIDEOS.map((v) => (
     <Composition
       key={v.id}

@@ -1,0 +1,99 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "13",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 11 - Se a internet acabasse",
+ "frames": [
+  {
+   "id": "fmwwgacm0-0",
+   "prompt": "",
+   "text": "E se a internet acabasse?",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-1",
+   "prompt": "",
+   "text": "No primeiro minuto, você reinicia o roteador 47 vezes.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-2",
+   "prompt": "",
+   "text": "Seu pai sobe no telhado com a antena, achando que resolve.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-3",
+   "prompt": "",
+   "text": "Sua mãe finalmente vê o seu rosto sem um celular na frente.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-4",
+   "prompt": "",
+   "text": "Sem jogo, você descobre um lugar estranho: lá fora.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-5",
+   "prompt": "",
+   "text": "Lá fora tem uma coisa chamada sol. E ele não tem botão de pausa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-6",
+   "prompt": "",
+   "text": "Pra saber qualquer coisa, você tem que perguntar pra sua avó.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-7",
+   "prompt": "",
+   "text": "Ela responde em 40 minutos, com a história da família inteira.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-8",
+   "prompt": "",
+   "text": "Seu pai volta a ler jornal. De 2009.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-9",
+   "prompt": "",
+   "text": "E a sua mãe tá feliz: ninguém mais pede pra jogar.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-10",
+   "prompt": "",
+   "text": "Até descobrir que o grupo da família também acabou.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-11",
+   "prompt": "",
+   "text": "Agora é ela que reinicia o roteador. 48 vezes.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwgacm0-12",
+   "prompt": "",
+   "text": "E você, o que faria sem internet? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-25T18:21:59.000Z"
+}

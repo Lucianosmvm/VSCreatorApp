@@ -1,0 +1,99 @@
+{
+ "voiceSel": "BY2YHOQTNuJ2oMUKv3Kg",
+ "elModel": "eleven_v4",
+ "elVelocidade": "0.92",
+ "elModo": "faixa",
+ "fps": "30",
+ "resolution": "1080x1920",
+ "transition": "0",
+ "globalPos": 80,
+ "globalStyle": "outline",
+ "frameCount": "13",
+ "motorRemotion": true,
+ "modoMascote": true,
+ "renderServidor": true,
+ "vidOn": false,
+ "appVersao": 2,
+ "nome": "Imagina So 12 - Dinossauros nao extintos",
+ "frames": [
+  {
+   "id": "fmwwhct84-0",
+   "prompt": "",
+   "text": "E se os dinossauros não fossem extintos?",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-1",
+   "prompt": "",
+   "text": "Há 66 milhões de anos, o asteroide errou a Terra. Por pouco.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-2",
+   "prompt": "",
+   "text": "Agora, o seu ônibus da escola é um dinossauro de pescoço comprido.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-3",
+   "prompt": "",
+   "text": "Seu cachorro? Um velociraptor que destrói o sofá.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-4",
+   "prompt": "",
+   "text": "Seu pai faz churrasco, e um T-rex aparece pra pegar a picanha.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-5",
+   "prompt": "",
+   "text": "Na escola, educação física é fugir do T-rex.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-6",
+   "prompt": "",
+   "text": "Os pombos da praça são pterodátilos. E roubam o seu lanche.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-7",
+   "prompt": "",
+   "text": "Mas o T-rex tem um problema: braço curto. Não alcança o controle.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-8",
+   "prompt": "",
+   "text": "Até que um dia, ele invade a sua casa.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-9",
+   "prompt": "",
+   "text": "Todo mundo corre. Menos a sua mãe.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-10",
+   "prompt": "",
+   "text": "Ela só fala: limpa o pé antes de entrar!",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-11",
+   "prompt": "",
+   "text": "E o T-rex limpa. Até ele tem medo do chinelo.",
+   "narration": ""
+  },
+  {
+   "id": "fmwwhct84-12",
+   "prompt": "",
+   "text": "Qual dinossauro você queria de estimação? Comenta aí!",
+   "narration": ""
+  }
+ ],
+ "salvoEm": "2026-11-25T18:51:53.000Z"
+}

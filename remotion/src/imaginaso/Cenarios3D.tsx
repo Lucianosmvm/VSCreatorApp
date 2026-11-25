@@ -337,3 +337,87 @@ export const Mercado3D: React.FC<{ pos?: V3 }> = ({ pos = [0, 0, 0] }) => (
     {[-1, 1].map((l) => <Caixa key={l} p={[l * 4.2, 0.6, 2.0]} s={[0.6, 1.2, 1.0]} cor="#9aa5b1" contorno={0.03} />)}
   </group>
 );
+
+/** Dinossauro de pescoço comprido (frente para +x), costas planas para levar passageiros (topo ≈ y 3.4). */
+export const PescocoLongo3D: React.FC<{ t: number; pos?: V3; esc?: number; rotY?: number; andando?: number }> = ({ t, pos = [0, 0, 0], esc = 1, rotY = 0, andando = 0 }) => (
+  <group position={pos} rotation={[0, rotY, 0]} scale={esc}>
+    <Caixa p={[0, 2.6, 0]} s={[4.6, 1.6, 2.2]} cor="#8fb0d8" contorno={0.07} />
+    <Caixa p={[0, 3.45, 0]} s={[4.2, 0.12, 2.0]} cor="#e8d9b0" contorno={0.03} />
+    {[[1.6, -0.8], [1.6, 0.8], [-1.6, -0.8], [-1.6, 0.8]].map(([x, z], i) => (
+      <group key={i} position={[x, 1.9, z]} rotation={[0, 0, Math.sin(t * 5 + i * 1.6) * 0.25 * andando]}>
+        <Caixa p={[0, -0.95, 0]} s={[0.6, 1.9, 0.6]} cor="#7a9cc4" contorno={0.04} />
+      </group>
+    ))}
+    <group position={[2.2, 3.1, 0]} rotation={[0, 0, -0.75 + Math.sin(t * 1.5) * 0.05]}>
+      <Caixa p={[0, 2.2, 0]} s={[0.6, 4.4, 0.6]} cor="#8fb0d8" contorno={0.05} />
+      <group position={[0, 4.5, 0]} rotation={[0, 0, 0.75]}>
+        <Caixa p={[0.35, 0, 0]} s={[1.1, 0.6, 0.65]} cor="#8fb0d8" contorno={0.04} />
+        {[-1, 1].map((l) => <Caixa key={l} p={[0.55, 0.15, l * 0.33]} s={[0.12, 0.14, 0.03]} cor={C3.linha} contorno={0} />)}
+        <Caixa p={[0.85, -0.12, 0]} s={[0.25, 0.05, 0.4]} cor="#5a7aa4" contorno={0} />
+      </group>
+    </group>
+    <group position={[-2.3, 2.5, 0]} rotation={[0, Math.sin(t * 2) * 0.2, 0.3]}>
+      <Caixa p={[-1.4, 0, 0]} s={[2.8, 0.5, 0.5]} cor="#8fb0d8" contorno={0.04} />
+    </group>
+  </group>
+);
+
+/** Velociraptor pequeno (frente para +z), rabo que abana; `boca` abre. */
+export const Raptor3D: React.FC<{ t: number; pos?: V3; esc?: number; rotY?: number; boca?: number; pulando?: number }> = ({ t, pos = [0, 0, 0], esc = 1, rotY = 0, boca = 0, pulando = 0 }) => (
+  <group position={[pos[0], pos[1] + Math.abs(Math.sin(t * 10)) * 0.3 * pulando, pos[2]]} rotation={[0, rotY, 0]} scale={esc}>
+    {[-1, 1].map((l) => (
+      <group key={l} position={[l * 0.25, 0.9, 0]} rotation={[Math.sin(t * 12 + l) * 0.4 * pulando, 0, 0]}>
+        <Caixa p={[0, -0.45, 0]} s={[0.22, 0.9, 0.3]} cor="#c98a3a" contorno={0.03} />
+        <Caixa p={[0, -0.88, 0.18]} s={[0.24, 0.1, 0.45]} cor="#a86a2a" contorno={0.02} />
+        <Caixa p={[0, -0.75, 0.42]} s={[0.06, 0.22, 0.06]} rot={[0.6, 0, 0]} cor="#fff6cf" contorno={0.01} />
+      </group>
+    ))}
+    <Caixa p={[0, 1.2, 0]} s={[0.8, 0.7, 1.2]} cor="#d9984a" contorno={0.04} />
+    {[0, 1, 2].map((i) => <Caixa key={i} p={[0, 1.6, -0.3 + i * 0.3]} s={[0.12, 0.2, 0.12]} cor="#7a4a2a" contorno={0} />)}
+    <group position={[0, 1.6, 0.6]}>
+      <Caixa p={[0, 0.2, 0.25]} s={[0.55, 0.45, 0.7]} cor="#d9984a" contorno={0.035} />
+      <group position={[0, 0.05, 0.4]} rotation={[boca * 0.6, 0, 0]}><Caixa p={[0, -0.06, 0.22]} s={[0.5, 0.12, 0.5]} cor="#c98a3a" contorno={0.02} /></group>
+      {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.2, 0.32, 0.52]} s={[0.1, 0.1, 0.03]} cor={C3.linha} contorno={0} sombra={false} />)}
+    </group>
+    {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.42, 1.25, 0.45]} s={[0.12, 0.35, 0.12]} rot={[-0.8, 0, 0]} cor="#c98a3a" contorno={0.02} />)}
+    <group position={[0, 1.25, -0.6]} rotation={[0.2, Math.sin(t * 16) * 0.5, 0]}><Caixa p={[0, 0, -0.6]} s={[0.25, 0.25, 1.2]} cor="#d9984a" contorno={0.025} /></group>
+  </group>
+);
+
+/** Pterodátilo (frente para +z), asas batendo. */
+export const Pterodatilo3D: React.FC<{ t: number; pos?: V3; esc?: number; rotY?: number }> = ({ t, pos = [0, 0, 0], esc = 1, rotY = 0 }) => (
+  <group position={pos} rotation={[0, rotY, 0]} scale={esc}>
+    <Caixa s={[0.45, 0.4, 1.0]} cor="#b5736a" contorno={0.03} />
+    <group position={[0, 0.25, 0.55]}>
+      <Caixa s={[0.35, 0.35, 0.4]} cor="#b5736a" contorno={0.03} />
+      <Caixa p={[0, -0.05, 0.45]} s={[0.12, 0.1, 0.6]} cor="#e0c070" contorno={0.02} />
+      <Caixa p={[0, 0.2, -0.3]} s={[0.08, 0.12, 0.5]} rot={[-0.5, 0, 0]} cor="#b5736a" contorno={0.02} />
+      {[-1, 1].map((l) => <Caixa key={l} p={[l * 0.16, 0.06, 0.1]} s={[0.04, 0.08, 0.08]} cor={C3.linha} contorno={0} sombra={false} />)}
+    </group>
+    {[-1, 1].map((l) => (
+      <group key={l} position={[l * 0.22, 0.1, 0]} rotation={[0, 0, l * Math.sin(t * 9) * 0.6]}>
+        <Caixa p={[l * 0.9, 0, 0]} s={[1.8, 0.05, 0.8]} cor="#d08a7a" contorno={0.025} />
+      </group>
+    ))}
+  </group>
+);
+
+/** Asteroide de blocos com rastro de fogo (indo para +x). */
+export const Asteroide3D: React.FC<{ t: number; pos?: V3; esc?: number }> = ({ t, pos = [0, 0, 0], esc = 1 }) => (
+  <group position={pos} scale={esc}>
+    <group rotation={[t * 2, t * 3, 0]}>
+      <Caixa s={[1.6, 1.4, 1.5]} cor="#6b5a4a" contorno={0.06} />
+      <Caixa p={[0.5, 0.5, 0.4]} s={[0.7, 0.6, 0.7]} cor="#7d6a58" contorno={0.04} />
+      <Caixa p={[-0.5, -0.4, 0.5]} s={[0.5, 0.5, 0.5]} cor="#594a3c" contorno={0.03} />
+    </group>
+    {[0, 1, 2, 3, 4].map((i) => {
+      const s = 1.3 - i * 0.2;
+      return (
+        <mesh key={i} position={[-1.1 - i * 0.7, Math.sin(t * 20 + i) * 0.1, 0]}>
+          <boxGeometry args={[s, s, s]} />
+          <meshBasicMaterial color={["#fff2a0", "#ffd000", "#ffb000", "#ff7a1a", "#e0402a"][i]} transparent opacity={0.9 - i * 0.12} />
+        </mesh>
+      );
+    })}
+  </group>
+);

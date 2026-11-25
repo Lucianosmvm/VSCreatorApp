@@ -502,3 +502,84 @@ export const Teia3D: React.FC<{ pos?: V3; rot?: V3; esc?: number; op?: number }>
     {[0.25, 0.45].map((r) => <Caixa key={r} p={[r * 0.6, r * 0.6, 0]} s={[r * 0.9, 0.02, 0.02]} rot={[0, 0, -0.8]} cor="#ffffff" contorno={0} opacidade={op} sombra={false} />)}
   </group>
 );
+
+/** Ícone de Wi-Fi gigante (3 arcos + ponto, frente para +z). `quebra` 0..1 separa e derruba os pedaços. */
+export const WifiIcone3D: React.FC<{ pos?: V3; esc?: number; quebra?: number; cor?: string }> = ({ pos = [0, 0, 0], esc = 1, quebra = 0, cor = "#3f8cff" }) => {
+  const q = quebra;
+  const pedacos: { r: number; a0: number; da: number; k: number }[] = [];
+  [0.55, 1.05, 1.55].forEach((r, i) => [0, 1, 2].forEach((j) => pedacos.push({ r, a0: Math.PI / 4 + (j * Math.PI) / 6, da: Math.PI / 6, k: i * 3 + j })));
+  return (
+    <group position={pos} scale={esc}>
+      <mesh position={[0, -q * 3, 0]} rotation={[0, 0, q * 2]}>
+        <boxGeometry args={[0.32, 0.32, 0.2]} />
+        <meshToonMaterial color={cor} />
+      </mesh>
+      {pedacos.map((p) => {
+        const meio = p.a0 + p.da / 2;
+        const dx = Math.cos(meio) * q * (1 + p.k * 0.15), dy = Math.sin(meio) * q * 0.6 - q * q * (3 + p.k * 0.3);
+        return (
+          <group key={p.k} position={[dx, dy, 0]} rotation={[q * p.k * 0.4, q * p.k * 0.3, q * (p.k % 2 ? 1.5 : -1.5)]}>
+            <mesh rotation={[0, 0, p.a0]}>
+              <torusGeometry args={[p.r, 0.14, 6, 10, p.da * 0.92]} />
+              <meshToonMaterial color={cor} />
+            </mesh>
+          </group>
+        );
+      })}
+    </group>
+  );
+};
+
+/** Roteador com antenas e luzinhas piscando. */
+export const Roteador3D: React.FC<{ t: number; pos?: V3; esc?: number; rotY?: number; morto?: boolean }> = ({ t, pos = [0, 0, 0], esc = 1, rotY = 0, morto = false }) => (
+  <group position={pos} scale={esc} rotation={[0, rotY, 0]}>
+    <Caixa p={[0, 0.15, 0]} s={[1.2, 0.3, 0.8]} cor="#2b2f3a" contorno={0.035} />
+    {[-0.4, 0.4].map((x, i) => <Caixa key={x} p={[x, 0.75, -0.3]} s={[0.08, 0.9, 0.08]} rot={[0, 0, (i ? -1 : 1) * 0.2]} cor="#2b2f3a" contorno={0.02} />)}
+    {[-0.35, -0.12, 0.11, 0.34].map((x, i) => {
+      const acesa = !morto && Math.sin(t * (8 + i * 3) + i) > 0;
+      return <Caixa key={x} p={[x, 0.2, 0.41]} s={[0.1, 0.06, 0.02]} cor={morto ? "#7a2030" : acesa ? "#5ad35a" : "#2a5a2a"} contorno={0} brilho={acesa ? "#5ad35a" : undefined} forca={0.8} sombra={false} />;
+    })}
+    <Caixa p={[0.5, 0.18, 0.41]} s={[0.12, 0.12, 0.04]} cor={C3.vermelho} contorno={0.015} />
+  </group>
+);
+
+/** Antena de TV espinha-de-peixe num cabo. */
+export const Antena3D: React.FC<{ pos?: V3; rot?: V3; esc?: number }> = ({ pos = [0, 0, 0], rot = [0, 0, 0], esc = 1 }) => (
+  <group position={pos} rotation={rot} scale={esc}>
+    <Caixa p={[0, 0.9, 0]} s={[0.08, 1.8, 0.08]} cor="#9aa5b1" contorno={0.02} />
+    <Caixa p={[0, 1.8, 0]} s={[0.08, 0.08, 1.6]} cor="#9aa5b1" contorno={0.02} />
+    {[-0.6, -0.3, 0, 0.3, 0.6].map((z, i) => <Caixa key={z} p={[0, 1.8, z]} s={[1.1 - i * 0.12, 0.05, 0.05]} cor="#c9d3dc" contorno={0.015} />)}
+  </group>
+);
+
+/** Jornal aberto grande (frente para +z), amarelado. */
+export const Jornal3D: React.FC<{ pos?: V3; rot?: V3; esc?: number }> = ({ pos = [0, 0, 0], rot = [0, 0, 0], esc = 1 }) => (
+  <group position={pos} rotation={rot} scale={esc}>
+    {[-0.55, 0.55].map((x, i) => <Caixa key={x} p={[x, 0, 0]} s={[1.05, 1.4, 0.03]} rot={[0, (i ? -1 : 1) * 0.12, 0]} cor="#efe4c4" contorno={0.025} />)}
+    <Caixa p={[-0.55, 0.5, 0.04]} s={[0.8, 0.16, 0.01]} cor={C3.linha} contorno={0} sombra={false} />
+    {Array.from({ length: 6 }).map((_, i) => (
+      <Caixa key={i} p={[(i % 2 ? 0.55 : -0.55), 0.2 - Math.floor(i / 2) * 0.25, 0.04]} s={[0.8, 0.05, 0.01]} cor="#8a7a5a" contorno={0} sombra={false} />
+    ))}
+    <Caixa p={[0.55, 0.42, 0.04]} s={[0.5, 0.3, 0.01]} cor="#b5a98a" contorno={0} sombra={false} />
+  </group>
+);
+
+/** Foto emoldurada (álbum de família). */
+export const Foto3D: React.FC<{ pos?: V3; rot?: V3; esc?: number; cor?: string }> = ({ pos = [0, 0, 0], rot = [0, 0, 0], esc = 1, cor = "#7fd3ff" }) => (
+  <group position={pos} rotation={rot} scale={esc}>
+    <Caixa s={[0.9, 0.75, 0.05]} cor="#ffffff" contorno={0.025} />
+    <Caixa p={[0, 0.05, 0.03]} s={[0.72, 0.5, 0.01]} cor={cor} contorno={0} sombra={false} />
+    {[-0.15, 0.15].map((x) => <Caixa key={x} p={[x, 0.02, 0.04]} s={[0.14, 0.24, 0.01]} cor={C3.pele} contorno={0} sombra={false} />)}
+  </group>
+);
+
+/** Sanduíche (pão, alface, queijo, presunto). */
+export const Sanduiche3D: React.FC<{ pos?: V3; rot?: V3; esc?: number }> = ({ pos = [0, 0, 0], rot = [0, 0, 0], esc = 1 }) => (
+  <group position={pos} rotation={rot} scale={esc}>
+    <Caixa p={[0, 0, 0]} s={[0.8, 0.16, 0.6]} cor="#e0a85a" contorno={0.025} />
+    <Caixa p={[0, 0.11, 0]} s={[0.86, 0.06, 0.66]} cor="#5ad35a" contorno={0} />
+    <Caixa p={[0, 0.17, 0]} s={[0.82, 0.06, 0.62]} cor="#ffd23f" contorno={0} />
+    <Caixa p={[0, 0.23, 0]} s={[0.8, 0.06, 0.6]} cor="#ff9ec4" contorno={0} />
+    <Caixa p={[0, 0.34, 0]} s={[0.8, 0.16, 0.6]} cor="#e0a85a" contorno={0.025} />
+  </group>
+);

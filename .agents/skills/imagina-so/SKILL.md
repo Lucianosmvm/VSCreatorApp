@@ -25,11 +25,13 @@ Nunca recrie peça que já existe: confira a lista do kit abaixo antes de desenh
 | 08 | Mentiras viram realidade | `Mentiras3D.tsx` | `imagina-so-08-3d` | família, 1.15x, ~37 s | cachorro engole mochila, escola some, chuva de dinheiro, dinossauro rompe piscina, mãe gigante e limpeza |
 | 09 | Mãe monstro de 99 Noites | `MaeFlorestaGameplay3D.tsx` | `imagina-so-09-3d` | gameplay, 1.15x, ~38 s | inventário, combustível, zona segura, mãe sopra fogueira e pai recusa resgate |
 | 10 | Mãe motorista de Uber (v2) | `MaeUber3D.tsx` | `imagina-so-10-3d` | família, **1.05x**, ~38 s | 1º da série "Se a sua mãe fosse…"; **referência de comédia visual**: freada amassa, derrete/congela, barba de espera, cavalo de pau visto de cima, carro pulando no grave, estátua com passarinho, tribunal |
+| 11 | E se a internet acabasse | `Internet3D.tsx` | `imagina-so-11-3d` | família, 1.05x, ~42 s | falando com quem assiste; Wi-Fi que quebra, roteador com contador, pai no telhado, vampiro no sol, avó de 40 min + estátua, jornal, mãe desmaia; callback 47× → 48× |
+| 12 | E se os dinossauros não fossem extintos | `Dinos3D.tsx` | `imagina-so-12-3d` | família, 1.05x, ~42 s | T-rex na câmera (loop), asteroide no espaço, ônibus de pescoço comprido, raptor no sofá, T-rex rouba a picanha, fuga na escola, pterodátilo, T-rex obedece a mãe |
 
 MP4 e texto do YouTube de cada um em `exportacoes/imagina-so/` (`imagina-so-NN-*.mp4`, `imagina-so-NN-youtube.txt`).
-Os EP07 a EP10 estão exportados e narrados; publicação no YouTube pendente. Do #10 vale a **v2** (`imagina-so-10-mae-motorista-uber-3d-v2.mp4`). Próximo número disponível: **11**.
+Os EP07 a EP12 estão exportados e narrados; publicação no YouTube pendente. Do #10 vale a **v2** (`imagina-so-10-mae-motorista-uber-3d-v2.mp4`). Próximo número disponível: **13**.
 
-O EP09 revisado está narrado e exportado em `exportacoes/imagina-so/imagina-so-09-mae-99-noites-3d.mp4`. Projeto: `projetos/imagina-so-09-mae-monstro-da-floresta-mwutrfij`. Fonte ATIVA: `remotion/src/imaginaso/MaeFlorestaGameplay3D.tsx`; timeline real `timeline.json`. A versão antiga `MaeFloresta3D.tsx` não é a composição ativa. Publicação pendente; próximo episódio 11.
+O EP09 revisado está narrado e exportado em `exportacoes/imagina-so/imagina-so-09-mae-99-noites-3d.mp4`. Projeto: `projetos/imagina-so-09-mae-monstro-da-floresta-mwutrfij`. Fonte ATIVA: `remotion/src/imaginaso/MaeFlorestaGameplay3D.tsx`; timeline real `timeline.json`. A versão antiga `MaeFloresta3D.tsx` não é a composição ativa. Publicação pendente; próximo episódio 13.
 
 O usuário vai comparar a retenção do #03 (53 s) com os de ~40 s; até haver dado, prefira ~40 s.
 
@@ -43,6 +45,8 @@ Buscas reais no autocompletar: "se minha mãe fosse uber" (feito no #10), "…pr
 - **Primeiros 2 s = a gag mais física** (ex.: freada que amassa o filho), não uma apresentação.
 - **Varie os planos**: no máximo 2 seguidos iguais; alterne close de reação, de cima, lateral e aberto.
 - **Pouco texto ao mesmo tempo**: nada de banner repetindo o que a legenda diz. Banner/cartão só para o que a fala não diz (relógio, placar, nota, "CULPADO").
+- **Fale com quem assiste** (preferência do usuário): "você", "seu pai", "sua mãe" em todas as falas; o filho na tela é o "você".
+- **Callback**: repita no fim uma gag do começo com a mãe (ex.: 47× → 48×).
 - **Sons de comédia** em cada gag (freio, buzina, grave, risco de disco, martelo, piu).
 
 ## Legenda (obrigatória)
@@ -67,8 +71,8 @@ Buscas reais no autocompletar: "se minha mãe fosse uber" (feito no #10), "…pr
 - **Tema** com busca real: consulte o autocompletar do YouTube pt-BR antes com
   `python ferramentas/yt_sugestoes.py "e se a sua mãe" "se minha mãe fosse" "mãe vs"` (o `curl` com acento volta vazio no Git Bash do Windows).
   Temas com busca real ainda não feitos: série **"Se a sua mãe fosse…"** (professora, psicóloga, policial, médica, diretora, caixa de supermercado),
-  "se a mãe fosse sincera", "mãe vs pai" / "mãe vs pai cozinhando", "quando sua mãe pega seu celular", "coisas que toda mãe fala",
-  "e se a sua força dobrasse", "e se a escola não existisse", "e se o seu tempo de reação fosse 10 vezes mais rápido", "e se as crianças governassem o mundo".
+  "se a mãe fosse sincera", "mãe vs pai" / "mãe vs pai cozinhando" / "mãe vs pai dirigindo", "e se você pudesse parar o tempo" (+ "mãe descobriu que o tempo para"), "e se você pudesse ver 10 segundos no futuro", "e se você tivesse dinheiro infinito", "quando sua mãe te pega jogando de madrugada", "quando sua mãe pega seu celular", "coisas que toda mãe fala",
+  "e se a sua força dobrasse", "e se a escola não existisse",  "e se o seu tempo de reação fosse 10 vezes mais rápido", "e se as crianças governassem o mundo".
   Nunca use personagem de outra obra (ex.: "mãe vs sukuna" é muito buscado, mas não pode).
 - Pode citar Roblox/Robux no texto e no título, mas **nunca** desenhar marca, logo ou personagem real.
 - Dois formatos:
@@ -95,8 +99,8 @@ Peças prontas em `remotion/src/imaginaso/`:
 | Arquivo | O quê |
 |---|---|
 | `Bloco3D.tsx` | `Caixa` (toon + contorno), `Camera`, `Boneco3D` (tipos `mae/filho/pai/avo`; `expr` `feliz/brava/medo/sono`; `bracoE/D [rotX, rotZ]`, `pernaE/D`, `cabeca`, `olhosBrilho`, `boca` (fala), `segura/seguraE`, `gelo`, `pele`, `coroa`, `casaco`, `trico`, `disfarce`, `social`, `avental`, `oculos`, `barba` 0..1, `pedra` (estátua cinza), cores; `amassa` = escala [x,y,z] no grupo do ator para esticar/achatar), `Mundo3D` (pátio + casa), `Aura`, `Poeira`, `Brilhos`, `Laser`, `Chinelo3D`, `Controle3D`, `Tigela3D`, `Coracao3D`, `Pia3D`, `tremor` |
-| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D`, `Lousa3D` (cheia, ✓), `Robo3D`, `Cachorro3D` (fala), `Portal3D`, `Lampada3D`, `Lapis3D`, `Mesa3D`, `Caderno3D`, `Spray3D`, `Botao3D`, `Mochila3D`, `Tradutor3D`, `FoguetePapelao3D`, `Bandeja3D`, `Esfregao3D`, `Balde3D`, `Marmita3D`, `Salgadinho3D`, `Martelo3D`, `Passaro3D` (voando), `Teia3D` |
-| `Cenarios3D.tsx` | `Rua3D` (mundo que corre com `desloc`, janelas quebráveis), `Nuvens3D`, `Onibus3D`, `Guepardo3D`, `CarroCorrida3D`, `Aviao3D`, `Estrelas3D`, `Terra3D`, `Lua3D`, `Riscos3D` (velocidade da luz), `ConeSom3D`, `Anel3D`, `Rastro3D`, `Cacos3D`, `Dinossauro3D`, `Escola3D`, `Piscina3D`, `Onda3D`, `CarroFamilia3D` (vidros transparentes, só o banco do motorista na frente; motorista x 0.75 z −0.5, banco de trás x −1.0 z 0.5; `janela`), `Mercado3D` |
+| `Objetos3D.tsx` | `Trono3D`, `Relogio3D` (h decimal), `Brocolis3D`, `Cadeado3D`, `Lupa3D`, `Livro3D`, `Moeda3D`, `Poof3D`, `Porquinho3D`, `Pergaminho3D`, `Churrasqueira3D` (dourada), `Trofeu3D`, `Explosao3D`, `Holofote3D`, `Sofa3D`, `Espeto3D`, `CadeiraBalanco3D`, `Bolo3D` (inteiro/fatia), `Monstro3D` (cobertor), `Xicara3D`, `TV3D`, `Nota3D`, `Celular3D`, `Casaco3D`, `Lousa3D` (cheia, ✓), `Robo3D`, `Cachorro3D` (fala), `Portal3D`, `Lampada3D`, `Lapis3D`, `Mesa3D`, `Caderno3D`, `Spray3D`, `Botao3D`, `Mochila3D`, `Tradutor3D`, `FoguetePapelao3D`, `Bandeja3D`, `Esfregao3D`, `Balde3D`, `Marmita3D`, `Salgadinho3D`, `Martelo3D`, `Passaro3D` (voando), `Teia3D`, `WifiIcone3D` (`quebra` 0..1), `Roteador3D` (luzes; `morto`), `Antena3D`, `Jornal3D`, `Foto3D`, `Sanduiche3D` |
+| `Cenarios3D.tsx` | `Rua3D` (mundo que corre com `desloc`, janelas quebráveis), `Nuvens3D`, `Onibus3D`, `Guepardo3D`, `CarroCorrida3D`, `Aviao3D`, `Estrelas3D`, `Terra3D`, `Lua3D`, `Riscos3D` (velocidade da luz), `ConeSom3D`, `Anel3D`, `Rastro3D`, `Cacos3D`, `Dinossauro3D` (T-rex, frente +z; `boca`, `andando`, `pisao`), `PescocoLongo3D` (frente +x, costas planas y≈3.5 para passageiros), `Raptor3D`, `Pterodatilo3D`, `Asteroide3D`, `Escola3D`, `Piscina3D`, `Onda3D`, `CarroFamilia3D` (vidros transparentes, só o banco do motorista na frente; motorista x 0.75 z −0.5, banco de trás x −1.0 z 0.5; `janela`), `Mercado3D` |
 | `Floresta3D.tsx` | `Floresta3D`, `ArvoreFloresta3D`, `Fogueira3D`, `Lanterna3D`, `FeixeLanterna3D`, `PortaoMadeira3D`, `BancoTronco3D` |
 | `Sobrevivencia3D.tsx` | `Machado3D`, `Lenha3D`, `Tenda3D`, `AcampamentoGameplay3D`, `GalhosCoroa3D`, `CavernaResgate3D` |
 | `Camada2D.tsx` | `montarFala(tl, {vel, inicio})` → `S[k]` (início da cena), `W(k, "palavra", n)` (instante da palavra, sem acento/pontuação), `Legenda3D`, `Faixa3D` (banners), `Balao3D` (digitado), `Sobe3D`, `Flash`, `Marca3D` |
